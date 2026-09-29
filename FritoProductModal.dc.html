@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<div style="position:relative;width:100%;height:100%;font-family:Inter,system-ui,sans-serif;color:#111827">
+<sc-if value="{{ isCenter }}" hint-placeholder-val="{{ true }}">
+  <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:40px">
+    <div onClick="{{ close }}" style="position:absolute;inset:0;background:rgba(17,24,39,.45)"></div>
+    <div role="dialog" aria-modal="true" aria-label="{{ name }}" style="position:relative;width:100%;max-width:1040px;height:100%;max-height:720px;background:#fff;border-radius:32px;overflow:hidden;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);box-shadow:0 40px 100px -30px rgba(0,0,0,.4)">
+      <div style="background:#F3F4F6;min-height:0;display:flex;align-items:center;justify-content:center">
+        <sc-if value="{{ hasImg }}" hint-placeholder-val="{{ true }}"><img src="{{ img }}" alt="{{ name }}" style="width:100%;height:100%;object-fit:cover;display:block"></sc-if>
+        <sc-if value="{{ noImg }}" hint-placeholder-val="{{ false }}"><span style="font-family:ui-monospace,monospace;font-size:12px;color:#9CA3AF">фото товара</span></sc-if>
+      </div>
+      <div style="display:flex;flex-direction:column;min-height:0;position:relative">
+        <dc-import name="FritoCloseButton" on-click="{{ close }}" style="position:absolute;top:24px;right:24px;z-index:2;width:48px;height:48px" hint-size="48px,48px"></dc-import>
+        <div ref="{{ bodyRef }}" style="position:relative;flex:1;min-height:0;overflow-y:auto;padding:36px 36px 28px;display:flex;flex-direction:column;gap:28px">
+          <div style="display:flex;flex-direction:column;gap:10px;padding-right:60px">
+            <h2 style="margin:0;font-size:30px;font-weight:700;line-height:1.15;letter-spacing:-.01em;text-wrap:pretty">{{ name }}</h2>
+            <div style="font-size:20px;font-weight:700">{{ priceLabel }}</div>
+            <p style="margin:4px 0 0;font-size:15px;line-height:1.5;color:#6B7280;text-wrap:pretty">{{ desc }}</p>
+            <sc-if value="{{ hasNote }}" hint-placeholder-val="{{ false }}"><p style="margin:0;font-size:13px;color:#9CA3AF">{{ note }}</p></sc-if>
+          </div>
+          <sc-for list="{{ groups }}" as="g" hint-placeholder-count="2">
+            <div id="pm-g-{{ g.id }}" style="display:flex;flex-direction:column;gap:12px">
+              <div style="display:flex;flex-direction:column;gap:4px">
+                <div style="display:flex;align-items:center;justify-content:space-between;gap:12px">
+                  <h3 style="margin:0;font-size:16px;font-weight:700;line-height:1.3">{{ g.title }}</h3>
+                  <sc-if value="{{ g.showReq }}" hint-placeholder-val="{{ false }}"><span style="flex-shrink:0;font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:#B91C1C;background:#FEF2F2;border-radius:999px;padding:5px 10px">Обязательно</span></sc-if>
+                  <sc-if value="{{ g.showOk }}" hint-placeholder-val="{{ false }}"><span style="flex-shrink:0;display:flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:#15803D;background:#F0FDF4;border-radius:999px;padding:4px 10px 4px 6px"><span style="width:16px;height:16px;border-radius:50%;background:#16A34A;color:#fff;font-size:10px;display:flex;align-items:center;justify-content:center">✓</span>Выбрано</span></sc-if>
+                  <sc-if value="{{ g.showCount }}" hint-placeholder-val="{{ false }}"><span style="flex-shrink:0;font-size:13px;font-weight:600;color:#614BE2">{{ g.countLabel }}</span></sc-if>
+                </div>
+                <div style="font-size:13px;line-height:1.4;color:{{ g.hintColor }};font-weight:{{ g.hintWeight }}">{{ g.hint }}</div>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:8px">
+                <sc-for list="{{ g.opts }}" as="o" hint-placeholder-count="2">
+                  <dc-import name="FritoOption" type="{{ g.type }}" label="{{ o.label }}" price="{{ o.price }}" selected="{{ o.selected }}" disabled="{{ o.disabled }}" on-toggle="{{ o.toggle }}" hint-size="100%,56px"></dc-import>
+                </sc-for>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+        <div style="padding:16px 36px 24px;border-top:1px solid #F1F1F4;display:flex;align-items:center;gap:12px;background:#fff">
+          <dc-import name="FritoStepper" qty="{{ qty }}" min="{{ 1 }}" on-inc="{{ inc }}" on-dec="{{ dec }}" size="{{ 56 }}" style="width:160px;flex-shrink:0" hint-size="160px,56px"></dc-import>
+          <button onClick="{{ submit }}" style="flex:1;min-width:0;border:0;cursor:pointer;font:inherit;background:#614BE2;color:#fff;border-radius:999px;height:56px;padding:0 24px;font-size:17px;font-weight:600;display:flex;align-items:center;justify-content:space-between;gap:12px;transition:background .15s" style-hover="background:#503BCB"><span>{{ ctaLabel }}</span><span style="display:flex;align-items:center;gap:12px"><span style="width:1px;height:22px;background:currentColor;opacity:.3"></span><span style="font-weight:700;white-space:nowrap">{{ totalLabel }}</span></span></button>
+        </div>
+      </div>
+    </div>
+  </div>
+</sc-if>
+
+<sc-if value="{{ isSheet }}" hint-placeholder-val="{{ false }}">
+  <div onClick="{{ close }}" style="position:absolute;inset:0;background:rgba(17,24,39,.45)"></div>
+  <div role="dialog" aria-modal="true" aria-label="{{ name }}" style="position:absolute;left:0;right:0;bottom:0;top:48px;background:#fff;border-radius:32px 32px 0 0;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 -20px 60px -20px rgba(17,24,39,.35)">
+    <div ref="{{ bodyRef }}" style="position:relative;flex:1;min-height:0;overflow-y:auto">
+      <div style="position:relative;aspect-ratio:4/3;background:#F3F4F6;display:flex;align-items:center;justify-content:center">
+        <sc-if value="{{ hasImg }}" hint-placeholder-val="{{ true }}"><img src="{{ img }}" alt="{{ name }}" style="width:100%;height:100%;object-fit:cover;display:block"></sc-if>
+        <sc-if value="{{ noImg }}" hint-placeholder-val="{{ false }}"><span style="font-family:ui-monospace,monospace;font-size:11px;color:#9CA3AF">фото товара</span></sc-if>
+        <div style="position:absolute;top:10px;left:50%;margin-left:-20px;width:40px;height:4px;border-radius:2px;background:rgba(17,24,39,.25)"></div>
+      </div>
+      <div style="padding:20px 16px 28px;display:flex;flex-direction:column;gap:24px">
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <h2 style="margin:0;font-size:24px;font-weight:700;line-height:1.15;letter-spacing:-.01em;text-wrap:pretty">{{ name }}</h2>
+          <div style="font-size:18px;font-weight:700">{{ priceLabel }}</div>
+          <p style="margin:4px 0 0;font-size:14px;line-height:1.5;color:#6B7280;text-wrap:pretty">{{ desc }}</p>
+          <sc-if value="{{ hasNote }}" hint-placeholder-val="{{ false }}"><p style="margin:0;font-size:12px;color:#9CA3AF">{{ note }}</p></sc-if>
+        </div>
+        <sc-for list="{{ groups }}" as="g" hint-placeholder-count="2">
+          <div id="pm-g-{{ g.id }}" style="display:flex;flex-direction:column;gap:12px">
+            <div style="display:flex;flex-direction:column;gap:4px">
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:10px">
+                <h3 style="margin:0;font-size:16px;font-weight:700;line-height:1.3">{{ g.title }}</h3>
+                <sc-if value="{{ g.showReq }}" hint-placeholder-val="{{ false }}"><span style="flex-shrink:0;font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:#B91C1C;background:#FEF2F2;border-radius:999px;padding:5px 10px">Обязательно</span></sc-if>
+                <sc-if value="{{ g.showOk }}" hint-placeholder-val="{{ false }}"><span style="flex-shrink:0;display:flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:#15803D;background:#F0FDF4;border-radius:999px;padding:4px 10px 4px 6px"><span style="width:16px;height:16px;border-radius:50%;background:#16A34A;color:#fff;font-size:10px;display:flex;align-items:center;justify-content:center">✓</span>Выбрано</span></sc-if>
+                <sc-if value="{{ g.showCount }}" hint-placeholder-val="{{ false }}"><span style="flex-shrink:0;font-size:13px;font-weight:600;color:#614BE2">{{ g.countLabel }}</span></sc-if>
+              </div>
+              <div style="font-size:13px;line-height:1.4;color:{{ g.hintColor }};font-weight:{{ g.hintWeight }}">{{ g.hint }}</div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <sc-for list="{{ g.opts }}" as="o" hint-placeholder-count="2">
+                <dc-import name="FritoOption" type="{{ g.type }}" label="{{ o.label }}" price="{{ o.price }}" selected="{{ o.selected }}" disabled="{{ o.disabled }}" on-toggle="{{ o.toggle }}" hint-size="100%,56px"></dc-import>
+              </sc-for>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+    <dc-import name="FritoCloseButton" variant="float" on-click="{{ close }}" style="position:absolute;top:14px;right:14px;z-index:2;width:40px;height:40px" hint-size="40px,40px"></dc-import>
+    <div style="padding:12px 16px 26px;border-top:1px solid #F1F1F4;display:flex;align-items:center;gap:10px;background:#fff">
+      <dc-import name="FritoStepper" qty="{{ qty }}" min="{{ 1 }}" on-inc="{{ inc }}" on-dec="{{ dec }}" size="{{ 56 }}" style="width:140px;flex-shrink:0" hint-size="140px,56px"></dc-import>
+      <button onClick="{{ submit }}" style="flex:1;min-width:0;border:0;cursor:pointer;font:inherit;background:#614BE2;color:#fff;border-radius:999px;height:56px;padding:0 18px;font-size:15px;font-weight:600;display:flex;align-items:center;justify-content:space-between;gap:10px" style-active="background:#503BCB"><span style="white-space:nowrap">{{ ctaLabel }}</span><span style="display:flex;align-items:center;gap:10px"><span style="width:1px;height:20px;background:currentColor;opacity:.3"></span><span style="font-weight:700;white-space:nowrap">{{ totalLabel }}</span></span></button>
+    </div>
+  </div>
+</sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1200,&quot;height&quot;:800},&quot;layout&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;center&quot;,&quot;options&quot;:[&quot;center&quot;,&quot;sheet&quot;],&quot;tsType&quot;:&quot;'center' | 'sheet'&quot;},&quot;preselect&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;},&quot;showErrors&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;},&quot;mode&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;add&quot;,&quot;options&quot;:[&quot;add&quot;,&quot;edit&quot;],&quot;tsType&quot;:&quot;'add' | 'edit'&quot;},&quot;qty&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:1,&quot;min&quot;:1,&quot;max&quot;:20,&quot;tsType&quot;:&quot;number&quot;},&quot;product&quot;:{&quot;editor&quot;:null,&quot;default&quot;:null,&quot;tsType&quot;:&quot;{ id, name, price, desc, note?, img, kind?: 'box'|'combo'|'burger'|'strips'|'stripsCombo', groups?, sel? }&quot;},&quot;onClose&quot;:{&quot;editor&quot;:null,&quot;default&quot;:null,&quot;tsType&quot;:&quot;() =&gt; void&quot;},&quot;onAdd&quot;:{&quot;editor&quot;:null,&quot;default&quot;:null,&quot;tsType&quot;:&quot;(r: { id, qty, unit, mods, sel }) =&gt; void&quot;}}">
+const IMG = 'https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/frito-co/96814/images/items/';
+const fmt = n => String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, ' ') + ' тг.';
+const opt = a => a.map(([id, label, price]) => ({ id, label, price: price || 0 }));
+const G = {
+  spiceB: { id: 'spice-b', title: 'Острота бургера', type: 'single', required: true, def: 'mild', options: opt([['mild', 'Неострый'], ['hot', 'Острый']]) },
+  spiceS: { id: 'spice-s', title: 'Острота стрипсов', type: 'single', required: true, def: 'mild-s', options: opt([['mild-s', 'Неострые стрипсы'], ['hot-s', 'Острые стрипсы']]) },
+  drink: { id: 'drink', title: 'Напиток на выбор', type: 'single', required: true, def: 'cola', options: opt([['cola', 'Coca-Cola 0,5 л'], ['fanta', 'Fanta 0,5 л'], ['sprite', 'Sprite 0,5 л'], ['fuse', 'Fuse-tea персик 0,5 л'], ['bonaqua', 'Bonaqua 0,5 л']]) },
+  sauces: { id: 'sauces', title: 'Дополнительные соусы', type: 'multi', max: 5, options: opt([['s-frito50', 'Соус Frito 50 мл', 250], ['s-frito30', 'Соус Frito 30 мл', 200], ['s-bbq', 'Соус барбекю Astoria дипод', 200], ['s-garlic', 'Соус чесночный Astoria дипод', 200], ['s-cheese', 'Соус сырный Astoria дипод', 200]]) },
+  extra: { id: 'extra', title: 'Добавить в бургер', type: 'multi', max: 1, options: opt([['gouda', 'Сыр Гауда', 150]]) },
+  remove: { id: 'remove', title: 'Убрать ингредиенты', type: 'multi', max: 2, options: opt([['no-sauce', 'Без соуса'], ['no-pickles', 'Без солёных огурцов']]) },
+};
+const KINDS = { box: ['spiceB', 'spiceS', 'drink', 'sauces', 'extra', 'remove'], combo: ['spiceB', 'drink', 'sauces', 'extra', 'remove'], burger: ['spiceB', 'sauces', 'extra', 'remove'], strips: ['spiceS', 'sauces'], stripsCombo: ['spiceS', 'drink', 'sauces'] };
+const DEFAULT_PRODUCT = { id: 'classic-box', name: 'Классический бокс', price: 3890, desc: 'Классический бургер, стрипсы (3 шт.), фри, фирменный соус Frito, напиток 0,5 л на выбор', note: 'Условия хранения: +1…+6 °C', img: IMG + 'd7ce2a28a1ab08cc33564ee0d8b718fb.JPEG', kind: 'box' };
+const posWord = n => n % 10 === 1 && n % 100 !== 11 ? 'позиции' : 'позиций';
+
+class Component extends DCLogic {
+  state = { sel: null, qty: null, tried: false };
+  bodyRef = React.createRef();
+  componentDidMount() {
+    this.onKey = e => { if (e.key === 'Escape' && this.props.onClose) this.props.onClose(); };
+    window.addEventListener('keydown', this.onKey);
+  }
+  componentWillUnmount() { window.removeEventListener('keydown', this.onKey); }
+  componentDidUpdate(prev) {
+    const a = prev.product && prev.product.id, b = this.props.product && this.props.product.id;
+    if (a !== b) this.setState({ sel: null, qty: null, tried: false });
+  }
+  product() { return this.props.product || DEFAULT_PRODUCT; }
+  groups() { const p = this.product(); return p.groups || (KINDS[p.kind] || []).map(k => G[k]); }
+  defaults() {
+    const p = this.product(); if (p.sel) return p.sel;
+    const pre = this.props.preselect ?? true, o = {};
+    this.groups().forEach(g => { o[g.id] = g.type === 'single' && pre && g.def ? [g.def] : []; });
+    return o;
+  }
+  sel() { return this.state.sel || this.defaults(); }
+  toggle(g, o) {
+    const cur = this.sel(), list = cur[g.id] || [];
+    let next;
+    if (g.type === 'single') next = [o.id];
+    else if (list.includes(o.id)) next = list.filter(x => x !== o.id);
+    else { if (g.max && list.length >= g.max) return; next = [...list, o.id]; }
+    this.setState({ sel: { ...cur, [g.id]: next } });
+  }
+  calc() {
+    const sel = this.sel(), groups = this.groups(), base = this.product().price;
+    let add = 0; const labels = [];
+    groups.forEach(g => (sel[g.id] || []).forEach(id => { const o = g.options.find(x => x.id === id); if (o) { add += o.price; labels.push(o.label); } }));
+    return { unit: base + add, mods: labels.join(' · '), missing: groups.filter(g => g.required && !(sel[g.id] || []).length) };
+  }
+  submit() {
+    const c = this.calc();
+    if (c.missing.length) {
+      this.setState({ tried: true });
+      const box = this.bodyRef.current, el = box && box.querySelector('#pm-g-' + c.missing[0].id);
+      if (box && el) box.scrollTo({ top: el.offsetTop - 16, behavior: 'smooth' });
+      return;
+    }
+    const qty = this.state.qty ?? this.props.qty ?? 1;
+    this.props.onAdd && this.props.onAdd({ id: this.product().id, qty, unit: c.unit, mods: c.mods, sel: this.sel() });
+  }
+  renderVals() {
+    const p = this.props, pr = this.product(), sel = this.sel(), c = this.calc();
+    const tried = this.state.tried || !!p.showErrors, qty = this.state.qty ?? p.qty ?? 1, sheet = p.layout === 'sheet';
+    const groups = this.groups().map(g => {
+      const list = sel[g.id] || [], n = list.length, err = g.required && !n && tried, full = g.type === 'multi' && g.max && n >= g.max;
+      return {
+        id: g.id, title: g.title, type: g.type === 'single' ? 'radio' : 'checkbox',
+        showReq: g.required && !n, showOk: g.required && n > 0, showCount: g.type === 'multi' && n > 0 && g.max > 1, countLabel: n + ' из ' + g.max,
+        hint: err ? 'Выберите вариант, чтобы добавить в корзину' : g.type === 'single' ? 'Выберите 1 вариант' : g.max > 1 ? 'По желанию · до ' + g.max + ' ' + posWord(g.max) : 'По желанию',
+        hintColor: err ? '#EF4444' : '#6B7280', hintWeight: err ? 600 : 400,
+        opts: g.options.map(o => ({ label: o.label, price: o.price, selected: list.includes(o.id), disabled: full && !list.includes(o.id), toggle: () => this.toggle(g, o) })),
+      };
+    });
+    return {
+      isCenter: !sheet, isSheet: sheet, bodyRef: this.bodyRef,
+      name: pr.name, priceLabel: fmt(pr.price), desc: pr.desc || '', note: pr.note || '', hasNote: !!pr.note,
+      img: pr.img, hasImg: !!pr.img, noImg: !pr.img, groups,
+      qty, inc: () => this.setState({ qty: qty + 1 }), dec: () => this.setState({ qty: Math.max(1, qty - 1) }),
+      ctaLabel: p.mode === 'edit' ? 'Сохранить' : 'В корзину', totalLabel: fmt(c.unit * qty),
+      close: () => p.onClose && p.onClose(), submit: () => this.submit(),
+    };
+  }
+}
+</script>
+</body>
+</html>

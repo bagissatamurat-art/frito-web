@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="design_doc_mode" content="canvas">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#E9E8F0;}
+a{color:#614BE2;text-decoration:none}a:hover{color:#4A36C4}
+*{box-sizing:border-box}
+::-webkit-scrollbar{width:0;height:0}
+input::placeholder,textarea::placeholder{color:#9CA3AF}
+input,textarea,button{outline:none}
+input:focus-visible,textarea:focus-visible{outline:none}
+</style>
+</helmet>
+<div style="display:flex;gap:56px;padding:56px;align-items:flex-start;font-family:Inter,system-ui,sans-serif;color:#111827;width:max-content">
+
+<!-- ============ DESKTOP ============ -->
+<div style="display:flex;flex-direction:column;gap:14px">
+<div style="font-size:13px;font-weight:600;color:#6B7280;letter-spacing:.04em">DESKTOP · 1440 × 960 · меню 2/3 + корзина 1/3</div>
+<section data-screen-label="Desktop" style="width:1440px;height:960px;background:#F7F7F9;border-radius:20px;overflow:hidden;display:grid;grid-template-rows:76px 1fr;position:relative;box-shadow:0 30px 80px -30px rgba(50,30,140,.25)">
+  <header style="display:flex;align-items:center;gap:20px;padding:0 32px;background:#fff;border-bottom:1px solid #ECECF1">
+    <sc-if value="{{ logoOk }}" hint-placeholder-val="{{ true }}"><img src="https://frito.kz/brand.svg" alt="FRITO" onError="{{ logoFail }}" style="height:34px;display:block"></sc-if>
+    <sc-if value="{{ logoBroken }}" hint-placeholder-val="{{ false }}"><div style="display:flex;align-items:center;gap:8px;color:#614BE2;font-weight:800;font-size:26px;letter-spacing:-.02em"><span style="width:26px;height:30px;background:#614BE2;clip-path:polygon(45% 0,100% 0,60% 45%,85% 45%,20% 100%,40% 55%,10% 55%)"></span>FRITO</div></sc-if>
+    <!-- delivery method: segmented + address -->
+    <dc-import name="FritoSegment" mode="{{ segMode }}" on-change="{{ pickMode }}" icons="{{ true }}" height="{{ 40 }}" style="margin-left:24px;width:280px;flex-shrink:0" hint-size="280px,48px"></dc-import>
+    <sc-if value="{{ noMethod }}" hint-placeholder-val="{{ true }}">
+      <button onClick="{{ openMethodD }}" style="display:flex;align-items:center;gap:10px;height:48px;padding:0 16px 0 6px;font:inherit;font-size:13px;font-weight:600;color:#614BE2;border:1px dashed #B7ACF3;background:#F5F3FF;border-radius:999px;cursor:pointer;white-space:nowrap;transition:all .15s" style-hover="background:#EFEDFC;border-color:#614BE2"><span style="width:36px;height:36px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0"><img src="assets/ic-pin-p.svg" alt="" style="width:16px;height:16px;object-fit:contain"></span>Выберите, как получить заказ<span aria-hidden="true" style="font-size:18px;line-height:1;margin-left:2px">›</span></button>
+    </sc-if>
+    <sc-if value="{{ hasMethod }}" hint-placeholder-val="{{ false }}">
+      <button onClick="{{ openMethodD }}" style="display:flex;align-items:center;gap:8px;border:1px solid #ECECF1;background:#fff;border-radius:999px;height:48px;padding:0 16px 0 6px;font:inherit;cursor:pointer;color:#111827;text-align:left" style-hover="border-color:#B7ACF3">
+        <span style="width:36px;height:36px;border-radius:50%;background:#EFEDFC;display:flex;align-items:center;justify-content:center;flex-shrink:0"><img src="assets/ic-pin-p.svg" alt="" style="width:16px;height:16px;object-fit:contain"></span>
+        <span style="display:flex;flex-direction:column;line-height:1.15"><span style="font-size:11px;color:#6B7280;font-weight:500">{{ addrCaption }}</span><span style="font-size:14px;font-weight:700">{{ address }}</span></span>
+        <span style="font-size:13px;color:#614BE2;font-weight:600;margin-left:8px">Изменить</span>
+      </button>
+    </sc-if>
+    <div style="margin-left:auto;display:flex;align-items:center;gap:20px">
+      <button onClick="{{ openMenuD }}" aria-label="Меню" style="width:44px;height:44px;border:0;background:transparent;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;padding:0" style-hover="opacity:.7">
+        <span style="width:20px;height:2.5px;border-radius:2px;background:#111827;display:block"></span><span style="width:20px;height:2.5px;border-radius:2px;background:#111827;display:block"></span><span style="width:20px;height:2.5px;border-radius:2px;background:#111827;display:block"></span>
+      </button>
+    </div>
+  </header>
+
+  <div style="display:grid;grid-template-columns:minmax(0,1fr) 480px;min-height:0">
+    <!-- menu 2/3 -->
+    <div ref="{{ dScrollRef }}" onScroll="{{ onDScroll }}" style="overflow-y:auto;min-height:0;scroll-behavior:smooth">
+      <div style="background:#fff;padding:24px 32px 0">
+        <div style="display:flex;gap:16px">
+          <img src="assets/story-stores.png" alt="Рестораны и часы работы" style="width:188px;height:236px;border-radius:26px;object-fit:cover;object-position:center;display:block;cursor:pointer">
+          <img src="assets/story-new10.png" alt="NEW10 −10% в первый месяц работы сайта" style="width:188px;height:236px;border-radius:26px;object-fit:cover;object-position:center;display:block;cursor:pointer">
+          <img src="assets/story-whatsapp.png" alt="Заказ через WhatsApp" style="width:188px;height:236px;border-radius:26px;object-fit:cover;object-position:center 30%;display:block;cursor:pointer">
+        </div>
+        <nav style="display:flex;gap:10px;padding:28px 0 20px;overflow-x:auto">
+          <sc-for list="{{ cats }}" as="cat" hint-placeholder-count="8">
+            <button onClick="{{ cat.goD }}" style="border:0;cursor:pointer;font:inherit;font-size:15px;font-weight:500;padding:12px 22px;border-radius:999px;white-space:nowrap;background:{{ cat.dBg }};color:{{ cat.dColor }};transition:background .15s">{{ cat.name }}</button>
+          </sc-for>
+        </nav>
+      </div>
+      <div style="padding:8px 32px 48px;border-top:1px solid #ECECF1">
+        <sc-for list="{{ cats }}" as="cat" hint-placeholder-count="3">
+          <div id="d-cat-{{ cat.idx }}" style="padding-top:28px">
+            <h2 style="margin:0 0 18px;font-size:24px;font-weight:700;letter-spacing:-.01em">{{ cat.name }}</h2>
+            <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px">
+              <sc-for list="{{ cat.items }}" as="p" hint-placeholder-count="3">
+                <article style="background:#fff;border:1px solid #ECECF1;border-radius:24px;padding:14px;display:flex;flex-direction:column;gap:10px;transition:box-shadow .2s" style-hover="box-shadow:0 12px 32px -14px rgba(17,24,39,.2)">
+                  <div style="aspect-ratio:1/1;border-radius:18px;background:#F3F4F6;overflow:hidden;display:flex;align-items:center;justify-content:center;position:relative">
+                    <sc-if value="{{ p.hasImg }}" hint-placeholder-val="{{ true }}"><img src="{{ p.img }}" alt="{{ p.name }}" style="width:100%;height:100%;object-fit:cover;display:block;filter:{{ p.imgFilter }}"></sc-if>
+                    <sc-if value="{{ p.noImg }}" hint-placeholder-val="{{ false }}"><span style="font-family:ui-monospace,monospace;font-size:11px;color:#9CA3AF">фото товара</span></sc-if>
+                    <sc-if value="{{ p.soldOut }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;left:12px;top:12px;background:#111827;color:#fff;font-size:12px;font-weight:700;border-radius:999px;padding:6px 12px">Разобрали</span></sc-if>
+                  </div>
+                  <div style="display:flex;flex-direction:column;gap:6px;flex:1;padding:2px 4px 0">
+                    <h3 style="margin:0;font-size:18px;font-weight:700;line-height:1.25">{{ p.name }}</h3>
+                    <p style="margin:0;font-size:14px;line-height:1.4;color:#6B7280;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">{{ p.desc }}</p>
+                  </div>
+                  <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;padding:4px 4px 0">
+                    <sc-if value="{{ p.notInCart }}" hint-placeholder-val="{{ true }}">
+                      <span style="font-size:20px;font-weight:700">{{ p.priceLabel }}</span>
+                      <button onClick="{{ p.add }}" style="border:0;cursor:pointer;font:inherit;font-size:15px;font-weight:600;background:#EFEDFC;color:#614BE2;border-radius:999px;width:132px;height:44px;padding:0;transition:all .15s" style-hover="background:#614BE2;color:#fff">В корзину</button>
+                    </sc-if>
+                    <sc-if value="{{ p.inCart }}" hint-placeholder-val="{{ false }}">
+                      <span style="font-size:20px;font-weight:700">{{ p.priceLabel }}</span>
+                      <dc-import name="FritoStepper" qty="{{ p.qty }}" on-inc="{{ p.inc }}" on-dec="{{ p.dec }}" size="{{ 44 }}" style="width:132px" hint-size="132px,44px"></dc-import>
+                    </sc-if>
+                    <sc-if value="{{ p.soldOut }}" hint-placeholder-val="{{ false }}">
+                      <span style="font-size:20px;font-weight:700;color:#9CA3AF">{{ p.priceLabel }}</span>
+                      <span style="display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:600;background:#F3F4F6;color:#9CA3AF;border-radius:999px;width:132px;height:44px;cursor:not-allowed">Нет в наличии</span>
+                    </sc-if>
+                  </div>
+                </article>
+              </sc-for>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+      <!-- footer desktop -->
+      <footer style="margin:32px 32px 32px;background:#1B1740;border-radius:28px;padding:40px 40px 28px;display:flex;flex-direction:column;gap:36px;color:#fff">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:32px">
+          <div style="display:flex;flex-direction:column;gap:16px;max-width:360px">
+            <sc-if value="{{ logoOk }}" hint-placeholder-val="{{ true }}"><img src="https://frito.kz/brand.svg" alt="FRITO" style="height:36px;width:max-content;display:block;filter:brightness(0) invert(1)"></sc-if>
+            <sc-if value="{{ logoBroken }}" hint-placeholder-val="{{ false }}"><div style="font-size:34px;font-weight:800;letter-spacing:-.03em;line-height:1">FRITO</div></sc-if>
+            <p style="margin:0;font-size:13px;color:rgba(255,255,255,.6);line-height:1.5">Хрустящая курочка, бургеры и стрипсы. Доставка по Астане за 35–45 минут и самовывоз из пяти ресторанов.</p>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:flex-end;gap:12px">
+            <a href="tel:+77009380000" style="font-size:24px;font-weight:700;color:#fff;letter-spacing:-.01em">+7 700 938 0000</a>
+            <span style="font-size:13px;color:rgba(255,255,255,.55)">ежедневно 11:30 – 02:00</span>
+            <div style="display:flex;gap:8px;margin-top:4px">
+              <a href="https://wa.me/77009380000" aria-label="WhatsApp" style="width:44px;height:44px;border-radius:50%;background:#614BE2;display:flex;align-items:center;justify-content:center" style-hover="background:#503BCB"><img src="assets/ic-whatsapp-w.svg" alt="" style="width:20px;height:20px"></a>
+              <a href="https://www.instagram.com/frito.kz/" aria-label="Instagram" style="width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center" style-hover="background:rgba(255,255,255,.18)"><img src="assets/ic-instagram-w.svg" alt="" style="width:20px;height:20px"></a>
+              <a href="https://www.tiktok.com/@frito.kz" aria-label="TikTok" style="width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center" style-hover="background:rgba(255,255,255,.18)"><img src="assets/ic-tiktok-w.svg" alt="" style="width:32px;height:32px"></a>
+            </div>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:12px">
+            <span style="font-size:13px;font-weight:700;color:rgba(255,255,255,.55);letter-spacing:.04em">РЕСТОРАНЫ · {{ storeCount }}</span>
+            <a href="#" style="font-size:13px;font-weight:600;color:#A899FF">Все адреса на карте →</a>
+          </div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <sc-for list="{{ footerStores }}" as="st" hint-placeholder-count="5">
+              <a href="#" style="display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.06);border-radius:999px;padding:8px 14px 8px 10px;color:#fff" style-hover="background:rgba(255,255,255,.12)"><img src="assets/ic-pin-p.svg" alt="" style="width:14px;height:14px;filter:brightness(0) invert(1);opacity:.7"><span style="font-size:13px;font-weight:600;white-space:nowrap">{{ st.name }}</span><span style="font-size:12px;color:rgba(255,255,255,.5);white-space:nowrap">{{ st.hours }}</span></a>
+            </sc-for>
+            <sc-if value="{{ hasMoreStores }}" hint-placeholder-val="{{ false }}"><a href="#" style="display:flex;align-items:center;background:rgba(168,153,255,.15);border-radius:999px;padding:8px 14px;color:#A899FF;font-size:13px;font-weight:600">ещё {{ moreStores }}</a></sc-if>
+          </div>
+        </div>
+        <div style="border-top:1px solid rgba(255,255,255,.1);padding-top:22px;display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap">
+          <nav style="display:flex;gap:24px;flex-wrap:wrap">
+            <a href="#" style="font-size:13px;font-weight:500;color:rgba(255,255,255,.75)" style-hover="color:#fff">Франшиза</a>
+            <a href="#" style="font-size:13px;font-weight:500;color:rgba(255,255,255,.75)" style-hover="color:#fff">Поставщикам</a>
+            <a href="#" style="font-size:13px;font-weight:500;color:rgba(255,255,255,.75)" style-hover="color:#fff">Предложить помещение</a>
+            <a href="#" style="font-size:13px;font-weight:500;color:rgba(255,255,255,.75)" style-hover="color:#fff">Доставка и оплата</a>
+            <a href="#" style="font-size:13px;font-weight:500;color:rgba(255,255,255,.75)" style-hover="color:#fff">Оферта</a>
+            <a href="#" style="font-size:13px;font-weight:500;color:rgba(255,255,255,.75)" style-hover="color:#fff">Конфиденциальность</a>
+          </nav>
+          <span style="font-size:12px;color:rgba(255,255,255,.4)">© 2026 ТОО «Frito Restaurants» · Астана</span>
+        </div>
+      </footer>
+    </div>
+
+    <!-- cart 1/3 -->
+    <aside style="border-left:1px solid #ECECF1;background:#fff;display:flex;flex-direction:column;min-height:0">
+      <sc-if value="{{ dEmpty }}" hint-placeholder-val="{{ true }}">
+        <div style="padding:28px 28px 0"><h2 style="margin:0;font-size:22px;font-weight:700">Корзина пуста</h2></div>
+        <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:40px;text-align:center">
+          <img src="assets/bag-frito.png" alt="" style="width:220px;height:220px;object-fit:contain">
+          <p style="margin:0;font-size:15px;color:#6B7280;line-height:1.5;max-width:280px">Добавьте бокс или комбо — здесь появится сумма и кнопка оформления.</p>
+          <sc-if value="{{ noMethod }}" hint-placeholder-val="{{ true }}">
+            <div style="display:flex;gap:8px;margin-top:6px">
+              <button onClick="{{ setDelivery }}" style="display:flex;align-items:center;gap:8px;border:0;background:#EFEDFC;color:#614BE2;border-radius:999px;height:44px;padding:0 18px 0 12px;font:inherit;font-size:14px;font-weight:600;cursor:pointer" style-hover="background:#E4E0FA"><img src="assets/ic-delivery-p.svg" alt="" style="width:20px;height:20px;object-fit:contain">Доставка</button>
+              <button onClick="{{ setPickup }}" style="display:flex;align-items:center;gap:8px;border:0;background:#EFEDFC;color:#614BE2;border-radius:999px;height:44px;padding:0 18px 0 12px;font:inherit;font-size:14px;font-weight:600;cursor:pointer" style-hover="background:#E4E0FA"><img src="assets/ic-pickup-p.svg" alt="" style="width:20px;height:20px;object-fit:contain">Самовывоз</button>
+            </div>
+          </sc-if>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ dFilled }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:24px 24px 16px;background:#F7F7F9">
+          <h2 style="margin:0;font-size:22px;font-weight:700;letter-spacing:-.01em">{{ dHeadline }}</h2>
+        </div>
+        <div style="flex:1;overflow-y:auto;padding:4px 24px 20px;display:flex;flex-direction:column;gap:16px;min-height:0;background:#F7F7F9">
+          <!-- sold-out notice -->
+          <sc-if value="{{ dHasSold }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;align-items:center;gap:12px;background:#FEF2F2;border-radius:16px;padding:12px 12px 12px 16px">
+              <span style="flex-shrink:0;width:32px;height:32px;border-radius:50%;background:#EF4444;color:#fff;font-size:16px;font-weight:800;display:flex;align-items:center;justify-content:center;line-height:1">!</span>
+              <div style="flex:1;font-size:13px;font-weight:600;color:#B91C1C;line-height:1.35">{{ dSoldText }}</div>
+              <button onClick="{{ dRemoveSold }}" style="flex-shrink:0;border:0;background:#fff;border-radius:999px;height:36px;padding:0 14px;font:inherit;font-size:13px;font-weight:600;color:#111827;cursor:pointer;box-shadow:0 1px 2px rgba(0,0,0,.06)" style-hover="background:#F3F4F6">Убрать</button>
+            </div>
+          </sc-if>
+          <!-- items -->
+          <div style="background:#fff;border-radius:20px;padding:4px 20px;display:flex;flex-direction:column">
+            <sc-for list="{{ dLines }}" as="l" hint-placeholder-count="3">
+              <div style="display:grid;grid-template-columns:104px minmax(0,1fr);gap:16px;padding:20px 0;border-bottom:1px solid #F1F1F4">
+                <div style="width:104px;height:104px;border-radius:18px;background:#F3F4F6;overflow:hidden">
+                  <sc-if value="{{ l.hasImg }}" hint-placeholder-val="{{ true }}"><img src="{{ l.img }}" alt="" style="width:100%;height:100%;object-fit:cover;display:block;filter:{{ l.imgFilter }}"></sc-if>
+                </div>
+                <div style="display:flex;flex-direction:column;justify-content:space-between;gap:12px;min-width:0">
+                  <div style="display:flex;flex-direction:column;gap:4px">
+                    <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px">
+                      <div style="font-size:16px;font-weight:700;line-height:1.3;color:{{ l.nameColor }}">{{ l.name }}</div>
+                      <button onClick="{{ l.remove }}" aria-label="Удалить" style="flex-shrink:0;border:0;background:transparent;color:#9CA3AF;font-size:20px;line-height:1;cursor:pointer;padding:0;width:24px;height:24px;display:flex;align-items:center;justify-content:center;margin-top:-2px" style-hover="color:#111827">×</button>
+                    </div>
+                    <sc-if value="{{ l.ok }}" hint-placeholder-val="{{ true }}"><div style="font-size:13px;color:#6B7280;line-height:1.4">{{ l.mods }}</div></sc-if>
+                    <sc-if value="{{ l.soldOut }}" hint-placeholder-val="{{ false }}"><div style="display:flex;align-items:center;gap:6px;font-size:13px;color:#EF4444;font-weight:600;line-height:1.4"><span style="width:6px;height:6px;border-radius:50%;background:#EF4444;flex-shrink:0"></span>Разобрали</div></sc-if>
+                    <sc-if value="{{ l.editable }}" hint-placeholder-val="{{ true }}"><a href="#" style="font-size:13px;font-weight:600;align-self:flex-start">Изменить</a></sc-if>
+                  </div>
+                  <sc-if value="{{ l.ok }}" hint-placeholder-val="{{ true }}">
+                  <div style="display:flex;align-items:center;justify-content:space-between;gap:10px">
+                    <span style="font-size:17px;font-weight:700;white-space:nowrap">{{ l.lineLabel }}</span>
+                  <dc-import name="FritoStepper" qty="{{ l.qty }}" on-inc="{{ l.inc }}" on-dec="{{ l.dec }}" size="{{ 44 }}" style="width:132px" hint-size="132px,44px"></dc-import>
+                  </div>
+                  </sc-if>
+                  <sc-if value="{{ l.soldOut }}" hint-placeholder-val="{{ false }}">
+                  <div style="display:flex;align-items:center;justify-content:space-between;gap:10px">
+                    <span style="font-size:17px;font-weight:700;white-space:nowrap;color:#9CA3AF;text-decoration:line-through">{{ l.lineLabel }}</span>
+                    <button onClick="{{ l.remove }}" style="border:0;background:#F3F4F6;border-radius:999px;height:40px;padding:0 16px;font:inherit;font-size:13px;font-weight:600;color:#111827;cursor:pointer" style-hover="background:#E5E7EB">Убрать из корзины</button>
+                  </div>
+                  </sc-if>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+          <!-- upsell -->
+          <div style="background:#fff;border-radius:20px;padding:18px 20px;display:flex;flex-direction:column;gap:14px">
+            <div style="font-size:15px;font-weight:700">Добавить к заказу?</div>
+            <div style="display:flex;gap:12px;overflow-x:auto;padding-bottom:2px">
+              <sc-for list="{{ upsell }}" as="u" hint-placeholder-count="3">
+                <button onClick="{{ u.add }}" style="flex-shrink:0;display:flex;flex-direction:column;align-items:center;gap:8px;border:0;background:transparent;font:inherit;cursor:pointer;color:#111827;width:92px;padding:0">
+                  <span style="width:80px;height:80px;border-radius:18px;background:#F3F4F6;overflow:hidden;display:block;position:relative"><img src="{{ u.img }}" alt="" style="width:100%;height:100%;object-fit:cover;display:block"><span style="position:absolute;right:5px;bottom:5px;width:24px;height:24px;border-radius:50%;background:#614BE2;color:#fff;display:flex;align-items:center;justify-content:center"><span aria-hidden="true" style="position:relative;width:10px;height:10px;display:block"><span style="position:absolute;left:0;top:50%;width:100%;height:2px;margin-top:-1px;background:currentColor;border-radius:1px"></span><span style="position:absolute;top:0;left:50%;height:100%;width:2px;margin-left:-1px;background:currentColor;border-radius:1px"></span></span></span></span>
+                  <span style="display:flex;flex-direction:column;gap:2px;align-items:center"><span style="font-size:12px;font-weight:500;color:#6B7280;line-height:1.2">{{ u.short }}</span><span style="font-size:13px;font-weight:700">{{ u.priceLabel }}</span></span>
+                </button>
+              </sc-for>
+            </div>
+          </div>
+          <!-- method card -->
+          <div style="background:#fff;border-radius:20px;padding:18px 20px;display:flex;flex-direction:column;gap:16px">
+            <div style="font-size:15px;font-weight:700">Способ получения</div>
+            <dc-import name="FritoSegment" mode="{{ segMode }}" on-change="{{ pickMode }}" variant="filled" icons="{{ true }}" height="{{ 40 }}" hint-size="100%,48px"></dc-import>
+            <sc-if value="{{ hasMethod }}" hint-placeholder-val="{{ false }}">
+              <div style="display:flex;align-items:center;gap:14px;padding:4px 0">
+                <span style="width:40px;height:40px;border-radius:50%;background:#EFEDFC;display:flex;align-items:center;justify-content:center;flex-shrink:0"><img src="assets/ic-pin-p.svg" alt="" style="width:18px;height:18px;object-fit:contain"></span>
+                <div style="display:flex;flex-direction:column;gap:3px;flex:1;min-width:0"><div style="font-size:12px;color:#6B7280">{{ addrCaption }} · <span style="color:#16A34A;font-weight:600">{{ etaLabel }}</span></div><div style="font-size:15px;font-weight:700">{{ address }}</div></div>
+                <button onClick="{{ openMethodD }}" style="border:0;background:#F3F4F6;border-radius:999px;height:40px;padding:0 16px;font:inherit;font-size:13px;font-weight:600;color:#111827;cursor:pointer" style-hover="background:#E5E7EB">Изменить</button>
+              </div>
+              <sc-if value="{{ isDelivery }}" hint-placeholder-val="{{ true }}">
+                <div style="border-top:1px solid #F1F1F4;padding-top:14px;display:flex;align-items:center;justify-content:space-between">
+                  <span style="font-size:14px;font-weight:600">Оставить у двери</span>
+                  <dc-import name="FritoToggle" on="{{ door }}" on-change="{{ setDoor }}" hint-size="48px,28px"></dc-import>
+                </div>
+              </sc-if>
+            </sc-if>
+            <sc-if value="{{ noMethod }}" hint-placeholder-val="{{ true }}">
+              <button onClick="{{ openMethodD }}" style="height:40px;display:flex;align-items:center;justify-content:center;gap:6px;border:0;background:transparent;font:inherit;font-size:13px;font-weight:600;color:#614BE2;cursor:pointer" style-hover="color:#4A36C4">Выберите способ — покажем адрес и время <span aria-hidden="true" style="font-size:16px;line-height:1">›</span></button>
+            </sc-if>
+          </div>
+          <!-- promo -->
+          <div style="background:#fff;border-radius:20px;padding:18px 20px;display:flex;flex-direction:column;gap:12px">
+            <sc-if value="{{ hasPromo }}" hint-placeholder-val="{{ true }}">
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;background:#EFEDFC;border-radius:14px;padding:10px 12px 10px 14px">
+                <div style="display:flex;align-items:center;gap:10px;min-width:0"><span style="font-size:12px;font-weight:800;color:#614BE2;background:#fff;border-radius:8px;padding:4px 8px;letter-spacing:.04em">{{ promoCode }}</span><span style="font-size:13px;color:#4A36C4;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ promoDesc }}</span></div>
+                <button onClick="{{ removePromo }}" aria-label="Убрать промокод" style="border:0;background:transparent;color:#6B7280;cursor:pointer;padding:0;width:28px;height:28px;display:flex;align-items:center;justify-content:center;flex-shrink:0"><span aria-hidden="true" style="position:relative;width:12px;height:12px;display:block"><span style="position:absolute;left:0;top:50%;width:100%;height:2px;margin-top:-1px;background:currentColor;border-radius:1px;transform:rotate(45deg)"></span><span style="position:absolute;left:0;top:50%;width:100%;height:2px;margin-top:-1px;background:currentColor;border-radius:1px;transform:rotate(-45deg)"></span></span></button>
+              </div>
+            </sc-if>
+            <sc-if value="{{ noPromo }}" hint-placeholder-val="{{ false }}">
+              <div style="display:flex;flex-direction:column;gap:6px">
+                <div style="display:flex;gap:8px">
+                  <div style="flex:1;position:relative;min-width:0"><input value="{{ promoDraft }}" onChange="{{ setPromoDraft }}" onKeyDown="{{ promoKey }}" onFocus="{{ promoFocus }}" onBlur="{{ promoBlur }}" placeholder="Промокод" style="width:100%;border:2px solid {{ promoBorder }};background:{{ promoBg }};border-radius:999px;height:44px;padding:0 44px 0 16px;font:inherit;font-size:14px;color:#111827;text-transform:uppercase;transition:all .15s" style-focus="border-color:#614BE2;background:#fff"><sc-if value="{{ promoHasDraft }}" hint-placeholder-val="{{ false }}"><button type="button" onMouseDown="{{ preventBlur }}" onClick="{{ clearPromoDraft }}" aria-label="Очистить" style="position:absolute;right:8px;top:8px;width:28px;height:28px;border:0;border-radius:50%;background:#E5E7EB;color:#6B7280;cursor:pointer;padding:0;display:flex;align-items:center;justify-content:center" style-hover="background:#D1D5DB;color:#111827"><span aria-hidden="true" style="position:relative;width:10px;height:10px;display:block"><span style="position:absolute;left:0;top:50%;width:100%;height:2px;margin-top:-1px;background:currentColor;border-radius:1px;transform:rotate(45deg)"></span><span style="position:absolute;left:0;top:50%;width:100%;height:2px;margin-top:-1px;background:currentColor;border-radius:1px;transform:rotate(-45deg)"></span></span></button></sc-if></div>
+                  <button onClick="{{ applyPromo }}" style="border:0;background:#EFEDFC;color:#614BE2;border-radius:999px;height:44px;padding:0 18px;font:inherit;font-size:14px;font-weight:600;cursor:pointer" style-hover="background:#E4E0FA">Применить</button>
+                </div>
+                <sc-if value="{{ promoHasError }}" hint-placeholder-val="{{ false }}"><div style="font-size:12px;color:#EF4444;font-weight:500;padding:0 14px">{{ promoError }}</div></sc-if>
+              </div>
+            </sc-if>
+            <sc-if value="{{ isDelivery }}" hint-placeholder-val="{{ true }}">
+              <dc-import name="FritoDeliveryBar" subtotal="{{ liveSub }}" free-from="{{ freeFrom }}" hint-size="100%,60px"></dc-import>
+            </sc-if>
+          </div>
+          <!-- totals -->
+          <div style="background:#fff;border-radius:20px;padding:18px 20px"><dc-import name="FritoTotals" subtotal="{{ liveSub }}" fee="{{ liveDel }}" discount="{{ liveDisc }}" fee-title="{{ modeLabel }}" hint-size="100%,140px"></dc-import></div>
+          <p style="margin:0;padding:0 4px;font-size:12px;color:#9CA3AF;line-height:1.45">Контакты, комментарий и способ оплаты — на странице оформления.</p>
+        </div>
+        <div style="padding:16px 24px 20px;border-top:1px solid #ECECF1;background:#fff">
+          <button onClick="{{ checkoutD }}" style="width:100%;border:0;cursor:{{ checkoutCursor }};font:inherit;background:{{ checkoutBg }};color:{{ checkoutColor }};border-radius:999px;height:60px;padding:0 28px;font-size:19px;font-weight:600;display:flex;align-items:center;justify-content:space-between;gap:16px;transition:background .15s"><span>Перейти к оформлению</span><span style="display:flex;align-items:center;gap:16px"><span style="width:1px;height:24px;background:currentColor;opacity:.3"></span><span style="font-weight:700">{{ totalLabel }}</span></span></button>
+        </div>
+      </sc-if>
+    </aside>
+  </div>
+
+  <!-- SIDE MENU desktop -->
+  <sc-if value="{{ menuD }}" hint-placeholder-val="{{ false }}">
+    <div onClick="{{ closeMenu }}" style="position:absolute;inset:0;background:rgba(17,24,39,.45);z-index:30"></div>
+    <aside style="position:absolute;top:0;right:0;bottom:0;width:400px;background:#fff;z-index:31;display:flex;flex-direction:column;box-shadow:-30px 0 80px -30px rgba(17,24,39,.35)">
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:22px 28px 8px">
+        <h2 style="margin:0;font-size:22px;font-weight:700">Меню</h2>
+        <button onClick="{{ closeMenu }}" style="border:0;background:#F3F4F6;border-radius:50%;width:44px;height:44px;display:flex;align-items:center;justify-content:center;line-height:1;padding:0;font:inherit;font-size:20px;color:#111827;cursor:pointer"><span aria-hidden="true" style="position:relative;width:16px;height:16px;display:block"><span style="position:absolute;left:0;top:50%;width:100%;height:2px;margin-top:-1px;background:currentColor;border-radius:1px;transform:rotate(45deg)"></span><span style="position:absolute;left:0;top:50%;width:100%;height:2px;margin-top:-1px;background:currentColor;border-radius:1px;transform:rotate(-45deg)"></span></span></button>
+      </div>
+      <div style="flex:1;overflow-y:auto;padding:12px 28px 28px;display:flex;flex-direction:column;gap:20px">
+        <div style="background:#614BE2;border-radius:22px;padding:20px;display:flex;align-items:center;gap:14px;color:#fff">
+          <span style="width:48px;height:48px;border-radius:50%;background:rgba(255,255,255,.18);position:relative;overflow:hidden;display:block;flex-shrink:0"><span style="position:absolute;left:50%;top:10px;width:15px;height:15px;margin-left:-7.5px;border-radius:50%;background:#fff"></span><span style="position:absolute;left:50%;top:30px;width:30px;height:30px;margin-left:-15px;border-radius:50%;background:#fff"></span></span>
+          <div style="display:flex;flex-direction:column;gap:3px;flex:1"><div style="font-size:17px;font-weight:700">Войти по номеру</div><div style="font-size:13px;opacity:.85">История заказов, адреса и промокоды</div></div>
+          <span style="font-size:22px">›</span>
+        </div>
+        <div style="display:flex;flex-direction:column">
+          <sc-for list="{{ menuItems }}" as="mi" hint-placeholder-count="5">
+            <a href="#" style="display:flex;align-items:center;justify-content:space-between;padding:16px 4px;border-bottom:1px solid #F1F1F4;font-size:17px;font-weight:600;color:#111827"><span>{{ mi.label }}</span><span style="font-size:13px;font-weight:500;color:#6B7280">{{ mi.hint }}</span></a>
+          </sc-for>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div style="font-size:13px;font-weight:700;color:#6B7280;letter-spacing:.04em">РЕСТОРАНЫ</div>
+          <sc-for list="{{ stores }}" as="st" hint-placeholder-count="5">
+            <div style="display:flex;align-items:center;gap:10px;padding:10px 0"><img src="assets/ic-pin-p.svg" alt="" style="width:16px;height:16px;object-fit:contain"><span style="flex:1;font-size:15px;font-weight:600">{{ st.name }}</span><span style="font-size:13px;color:#6B7280">{{ st.hours }}</span></div>
+          </sc-for>
+        </div>
+        <div style="background:#F3F4F6;border-radius:18px;padding:16px 18px;display:flex;flex-direction:column;gap:6px">
+          <a href="tel:+77009380000" style="font-size:17px;font-weight:700;color:#111827">+7 700 938 0000</a>
+          <a href="mailto:info@frito.kz" style="font-size:14px;color:#6B7280">info@frito.kz</a>
+          <div style="display:flex;gap:8px;margin-top:8px"><a href="https://www.instagram.com/frito.kz/" style="background:#fff;border-radius:999px;padding:8px 14px;font-size:13px;font-weight:600">Instagram</a><a href="https://www.tiktok.com/@frito.kz" style="background:#fff;border-radius:999px;padding:8px 14px;font-size:13px;font-weight:600">TikTok</a><a href="https://wa.me/77009380000" style="background:#fff;border-radius:999px;padding:8px 14px;font-size:13px;font-weight:600">WhatsApp</a></div>
+        </div>
+      </div>
+    </aside>
+  </sc-if>
+
+  <!-- MODAL desktop -->
+  <sc-if value="{{ modalD }}" hint-placeholder-val="{{ false }}">
+    <div onClick="{{ closeModal }}" style="position:absolute;inset:0;background:rgba(17,24,39,.45);z-index:20;display:flex;align-items:center;justify-content:center;padding:40px">
+      <div onClick="{{ stop }}" style="width:100%;max-width:560px;background:#fff;border-radius:32px;padding:36px 40px 40px;display:flex;flex-direction:column;gap:20px;box-shadow:0 40px 100px -30px rgba(0,0,0,.4)">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px">
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <h2 style="margin:0;font-size:30px;font-weight:700;line-height:1.15;letter-spacing:-.01em">{{ modalTitle }}</h2>
+            <p style="margin:0;font-size:17px;color:#6B7280;line-height:1.4">{{ modalSub }}</p>
+          </div>
+          <button onClick="{{ closeModal }}" style="flex-shrink:0;border:0;background:#F3F4F6;border-radius:50%;width:48px;height:48px;display:flex;align-items:center;justify-content:center;line-height:1;padding:0;font:inherit;font-size:22px;color:#111827;cursor:pointer"><span aria-hidden="true" style="position:relative;width:18px;height:18px;display:block"><span style="position:absolute;left:0;top:50%;width:100%;height:2px;margin-top:-1px;background:currentColor;border-radius:1px;transform:rotate(45deg)"></span><span style="position:absolute;left:0;top:50%;width:100%;height:2px;margin-top:-1px;background:currentColor;border-radius:1px;transform:rotate(-45deg)"></span></span></button>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:6px">
+          <button onClick="{{ chooseDelivery }}" style="display:flex;flex-direction:column;align-items:stretch;gap:8px;border:2px solid #ECECF1;cursor:pointer;font:inherit;background:#F8F8FB;color:#111827;border-radius:24px;padding:18px;text-align:left;transition:border-color .15s,background .15s,transform .15s" style-hover="border-color:#614BE2;background:#F5F3FF;transform:translateY(-2px)" style-active="transform:translateY(0)">
+            <img src="assets/ic-delivery-p.svg" alt="" style="width:48px;height:48px;object-fit:contain;align-self:center;margin:6px 0">
+            <span style="font-size:19px;font-weight:700">Доставка</span>
+            <span style="font-size:13px;color:#6B7280;line-height:1.35;flex:1">Курьером за 35–45 мин · от 1 000 тг, бесплатно от 8 000 тг</span>
+          </button>
+          <button onClick="{{ choosePickup }}" style="display:flex;flex-direction:column;align-items:stretch;gap:8px;border:2px solid #ECECF1;cursor:pointer;font:inherit;background:#F8F8FB;color:#111827;border-radius:24px;padding:18px;text-align:left;transition:border-color .15s,background .15s,transform .15s" style-hover="border-color:#614BE2;background:#F5F3FF;transform:translateY(-2px)" style-active="transform:translateY(0)">
+            <img src="assets/ic-pickup-p.svg" alt="" style="width:48px;height:48px;object-fit:contain;align-self:center;margin:6px 0">
+            <span style="font-size:19px;font-weight:700">Самовывоз</span>
+            <span style="font-size:13px;color:#6B7280;line-height:1.35;flex:1">5 ресторанов в Астане · готово через 15 мин · без доплаты</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+</section>
+</div>
+
+<!-- ============ MOBILE ============ -->
+<div style="display:flex;flex-direction:column;gap:14px">
+<div style="font-size:13px;font-weight:600;color:#6B7280;letter-spacing:.04em">MOBILE · 390 × 844 · плавающая корзина</div>
+<section data-screen-label="Mobile" style="width:390px;height:844px;background:#F7F7F9;border-radius:44px;overflow:hidden;position:relative;box-shadow:0 30px 80px -30px rgba(50,30,140,.25)">
+  <div ref="{{ mScrollRef }}" onScroll="{{ onMScroll }}" style="position:absolute;inset:0;overflow-y:auto;scroll-behavior:smooth">
+    <div style="background:#fff">
+      <header style="padding:54px 20px 0;display:flex;align-items:center;justify-content:space-between">
+        <sc-if value="{{ logoOk }}" hint-placeholder-val="{{ true }}"><img src="https://frito.kz/brand.svg" alt="FRITO" onError="{{ logoFail }}" style="height:30px;display:block"></sc-if>
+        <sc-if value="{{ logoBroken }}" hint-placeholder-val="{{ false }}"><div style="display:flex;align-items:center;gap:6px;color:#614BE2;font-weight:800;font-size:24px;letter-spacing:-.02em"><span style="width:22px;height:26px;background:#614BE2;clip-path:polygon(45% 0,100% 0,60% 45%,85% 45%,20% 100%,40% 55%,10% 55%)"></span>FRITO</div></sc-if>
+        <div style="display:flex;align-items:center;gap:8px">
+          <button onClick="{{ openMenuM }}" aria-label="Меню" style="width:44px;height:44px;border:0;background:transparent;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:0">
+            <span style="width:18px;height:2.5px;border-radius:2px;background:#111827;display:block"></span><span style="width:18px;height:2.5px;border-radius:2px;background:#111827;display:block"></span><span style="width:18px;height:2.5px;border-radius:2px;background:#111827;display:block"></span>
+          </button>
+        </div>
+      </header>
+      <div style="padding:14px 20px 0;display:flex;flex-direction:column;gap:10px">
+        <dc-import name="FritoSegment" mode="{{ segMode }}" on-change="{{ pickMode }}" icons="{{ true }}" height="{{ 44 }}" hint-size="100%,52px"></dc-import>
+        <sc-if value="{{ noMethod }}" hint-placeholder-val="{{ true }}">
+          <button onClick="{{ openMethodM }}" style="display:flex;align-items:center;gap:10px;height:48px;padding:0 14px 0 6px;font:inherit;font-size:13px;font-weight:600;color:#614BE2;border:1px dashed #B7ACF3;background:#F5F3FF;border-radius:999px;cursor:pointer;width:100%;text-align:left" style-active="background:#EFEDFC"><span style="width:36px;height:36px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0"><img src="assets/ic-pin-p.svg" alt="" style="width:16px;height:16px;object-fit:contain"></span><span style="flex:1">Выберите, как получить заказ</span><span aria-hidden="true" style="font-size:18px;line-height:1">›</span></button>
+        </sc-if>
+        <sc-if value="{{ hasMethod }}" hint-placeholder-val="{{ false }}">
+          <button onClick="{{ openMethodM }}" style="display:flex;align-items:center;gap:10px;border:1px solid #ECECF1;background:#fff;border-radius:999px;height:48px;padding:0 14px 0 6px;font:inherit;cursor:pointer;color:#111827;text-align:left">
+            <span style="width:36px;height:36px;border-radius:50%;background:#EFEDFC;display:flex;align-items:center;justify-content:center;flex-shrink:0"><img src="assets/ic-pin-p.svg" alt="" style="width:16px;height:16px;object-fit:contain"></span>
+            <span style="display:flex;flex-direction:column;line-height:1.15;min-width:0;flex:1"><span style="font-size:11px;color:#6B7280;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ addrCaption }} · {{ etaLabel }}</span><span style="font-size:14px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ address }}</span></span>
+            <span style="font-size:13px;color:#614BE2;font-weight:600;flex-shrink:0">Изменить</span>
+          </button>
+        </sc-if>
+      </div>
+      <div style="display:flex;gap:12px;padding:18px 20px 0;overflow-x:auto">
+        <img src="assets/story-stores.png" alt="Рестораны и часы работы" style="flex-shrink:0;width:150px;height:190px;border-radius:24px;object-fit:cover;object-position:center;display:block">
+        <img src="assets/story-new10.png" alt="NEW10 −10% в первый месяц работы сайта" style="flex-shrink:0;width:150px;height:190px;border-radius:24px;object-fit:cover;object-position:center;display:block">
+        <img src="assets/story-whatsapp.png" alt="Заказ через WhatsApp" style="flex-shrink:0;width:150px;height:190px;border-radius:24px;object-fit:cover;object-position:center 30%;display:block">
+      </div>
+      <nav style="position:sticky;top:0;z-index:2;background:rgba(255,255,255,.94);backdrop-filter:blur(12px);display:flex;gap:8px;padding:16px 20px;overflow-x:auto;border-bottom:1px solid #ECECF1">
+        <sc-for list="{{ cats }}" as="cat" hint-placeholder-count="6">
+          <button onClick="{{ cat.goM }}" style="border:0;cursor:pointer;font:inherit;font-size:14px;font-weight:500;padding:10px 18px;border-radius:999px;white-space:nowrap;background:{{ cat.mBg }};color:{{ cat.mColor }};transition:background .15s">{{ cat.name }}</button>
+        </sc-for>
+      </nav>
+    </div>
+    <div style="padding:0 16px 24px">
+      <sc-for list="{{ cats }}" as="cat" hint-placeholder-count="3">
+        <div id="m-cat-{{ cat.idx }}" style="padding-top:24px">
+          <h2 style="margin:0 0 14px 4px;font-size:22px;font-weight:700">{{ cat.name }}</h2>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+            <sc-for list="{{ cat.items }}" as="p" hint-placeholder-count="2">
+              <article style="background:#fff;border:1px solid #ECECF1;border-radius:20px;padding:8px 8px 12px;display:flex;flex-direction:column;gap:8px">
+                <div style="aspect-ratio:1/1;border-radius:14px;background:#F3F4F6;overflow:hidden;display:flex;align-items:center;justify-content:center;position:relative">
+                  <sc-if value="{{ p.hasImg }}" hint-placeholder-val="{{ true }}"><img src="{{ p.img }}" alt="{{ p.name }}" style="width:100%;height:100%;object-fit:cover;display:block;filter:{{ p.imgFilter }}"></sc-if>
+                  <sc-if value="{{ p.noImg }}" hint-placeholder-val="{{ false }}"><span style="font-family:ui-monospace,monospace;font-size:10px;color:#9CA3AF">фото</span></sc-if>
+                  <sc-if value="{{ p.soldOut }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;left:8px;top:8px;background:#111827;color:#fff;font-size:11px;font-weight:700;border-radius:999px;padding:5px 10px">Разобрали</span></sc-if>
+                </div>
+                <div style="display:flex;flex-direction:column;gap:3px;flex:1;padding:0 4px">
+                  <h3 style="margin:0;font-size:15px;font-weight:700;line-height:1.25">{{ p.name }}</h3>
+                  <p style="margin:0;font-size:12px;line-height:1.35;color:#6B7280;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">{{ p.desc }}</p>
+                </div>
+                <div style="padding:0 4px">
+                <sc-if value="{{ p.notInCart }}" hint-placeholder-val="{{ true }}">
+                  <button onClick="{{ p.add }}" style="border:0;cursor:pointer;font:inherit;font-size:15px;font-weight:700;background:#EFEDFC;color:#614BE2;border-radius:999px;height:44px;width:100%;padding:0" style-active="background:#614BE2;color:#fff">{{ p.priceLabel }}</button>
+                </sc-if>
+                <sc-if value="{{ p.inCart }}" hint-placeholder-val="{{ false }}">
+                  <dc-import name="FritoStepper" qty="{{ p.qty }}" on-inc="{{ p.inc }}" on-dec="{{ p.dec }}" size="{{ 44 }}" hint-size="100%,44px"></dc-import>
+                </sc-if>
+                <sc-if value="{{ p.soldOut }}" hint-placeholder-val="{{ false }}">
+                  <span style="display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;background:#F3F4F6;color:#9CA3AF;border-radius:999px;height:44px;width:100%">Нет в наличии</span>
+                </sc-if>
+                </div>
+              </article>
+            </sc-for>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+    <!-- footer mobile -->
+    <footer style="margin:8px 12px 110px;background:#1B1740;border-radius:28px;padding:28px 22px 22px;display:flex;flex-direction:column;gap:24px;color:#fff">
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <sc-if value="{{ logoOk }}" hint-placeholder-val="{{ true }}"><img src="https://frito.kz/brand.svg" alt="FRITO" style="height:30px;width:max-content;display:block;filter:brightness(0) invert(1)"></sc-if>
+        <sc-if value="{{ logoBroken }}" hint-placeholder-val="{{ false }}"><div style="font-size:30px;font-weight:800;letter-spacing:-.03em;line-height:1">FRITO</div></sc-if>
+        <p style="margin:0;font-size:13px;color:rgba(255,255,255,.6);line-height:1.5">Хрустящая курочка, бургеры и стрипсы. Доставка по Астане за 35–45 минут и самовывоз.</p>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:6px">
+        <a href="tel:+77009380000" style="font-size:22px;font-weight:700;color:#fff;letter-spacing:-.01em">+7 700 938 0000</a>
+        <span style="font-size:12px;color:rgba(255,255,255,.55)">ежедневно 11:30 – 02:00</span>
+      </div>
+      <div style="display:flex;gap:8px">
+        <a href="https://wa.me/77009380000" aria-label="WhatsApp" style="width:44px;height:44px;border-radius:50%;background:#614BE2;display:flex;align-items:center;justify-content:center"><img src="assets/ic-whatsapp-w.svg" alt="" style="width:20px;height:20px"></a>
+        <a href="https://www.instagram.com/frito.kz/" aria-label="Instagram" style="width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center"><img src="assets/ic-instagram-w.svg" alt="" style="width:20px;height:20px"></a>
+        <a href="https://www.tiktok.com/@frito.kz" aria-label="TikTok" style="width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center"><img src="assets/ic-tiktok-w.svg" alt="" style="width:32px;height:32px"></a>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:12px">
+          <span style="font-size:12px;font-weight:700;color:rgba(255,255,255,.55);letter-spacing:.04em">РЕСТОРАНЫ · {{ storeCount }}</span>
+          <a href="#" style="font-size:13px;font-weight:600;color:#A899FF">На карте →</a>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <sc-for list="{{ footerStores }}" as="st" hint-placeholder-count="5">
+            <a href="#" style="display:flex;align-items:center;gap:6px;background:rgba(255,255,255,.06);border-radius:999px;padding:8px 12px 8px 10px;color:#fff"><img src="assets/ic-pin-p.svg" alt="" style="width:13px;height:13px;filter:brightness(0) invert(1);opacity:.7"><span style="font-size:13px;font-weight:600;white-space:nowrap">{{ st.name }}</span></a>
+          </sc-for>
+          <sc-if value="{{ hasMoreStores }}" hint-placeholder-val="{{ false }}"><a href="#" style="display:flex;align-items:center;background:rgba(168,153,255,.15);border-radius:999px;padding:8px 12px;color:#A899FF;font-size:13px;font-weight:600">ещё {{ moreStores }}</a></sc-if>
+        </div>
+      </div>
+      <nav style="border-top:1px solid rgba(255,255,255,.1);padding-top:18px;display:flex;flex-direction:column;gap:12px">
+        <a href="#" style="font-size:14px;font-weight:500;color:rgba(255,255,255,.75)">Франшиза</a>
+        <a href="#" style="font-size:14px;font-weight:500;color:rgba(255,255,255,.75)">Поставщикам</a>
+        <a href="#" style="font-size:14px;font-weight:500;color:rgba(255,255,255,.75)">Предложить помещение</a>
+        <a href="#" style="font-size:14px;font-weight:500;color:rgba(255,255,255,.75)">Доставка и оплата</a>
+        <a href="#" style="font-size:14px;font-weight:500;color:rgba(255,255,255,.75)">Оферта и конфиденциальность</a>
+      </nav>
+      <span style="font-size:12px;color:rgba(255,255,255,.4)">© 2026 ТОО «Frito Restaurants» · Астана</span>
+    </footer>
+  </div>
+
+  <!-- floating cart -->
+  <sc-if value="{{ mClosed }}" hint-placeholder-val="{{ true }}">
+    <button onClick="{{ openMobile }}" style="position:absolute;right:16px;bottom:28px;z-index:5;display:flex;align-items:center;gap:10px;border:0;cursor:pointer;font:inherit;height:60px;padding:0 20px;border-radius:999px;background:#614BE2;color:#fff;box-shadow:0 16px 36px -10px rgba(97,75,226,.6);transition:transform .15s" style-active="transform:scale(.96)">
+      <img src="assets/bag-frito.png" alt="" style="width:34px;height:34px;object-fit:contain">
+      <span style="font-size:17px;font-weight:600">{{ pillLabel }}</span>
+      <sc-if value="{{ hasItems }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;top:-6px;right:-4px;min-width:26px;height:26px;border-radius:13px;background:#EF4444;color:#fff;font-size:14px;font-weight:700;display:flex;align-items:center;justify-content:center;padding:0 6px;border:2px solid #F7F7F9">{{ count }}</span></sc-if>
+    </button>
+  </sc-if>
+
+  <!-- bottom sheet cart -->
+  <sc-if value="{{ mobileOpen }}" hint-placeholder-val="{{ false }}">
+    <div onClick="{{ closeMobile }}" style="position:absolute;inset:0;background:rgba(17,24,39,.45);z-index:6"></div>
+    <div style="position:absolute;left:0;right:0;bottom:0;z-index:7;background:{{ mSheetHeadBg }};border-radius:32px 32px 0 0;max-height:88%;display:flex;flex-direction:column;box-shadow:0 -20px 60px -20px rgba(17,24,39,.35);overflow:hidden">
+      <div style="display:flex;justify-content:center;padding:10px 0 0"><div style="width:40px;height:4px;border-radius:2px;background:#E5E7EB"></div></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 16px 12px 20px;background:{{ mSheetHeadBg }};border-radius:32px 32px 0 0">
+        <h2 style="margin:0;font-size:20px;font-weight:700">{{ mHeadline }}</h2>
+        <div style="display:flex;align-items:center;gap:6px">
+          <button onClick="{{ closeMobile }}" style="border:0;background:#F3F4F6;border-radius:50%;width:36px;height:36px;display:flex;align-items:center;justify-content:center;line-height:1;padding:0;font:inherit;font-size:18px;color:#111827;cursor:pointer"><span aria-hidden="true" style="position:relative;width:14px;height:14px;display:block"><span style="position:absolute;left:0;top:50%;width:100%;height:2px;margin-top:-1px;background:currentColor;border-radius:1px;transform:rotate(45deg)"></span><span style="position:absolute;left:0;top:50%;width:100%;height:2px;margin-top:-1px;background:currentColor;border-radius:1px;transform:rotate(-45deg)"></span></span></button>
+        </div>
+      </div>
+      <sc-if value="{{ noItems }}" hint-placeholder-val="{{ true }}">
+        <div style="padding:8px 20px 44px;display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center">
+          <img src="assets/bag-frito.png" alt="" style="width:160px;height:160px;object-fit:contain">
+          <p style="margin:0;font-size:14px;color:#6B7280;line-height:1.45">Начните с бокса — в нём бургер, стрипсы, фри и напиток.</p>
+          <sc-if value="{{ noMethod }}" hint-placeholder-val="{{ true }}">
+            <div style="display:flex;gap:8px;margin-top:8px">
+              <button onClick="{{ setDelivery }}" style="display:flex;align-items:center;gap:8px;border:0;background:#EFEDFC;color:#614BE2;border-radius:999px;height:44px;padding:0 16px 0 12px;font:inherit;font-size:14px;font-weight:600;cursor:pointer" style-active="background:#E4E0FA"><img src="assets/ic-delivery-p.svg" alt="" style="width:20px;height:20px;object-fit:contain">Доставка</button>
+              <button onClick="{{ setPickup }}" style="display:flex;align-items:center;gap:8px;border:0;background:#EFEDFC;color:#614BE2;border-radius:999px;height:44px;padding:0 16px 0 12px;font:inherit;font-size:14px;font-weight:600;cursor:pointer" style-active="background:#E4E0FA"><img src="assets/ic-pickup-p.svg" alt="" style="width:20px;height:20px;object-fit:contain">Самовывоз</button>
+            </div>
+          </sc-if>
+        </div>
+      </sc-if>
+      <sc-if value="{{ hasItems }}" hint-placeholder-val="{{ false }}">
+        <div style="overflow-y:auto;padding:4px 16px 16px;min-height:0;flex:1;display:flex;flex-direction:column;gap:12px;background:#F7F7F9">
+          <sc-if value="{{ mHasSold }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;align-items:center;gap:10px;background:#FEF2F2;border-radius:14px;padding:10px 10px 10px 14px">
+              <span style="flex-shrink:0;width:28px;height:28px;border-radius:50%;background:#EF4444;color:#fff;font-size:14px;font-weight:800;display:flex;align-items:center;justify-content:center;line-height:1">!</span>
+              <div style="flex:1;font-size:12px;font-weight:600;color:#B91C1C;line-height:1.35">{{ mSoldText }}</div>
+              <button onClick="{{ mRemoveSold }}" style="flex-shrink:0;border:0;background:#fff;border-radius:999px;height:36px;padding:0 12px;font:inherit;font-size:12px;font-weight:600;color:#111827;cursor:pointer;box-shadow:0 1px 2px rgba(0,0,0,.06)">Убрать</button>
+            </div>
+          </sc-if>
+          <div style="background:#fff;border-radius:18px;padding:2px 16px;display:flex;flex-direction:column">
+          <sc-for list="{{ lines }}" as="l" hint-placeholder-count="2">
+            <div style="display:grid;grid-template-columns:88px minmax(0,1fr);gap:12px;padding:16px 0;border-bottom:1px solid #F1F1F4">
+              <div style="width:88px;height:88px;border-radius:16px;background:#F3F4F6;overflow:hidden"><sc-if value="{{ l.hasImg }}" hint-placeholder-val="{{ true }}"><img src="{{ l.img }}" alt="" style="width:100%;height:100%;object-fit:cover;display:block;filter:{{ l.imgFilter }}"></sc-if></div>
+              <div style="display:flex;flex-direction:column;justify-content:space-between;gap:10px;min-width:0">
+                <div style="display:flex;flex-direction:column;gap:3px">
+                  <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px">
+                    <div style="font-size:15px;font-weight:700;line-height:1.3;color:{{ l.nameColor }}">{{ l.name }}</div>
+                    <button onClick="{{ l.remove }}" aria-label="Удалить" style="flex-shrink:0;border:0;background:transparent;color:#9CA3AF;font-size:20px;line-height:1;cursor:pointer;padding:0;width:24px;height:24px;display:flex;align-items:center;justify-content:center;margin-top:-2px">×</button>
+                  </div>
+                  <sc-if value="{{ l.ok }}" hint-placeholder-val="{{ true }}"><div style="font-size:12px;color:#6B7280;line-height:1.4">{{ l.mods }}</div></sc-if>
+                  <sc-if value="{{ l.soldOut }}" hint-placeholder-val="{{ false }}"><div style="display:flex;align-items:center;gap:6px;font-size:12px;color:#EF4444;font-weight:600;line-height:1.4"><span style="width:6px;height:6px;border-radius:50%;background:#EF4444;flex-shrink:0"></span>Разобрали</div></sc-if>
+                  <sc-if value="{{ l.editable }}" hint-placeholder-val="{{ true }}"><a href="#" style="font-size:12px;font-weight:600;align-self:flex-start">Изменить</a></sc-if>
+                </div>
+                <sc-if value="{{ l.ok }}" hint-placeholder-val="{{ true }}">
+                <div style="display:flex;align-items:center;justify-content:space-between;gap:8px">
+                  <span style="font-size:15px;font-weight:700;white-space:nowrap">{{ l.lineLabel }}</span>
+                  <dc-import name="FritoStepper" qty="{{ l.qty }}" on-inc="{{ l.inc }}" on-dec="{{ l.dec }}" size="{{ 40 }}" style="width:112px" hint-size="112px,40px"></dc-import>
+                </div>
+                </sc-if>
+                <sc-if value="{{ l.soldOut }}" hint-placeholder-val="{{ false }}">
+                <div style="display:flex;align-items:center;justify-content:space-between;gap:8px">
+                  <span style="font-size:15px;font-weight:700;white-space:nowrap;color:#9CA3AF;text-decoration:line-through">{{ l.lineLabel }}</span>
+                  <button onClick="{{ l.remove }}" style="border:0;background:#F3F4F6;border-radius:999px;height:36px;padding:0 12px;font:inherit;font-size:12px;font-weight:600;color:#111827;cursor:pointer">Убрать</button>
+                </div>
+                </sc-if>
+              </div>
+            </div>
+          </sc-for>
+          </div>
+          <div style="background:#fff;border-radius:18px;padding:14px 16px;display:flex;flex-direction:column;gap:12px">
+            <div style="font-size:14px;font-weight:700">Добавить к заказу?</div>
+            <div style="display:flex;gap:10px;overflow-x:auto;padding-bottom:2px">
+              <sc-for list="{{ upsell }}" as="u" hint-placeholder-count="3">
+                <button onClick="{{ u.addM }}" style="flex-shrink:0;display:flex;flex-direction:column;align-items:center;gap:6px;border:0;background:transparent;font:inherit;cursor:pointer;color:#111827;width:80px;padding:0">
+                  <span style="width:68px;height:68px;border-radius:16px;background:#F3F4F6;overflow:hidden;display:block;position:relative"><img src="{{ u.img }}" alt="" style="width:100%;height:100%;object-fit:cover;display:block"><span style="position:absolute;right:4px;bottom:4px;width:22px;height:22px;border-radius:50%;background:#614BE2;color:#fff;display:flex;align-items:center;justify-content:center"><span aria-hidden="true" style="position:relative;width:10px;height:10px;display:block"><span style="position:absolute;left:0;top:50%;width:100%;height:2px;margin-top:-1px;background:currentColor;border-radius:1px"></span><span style="position:absolute;top:0;left:50%;height:100%;width:2px;margin-left:-1px;background:currentColor;border-radius:1px"></span></span></span></span>
+                  <span style="display:flex;flex-direction:column;gap:1px;align-items:center"><span style="font-size:11px;font-weight:500;color:#6B7280;line-height:1.2">{{ u.short }}</span><span style="font-size:12px;font-weight:700">{{ u.priceLabel }}</span></span>
+                </button>
+              </sc-for>
+            </div>
+          </div>
+          <div style="background:#fff;border-radius:18px;padding:14px 16px;display:flex;flex-direction:column;gap:12px">
+            <div style="font-size:14px;font-weight:700">Способ получения</div>
+            <dc-import name="FritoSegment" mode="{{ segMode }}" on-change="{{ pickMode }}" variant="filled" icons="{{ true }}" height="{{ 40 }}" hint-size="100%,48px"></dc-import>
+            <sc-if value="{{ hasMethod }}" hint-placeholder-val="{{ false }}">
+              <div style="display:flex;align-items:center;gap:10px;padding:2px 0">
+                <span style="width:36px;height:36px;border-radius:50%;background:#EFEDFC;display:flex;align-items:center;justify-content:center;flex-shrink:0"><img src="assets/ic-pin-p.svg" alt="" style="width:16px;height:16px;object-fit:contain"></span>
+                <div style="display:flex;flex-direction:column;gap:2px;flex:1;min-width:0"><div style="font-size:11px;color:#6B7280;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ addrCaption }} · <span style="color:#16A34A;font-weight:600">{{ etaLabel }}</span></div><div style="font-size:14px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ address }}</div></div>
+                <button onClick="{{ openMethodM }}" style="flex-shrink:0;border:0;background:#F3F4F6;border-radius:999px;height:36px;padding:0 14px;font:inherit;font-size:12px;font-weight:600;color:#111827;cursor:pointer">Изменить</button>
+              </div>
+              <sc-if value="{{ isDelivery }}" hint-placeholder-val="{{ true }}">
+                <div style="border-top:1px solid #F1F1F4;padding-top:12px;display:flex;align-items:center;justify-content:space-between">
+                  <span style="font-size:14px;font-weight:600">Оставить у двери</span>
+                  <dc-import name="FritoToggle" on="{{ door }}" on-change="{{ setDoor }}" hint-size="48px,28px"></dc-import>
+                </div>
+              </sc-if>
+            </sc-if>
+            <sc-if value="{{ noMethod }}" hint-placeholder-val="{{ true }}">
+              <button onClick="{{ openMethodM }}" style="height:36px;display:flex;align-items:center;justify-content:center;gap:6px;border:0;background:transparent;font:inherit;font-size:12px;font-weight:600;color:#614BE2;cursor:pointer">Выберите способ — покажем адрес и время <span aria-hidden="true" style="font-size:16px;line-height:1">›</span></button>
+            </sc-if>
+          </div>
+          <div style="background:#fff;border-radius:18px;padding:14px 16px;display:flex;flex-direction:column;gap:12px">
+            <sc-if value="{{ hasPromo }}" hint-placeholder-val="{{ true }}">
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;background:#EFEDFC;border-radius:12px;padding:8px 10px 8px 12px">
+                <div style="display:flex;align-items:center;gap:8px;min-width:0"><span style="font-size:11px;font-weight:800;color:#614BE2;background:#fff;border-radius:7px;padding:3px 7px;letter-spacing:.04em">{{ promoCode }}</span><span style="font-size:12px;color:#4A36C4;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ promoDesc }}</span></div>
+                <button onClick="{{ removePromo }}" aria-label="Убрать промокод" style="border:0;background:transparent;color:#6B7280;cursor:pointer;padding:0;width:28px;height:28px;display:flex;align-items:center;justify-content:center;flex-shrink:0"><span aria-hidden="true" style="position:relative;width:12px;height:12px;display:block"><span style="position:absolute;left:0;top:50%;width:100%;height:2px;margin-top:-1px;background:currentColor;border-radius:1px;transform:rotate(45deg)"></span><span style="position:absolute;left:0;top:50%;width:100%;height:2px;margin-top:-1px;background:currentColor;border-radius:1px;transform:rotate(-45deg)"></span></span></button>
+              </div>
+            </sc-if>
+            <sc-if value="{{ noPromo }}" hint-placeholder-val="{{ false }}">
+              <div style="display:flex;flex-direction:column;gap:6px">
+                <div style="display:flex;gap:8px">
+                  <div style="flex:1;position:relative;min-width:0"><input value="{{ promoDraft }}" onChange="{{ setPromoDraft }}" onKeyDown="{{ promoKey }}" onFocus="{{ promoFocus }}" onBlur="{{ promoBlur }}" placeholder="Промокод" style="width:100%;border:2px solid {{ promoBorder }};background:{{ promoBg }};border-radius:999px;height:44px;padding:0 40px 0 14px;font:inherit;font-size:14px;color:#111827;text-transform:uppercase;transition:all .15s" style-focus="border-color:#614BE2;background:#fff"><sc-if value="{{ promoHasDraft }}" hint-placeholder-val="{{ false }}"><button type="button" onMouseDown="{{ preventBlur }}" onClick="{{ clearPromoDraft }}" aria-label="Очистить" style="position:absolute;right:8px;top:8px;width:28px;height:28px;border:0;border-radius:50%;background:#E5E7EB;color:#6B7280;cursor:pointer;padding:0;display:flex;align-items:center;justify-content:center"><span aria-hidden="true" style="position:relative;width:10px;height:10px;display:block"><span style="position:absolute;left:0;top:50%;width:100%;height:2px;margin-top:-1px;background:currentColor;border-radius:1px;transform:rotate(45deg)"></span><span style="position:absolute;left:0;top:50%;width:100%;height:2px;margin-top:-1px;background:currentColor;border-radius:1px;transform:rotate(-45deg)"></span></span></button></sc-if></div>
+                  <button onClick="{{ applyPromo }}" style="border:0;background:#EFEDFC;color:#614BE2;border-radius:999px;height:44px;padding:0 14px;font:inherit;font-size:13px;font-weight:600;cursor:pointer">Применить</button>
+                </div>
+                <sc-if value="{{ promoHasError }}" hint-placeholder-val="{{ false }}"><div style="font-size:12px;color:#EF4444;font-weight:500;padding:0 12px">{{ promoError }}</div></sc-if>
+              </div>
+            </sc-if>
+            <sc-if value="{{ isDelivery }}" hint-placeholder-val="{{ true }}">
+              <dc-import name="FritoDeliveryBar" subtotal="{{ liveSub }}" free-from="{{ freeFrom }}" compact="{{ true }}" hint-size="100%,56px"></dc-import>
+            </sc-if>
+          </div>
+          <div style="background:#fff;border-radius:18px;padding:14px 16px"><dc-import name="FritoTotals" subtotal="{{ liveSub }}" fee="{{ liveDel }}" discount="{{ liveDisc }}" fee-title="{{ modeLabel }}" compact="{{ true }}" hint-size="100%,120px"></dc-import></div>
+          <p style="margin:0;padding:0 4px;font-size:12px;color:#9CA3AF;line-height:1.45">Контакты, комментарий и способ оплаты — на странице оформления.</p>
+        </div>
+        <div style="padding:12px 16px 26px;border-top:1px solid #ECECF1;background:#fff">
+          <button style="width:100%;border:0;cursor:{{ checkoutCursorM }};font:inherit;background:{{ checkoutBgM }};color:{{ checkoutColorM }};border-radius:999px;height:56px;padding:0 22px;display:flex;align-items:center;justify-content:space-between;gap:12px;font-size:16px;font-weight:600"><span>Перейти к оформлению</span><span style="display:flex;align-items:center;gap:12px"><span style="width:1px;height:22px;background:currentColor;opacity:.3"></span><span style="font-weight:700">{{ totalLabel }}</span></span></button>
+        </div>
+      </sc-if>
+    </div>
+  </sc-if>
+
+  <!-- SIDE MENU mobile -->
+  <sc-if value="{{ menuM }}" hint-placeholder-val="{{ false }}">
+    <div onClick="{{ closeMenu }}" style="position:absolute;inset:0;background:rgba(17,24,39,.45);z-index:30"></div>
+    <aside style="position:absolute;top:0;right:0;bottom:0;width:320px;background:#fff;z-index:31;display:flex;flex-direction:column;border-radius:44px 0 0 44px;box-shadow:-30px 0 80px -30px rgba(17,24,39,.35)">
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:54px 20px 8px 24px">
+        <h2 style="margin:0;font-size:20px;font-weight:700">Меню</h2>
+        <button onClick="{{ closeMenu }}" style="border:0;background:#F3F4F6;border-radius:50%;width:40px;height:40px;display:flex;align-items:center;justify-content:center;line-height:1;padding:0;font:inherit;font-size:20px;color:#111827;cursor:pointer"><span aria-hidden="true" style="position:relative;width:14px;height:14px;display:block"><span style="position:absolute;left:0;top:50%;width:100%;height:2px;margin-top:-1px;background:currentColor;border-radius:1px;transform:rotate(45deg)"></span><span style="position:absolute;left:0;top:50%;width:100%;height:2px;margin-top:-1px;background:currentColor;border-radius:1px;transform:rotate(-45deg)"></span></span></button>
+      </div>
+      <div style="flex:1;overflow-y:auto;padding:8px 20px 32px 24px;display:flex;flex-direction:column;gap:18px">
+        <div style="background:#614BE2;border-radius:20px;padding:16px;display:flex;align-items:center;gap:12px;color:#fff">
+          <span style="width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.18);position:relative;overflow:hidden;display:block;flex-shrink:0"><span style="position:absolute;left:50%;top:8px;width:13px;height:13px;margin-left:-6.5px;border-radius:50%;background:#fff"></span><span style="position:absolute;left:50%;top:25px;width:26px;height:26px;margin-left:-13px;border-radius:50%;background:#fff"></span></span>
+          <div style="display:flex;flex-direction:column;gap:2px;flex:1"><div style="font-size:15px;font-weight:700">Войти по номеру</div><div style="font-size:12px;opacity:.85">Заказы, адреса, промокоды</div></div>
+          <span style="font-size:20px">›</span>
+        </div>
+        <div style="display:flex;flex-direction:column">
+          <sc-for list="{{ menuItems }}" as="mi" hint-placeholder-count="5">
+            <a href="#" style="display:flex;align-items:center;justify-content:space-between;padding:14px 2px;border-bottom:1px solid #F1F1F4;font-size:16px;font-weight:600;color:#111827"><span>{{ mi.label }}</span><span style="font-size:12px;font-weight:500;color:#6B7280">{{ mi.hint }}</span></a>
+          </sc-for>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <div style="font-size:12px;font-weight:700;color:#6B7280;letter-spacing:.04em">РЕСТОРАНЫ</div>
+          <sc-for list="{{ stores }}" as="st" hint-placeholder-count="5">
+            <div style="display:flex;align-items:center;gap:8px;padding:8px 0"><img src="assets/ic-pin-p.svg" alt="" style="width:14px;height:14px;object-fit:contain"><span style="flex:1;font-size:14px;font-weight:600">{{ st.name }}</span><span style="font-size:12px;color:#6B7280">{{ st.hours }}</span></div>
+          </sc-for>
+        </div>
+        <div style="background:#F3F4F6;border-radius:16px;padding:14px 16px;display:flex;flex-direction:column;gap:4px">
+          <a href="tel:+77009380000" style="font-size:16px;font-weight:700;color:#111827">+7 700 938 0000</a>
+          <a href="mailto:info@frito.kz" style="font-size:13px;color:#6B7280">info@frito.kz</a>
+          <div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap"><a href="https://www.instagram.com/frito.kz/" style="background:#fff;border-radius:999px;padding:7px 12px;font-size:12px;font-weight:600">Instagram</a><a href="https://www.tiktok.com/@frito.kz" style="background:#fff;border-radius:999px;padding:7px 12px;font-size:12px;font-weight:600">TikTok</a><a href="https://wa.me/77009380000" style="background:#fff;border-radius:999px;padding:7px 12px;font-size:12px;font-weight:600">WhatsApp</a></div>
+        </div>
+      </div>
+    </aside>
+  </sc-if>
+
+  <!-- MODAL mobile -->
+  <sc-if value="{{ modalM }}" hint-placeholder-val="{{ false }}">
+    <div onClick="{{ closeModal }}" style="position:absolute;inset:0;background:rgba(17,24,39,.45);z-index:20"></div>
+    <div style="position:absolute;left:0;right:0;bottom:0;z-index:21;background:#fff;border-radius:32px 32px 0 0;padding:24px 20px 34px;display:flex;flex-direction:column;gap:18px;max-height:90%;overflow-y:auto">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px">
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <h2 style="margin:0;font-size:24px;font-weight:700;line-height:1.15">{{ modalTitle }}</h2>
+          <p style="margin:0;font-size:15px;color:#6B7280;line-height:1.4">{{ modalSub }}</p>
+        </div>
+        <button onClick="{{ closeModal }}" style="flex-shrink:0;border:0;background:#F3F4F6;border-radius:50%;width:40px;height:40px;display:flex;align-items:center;justify-content:center;line-height:1;padding:0;font:inherit;font-size:20px;color:#111827;cursor:pointer"><span aria-hidden="true" style="position:relative;width:14px;height:14px;display:block"><span style="position:absolute;left:0;top:50%;width:100%;height:2px;margin-top:-1px;background:currentColor;border-radius:1px;transform:rotate(45deg)"></span><span style="position:absolute;left:0;top:50%;width:100%;height:2px;margin-top:-1px;background:currentColor;border-radius:1px;transform:rotate(-45deg)"></span></span></button>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+        <button onClick="{{ chooseDelivery }}" style="display:flex;flex-direction:column;align-items:stretch;gap:6px;border:2px solid #ECECF1;cursor:pointer;font:inherit;background:#F8F8FB;color:#111827;border-radius:22px;padding:14px 12px;text-align:center" style-active="border-color:#614BE2;background:#F5F3FF">
+          <img src="assets/ic-delivery-p.svg" alt="" style="width:40px;height:40px;object-fit:contain;margin:4px auto">
+          <span style="font-size:17px;font-weight:700">Доставка</span>
+          <span style="font-size:12px;color:#6B7280;line-height:1.35;flex:1">35–45 мин · бесплатно от 8 000 тг</span>
+        </button>
+        <button onClick="{{ choosePickup }}" style="display:flex;flex-direction:column;align-items:stretch;gap:6px;border:2px solid #ECECF1;cursor:pointer;font:inherit;background:#F8F8FB;color:#111827;border-radius:22px;padding:14px 12px;text-align:center" style-active="border-color:#614BE2;background:#F5F3FF">
+          <img src="assets/ic-pickup-p.svg" alt="" style="width:40px;height:40px;object-fit:contain;margin:4px auto">
+          <span style="font-size:17px;font-weight:700">Самовывоз</span>
+          <span style="font-size:12px;color:#6B7280;line-height:1.35;flex:1">5 ресторанов · через 15 мин</span>
+        </button>
+      </div>
+    </div>
+  </sc-if>
+</section>
+</div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;startWithMethod&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Сценарий&quot;},&quot;desktopState&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;auto&quot;,&quot;options&quot;:[&quot;auto&quot;,&quot;filled&quot;],&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Сценарий&quot;},&quot;soldOut&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;none&quot;,&quot;options&quot;:[&quot;none&quot;,&quot;fritos-combo&quot;,&quot;salsa-box&quot;,&quot;crispy&quot;,&quot;cola&quot;],&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Сценарий&quot;},&quot;footerStoresMax&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:8,&quot;min&quot;:1,&quot;max&quot;:30,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Футер&quot;},&quot;freeDeliveryFrom&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:8000,&quot;min&quot;:0,&quot;max&quot;:20000,&quot;step&quot;:500,&quot;unit&quot;:&quot;тг&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Доставка&quot;},&quot;deliveryFee&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:1000,&quot;min&quot;:0,&quot;max&quot;:3000,&quot;step&quot;:50,&quot;unit&quot;:&quot;тг&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Доставка&quot;}}">
+const IMG = 'https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/frito-co/96814/images/items/';
+const CATS = [
+  { name: 'Боксы', items: [
+    ['seul-box','Сеул бокс','Сеул бургер, фирменный фри, три куриных стрипса, напиток 0,5 л и фирменный соус Frito',4190,'493305c90f0660b1f1d007b5c3986289.JPEG','Неострый · Coca-cola 0,5 л'],
+    ['classic-box','Классический бокс','Классический бургер, стрипсы (3 шт.), фри, фирменный соус Frito, напиток 0,5 л на выбор',3890,'d7ce2a28a1ab08cc33564ee0d8b718fb.JPEG','Неострый · Coca-cola 0,5 л'],
+    ['deluxe-box','Делюкс бокс','Делюкс бургер, стрипсы (3 шт.), фирменный картофель фри, напиток 0,5 л и соус Frito',4190,'19be7ebeecd85f0a68328d493dcfca2e.JPEG','Неострый · Coca-cola 0,5 л'],
+    ['crispy-box','Криспи бокс','Криспи бургер, стрипсы (3 шт.), фри, напиток 0,5 л на выбор, фирменный соус Frito',4090,'2c38ae163c0d442a49abaafbc66d9c18.JPEG','Неострый · Coca-cola 0,5 л'],
+    ['salsa-box','Сальса бокс','Сальса бургер, стрипсы (3 шт.), фри, напиток 0,5 л и фирменный соус Frito',4090,'0a86b5cc0389ecd9f3e219c2ef8795b7.JPEG','Неострый 3 шт · Coca-cola 0,5 л'],
+    ['cheese-box','Чиз BBQ бокс','Чиз BBQ бургер, стрипсы (3 шт.), фри, напиток 0,5 л и фирменный соус Frito',4090,'e552c0e3cc291535ad2ef90d5b1a8bd6.JPEG','Неострый · Coca-cola 0,5 л'],
+  ]},
+  { name: 'Комбо', items: [
+    ['strips-combo','Стрипсы комбо','Стрипсы (5 шт.), фирменный картофель фри, напиток 0,5 л',3390,'a2a91855ea26486582371a1de0ba7b99.PNG','Неострые · Coca-cola 0,5 л'],
+    ['seul-combo','Сеул комбо','Сеул бургер, фирменный фри, напиток 0,5 л и фирменный соус Frito',3490,'9019d17db28fd9cc63af291129a0f6ef.JPEG','Coca-cola 0,5 л'],
+    ['classic-combo','Классический комбо','Классический бургер, картофель фри, напиток 0,5 л на выбор и соус Frito',3190,'b9e94c5bbb22ac7b9624d6e3040b4595.JPEG','Coca-cola 0,5 л'],
+    ['crispy-combo','Криспи комбо','Криспи бургер, картофель фри, напиток 0,5 л на выбор и фирменный соус Frito',3390,'253a90a9250d08acf608ec672376ec85.JPEG','Coca-cola 0,5 л'],
+    ['fritos-combo','Фритос комбо','Фритос, фирменный картофель фри, напиток 0,5 л на выбор и соус Frito',3290,'6a67f9dbcf13c405619ed508e0f1c38b.JPEG','Неострые · Coca-cola 0,5 л'],
+    ['deluxe-combo','Делюкс комбо','Делюкс бургер, фирменный картофель фри, напиток 0,5 л на выбор и соус Frito',3490,'dc8a9d43f28c0ad84de2afa53a11efa3.JPEG','Coca-cola 0,5 л'],
+  ]},
+  { name: 'Бургеры', items: [
+    ['crispy','Криспи бургер','Бриошь, малосольные огурчики, коул-слоу, куриное филе в панировке, Гауда и соус Frito',2090,'9488ca37967b9a8724216d5cb8364d83.PNG','Неострый'],
+    ['seul','Сеул бургер','Бриошь, огурчики, куриное филе в корейском остро-сладком соусе, белый соус Frito',2090,'c7519eeb6d44823ff787a0e249bee83c.PNG','Острый'],
+    ['classic','Классический бургер','Бриошь, малосольные огурчики, маринованное куриное филе в панировке, соус Frito',1890,'3d9dad3b5b3e64c65ba9a3dcd30f279f.PNG','Неострый'],
+    ['deluxe','Делюкс бургер','Бриошь, огурчики, салат, куриное филе в панировке, соус Frito, Гауда и дольки помидора',2090,'590a7fd77aedb88473940dd8e195e61e.PNG','Неострый'],
+    ['salsa','Сальса бургер','Бриошь, куриное филе в панировке, сальса из томатов, сыр и соус Frito',2090,'56675160b0b12d98b973abac93a00e7e.JPEG','Неострый'],
+    ['cheese','Чиз BBQ бургер','Бриошь, куриное филе в панировке, двойной сыр и соус барбекю',2090,'c7bdbb956a1335b9c0060a572cf7ea92.JPEG','Неострый'],
+  ]},
+  { name: 'Твистеры', items: [
+    ['rap-cheese','Рап Чиз BBQ','Секретный белый соус, томаты, сыр, айсберг и сочная курочка',1890,'bfa55819c2d7a8e935d51e61cee6fc5c.JPEG','Неострый'],
+    ['fritos','Фритос','Секретный белый соус, томаты, сыр, айсберг и сочная курочка',1890,'1762aca14cc602349f47ccdc4d2c5d81.PNG','Неострый'],
+  ]},
+  { name: 'Напитки', items: [
+    ['cola','Coca-Cola 0,5 л','Газированный напиток с освежающим вкусом колы',650,'b33fdd1975cc96cbfe2a3ac2edd7c7de.JPEG',''],
+    ['fuse-mango','Fuse-tea манго-ананас 0,5 л','Чайный напиток со вкусом манго-ананас',650,'8eaf98fe05df54aadb3431e0cb49f88f.WEBP',''],
+    ['fanta','Fanta 0,5 л','Газированный напиток со вкусом апельсина',650,'53cdae8ffbd7544bed6861a6ac547b06.PNG',''],
+    ['sprite','Sprite 0,5 л','Газированный напиток с лимонно-лаймовым вкусом',650,'eb4bcd36a03b7997d533e3d97c75c9e3.JPEG',''],
+    ['bonaqua','Bonaqua 0,5 л','Вода без газа',350,null,''],
+  ]},
+  { name: 'Стрипсы', items: [
+    ['strips-s','Стрипсы S','Маринованное куриное филе в панировке (3 шт.)',1490,'f1837371f02b30ec3d7d2cac4a8afdbc.JPEG','Неострые'],
+    ['strips-m','Стрипсы M','Маринованное куриное филе в панировке (5 шт.)',2090,'8e427fc2fd56486aaa18fffb7404132c.JPEG','Неострые'],
+  ]},
+  { name: 'Снэки', items: [
+    ['fries','Фирменный картофель фри','Картофель фри со специями от Frito',750,'1e47ef85ba6a0da2d9728620a354db44.JPEG',''],
+  ]},
+  { name: 'Соусы', items: [
+    ['sauce-frito','Соус Frito 50 мл','Авторский кисло-сладкий фирменный соус',250,'282f8bcb4c887eb6af2532576864ae15.PNG',''],
+    ['sauce-cheese','Соус сырный','Насыщенный сырный вкус, кремовая текстура',200,'82e8ee6b1bfb05061f9867e44607d0ea.WEBP',''],
+    ['sauce-ketchup','Соус кетчуп','Классический сладко-острый кетчуп',200,'76729a0107c06c5f27ca2b4bb1e64730.JPEG',''],
+  ]},
+];
+const STORES = [
+  { name: 'Сыганак 11', hours: '11:30 – 02:00', dist: '1,2 км' },
+  { name: 'Кошкарбаева 36', hours: '11:30 – 02:00', dist: '2,8 км' },
+  { name: 'Республика 30', hours: '11:30 – 02:00', dist: '3,4 км' },
+  { name: 'Аль-фараби 13п', hours: '11:30 – 02:00', dist: '5,1 км' },
+  { name: 'ТРЦ Аружан', hours: '10:30 – 23:00', dist: '6,7 км' },
+];
+const BY_ID = {};
+CATS.forEach(c => c.items.forEach(it => { BY_ID[it[0]] = { id: it[0], name: it[1], desc: it[2], price: it[3], img: it[4] ? IMG + it[4] : null, mods: it[5] }; }));
+const fmt = n => String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, ' ') + ' тг.';
+const plural = n => n + ' ' + (n % 10 === 1 && n % 100 !== 11 ? 'товар' : n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 10 || n % 100 >= 20) ? 'товара' : 'товаров');
+const DEMO = { 'salsa-box': 1, 'fritos-combo': 1, 'crispy': 1 };
+const UPSELL = [['cola','Напитки'],['strips-s','Стрипсы'],['sauce-frito','Соус Frito'],['fries','Фри']];
+const DEFAULT_ADDR = 'пр-кт Туран, 52/6';
+
+class Component extends DCLogic {
+  state = { cart: {}, mobileOpen: false, mode: null, address: null, door: false, modal: null, modalTarget: null, pendingId: null, menu: null, agree: true, addrDraft: '', activeD: 0, activeM: 0, logoBroken: false, promo: 'NEW10', promoDraft: '', promoError: null, hidden: {} };
+  dScrollRef = React.createRef();
+  mScrollRef = React.createRef();
+
+  componentDidMount() {
+    if (this.props.startWithMethod) this.setState({ mode: 'delivery', address: DEFAULT_ADDR });
+    // Общие данные меню/ресторанов лежат в frito-data.js — здесь оставлена локальная копия для мгновенного рендера.
+  }
+  componentDidUpdate(prev) {
+    if (prev.startWithMethod !== this.props.startWithMethod) {
+      this.setState(this.props.startWithMethod ? { mode: 'delivery', address: DEFAULT_ADDR } : { mode: null, address: null });
+    }
+  }
+  // Демо-валидация промокода: NEW10 — ok, OLD20 — истёк, BIG15 — от 10 000 тг., остальное — не найден
+  applyPromo() {
+    const c = this.state.promoDraft.trim().toUpperCase(); if (!c) return;
+    const sub = Object.keys(this.state.cart).reduce((a, id) => a + BY_ID[id].price * this.state.cart[id], 0);
+    if (c === 'NEW10') return this.setState({ promo: c, promoDraft: '', promoError: null });
+    if (c === 'OLD20') return this.setState({ promoError: 'Срок действия промокода истёк' });
+    if (c === 'BIG15') return sub >= 10000 ? this.setState({ promo: c, promoDraft: '', promoError: null }) : this.setState({ promoError: 'Промокод действует для заказов от 10 000 тг.' });
+    this.setState({ promoError: 'Промокод не найден — проверьте написание' });
+  }
+  removeLine(id, qty) { this.setState(s => ({ hidden: { ...s.hidden, [id]: true } })); this.setQty(id, -qty); }
+  setQty(id, d) {
+    this.setState(s => { const cart = { ...s.cart }; const q = (cart[id] || 0) + d; if (q <= 0) delete cart[id]; else cart[id] = q; return { cart }; });
+  }
+  tryAdd(id, target) {
+    if (this.state.mode) return this.setQty(id, 1);
+    this.setState({ modal: 'method', modalTarget: target, pendingId: id });
+  }
+  finishMethod(mode, address) {
+    const pid = this.state.pendingId;
+    this.setState(s => {
+      const cart = { ...s.cart };
+      if (pid) cart[pid] = (cart[pid] || 0) + 1;
+      return { mode, address, modal: null, pendingId: null, cart };
+    });
+  }
+  go(prefix, idx, ref, key) {
+    const c = ref.current, el = c && c.querySelector('#' + prefix + '-cat-' + idx);
+    if (!c || !el) return;
+    c.scrollTo({ top: el.offsetTop - c.offsetTop - (prefix === 'm' ? 64 : 0), behavior: 'smooth' });
+    this.setState({ [key]: idx });
+  }
+  track(prefix, ref, key) {
+    const c = ref.current; if (!c) return;
+    const top = c.scrollTop + (prefix === 'm' ? 90 : 60);
+    let idx = 0;
+    CATS.forEach((_, i) => { const el = c.querySelector('#' + prefix + '-cat-' + i); if (el && el.offsetTop - c.offsetTop <= top) idx = i; });
+    if (idx !== this.state[key]) this.setState({ [key]: idx });
+  }
+
+  renderVals() {
+    const p = this.props, s = this.state;
+    const freeFrom = p.freeDeliveryFrom ?? 8000, fee = p.deliveryFee ?? 1000, forced = p.desktopState ?? 'auto';
+    const isDelivery = s.mode === 'delivery', hasMethod = !!s.mode;
+    const modeLabel = s.mode === 'pickup' ? 'Самовывоз' : 'Доставка';
+    const soldId = p.soldOut && p.soldOut !== 'none' ? p.soldOut : null;
+    const isSold = id => id === soldId;
+
+    const cats = CATS.map((c, idx) => ({
+      name: c.name, idx,
+      dBg: s.activeD === idx ? '#EFEDFC' : '#F3F4F6', dColor: s.activeD === idx ? '#614BE2' : '#111827',
+      mBg: s.activeM === idx ? '#EFEDFC' : '#F3F4F6', mColor: s.activeM === idx ? '#614BE2' : '#111827',
+      goD: () => this.go('d', idx, this.dScrollRef, 'activeD'), goM: () => this.go('m', idx, this.mScrollRef, 'activeM'),
+      items: c.items.map(it => {
+        const pr = BY_ID[it[0]], qty = s.cart[pr.id] || 0, sold = isSold(pr.id);
+        return { ...pr, qty, inCart: qty > 0 && !sold, notInCart: qty === 0 && !sold, soldOut: sold, imgFilter: sold ? 'grayscale(1) opacity(.55)' : 'none', hasImg: !!pr.img, noImg: !pr.img, priceLabel: fmt(pr.price),
+          add: e => { const el = e && e.currentTarget; this.tryAdd(pr.id, el && el.closest && el.closest('[data-screen-label="Mobile"]') ? 'm' : 'd'); },
+          inc: () => this.setQty(pr.id, 1), dec: () => this.setQty(pr.id, -1) };
+      }),
+    }));
+
+    const mkLines = cart => Object.keys(cart).map(id => { const pr = BY_ID[id], qty = cart[id], sold = isSold(id); const editable = /-(box|combo)$/.test(id) && !sold; return { ...pr, qty, hasImg: !!pr.img, editable, fixed: !editable, soldOut: sold, ok: !sold, imgFilter: sold ? 'grayscale(1) opacity(.55)' : 'none', nameColor: sold ? '#6B7280' : '#111827', lineLabel: fmt(pr.price * qty), inc: () => this.setQty(id, 1), dec: () => this.setQty(id, -1), remove: () => this.removeLine(id, qty) }; });
+    const sum = cart => Object.keys(cart).reduce((a, id) => a + (isSold(id) ? 0 : BY_ID[id].price * cart[id]), 0);
+    const cnt = cart => Object.keys(cart).reduce((a, id) => a + (isSold(id) ? 0 : cart[id]), 0);
+    const avail = cart => Object.keys(cart).some(id => !isSold(id));
+
+    let dCart = s.cart;
+    if (forced === 'filled' && !Object.keys(dCart).length) dCart = Object.fromEntries(Object.entries(DEMO).filter(([id]) => !s.hidden[id]));
+    const dHas = Object.keys(dCart).length > 0;
+    const calc = cart => { const sub = sum(cart), disc = s.promo ? Math.round(sub * 0.1) : 0, del = isDelivery && Object.keys(cart).length ? (sub >= freeFrom ? 0 : fee) : 0; return { sub, disc, del, total: sub - disc + del, remain: Math.max(0, freeFrom - sub), pct: Math.min(100, Math.round(sub / freeFrom * 100)) + '%' }; };
+    const D = calc(dCart), M = calc(s.cart);
+    const live = Object.keys(s.cart).length ? M : D;
+    const lines = mkLines(s.cart), hasItems = lines.length > 0, count = cnt(s.cart);
+    const dLines = mkLines(dCart), dSold = dLines.filter(l => l.soldOut), mSold = lines.filter(l => l.soldOut);
+    const soldText = arr => arr.map(l => l.name).join(', ') + (arr.length > 1 ? ' разобрали' : ' разобрали') + ' — мы не учли ' + (arr.length > 1 ? 'их' : 'его') + ' в сумме';
+    const removeSold = arr => () => arr.forEach(l => l.remove());
+    const canCheckoutD = avail(dCart), canCheckoutM = avail(s.cart);
+
+    const stores = STORES.map(st => ({ ...st, pick: () => this.finishMethod('pickup', st.name) }));
+    const maxFooter = p.footerStoresMax ?? 8;
+    const footerStores = stores.slice(0, maxFooter), moreStores = Math.max(0, stores.length - maxFooter);
+    const modalOpen = !!s.modal;
+
+    return {
+      cats, stores, footerStores, storeCount: stores.length, moreStores, hasMoreStores: moreStores > 0, dScrollRef: this.dScrollRef, mScrollRef: this.mScrollRef,
+      onDScroll: () => this.track('d', this.dScrollRef, 'activeD'), onMScroll: () => this.track('m', this.mScrollRef, 'activeM'),
+      menuD: s.menu === 'd', menuM: s.menu === 'm',
+      openMenuD: () => this.setState({ menu: 'd' }), openMenuM: () => this.setState({ menu: 'm' }), closeMenu: () => this.setState({ menu: null }),
+      menuItems: [
+        { label: 'Мои заказы', hint: '' }, { label: 'Мои адреса', hint: s.address || '' }, { label: 'Промокоды', hint: 'NEW10 −10%' },
+        { label: 'Франшиза', hint: '' }, { label: 'Поставщикам', hint: '' }, { label: 'Предложить помещение', hint: '' }, { label: 'Правовая информация', hint: '' },
+      ],
+      logoOk: !s.logoBroken, logoBroken: s.logoBroken, logoFail: () => this.setState({ logoBroken: true }),
+      // method
+      noMethod: !hasMethod, hasMethod, isDelivery, modeLabel, address: s.address || '',
+      openMethodD: () => this.setState({ modal: 'method', modalTarget: 'd', pendingId: null }),
+      openMethodM: () => this.setState({ modal: 'method', modalTarget: 'm', pendingId: null }),
+      modalD: modalOpen && s.modalTarget === 'd', modalM: modalOpen && s.modalTarget === 'm',
+      modalTitle: 'Выберите способ получения заказа',
+      modalSub: s.pendingId ? 'Товар добавится в корзину сразу после выбора' : 'Адрес или ресторан можно будет уточнить дальше',
+      closeModal: () => this.setState({ modal: null, pendingId: null }), stop: e => e.stopPropagation(),
+      chooseDelivery: () => this.finishMethod('delivery', DEFAULT_ADDR), choosePickup: () => this.finishMethod('pickup', STORES[0].name),
+      setDelivery: () => this.finishMethod('delivery', isDelivery && s.address ? s.address : DEFAULT_ADDR),
+      setPickup: () => this.finishMethod('pickup', s.mode === 'pickup' && s.address ? s.address : STORES[0].name),
+      segMode: s.mode, pickMode: m => m === 'delivery' ? this.finishMethod('delivery', isDelivery && s.address ? s.address : DEFAULT_ADDR) : this.finishMethod('pickup', s.mode === 'pickup' && s.address ? s.address : STORES[0].name),
+      addrCaption: isDelivery ? 'Адрес доставки' : 'Ресторан',
+      etaLabel: isDelivery ? '35–45 мин' : 'готово за 15 мин',
+      door: s.door, setDoor: v => this.setState({ door: v }),
+      liveSub: live.sub, liveDel: live.del, liveDisc: live.disc, freeFrom,
+      // desktop cart
+      dEmpty: !dHas, dFilled: dHas, dLines, dHeadline: plural(cnt(dCart)) + ' на ' + fmt(D.sub),
+      dHasSold: dSold.length > 0, dSoldText: soldText(dSold), dRemoveSold: removeSold(dSold),
+      mHasSold: mSold.length > 0, mSoldText: soldText(mSold), mRemoveSold: removeSold(mSold),
+      count, hasItems, noItems: !hasItems,
+      subtotalLabel: fmt(live.sub), discountLabel: fmt(live.disc), deliveryLabel: !isDelivery ? 'Бесплатно' : live.del === 0 ? 'Бесплатно' : fmt(live.del), totalLabel: fmt(live.total),
+      freeFromLabel: 'от ' + fmt(freeFrom), progressPct: live.pct,
+      progressText: live.remain === 0 ? 'Доставка бесплатно' : 'Ещё ' + fmt(live.remain) + ' до бесплатной доставки',
+      progressColor: live.remain === 0 ? '#16A34A' : '#614BE2',
+      upsell: UPSELL.filter(u => !dCart[u[0]]).map(u => ({ img: BY_ID[u[0]].img, short: u[1], priceLabel: fmt(BY_ID[u[0]].price), add: () => this.tryAdd(u[0], 'd'), addM: () => this.tryAdd(u[0], 'm') })),
+      clear: () => this.setState({ cart: {} }),
+      hasPromo: !!s.promo, noPromo: !s.promo, promoCode: s.promo || '', promoDesc: '−10% на первый заказ', promoDraft: s.promoDraft,
+      promoHasError: !!s.promoError, promoError: s.promoError || '', promoBorder: s.promoError ? '#EF4444' : 'transparent', promoBg: s.promoError ? '#FEF2F2' : '#F3F4F6',
+      promoHasDraft: s.promoDraft !== '' && s.promoFocus, promoFocus: () => this.setState({ promoFocus: true }), promoBlur: () => this.setState({ promoFocus: false }), clearPromoDraft: () => this.setState({ promoDraft: '', promoError: null }), preventBlur: e => e.preventDefault(),
+      setPromoDraft: e => this.setState({ promoDraft: e.target.value, promoError: null }),
+      promoKey: e => { if (e.key === 'Enter') this.applyPromo(); },
+      applyPromo: () => this.applyPromo(),
+      removePromo: () => this.setState({ promo: null }),
+      agree: s.agree, toggleAgree: () => this.setState({ agree: !s.agree }),
+      agreeBg: s.agree ? '#614BE2' : '#fff', agreeBorder: s.agree ? '#614BE2' : '#D1D5DB', agreeCheck: s.agree ? 1 : 0,
+      checkoutBg: canCheckoutD ? '#614BE2' : '#E5E7EB', checkoutColor: canCheckoutD ? '#fff' : '#9CA3AF', checkoutCursor: canCheckoutD ? 'pointer' : 'not-allowed',
+      checkoutBgM: canCheckoutM ? '#614BE2' : '#E5E7EB', checkoutColorM: canCheckoutM ? '#fff' : '#9CA3AF', checkoutCursorM: canCheckoutM ? 'pointer' : 'not-allowed',
+      checkoutD: () => { if (!canCheckoutD) return; if (!s.mode) this.setState({ modal: 'method', modalTarget: 'd' }); },
+      // mobile
+      mSheetHeadBg: hasItems ? '#F7F7F9' : '#fff',
+      lines, mHeadline: hasItems ? plural(count) + ' на ' + fmt(M.sub) : 'Корзина пуста',
+      mobileOpen: s.mobileOpen, mClosed: !s.mobileOpen,
+      openMobile: () => this.setState({ mobileOpen: true }), closeMobile: () => this.setState({ mobileOpen: false }),
+      pillLabel: hasItems ? (avail(s.cart) ? fmt(M.total) : 'Корзина') : 'Корзина',
+    };
+  }
+}
+</script>
+</body>
+</html>

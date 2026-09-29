@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<div style="display:flex;align-items:center;gap:4px;background:#F3F4F6;border-radius:999px;padding:4px;font-family:Inter,system-ui,sans-serif;width:100%">
+  <button onClick="{{ pickDelivery }}" style="flex:1;display:flex;align-items:center;justify-content:center;gap:8px;border:0;cursor:pointer;font:inherit;font-size:{{ fs }};font-weight:600;height:{{ h }};border-radius:999px;padding:0 14px;white-space:nowrap;background:{{ dBg }};color:{{ dColor }};box-shadow:{{ dShadow }};transition:all .15s"><sc-if value="{{ icons }}" hint-placeholder-val="{{ false }}"><img src="{{ dIcon }}" alt="" style="width:20px;height:20px;object-fit:contain"></sc-if>Доставка</button>
+  <button onClick="{{ pickPickup }}" style="flex:1;display:flex;align-items:center;justify-content:center;gap:8px;border:0;cursor:pointer;font:inherit;font-size:{{ fs }};font-weight:600;height:{{ h }};border-radius:999px;padding:0 14px;white-space:nowrap;background:{{ pBg }};color:{{ pColor }};box-shadow:{{ pShadow }};transition:all .15s"><sc-if value="{{ icons }}" hint-placeholder-val="{{ false }}"><img src="{{ pIcon }}" alt="" style="width:20px;height:20px;object-fit:contain"></sc-if>Самовывоз</button>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:280,&quot;height&quot;:64},&quot;mode&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;delivery&quot;,&quot;options&quot;:[&quot;delivery&quot;,&quot;pickup&quot;],&quot;tsType&quot;:&quot;'delivery' | 'pickup' | null&quot;},&quot;variant&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;light&quot;,&quot;options&quot;:[&quot;light&quot;,&quot;filled&quot;],&quot;tsType&quot;:&quot;'light' | 'filled'&quot;},&quot;icons&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;},&quot;height&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:40,&quot;options&quot;:[36,40,44],&quot;tsType&quot;:&quot;number&quot;},&quot;onChange&quot;:{&quot;editor&quot;:null,&quot;default&quot;:null,&quot;tsType&quot;:&quot;(mode: 'delivery' | 'pickup') =&gt; void&quot;}}">
+class Component extends DCLogic {
+  renderVals() {
+    const p = this.props, m = p.mode ?? null;
+    const filled = p.variant === 'filled';
+    const st = on => on ? (filled ? { bg: '#614BE2', color: '#fff', shadow: 'none' } : { bg: '#fff', color: '#111827', shadow: '0 1px 3px rgba(17,24,39,.12)' }) : { bg: 'transparent', color: '#6B7280', shadow: 'none' };
+    const d = st(m === 'delivery'), k = st(m === 'pickup');
+    const ic = (name, on) => 'assets/ic-' + name + (filled && on ? '-w' : '-p') + '.svg';
+    return { dBg: d.bg, dColor: d.color, dShadow: d.shadow, pBg: k.bg, pColor: k.color, pShadow: k.shadow, icons: !!p.icons,
+      dIcon: ic('delivery', m === 'delivery'), pIcon: ic('pickup', m === 'pickup'),
+      h: (p.height ?? 36) + 'px', fs: (p.height ?? 36) >= 40 ? '14px' : '13px',
+      pickDelivery: () => p.onChange && p.onChange('delivery'), pickPickup: () => p.onChange && p.onChange('pickup') };
+  }
+}
+</script>
+</body>
+</html>

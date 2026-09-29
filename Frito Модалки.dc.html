@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="design_doc_mode" content="canvas">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#E9E8F0;}
+a{color:#614BE2;text-decoration:none}a:hover{color:#4A36C4}
+*{box-sizing:border-box}
+::-webkit-scrollbar{width:0;height:0}
+button{outline:none}
+</style>
+</helmet>
+<div style="padding:56px;font-family:Inter,system-ui,sans-serif;color:#111827;display:flex;flex-direction:column;gap:40px;width:max-content">
+  <div style="display:flex;flex-direction:column;gap:8px;max-width:900px">
+    <div style="font-size:13px;font-weight:600;color:#6B7280;letter-spacing:.04em">FRITO · МОДАЛКИ</div>
+    <h1 style="margin:0;font-size:36px;font-weight:800;letter-spacing:-.02em">Модалки и шторки</h1>
+    <p style="margin:0;font-size:15px;color:#6B7280;line-height:1.5">Компоненты: <b>FritoProductModal</b> (товар с модификаторами), <b>FritoMethodModal</b> (способ получения), <b>FritoVacancyModal</b> (вакансия), <b>FritoCloseButton</b>, <b>FritoOption</b> (строка radio/checkbox). Общее: оверлей rgba(17,24,39,.45), r32 (sheet — только сверху), закрытие по оверлею, крестику и Esc. У модалок один prop <code>layout</code>: <code>center</code> — диалог по центру (desktop), <code>sheet</code> — шторка снизу (mobile). Компонент заполняет родителя с position:relative и рисует свой оверлей. Последнее действие: <b>{{ last }}</b></p>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:14px">
+    <div style="font-size:13px;font-weight:600;color:#6B7280;letter-spacing:.04em">DESKTOP · FritoAddressModal · center · карта + адрес из пина, подсказки при вводе, зона доставки пунктиром</div>
+    <section data-screen-label="Address desktop" style="width:1440px;height:880px;background:#F7F7F9;border-radius:20px;overflow:hidden;position:relative;box-shadow:0 30px 80px -30px rgba(50,30,140,.25)">
+      <dc-import name="FritoAddressModal" layout="center" on-confirm="{{ onConfirm }}" on-close="{{ onClose }}" style="position:absolute;inset:0" hint-size="100%,100%"></dc-import>
+    </section>
+  </div>
+  <div style="display:flex;gap:40px;align-items:flex-start">
+    <div style="display:flex;flex-direction:column;gap:14px;width:390px">
+      <div style="font-size:13px;font-weight:600;color:#6B7280;letter-spacing:.04em">MOBILE · адрес · доставка</div>
+      <section data-screen-label="Address mobile" style="width:390px;height:844px;background:#F7F7F9;border-radius:44px;overflow:hidden;position:relative;box-shadow:0 30px 80px -30px rgba(50,30,140,.25)">
+        <dc-import name="FritoAddressModal" layout="sheet" on-confirm="{{ onConfirm }}" on-close="{{ onClose }}" style="position:absolute;inset:0" hint-size="100%,100%"></dc-import>
+      </section>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:14px;width:390px">
+      <div style="font-size:13px;font-weight:600;color:#6B7280;letter-spacing:.04em">MOBILE · адрес · вне зоны доставки</div>
+      <section data-screen-label="Address mobile out" style="width:390px;height:844px;background:#F7F7F9;border-radius:44px;overflow:hidden;position:relative;box-shadow:0 30px 80px -30px rgba(50,30,140,.25)">
+        <dc-import name="FritoAddressModal" layout="sheet" start="outOfZone" on-confirm="{{ onConfirm }}" on-close="{{ onClose }}" style="position:absolute;inset:0" hint-size="100%,100%"></dc-import>
+      </section>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:14px;width:390px">
+      <div style="font-size:13px;font-weight:600;color:#6B7280;letter-spacing:.04em">MOBILE · самовывоз · рестораны на карте</div>
+      <section data-screen-label="Address mobile pickup" style="width:390px;height:844px;background:#F7F7F9;border-radius:44px;overflow:hidden;position:relative;box-shadow:0 30px 80px -30px rgba(50,30,140,.25)">
+        <dc-import name="FritoAddressModal" layout="sheet" start="pickup" on-confirm="{{ onConfirm }}" on-close="{{ onClose }}" style="position:absolute;inset:0" hint-size="100%,100%"></dc-import>
+      </section>
+    </div>
+  </div>
+
+  <div style="display:flex;gap:40px;align-items:flex-start">
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <div style="font-size:13px;font-weight:600;color:#6B7280;letter-spacing:.04em">DESKTOP · FritoVacancyModal · center · max 720, шапка и CTA закреплены</div>
+      <section data-screen-label="Vacancy desktop" style="width:1040px;height:880px;background:#F7F7F9;border-radius:20px;overflow:hidden;position:relative;box-shadow:0 30px 80px -30px rgba(50,30,140,.25)">
+        <dc-import name="FritoVacancyModal" layout="center" on-apply="{{ onApply }}" on-close="{{ onClose }}" style="position:absolute;inset:0" hint-size="100%,100%"></dc-import>
+      </section>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:14px;width:390px">
+      <div style="font-size:13px;font-weight:600;color:#6B7280;letter-spacing:.04em">MOBILE · FritoVacancyModal · sheet</div>
+      <section data-screen-label="Vacancy mobile" style="width:390px;height:844px;background:#F7F7F9;border-radius:44px;overflow:hidden;position:relative;box-shadow:0 30px 80px -30px rgba(50,30,140,.25)">
+        <dc-import name="FritoVacancyModal" layout="sheet" vacancy="{{ courier }}" on-apply="{{ onApply }}" on-close="{{ onClose }}" style="position:absolute;inset:0" hint-size="100%,100%"></dc-import>
+      </section>
+    </div>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:14px">
+    <div style="font-size:13px;font-weight:600;color:#6B7280;letter-spacing:.04em">DESKTOP · FritoProductModal · layout=center · 1040×720, фото 1/2 + колонка с прокруткой и закреплённым футером</div>
+    <section data-screen-label="Product desktop" style="width:1440px;height:880px;background:#F7F7F9;border-radius:20px;overflow:hidden;position:relative;box-shadow:0 30px 80px -30px rgba(50,30,140,.25)">
+      <dc-import name="FritoProductModal" layout="center" on-add="{{ onAdd }}" on-close="{{ onClose }}" style="position:absolute;inset:0" hint-size="100%,100%"></dc-import>
+    </section>
+  </div>
+
+  <div style="display:flex;gap:40px;align-items:flex-start">
+    <div style="display:flex;flex-direction:column;gap:14px;width:390px">
+      <div style="font-size:13px;font-weight:600;color:#6B7280;letter-spacing:.04em">MOBILE · товар · по умолчанию</div>
+      <section data-screen-label="Product mobile" style="width:390px;height:844px;background:#F7F7F9;border-radius:44px;overflow:hidden;position:relative;box-shadow:0 30px 80px -30px rgba(50,30,140,.25)">
+        <dc-import name="FritoProductModal" layout="sheet" on-add="{{ onAdd }}" on-close="{{ onClose }}" style="position:absolute;inset:0" hint-size="100%,100%"></dc-import>
+      </section>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:14px;width:390px">
+      <div style="font-size:13px;font-weight:600;color:#6B7280;letter-spacing:.04em">MOBILE · без предвыбора + ошибка обязательных</div>
+      <section data-screen-label="Product mobile errors" style="width:390px;height:844px;background:#F7F7F9;border-radius:44px;overflow:hidden;position:relative;box-shadow:0 30px 80px -30px rgba(50,30,140,.25)">
+        <dc-import name="FritoProductModal" layout="sheet" preselect="{{ false }}" show-errors="{{ true }}" product="{{ burger }}" on-add="{{ onAdd }}" on-close="{{ onClose }}" style="position:absolute;inset:0" hint-size="100%,100%"></dc-import>
+      </section>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:14px;width:390px">
+      <div style="font-size:13px;font-weight:600;color:#6B7280;letter-spacing:.04em">MOBILE · товар без модификаторов</div>
+      <section data-screen-label="Product mobile simple" style="width:390px;height:844px;background:#F7F7F9;border-radius:44px;overflow:hidden;position:relative;box-shadow:0 30px 80px -30px rgba(50,30,140,.25)">
+        <dc-import name="FritoProductModal" layout="sheet" product="{{ simple }}" on-add="{{ onAdd }}" on-close="{{ onClose }}" style="position:absolute;inset:0" hint-size="100%,100%"></dc-import>
+      </section>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:14px;width:390px">
+      <div style="font-size:13px;font-weight:600;color:#6B7280;letter-spacing:.04em">MOBILE · товар · редактирование из корзины</div>
+      <section data-screen-label="Product mobile edit" style="width:390px;height:844px;background:#F7F7F9;border-radius:44px;overflow:hidden;position:relative;box-shadow:0 30px 80px -30px rgba(50,30,140,.25)">
+        <dc-import name="FritoProductModal" layout="sheet" mode="edit" qty="{{ 2 }}" product="{{ editBox }}" on-add="{{ onAdd }}" on-close="{{ onClose }}" style="position:absolute;inset:0" hint-size="100%,100%"></dc-import>
+      </section>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:14px;width:390px">
+      <div style="font-size:13px;font-weight:600;color:#6B7280;letter-spacing:.04em">MOBILE · FritoMethodModal · sheet</div>
+      <section data-screen-label="Method mobile" style="width:390px;height:844px;background:#F7F7F9;border-radius:44px;overflow:hidden;position:relative;box-shadow:0 30px 80px -30px rgba(50,30,140,.25)">
+        <dc-import name="FritoMethodModal" layout="sheet" pending="{{ true }}" on-choose="{{ onChoose }}" on-close="{{ onClose }}" style="position:absolute;inset:0" hint-size="100%,100%"></dc-import>
+      </section>
+    </div>
+  </div>
+
+  <div style="display:flex;gap:40px;align-items:flex-start">
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <div style="font-size:13px;font-weight:600;color:#6B7280;letter-spacing:.04em">DESKTOP · FritoMethodModal · center</div>
+      <section data-screen-label="Method desktop" style="width:960px;height:600px;background:#F7F7F9;border-radius:20px;overflow:hidden;position:relative;box-shadow:0 30px 80px -30px rgba(50,30,140,.25)">
+        <dc-import name="FritoMethodModal" layout="center" on-choose="{{ onChoose }}" on-close="{{ onClose }}" style="position:absolute;inset:0" hint-size="100%,100%"></dc-import>
+      </section>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:40px">
+    <section style="width:640px;background:#fff;border-radius:24px;padding:28px 32px;display:flex;flex-direction:column;gap:16px">
+      <div><h2 style="margin:0 0 4px;font-size:20px;font-weight:700">FritoCloseButton</h2><p style="margin:0;font-size:13px;color:#6B7280;line-height:1.45">Размер задаёт родитель (48 desktop / 40 mobile), иконка 38%. soft — на белом фоне, float — поверх фото.</p></div>
+      <div style="display:flex;gap:20px;align-items:center;flex-wrap:wrap">
+        <dc-import name="FritoCloseButton" on-click="{{ onClose }}" style="width:48px;height:48px" hint-size="48px,48px"></dc-import>
+        <dc-import name="FritoCloseButton" on-click="{{ onClose }}" style="width:40px;height:40px" hint-size="40px,40px"></dc-import>
+        <div style="width:120px;height:72px;border-radius:16px;background:#E9E8F0;display:flex;align-items:center;justify-content:center"><dc-import name="FritoCloseButton" variant="float" on-click="{{ onClose }}" style="width:40px;height:40px" hint-size="40px,40px"></dc-import></div>
+        <span style="font-size:12px;color:#9CA3AF;font-family:ui-monospace,monospace">soft 48 · soft 40 · float 40</span>
+      </div>
+    </section>
+    <section style="width:640px;background:#fff;border-radius:24px;padding:28px 32px;display:flex;flex-direction:column;gap:16px">
+      <div><h2 style="margin:0 0 4px;font-size:20px;font-weight:700">FritoOption · состояния</h2><p style="margin:0;font-size:13px;color:#6B7280;line-height:1.45">min-height 56, border 2px, r16. Selected — primary + primary-50. Disabled (лимит группы достигнут) — opacity .45. Цена допа — справа, 14/600 ink-2.</p></div>
+      <dc-import name="FritoOption" type="radio" label="Неострый" selected="{{ true }}" hint-size="100%,56px"></dc-import>
+      <dc-import name="FritoOption" type="radio" label="Острый" hint-size="100%,56px"></dc-import>
+      <dc-import name="FritoOption" type="checkbox" label="Соус Frito 50 мл" price="{{ 250 }}" selected="{{ true }}" hint-size="100%,56px"></dc-import>
+      <dc-import name="FritoOption" type="checkbox" label="Соус сырный Astoria дипод" price="{{ 200 }}" hint-size="100%,56px"></dc-import>
+      <dc-import name="FritoOption" type="checkbox" label="Без солёных огурцов" disabled="{{ true }}" hint-size="100%,56px"></dc-import>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;padding-top:4px">
+        <span style="font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:#B91C1C;background:#FEF2F2;border-radius:999px;padding:5px 10px">Обязательно</span>
+        <span style="display:flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:#15803D;background:#F0FDF4;border-radius:999px;padding:4px 10px 4px 6px"><span style="width:16px;height:16px;border-radius:50%;background:#16A34A;color:#fff;font-size:10px;display:flex;align-items:center;justify-content:center">✓</span>Выбрано</span>
+        <span style="font-size:13px;font-weight:600;color:#614BE2">1 из 2</span>
+        <span style="font-size:12px;color:#9CA3AF;font-family:ui-monospace,monospace">статус группы: обязательно → выбрано · счётчик для multi</span>
+      </div>
+    </section>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const IMG = 'https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/frito-co/96814/images/items/';
+class Component extends DCLogic {
+  state = { last: '—' };
+  renderVals() {
+    return {
+      last: this.state.last,
+      burger: { id: 'crispy', name: 'Криспи бургер', price: 2090, desc: 'Бриошь, малосольные огурчики, коул-слоу, куриное филе в панировке, Гауда и соус Frito', img: IMG + '9488ca37967b9a8724216d5cb8364d83.PNG', kind: 'burger' },
+      simple: { id: 'fries', name: 'Фирменный картофель фри', price: 750, desc: 'Картофель фри со специями от Frito', img: IMG + '1e47ef85ba6a0da2d9728620a354db44.JPEG' },
+      onAdd: r => this.setState({ last: 'добавлено ' + r.qty + ' × ' + r.id + (r.mods ? ' (' + r.mods + ')' : '') + ', ' + r.unit * r.qty + ' тг.' }),
+      onClose: () => this.setState({ last: 'закрыто' }),
+      onChoose: m => this.setState({ last: 'выбран способ: ' + m }),
+      onConfirm: r => this.setState({ last: (r.mode === 'pickup' ? 'самовывоз: ' : 'доставка: ') + r.address + (r.details && r.details.flat ? ', кв. ' + r.details.flat : '') }),
+      onApply: v => this.setState({ last: 'отклик: ' + v.title }),
+      editBox: { id: 'crispy-box', name: 'Криспи бокс', price: 4090, desc: 'Криспи бургер, стрипсы (3 шт.), фри, напиток 0,5 л на выбор, фирменный соус Frito', img: IMG + '2c38ae163c0d442a49abaafbc66d9c18.JPEG', kind: 'box', sel: { 'spice-b': ['hot'], 'spice-s': ['mild-s'], drink: ['fanta'], sauces: ['s-cheese'], extra: ['gouda'], remove: [] } },
+      courier: { id: 'courier', title: 'Курьер на авто', salary: 'от 350 000 тг', shift: 'Подработка', exp: 'Без опыта', hours: 'Свободный график, от 4 часов', city: 'Астана', branches: ['Все рестораны'], duties: ['Доставка заказов в срок 35–45 минут', 'Работа в приложении курьера', 'Аккуратная перевозка и передача заказа'], req: ['Личное авто и права категории B', 'Смартфон с интернетом', 'Знание города'], cond: ['Оплата за заказ + компенсация ГСМ', 'Ежедневные выплаты', 'Свободный график — сами выбираете смены'] },
+    };
+  }
+}
+</script>
+</body>
+</html>

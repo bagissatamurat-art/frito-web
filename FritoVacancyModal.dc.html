@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<div style="position:relative;width:100%;height:100%;font-family:Inter,system-ui,sans-serif;color:#111827">
+<sc-if value="{{ isCenter }}" hint-placeholder-val="{{ true }}">
+  <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:32px">
+    <div onClick="{{ close }}" style="position:absolute;inset:0;background:rgba(17,24,39,.45)"></div>
+    <div role="dialog" aria-modal="true" aria-label="{{ v.title }}" style="position:relative;width:100%;max-width:720px;max-height:min(100%,860px);background:#fff;border-radius:32px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 40px 100px -30px rgba(0,0,0,.4)">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px;padding:32px 32px 0">
+        <div style="display:flex;flex-direction:column;gap:10px;min-width:0">
+          <div style="display:flex;gap:6px;flex-wrap:wrap">
+            <span style="font-size:12px;font-weight:600;color:#614BE2;background:#EFEDFC;border-radius:999px;padding:5px 10px">{{ v.shift }}</span>
+            <sc-if value="{{ hasExp }}" hint-placeholder-val="{{ true }}"><span style="font-size:12px;color:#4B5563;background:#F3F4F6;border-radius:999px;padding:5px 10px">{{ v.exp }}</span></sc-if>
+            <span style="font-size:12px;color:#4B5563;background:#F3F4F6;border-radius:999px;padding:5px 10px">{{ v.city }}</span>
+          </div>
+          <h2 style="margin:0;font-size:30px;font-weight:700;letter-spacing:-.01em;line-height:1.15;text-wrap:pretty">{{ v.title }}</h2>
+          <div style="display:flex;align-items:baseline;gap:8px;flex-wrap:wrap"><span style="font-size:22px;font-weight:700">{{ v.salary }}</span><span style="font-size:14px;color:#6B7280">на руки</span></div>
+        </div>
+        <div style="flex-shrink:0;width:48px;height:48px"><dc-import name="FritoCloseButton" on-click="{{ close }}" style="width:48px;height:48px" hint-size="48px,48px"></dc-import></div>
+      </div>
+      <div style="flex:1;min-height:0;overflow-y:auto;padding:24px 32px 28px;display:flex;flex-direction:column;gap:24px">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));gap:10px">
+          <div style="background:#F7F7F9;border-radius:16px;padding:14px 16px;display:flex;flex-direction:column;gap:4px"><span style="font-size:11px;font-weight:600;color:#6B7280;letter-spacing:.04em">ГРАФИК</span><span style="font-size:14px;font-weight:600;line-height:1.4">{{ v.hours }}</span></div>
+          <div style="background:#F7F7F9;border-radius:16px;padding:14px 16px;display:flex;flex-direction:column;gap:4px"><span style="font-size:11px;font-weight:600;color:#6B7280;letter-spacing:.04em">ФИЛИАЛЫ</span><span style="font-size:14px;font-weight:600;line-height:1.4">{{ branchList }}</span></div>
+        </div>
+        <sc-for list="{{ sections }}" as="sec" hint-placeholder-count="3">
+          <div style="display:flex;flex-direction:column;gap:10px"><h3 style="margin:0;font-size:16px;font-weight:700">{{ sec.title }}</h3><ul style="margin:0;padding:0 0 0 18px;display:flex;flex-direction:column;gap:6px;font-size:15px;line-height:1.5;color:#374151"><sc-for list="{{ sec.items }}" as="d" hint-placeholder-count="3"><li>{{ d }}</li></sc-for></ul></div>
+        </sc-for>
+      </div>
+      <div style="padding:16px 32px 24px;border-top:1px solid #F1F1F4;display:flex;gap:16px;align-items:center;justify-content:space-between">
+        <span style="font-size:13px;color:#6B7280;line-height:1.4">{{ note }}</span>
+        <a href="{{ applyHref }}" onClick="{{ apply }}" style="display:flex;align-items:center;justify-content:center;height:56px;padding:0 32px;border-radius:999px;background:#614BE2;color:#fff;font-size:17px;font-weight:600;flex-shrink:0;transition:background .15s" style-hover="background:#503BCB;color:#fff">{{ ctaLabel }}</a>
+      </div>
+    </div>
+  </div>
+</sc-if>
+
+<sc-if value="{{ isSheet }}" hint-placeholder-val="{{ false }}">
+  <div onClick="{{ close }}" style="position:absolute;inset:0;background:rgba(17,24,39,.45)"></div>
+  <div role="dialog" aria-modal="true" aria-label="{{ v.title }}" style="position:absolute;left:0;right:0;bottom:0;max-height:calc(100% - 48px);background:#fff;border-radius:32px 32px 0 0;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 -20px 60px -20px rgba(17,24,39,.35)">
+    <div style="display:flex;justify-content:center;padding-top:10px"><div style="width:40px;height:4px;border-radius:2px;background:#E5E7EB"></div></div>
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;padding:12px 16px 0 20px">
+      <div style="display:flex;flex-direction:column;gap:8px;min-width:0">
+        <div style="display:flex;gap:6px;flex-wrap:wrap">
+          <span style="font-size:12px;font-weight:600;color:#614BE2;background:#EFEDFC;border-radius:999px;padding:5px 10px">{{ v.shift }}</span>
+          <sc-if value="{{ hasExp }}" hint-placeholder-val="{{ true }}"><span style="font-size:12px;color:#4B5563;background:#F3F4F6;border-radius:999px;padding:5px 10px">{{ v.exp }}</span></sc-if>
+          <span style="font-size:12px;color:#4B5563;background:#F3F4F6;border-radius:999px;padding:5px 10px">{{ v.city }}</span>
+        </div>
+        <h2 style="margin:0;font-size:24px;font-weight:700;letter-spacing:-.01em;line-height:1.15;text-wrap:pretty">{{ v.title }}</h2>
+        <div style="display:flex;align-items:baseline;gap:8px;flex-wrap:wrap"><span style="font-size:20px;font-weight:700">{{ v.salary }}</span><span style="font-size:13px;color:#6B7280">на руки</span></div>
+      </div>
+      <div style="flex-shrink:0;width:40px;height:40px"><dc-import name="FritoCloseButton" on-click="{{ close }}" style="width:40px;height:40px" hint-size="40px,40px"></dc-import></div>
+    </div>
+    <div style="flex:1;min-height:0;overflow-y:auto;padding:20px 20px 24px;display:flex;flex-direction:column;gap:22px">
+      <div style="display:grid;grid-template-columns:minmax(0,1fr);gap:8px">
+        <div style="background:#F7F7F9;border-radius:16px;padding:12px 14px;display:flex;flex-direction:column;gap:4px"><span style="font-size:11px;font-weight:600;color:#6B7280;letter-spacing:.04em">ГРАФИК</span><span style="font-size:14px;font-weight:600;line-height:1.4">{{ v.hours }}</span></div>
+        <div style="background:#F7F7F9;border-radius:16px;padding:12px 14px;display:flex;flex-direction:column;gap:4px"><span style="font-size:11px;font-weight:600;color:#6B7280;letter-spacing:.04em">ФИЛИАЛЫ</span><span style="font-size:14px;font-weight:600;line-height:1.4">{{ branchList }}</span></div>
+      </div>
+      <sc-for list="{{ sections }}" as="sec" hint-placeholder-count="3">
+        <div style="display:flex;flex-direction:column;gap:10px"><h3 style="margin:0;font-size:16px;font-weight:700">{{ sec.title }}</h3><ul style="margin:0;padding:0 0 0 18px;display:flex;flex-direction:column;gap:6px;font-size:14px;line-height:1.5;color:#374151"><sc-for list="{{ sec.items }}" as="d" hint-placeholder-count="3"><li>{{ d }}</li></sc-for></ul></div>
+      </sc-for>
+    </div>
+    <div style="padding:12px 16px 26px;border-top:1px solid #F1F1F4;display:flex;flex-direction:column;gap:8px;background:#fff">
+      <a href="{{ applyHref }}" onClick="{{ apply }}" style="display:flex;align-items:center;justify-content:center;height:56px;border-radius:999px;background:#614BE2;color:#fff;font-size:16px;font-weight:600" style-active="background:#503BCB;color:#fff">{{ ctaLabel }}</a>
+      <span style="font-size:12px;color:#6B7280;text-align:center">{{ note }}</span>
+    </div>
+  </div>
+</sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1000,&quot;height&quot;:860},&quot;layout&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;center&quot;,&quot;options&quot;:[&quot;center&quot;,&quot;sheet&quot;],&quot;tsType&quot;:&quot;'center' | 'sheet'&quot;},&quot;ctaLabel&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Откликнуться&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;note&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;HR перезвонит в течение 2 рабочих дней&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;vacancy&quot;:{&quot;editor&quot;:null,&quot;default&quot;:null,&quot;tsType&quot;:&quot;{ id, title, salary, shift, exp?, hours, city, branches: string[], duties, req, cond }&quot;},&quot;applyHref&quot;:{&quot;editor&quot;:null,&quot;default&quot;:null,&quot;tsType&quot;:&quot;string&quot;},&quot;onApply&quot;:{&quot;editor&quot;:null,&quot;default&quot;:null,&quot;tsType&quot;:&quot;(v) =&gt; void&quot;},&quot;onClose&quot;:{&quot;editor&quot;:null,&quot;default&quot;:null,&quot;tsType&quot;:&quot;() =&gt; void&quot;}}">
+const SAMPLE = { id: 'cashier', title: 'Кассир-официант', salary: 'от 250 000 тг', shift: '2/2', exp: 'Без опыта', hours: '12-часовые смены, день', city: 'Астана', branches: ['Сыганак 11', 'Кошкарбаева 36', 'Республика 30'],
+  duties: ['Приём и выдача заказов на кассе, в киоске и у курьеров', 'Консультация гостей по меню и акциям', 'Поддержание чистоты в зале'],
+  req: ['Возраст от 18 лет', 'Грамотная речь, доброжелательность', 'Готовность к обучению — опыт не обязателен'],
+  cond: ['Оклад + бонусы за выполнение плана смены', 'Выплаты 2 раза в месяц', 'Бесплатное питание в смену'] };
+class Component extends DCLogic {
+  componentDidMount() {
+    this.onKey = e => { if (e.key === 'Escape' && this.props.onClose) this.props.onClose(); };
+    window.addEventListener('keydown', this.onKey);
+  }
+  componentWillUnmount() { window.removeEventListener('keydown', this.onKey); }
+  renderVals() {
+    const p = this.props, v = p.vacancy || SAMPLE, sheet = p.layout === 'sheet';
+    const sections = [['Что нужно делать', v.duties], ['Что мы ждём', v.req], ['Условия', v.cond]].filter(x => x[1] && x[1].length).map(([title, items]) => ({ title, items }));
+    return {
+      isCenter: !sheet, isSheet: sheet, v, hasExp: !!v.exp, sections,
+      branchList: (v.branches || []).join(', '),
+      applyHref: p.applyHref || 'Frito Анкета кандидата.dc.html?vacancy=' + encodeURIComponent(v.title),
+      apply: e => { if (p.onApply) { e.preventDefault(); p.onApply(v); } },
+      ctaLabel: p.ctaLabel || 'Откликнуться', note: p.note ?? 'HR перезвонит в течение 2 рабочих дней',
+      close: () => p.onClose && p.onClose(),
+    };
+  }
+}
+</script>
+</body>
+</html>

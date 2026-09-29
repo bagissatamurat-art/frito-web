@@ -1,0 +1,87 @@
+/* Frito design tokens · v1 · источник правды для вёрстки */
+:root {
+  /* brand */
+  --fr-primary: #614BE2;
+  --fr-primary-hover: #503BCB;
+  --fr-primary-dark: #4A36C4;
+  --fr-primary-200: #D9D4F7;
+  --fr-primary-100: #EFEDFC;
+  --fr-primary-50: #F5F3FF;
+  --fr-primary-light: #A899FF;   /* ссылки на тёмном */
+  --fr-dark: #1B1740;            /* футер */
+
+  /* ink */
+  --fr-ink: #111827;
+  --fr-ink-2: #6B7280;
+  --fr-ink-3: #9CA3AF;
+
+  /* surfaces / lines */
+  --fr-surface-0: #FFFFFF;
+  --fr-surface-1: #F7F7F9;
+  --fr-surface-2: #F3F4F6;
+  --fr-surface-3: #E5E7EB;
+  --fr-border: #ECECF1;
+  --fr-divider: #F1F1F4;
+  --fr-neutral-300: #D1D5DB;
+
+  /* semantic */
+  --fr-success: #16A34A;
+  --fr-danger: #EF4444;
+  --fr-kaspi: #F14635;
+  --fr-kaspi-hover: #D93B2B;
+
+  /* on-dark alpha */
+  --fr-on-dark-75: rgba(255,255,255,.75);
+  --fr-on-dark-60: rgba(255,255,255,.6);
+  --fr-on-dark-55: rgba(255,255,255,.55);
+  --fr-on-dark-40: rgba(255,255,255,.4);
+  --fr-on-dark-fill: rgba(255,255,255,.06);
+  --fr-on-dark-fill-hover: rgba(255,255,255,.12);
+  --fr-on-dark-icon: rgba(255,255,255,.1);
+  --fr-overlay: rgba(17,24,39,.45);
+
+  /* typography */
+  --fr-font: Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --fr-font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
+  --fr-fs-display: 36px; --fr-fs-h1: 30px; --fr-fs-h1-page: 28px; --fr-fs-h2: 24px; --fr-fs-h3: 22px;
+  --fr-fs-title: 18px; --fr-fs-panel: 16px; --fr-fs-body-lg: 15px; --fr-fs-body: 14px;
+  --fr-fs-label: 13px; --fr-fs-caption: 12px; --fr-fs-micro: 11px;
+  --fr-fs-price-xl: 24px; --fr-fs-price: 20px; --fr-fs-price-line: 17px;
+  --fr-lh-tight: 1.15; --fr-lh-heading: 1.25; --fr-lh-body: 1.4; --fr-lh-caption: 1.45;
+  --fr-ls-tight: -.02em; --fr-ls-heading: -.01em; --fr-ls-overline: .04em;
+
+  /* spacing (шаг 4) */
+  --fr-sp-1: 4px; --fr-sp-2: 8px; --fr-sp-3: 12px; --fr-sp-4: 16px; --fr-sp-5: 20px;
+  --fr-sp-6: 24px; --fr-sp-7: 28px; --fr-sp-8: 32px; --fr-sp-10: 40px; --fr-sp-14: 56px;
+
+  /* radius */
+  --fr-r-xs: 6px; --fr-r-sm: 8px; --fr-r-12: 12px; --fr-r-md: 14px; --fr-r-16: 16px;
+  --fr-r-18: 18px; --fr-r-lg: 20px; --fr-r-22: 22px; --fr-r-xl: 24px; --fr-r-28: 28px;
+  --fr-r-2xl: 32px; --fr-r-pill: 999px;
+
+  /* control heights */
+  --fr-h-xl: 60px; --fr-h-lg: 56px; --fr-h-md: 44px; --fr-h-sm: 40px; --fr-h-xs: 36px;
+  --fr-h-input: 56px; --fr-h-textarea: 84px; --fr-h-chip: 44px; --fr-h-chip-sm: 40px; --fr-h-slot: 34px;
+
+  /* shadows */
+  --fr-shadow-xs: 0 1px 3px rgba(17,24,39,.12);
+  --fr-shadow-btn: 0 1px 2px rgba(0,0,0,.06);
+  --fr-shadow-card-hover: 0 12px 32px -14px rgba(17,24,39,.2);
+  --fr-shadow-fab: 0 16px 36px -10px rgba(97,75,226,.6);
+  --fr-shadow-modal: 0 40px 100px -30px rgba(0,0,0,.4);
+  --fr-shadow-drawer: -30px 0 80px -30px rgba(17,24,39,.35);
+  --fr-shadow-sheet: 0 -20px 60px -20px rgba(17,24,39,.35);
+
+  /* motion */
+  --fr-t-fast: .15s; --fr-t-base: .2s; --fr-t-slow: .3s;
+  --fr-ease: ease;
+
+  /* layout */
+  --fr-header-h: 76px;
+  --fr-cart-w: 480px;
+  --fr-checkout-aside-w: 400px;
+  --fr-checkout-max-w: 1120px;
+  --fr-drawer-w: 400px; --fr-drawer-w-m: 320px;
+  --fr-modal-max-w: 560px;
+  --fr-page-pad: 32px; --fr-page-pad-m: 16px;
+}

@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<div style="position:relative;width:100%;height:100%;font-family:Inter,system-ui,sans-serif;color:#111827">
+<sc-if value="{{ isCenter }}" hint-placeholder-val="{{ true }}"><div onClick="{{ close }}" style="position:absolute;inset:0;background:rgba(17,24,39,.45)"></div></sc-if>
+<div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:{{ wrapPad }};pointer-events:none">
+<div role="dialog" aria-modal="true" aria-label="{{ title }}" style="position:relative;pointer-events:auto;width:100%;height:100%;max-width:{{ dlgMaxW }};max-height:{{ dlgMaxH }};border-radius:{{ dlgRadius }};overflow:hidden;background:#fff;display:flex;flex-direction:{{ dlgDir }};box-shadow:0 40px 100px -30px rgba(0,0,0,.4)">
+
+  <!-- MAP -->
+  <div style="position:relative;flex:1 1 0;min-height:0;min-width:0;order:{{ mapOrder }};background:#EEF0F3;overflow:hidden">
+    <div ref="{{ mapRef }}" style="position:absolute;inset:0;z-index:0;background:#EEF0F3"></div>
+    <sc-if value="{{ mapFail }}" hint-placeholder-val="{{ false }}"><div style="position:absolute;inset:0;z-index:1;display:flex;align-items:center;justify-content:center;font-size:14px;color:#6B7280">Карта не загрузилась — введите адрес вручную</div></sc-if>
+
+    <sc-if value="{{ showPin }}" hint-placeholder-val="{{ true }}">
+      <div style="position:absolute;left:50%;top:{{ pinTop }};width:0;height:0;z-index:3;pointer-events:none">
+        <div style="position:absolute;left:-8px;top:-3px;width:16px;height:6px;border-radius:50%;background:rgba(17,24,39,.35);transform:scale({{ pinShadow }});transition:transform .2s"></div>
+        <div style="position:absolute;left:-26px;bottom:0;width:52px;height:74px;transform:{{ pinLift }};transition:transform .2s ease-out">
+          <div style="position:absolute;left:24px;top:36px;width:4px;height:38px;border-radius:2px;background:#614BE2;z-index:0"></div>
+          <div style="position:absolute;left:0;top:0;z-index:1;box-sizing:border-box;width:52px;height:52px;border-radius:50%;background:#614BE2;border:3px solid #fff;box-shadow:0 6px 16px rgba(50,30,140,.35);display:flex;align-items:center;justify-content:center"><sc-if value="{{ pinBolt }}" hint-placeholder-val="{{ true }}"><span style="width:20px;height:25px;background:#fff;clip-path:polygon(45% 0,100% 0,60% 45%,85% 45%,20% 100%,40% 55%,10% 55%);transform:translateX(-1px)"></span></sc-if><sc-if value="{{ pinSpin }}" hint-placeholder-val="{{ false }}"><span aria-label="Определяем адрес" style="width:22px;height:22px;box-sizing:border-box;border-radius:50%;border:3px solid rgba(255,255,255,.3);border-top-color:#fff;animation:frito-spin .7s linear infinite"></span></sc-if></div>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isSheet }}" hint-placeholder-val="{{ false }}">
+      <div style="position:absolute;top:20px;left:16px;right:16px;z-index:4;display:flex;align-items:center;gap:14px">
+        <div style="flex-shrink:0;width:48px;height:48px"><dc-import name="FritoCloseButton" variant="float" on-click="{{ close }}" style="width:48px;height:48px" hint-size="48px,48px"></dc-import></div>
+        <div style="flex:1;min-width:0;background:#fff;border-radius:999px;padding:2px;box-shadow:0 4px 14px rgba(17,24,39,.15)"><dc-import name="FritoSegment" mode="{{ mode }}" variant="filled" icons="{{ true }}" height="{{ 44 }}" on-change="{{ setMode }}" hint-size="100%,52px"></dc-import></div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ hasToast }}" hint-placeholder-val="{{ false }}">
+      <div style="position:absolute;left:50%;top:{{ toastTop }};transform:translateX(-50%);z-index:5;background:#111827;color:#fff;font-size:13px;font-weight:500;border-radius:12px;padding:10px 14px;max-width:calc(100% - 32px);width:max-content;text-align:center">{{ toast }}</div>
+    </sc-if>
+
+    <sc-if value="{{ isCenter }}" hint-placeholder-val="{{ true }}">
+      <div style="position:absolute;top:20px;right:20px;z-index:4;width:48px;height:48px"><dc-import name="FritoCloseButton" variant="float" on-click="{{ close }}" style="width:48px;height:48px" hint-size="48px,48px"></dc-import></div>
+    </sc-if>
+    <div style="position:absolute;right:16px;bottom:{{ ctrlBottom }};z-index:4;display:flex;flex-direction:column;gap:8px;align-items:center">
+      <sc-if value="{{ isCenter }}" hint-placeholder-val="{{ true }}">
+        <div style="display:flex;flex-direction:column;background:#fff;border-radius:14px;box-shadow:0 4px 14px rgba(17,24,39,.15);overflow:hidden">
+          <button type="button" onClick="{{ zoomIn }}" aria-label="Приблизить" style="width:44px;height:44px;border:0;background:#fff;cursor:pointer;font:inherit;font-size:22px;font-weight:500;color:#111827;padding:0" style-hover="background:#F3F4F6">+</button>
+          <div style="height:1px;background:#F1F1F4;margin:0 10px"></div>
+          <button type="button" onClick="{{ zoomOut }}" aria-label="Отдалить" style="width:44px;height:44px;border:0;background:#fff;cursor:pointer;font:inherit;font-size:22px;font-weight:500;color:#111827;padding:0" style-hover="background:#F3F4F6">−</button>
+        </div>
+      </sc-if>
+      <button type="button" onClick="{{ locate }}" aria-label="Где я" style="width:52px;height:52px;border:0;border-radius:50%;background:#fff;box-shadow:0 4px 14px rgba(17,24,39,.15);cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0" style-hover="background:#F7F7F9"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#111827" stroke-width="2" stroke-linejoin="round"><path d="M21 3L3 10.5l7.5 3L13.5 21z"></path></svg></button>
+    </div>
+  </div>
+
+  <!-- PANEL -->
+  <div style="position:relative;z-index:2;order:1;background:#fff;display:flex;flex-direction:column;min-height:0;flex:{{ panelFlex }};width:{{ panelW }};max-height:{{ panelMaxH }};margin-top:{{ panelMt }};border-radius:{{ panelRadius }};box-shadow:{{ panelShadow }}">
+    <sc-if value="{{ isCenter }}" hint-placeholder-val="{{ true }}">
+      <div style="padding:28px 28px 0;display:flex;flex-direction:column;gap:18px">
+        <h2 style="margin:0;font-size:26px;font-weight:700;line-height:1.15;letter-spacing:-.01em;text-wrap:pretty">{{ title }}</h2>
+        <dc-import name="FritoSegment" mode="{{ mode }}" variant="filled" icons="{{ true }}" height="{{ 44 }}" on-change="{{ setMode }}" hint-size="100%,52px"></dc-import>
+      </div>
+    </sc-if>
+    <sc-if value="{{ showGrabber }}" hint-placeholder-val="{{ false }}"><div style="display:flex;justify-content:center;padding-top:10px"><div style="width:40px;height:4px;border-radius:2px;background:#E5E7EB"></div></div></sc-if>
+
+    <div style="flex:1 1 auto;min-height:0;overflow-y:{{ panelScroll }};padding:{{ panelPad }};display:flex;flex-direction:column;gap:16px">
+
+      <!-- search -->
+      <sc-if value="{{ searching }}" hint-placeholder-val="{{ false }}">
+      <div style="flex:1 1 0;min-height:0;display:flex;flex-direction:column;gap:12px">
+        <div style="flex-shrink:0;display:flex;align-items:center;gap:8px">
+          <sc-if value="{{ isSheet }}" hint-placeholder-val="{{ false }}"><button type="button" onClick="{{ stopSearch }}" aria-label="Назад" style="flex-shrink:0;width:44px;height:44px;border:0;border-radius:50%;background:#F3F4F6;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0"><span aria-hidden="true" style="width:10px;height:10px;border-left:2.5px solid #111827;border-bottom:2.5px solid #111827;transform:rotate(45deg);margin-left:4px"></span></button></sc-if>
+          <label style="flex:1;min-width:0;height:52px;background:#F7F7F9;border-radius:14px;border:2px solid #614BE2;display:flex;align-items:center;gap:10px;padding:0 8px 0 12px;cursor:text">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6B7280" stroke-width="2.2" stroke-linecap="round" style="flex-shrink:0"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg>
+            <input ref="{{ inputRef }}" value="{{ q }}" onChange="{{ onQ }}" onKeyDown="{{ onQKey }}" placeholder="Улица и номер дома" autoComplete="off" style="flex:1;min-width:0;border:0;background:transparent;font:inherit;font-size:16px;font-weight:600;color:#111827;outline:none;padding:0">
+            <sc-if value="{{ hasQ }}" hint-placeholder-val="{{ false }}"><button type="button" onClick="{{ clearQ }}" aria-label="Очистить" style="flex-shrink:0;width:28px;height:28px;border:0;border-radius:50%;background:#E5E7EB;color:#6B7280;cursor:pointer;padding:0;display:flex;align-items:center;justify-content:center" style-hover="background:#D1D5DB;color:#111827"><span aria-hidden="true" style="position:relative;width:10px;height:10px;display:block"><span style="position:absolute;left:0;top:50%;width:100%;height:2px;margin-top:-1px;background:currentColor;border-radius:1px;transform:rotate(45deg)"></span><span style="position:absolute;left:0;top:50%;width:100%;height:2px;margin-top:-1px;background:currentColor;border-radius:1px;transform:rotate(-45deg)"></span></span></button></sc-if>
+          </label>
+          <sc-if value="{{ isCenter }}" hint-placeholder-val="{{ false }}"><button type="button" onClick="{{ stopSearch }}" style="flex-shrink:0;border:0;background:transparent;font:inherit;font-size:14px;font-weight:600;color:#614BE2;cursor:pointer;padding:0 4px">Отмена</button></sc-if>
+        </div>
+        <div style="flex:1 1 0;min-height:0;overflow-y:auto;display:flex;flex-direction:column;gap:2px;margin:0 -8px;padding:0 8px">
+          <sc-if value="{{ showRecent }}" hint-placeholder-val="{{ false }}"><div style="font-size:12px;font-weight:600;color:#6B7280;letter-spacing:.04em;padding:4px 8px">НЕДАВНИЕ</div></sc-if>
+          <sc-for list="{{ rows }}" as="r" hint-placeholder-count="3">
+            <button type="button" onClick="{{ r.pick }}" style="display:flex;align-items:center;gap:12px;width:100%;border:0;background:{{ r.bg }};border-radius:14px;padding:10px 8px;cursor:pointer;font:inherit;color:#111827;text-align:left" style-hover="background:#F7F7F9">
+              <span style="flex-shrink:0;width:36px;height:36px;border-radius:50%;background:#F3F4F6;display:flex;align-items:center;justify-content:center">
+                <sc-if value="{{ r.recent }}" hint-placeholder-val="{{ false }}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#6B7280" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg></sc-if>
+                <sc-if value="{{ r.found }}" hint-placeholder-val="{{ true }}"><svg width="18" height="18" viewBox="0 0 24 24" fill="#614BE2"><path d="M12 2a7 7 0 0 0-7 7c0 5 7 13 7 13s7-8 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"></path></svg></sc-if>
+              </span>
+              <span style="display:flex;flex-direction:column;gap:2px;min-width:0;flex:1">
+                <span style="font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis"><sc-for list="{{ r.parts }}" as="p" hint-placeholder-count="1"><span style="font-weight:{{ p.w }};color:{{ p.c }}">{{ p.t }}</span></sc-for></span>
+                <span style="font-size:13px;color:#6B7280;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ r.subLabel }}</span>
+              </span>
+            </button>
+          </sc-for>
+          <sc-if value="{{ sLoading }}" hint-placeholder-val="{{ false }}"><div style="font-size:14px;color:#6B7280;padding:12px 8px">Ищем адрес…</div></sc-if>
+          <sc-if value="{{ noResults }}" hint-placeholder-val="{{ false }}"><div style="font-size:14px;color:#6B7280;padding:12px 8px;line-height:1.45">Ничего не нашли. Проверьте написание или поставьте точку на карте.</div></sc-if>
+        </div>
+        <button type="button" onClick="{{ stopSearch }}" style="flex-shrink:0;display:flex;align-items:center;justify-content:center;gap:8px;height:48px;border:0;border-radius:999px;background:#F3F4F6;font:inherit;font-size:15px;font-weight:600;color:#111827;cursor:pointer" style-hover="background:#E5E7EB"><span style="width:12px;height:15px;background:#614BE2;clip-path:polygon(45% 0,100% 0,60% 45%,85% 45%,20% 100%,40% 55%,10% 55%)"></span>Указать точку на карте</button>
+      </div>
+      </sc-if>
+
+      <!-- delivery -->
+      <sc-if value="{{ showDeliv }}" hint-placeholder-val="{{ true }}">
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <button type="button" onClick="{{ startSearch }}" style="display:flex;align-items:center;gap:12px;width:100%;min-height:64px;border:2px solid {{ addrBorder }};background:#F7F7F9;border-radius:16px;padding:10px 14px 10px 10px;cursor:pointer;font:inherit;color:#111827;text-align:left;transition:border-color .15s" style-hover="border-color:#B7ACF3">
+            <span style="flex-shrink:0;width:40px;height:40px;border-radius:50%;background:#EFEDFC;display:flex;align-items:center;justify-content:center"><img src="assets/ic-pin-p.svg" alt="" style="width:18px;height:18px;object-fit:contain"></span>
+            <span style="display:flex;flex-direction:column;gap:2px;min-width:0;flex:1">
+              <span style="font-size:16px;font-weight:700;color:{{ addrColor }};white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ addrLine }}</span>
+              <span style="font-size:13px;color:#6B7280;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ addrSub }}</span>
+            </span>
+            <span style="flex-shrink:0;font-size:14px;font-weight:600;color:#614BE2">Изменить</span>
+          </button>
+          <sc-if value="{{ houseWarn }}" hint-placeholder-val="{{ false }}"><div style="font-size:13px;font-weight:600;color:#B45309;padding:0 4px">Уточните номер дома — нажмите на адрес</div></sc-if>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px">
+          <div style="background:#F7F7F9;border-radius:16px;padding:12px 14px;display:flex;flex-direction:column;gap:4px;min-width:0">
+            <span style="font-size:11px;font-weight:600;letter-spacing:.04em;color:#6B7280">ПРИВЕЗЁМ ЗА</span>
+            <span style="font-size:18px;font-weight:700;white-space:nowrap">35–45 мин</span>
+            <span style="font-size:12px;color:#6B7280;line-height:1.35;text-wrap:pretty">~15 мин готовим, остальное — в пути</span>
+          </div>
+          <div style="background:#F7F7F9;border-radius:16px;padding:12px 14px;display:flex;flex-direction:column;gap:4px;min-width:0">
+            <span style="font-size:11px;font-weight:600;letter-spacing:.04em;color:#6B7280">ДОСТАВКА</span>
+            <span style="font-size:18px;font-weight:700;white-space:nowrap">{{ feeLabel }}</span>
+            <span style="font-size:12px;color:#6B7280;line-height:1.35;text-wrap:pretty">{{ freeLabel }}</span>
+          </div>
+        </div>
+      </sc-if>
+
+      <!-- out of zone -->
+      <sc-if value="{{ showOut }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <h3 style="margin:0;font-size:22px;font-weight:700;line-height:1.2">Сюда пока не доставляем</h3>
+          <p style="margin:0;font-size:15px;color:#6B7280;line-height:1.45;text-wrap:pretty">{{ outSub }}</p>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <button type="button" onClick="{{ toPickup }}" style="height:56px;border:0;border-radius:999px;background:#614BE2;color:#fff;font:inherit;font-size:16px;font-weight:600;cursor:pointer" style-hover="background:#503BCB">Выбрать самовывоз</button>
+          <button type="button" onClick="{{ startSearchEmpty }}" style="height:56px;border:0;border-radius:999px;background:#F3F4F6;color:#111827;font:inherit;font-size:16px;font-weight:600;cursor:pointer" style-hover="background:#E5E7EB">Ввести другой адрес</button>
+        </div>
+      </sc-if>
+
+      <!-- pickup -->
+      <sc-if value="{{ showPickup }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex;align-items:baseline;justify-content:space-between;gap:12px">
+          <h3 style="margin:0;font-size:18px;font-weight:700">Рестораны Frito</h3>
+          <span style="font-size:13px;color:#6B7280">{{ pickCaption }}</span>
+        </div>
+        <sc-if value="{{ isSheet }}" hint-placeholder-val="{{ false }}">
+          <div ref="{{ carRef }}" onScroll="{{ onCarScroll }}" style="display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding:0 20px;padding:2px 20px 4px;margin:0 -20px;scrollbar-width:none">
+            <sc-for list="{{ stores }}" as="s" hint-placeholder-count="2">
+              <button type="button" data-idx="{{ s.idx }}" onClick="{{ s.pick }}" style="flex:0 0 78%;scroll-snap-align:start;display:flex;flex-direction:column;gap:10px;border:2px solid {{ s.border }};background:{{ s.bg }};border-radius:20px;padding:14px 16px;cursor:pointer;font:inherit;color:#111827;text-align:left;transition:border-color .15s,background .15s">
+                <span style="display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%">
+                  <span style="font-size:17px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ s.name }}</span>
+                  <span style="flex-shrink:0;font-size:13px;font-weight:600;color:#614BE2;background:#EFEDFC;border-radius:999px;padding:4px 10px">{{ s.dist }}</span>
+                </span>
+                <span style="display:flex;align-items:center;gap:8px;font-size:13px;font-weight:500;color:{{ s.openColor }}"><span style="width:8px;height:8px;border-radius:50%;background:{{ s.openColor }}"></span>{{ s.openText }}</span>
+              </button>
+            </sc-for>
+          </div>
+        </sc-if>
+        <sc-if value="{{ isCenter }}" hint-placeholder-val="{{ true }}">
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <sc-for list="{{ stores }}" as="s" hint-placeholder-count="4">
+            <button type="button" onClick="{{ s.pick }}" style="display:flex;flex-direction:column;gap:10px;width:100%;border:2px solid {{ s.border }};background:{{ s.bg }};border-radius:20px;padding:14px 16px;cursor:pointer;font:inherit;color:#111827;text-align:left;transition:border-color .15s,background .15s" style-hover="border-color:#B7ACF3">
+              <span style="display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%">
+                <span style="font-size:17px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ s.name }}</span>
+                <span style="flex-shrink:0;font-size:13px;font-weight:600;color:#614BE2;background:#EFEDFC;border-radius:999px;padding:4px 10px">{{ s.dist }}</span>
+              </span>
+              <span style="display:flex;align-items:center;gap:8px;font-size:13px;font-weight:500;color:{{ s.openColor }}"><span style="width:8px;height:8px;border-radius:50%;background:{{ s.openColor }}"></span>{{ s.openText }}</span>
+            </button>
+          </sc-for>
+        </div>
+        </sc-if>
+      </sc-if>
+    </div>
+
+    <sc-if value="{{ showDeliv }}" hint-placeholder-val="{{ true }}">
+      <div style="padding:12px 20px 24px;border-top:1px solid #F1F1F4;background:#fff">
+        <button type="button" onClick="{{ confirm }}" disabled="{{ ctaDisabled }}" style="width:100%;height:56px;border:0;border-radius:999px;background:{{ ctaBg }};color:{{ ctaColor }};font:inherit;font-size:17px;font-weight:600;cursor:{{ ctaCursor }};transition:background .15s">{{ ctaLabel }}</button>
+      </div>
+    </sc-if>
+    <sc-if value="{{ showPickup }}" hint-placeholder-val="{{ false }}">
+      <div style="padding:12px 20px 24px;border-top:1px solid #F1F1F4;background:#fff;display:flex;flex-direction:column;gap:8px">
+        <button type="button" onClick="{{ confirm }}" style="width:100%;height:56px;border:0;border-radius:999px;background:#614BE2;color:#fff;font:inherit;font-size:17px;font-weight:600;cursor:pointer" style-hover="background:#503BCB">Заберу отсюда</button>
+        <span style="font-size:13px;color:#6B7280;text-align:center">Готово через 15 минут · без доплаты</span>
+      </div>
+    </sc-if>
+  </div>
+</div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1200,&quot;height&quot;:800},&quot;layout&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;center&quot;,&quot;options&quot;:[&quot;center&quot;,&quot;sheet&quot;],&quot;tsType&quot;:&quot;'center' | 'sheet'&quot;},&quot;start&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;delivery&quot;,&quot;options&quot;:[&quot;delivery&quot;,&quot;outOfZone&quot;,&quot;pickup&quot;],&quot;tsType&quot;:&quot;'delivery' | 'outOfZone' | 'pickup'&quot;},&quot;fee&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:1000,&quot;min&quot;:0,&quot;max&quot;:3000,&quot;step&quot;:50,&quot;unit&quot;:&quot;тг&quot;,&quot;tsType&quot;:&quot;number&quot;},&quot;freeFrom&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:8000,&quot;min&quot;:0,&quot;max&quot;:20000,&quot;step&quot;:500,&quot;unit&quot;:&quot;тг&quot;,&quot;tsType&quot;:&quot;number&quot;},&quot;mode&quot;:{&quot;editor&quot;:null,&quot;default&quot;:null,&quot;tsType&quot;:&quot;'delivery' | 'pickup'&quot;},&quot;onClose&quot;:{&quot;editor&quot;:null,&quot;default&quot;:null,&quot;tsType&quot;:&quot;() =&gt; void&quot;},&quot;onConfirm&quot;:{&quot;editor&quot;:null,&quot;default&quot;:null,&quot;tsType&quot;:&quot;(r: { mode, address, sub?, details?, store?, lat?, lng? }) =&gt; void&quot;}}">
+const MAPBOX_TOKEN = 'pk.eyJ1IjoibWFnemhhbnpodW1hYmF5ZXYiLCJhIjoiY21qOGpsdXB1MDE2YjNkczRlanBmMjM0ZSJ9.v87zIG8ez524yvwT9EwM3A';
+const MAPBOX_STYLE = 'mapbox://styles/mapbox/streets-v12';
+// DaData: во фронте только публичный API-ключ (suggest/geolocate). Секретный ключ — только на бэкенде.
+const DADATA_KEY = 'a42a0e66d0b906308dff7cb10a5716325d89c1f5';
+const DADATA = 'https://suggestions.dadata.ru/suggestions/api/4_1/rs/';
+const dadata = (path, body) => fetch(DADATA + path, { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json', Authorization: 'Token ' + DADATA_KEY }, body: JSON.stringify(body) }).then(r => { if (!r.ok) throw r.status; return r.json(); });
+const fromDadata = s => {
+  let line;
+  const d = s.data || {}, street = d.street_with_type || d.street || '', house = d.house ? (d.block ? d.house + (d.block_type ? ' ' + d.block_type + ' ' : '/') + d.block : d.house) : '';
+  line = street ? (house ? street + ', ' + house : street) : (s.value || '').replace(/^(г\s)?(Астана|Нур-Султан),?\s*/i, '');
+  line = line.replace(/^(ул|пер|мкр|ш)\s/, '$1. ');
+  return { line, house: !!(street && house), sub: [d.city_district_with_type, d.city || 'Астана'].filter(Boolean).join(', '), lat: d.geo_lat ? +d.geo_lat : null, lng: d.geo_lon ? +d.geo_lon : null, value: s.unrestricted_value || s.value };
+};
+const mbReverse = c => fetch(`https://api.mapbox.com/search/geocode/v6/reverse?longitude=${c.lng}&latitude=${c.lat}&language=ru&types=address,street&access_token=${MAPBOX_TOKEN}`).then(r => r.json()).then(j => {
+  const p = (j.features || [])[0]; if (!p) return null; const a = (p.properties.context || {}).address, st = (p.properties.context || {}).street;
+  const street = a ? a.street_name : st ? st.name : p.properties.name, num = a ? a.address_number : '';
+  return { line: num ? street + ', ' + num : street, house: !!num, sub: (p.properties.place_formatted || 'Астана').replace(/,\s*Казахстан$/, '') };
+});
+const mbForward = q => fetch(`https://api.mapbox.com/search/geocode/v6/forward?q=${encodeURIComponent(q)}&country=kz&proximity=71.43,51.13&limit=1&language=ru&access_token=${MAPBOX_TOKEN}`).then(r => r.json()).then(j => { const p = (j.features || [])[0]; return p ? { lat: p.geometry.coordinates[1], lng: p.geometry.coordinates[0] } : null; });
+const BOLT = 'polygon(45% 0,100% 0,60% 45%,85% 45%,20% 100%,40% 55%,10% 55%)';
+// Координаты ресторанов приблизительные — заменить на точные из админки
+const STORES = [
+  { name: 'Сыганак 11', hours: '11:30 – 02:00', lat: 51.1238, lng: 71.4318 },
+  { name: 'Кошкарбаева 36', hours: '11:30 – 02:00', lat: 51.1419, lng: 71.4726 },
+  { name: 'Республика 30', hours: '11:30 – 02:00', lat: 51.1620, lng: 71.4270 },
+  { name: 'Аль-фараби 13п', hours: '11:30 – 02:00', lat: 51.1000, lng: 71.4040 },
+  { name: 'ТРЦ Аружан', hours: '10:30 – 23:00', lat: 51.1596, lng: 71.4096 },
+];
+// Зона доставки — демо-полигон, заменить на реальный
+const ZONE = [[51.205, 71.36], [51.205, 71.52], [51.17, 71.56], [51.10, 71.55], [51.065, 71.48], [51.065, 71.37], [51.10, 71.33], [51.16, 71.33]];
+const HOME = { lat: 51.1167, lng: 71.4150 };
+const OUT = { lat: 51.036, lng: 71.432 };
+const RECENT = [
+  { line: 'пр-кт Туран, 52/6', sub: 'Есильский р-н', lat: 51.1167, lng: 71.4150, house: true },
+  { line: 'ул. Кошкарбаева, 36', sub: 'Алматинский р-н', lat: 51.1419, lng: 71.4726, house: true },
+];
+const DEMO = [...RECENT,
+  { line: 'пр-кт Республики, 30', sub: 'Сарыарка р-н', lat: 51.1620, lng: 71.4270, house: true },
+  { line: 'пр-кт Абылай Хана, 13', sub: 'Алматинский р-н', lat: 51.1510, lng: 71.4600, house: true },
+  { line: 'ул. Сыганак, 11', sub: 'Есильский р-н', lat: 51.1238, lng: 71.4318, house: true },
+  { line: 'пр-кт Мангилик Ел, 55', sub: 'Есильский р-н', lat: 51.0900, lng: 71.4180, house: true },
+  { line: 'ул. Кенесары, 40', sub: 'Сарыарка р-н', lat: 51.1650, lng: 71.4380, house: true },
+];
+const SHORT = [[/^проспект\s+/i, 'пр-кт '], [/\s+проспект$/i, ' пр-кт'], [/^улица\s+/i, 'ул. '], [/\s+улица$/i, ' ул.'], [/^переулок\s+/i, 'пер. '], [/^бульвар\s+/i, 'б-р '], [/^шоссе\s+/i, 'ш. '], [/^микрорайон\s+/i, 'мкр. ']];
+const fmtAddr = a => {
+  let road = a.road || a.pedestrian || a.residential || a.neighbourhood || '';
+  SHORT.forEach(([r, s]) => { road = road.replace(r, s); });
+  const h = a.house_number;
+  const dist = (a.city_district || a.suburb || '').replace(/\s*район$/i, ' р-н').replace(/^район\s+/i, 'р-н ');
+  return { line: road ? (h ? road + ', ' + h : road) : '', house: !!(road && h), sub: [dist, a.city || a.town || 'Астана'].filter(Boolean).join(', ') };
+};
+// Подсветка совпадений: жирным — начало слов адреса, совпавшее с введёнными словами
+const hl = (line, q) => {
+  const toks = String(q || '').toLowerCase().replace(/[.,]/g, ' ').split(/\s+/).filter(Boolean);
+  const out = [], push = (t, b) => { if (!t) return; const w = b ? 700 : 500, c = b ? '#111827' : '#4B5563'; const l = out[out.length - 1]; if (l && l.w === w) l.t += t; else out.push({ t, w, c }); };
+  String(line).split(/(\s+|,)/).forEach(seg => {
+    const low = seg.toLowerCase(); let best = 0;
+    toks.forEach(t => { if (low.startsWith(t) && t.length > best) best = t.length; });
+    if (!best) toks.forEach(t => { if (t.startsWith(low) && low.length > 1 && low.length > best) best = low.length; });
+    push(seg.slice(0, best), true); push(seg.slice(best), false);
+  });
+  return out.length ? out : [{ t: line, w: 500, c: '#4B5563' }];
+};
+const norm = s => String(s || '').toLowerCase().replace(/[.,\-]/g, ' ').replace(/\s+/g, ' ').trim();
+const inPoly = (lat, lng, poly) => { let ins = false; for (let i = 0, j = poly.length - 1; i < poly.length; j = i++) { const [yi, xi] = poly[i], [yj, xj] = poly[j]; if ((yi > lat) !== (yj > lat) && lng < (xj - xi) * (lat - yi) / (yj - yi) + xi) ins = !ins; } return ins; };
+const km = (a, b) => { const r = Math.PI / 180, x = Math.sin((b.lat - a.lat) * r / 2) ** 2 + Math.cos(a.lat * r) * Math.cos(b.lat * r) * Math.sin((b.lng - a.lng) * r / 2) ** 2; return 12742 * Math.asin(Math.sqrt(x)); };
+const kmLabel = d => d < 1 ? Math.max(50, Math.round(d * 20) * 50) + ' м' : d.toFixed(1).replace('.', ',') + ' км';
+const openInfo = hours => {
+  const m = /(\d{2}):(\d{2})\s*[–-]\s*(\d{2}):(\d{2})/.exec(hours || ''); if (!m) return { text: hours, open: true };
+  const now = new Date(), t = now.getHours() * 60 + now.getMinutes(), a = +m[1] * 60 + +m[2], b = +m[3] * 60 + +m[4];
+  const open = a < b ? t >= a && t < b : t >= a || t < b;
+  return open ? { text: 'Открыто до ' + m[3] + ':' + m[4], open } : { text: 'Откроется в ' + m[1] + ':' + m[2], open };
+};
+const money = n => String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ' ') + ' тг';
+const loadMapbox = () => {
+  if (window.mapboxgl && window.mapboxgl.Map) return Promise.resolve(window.mapboxgl);
+  if (!window.__fritoMapbox) window.__fritoMapbox = new Promise((res, rej) => {
+    const V = 'https://api.mapbox.com/mapbox-gl-js/v3.3.0/';
+    const css = new Promise(r => { const l = document.createElement('link'); l.rel = 'stylesheet'; l.href = V + 'mapbox-gl.css'; l.onload = r; l.onerror = r; document.head.appendChild(l); });
+    const js = new Promise((r, j) => { const s = document.createElement('script'); s.src = V + 'mapbox-gl.js'; s.onload = r; s.onerror = j; document.head.appendChild(s); });
+    Promise.all([css, js]).then(() => { window.mapboxgl.accessToken = MAPBOX_TOKEN; res(window.mapboxgl); }, rej);
+  });
+  return window.__fritoMapbox;
+};
+// Метка ресторана: пилюля-«вывеска» с иконкой самовывоза и названием — не путается с круглым пином доставки
+const markerHtml = (sel, name) => {
+  const bg = sel ? '#614BE2' : '#fff', fg = sel ? '#fff' : '#111827', ic = sel ? 'assets/ic-pickup-w.svg' : 'assets/ic-pickup-p.svg';
+  const pad = sel ? '8px 14px 8px 8px' : '5px', icS = sel ? 30 : 30, fs = 14;
+  return `<div style="display:flex;flex-direction:column;align-items:center;filter:drop-shadow(0 4px 10px rgba(17,24,39,.22));transition:transform .15s">
+    <div style="display:flex;align-items:center;gap:8px;background:${bg};color:${fg};border-radius:14px;padding:${pad};font-family:Inter,system-ui,sans-serif;font-size:${fs}px;font-weight:700;white-space:nowrap;line-height:1">
+      <span style="width:${icS}px;height:${icS}px;border-radius:9px;background:${sel ? 'rgba(255,255,255,.18)' : '#EFEDFC'};display:flex;align-items:center;justify-content:center"><img src="${ic}" alt="" style="width:${icS - 10}px;height:${icS - 10}px;display:block"></span>${sel ? name : ''}
+    </div>
+    <div style="width:12px;height:7px;background:${bg};clip-path:polygon(0 0,100% 0,50% 100%);margin-top:-1px"></div>
+  </div>`;
+};
+
+class Component extends DCLogic {
+  mapRef = React.createRef();
+  inputRef = React.createRef();
+  carRef = React.createRef();
+  state = (() => {
+    const st = this.props.start || 'delivery', c = st === 'outOfZone' ? OUT : HOME;
+    return { mode: st === 'pickup' ? 'pickup' : 'delivery', center: c, inZone: inPoly(c.lat, c.lng, ZONE), moving: false, addr: null, sub: '', house: false, loading: true,
+      searching: false, q: '', sugg: [], sLoading: false, sDone: false, store: this.nearest(c), toast: '', mapFail: false };
+  })();
+  nearest(c) { let best = 0, d = Infinity; STORES.forEach((s, i) => { const x = km(c, s); if (x < d) { d = x; best = i; } }); return best; }
+
+  componentDidMount() {
+    if (!document.getElementById('frito-spin-kf')) { const st = document.createElement('style'); st.id = 'frito-spin-kf'; st.textContent = '@keyframes frito-spin{to{transform:rotate(360deg)}}'; document.head.appendChild(st); }
+    this._rq = 0; this._sq = 0;
+    this.onKey = e => { if (e.key !== 'Escape') return; if (this.state.searching) this.setState({ searching: false }); else this.props.onClose && this.props.onClose(); };
+    window.addEventListener('keydown', this.onKey);
+    loadMapbox().then(gl => { this.gl = gl; this.initMap(); }).catch(() => this.setState({ mapFail: true, loading: false, addr: RECENT[0].line, sub: RECENT[0].sub, house: true }));
+  }
+  componentDidUpdate() {
+    // Сравниваем с собственным снимком — не полагаемся на prevState
+    const s = this.state, pv = this._pv || {};
+    if (this.gl && this.mapRef.current !== this._el) this.initMap();
+    if (s.searching && !pv.searching) setTimeout(() => { const i = this.inputRef.current; if (i) { i.focus(); i.select(); } }, 30);
+    if (this.map && (pv.mode !== s.mode || pv.store !== s.store)) this.syncLayers();
+    if (pv.propMode !== this.props.mode && this.props.mode && pv.propMode !== undefined) this.setMode(this.props.mode);
+    this._pv = { searching: s.searching, mode: s.mode, store: s.store, propMode: this.props.mode ?? null };
+  }
+  componentWillUnmount() {
+    window.removeEventListener('keydown', this.onKey);
+    clearTimeout(this._st); clearTimeout(this._tt); clearTimeout(this._ct); clearTimeout(this._cl);
+    if (this.ro) this.ro.disconnect();
+    if (this.map) this.map.remove();
+  }
+  initMap() {
+    const gl = this.gl, el = this.mapRef.current; if (!el) return;
+    if (this.map) { this.map.remove(); this.map = null; if (this.ro) this.ro.disconnect(); }
+    this._el = el;
+    const c = this.state.center;
+    const map = this.map = new gl.Map({ container: el, style: MAPBOX_STYLE, center: [c.lng, c.lat], zoom: 16, attributionControl: false, pitchWithRotate: false, dragRotate: false, touchPitch: false });
+    map.touchZoomRotate.disableRotation();
+    // Логический центр карты = центр видимой области (без верхней панели и нахлёста нижней). Кончик пина стоит ровно здесь.
+    if (this.props.layout === 'sheet') map.setPadding({ top: 72, bottom: 28, left: 0, right: 0 });
+    map.addControl(new gl.AttributionControl({ compact: true }), 'top-left');
+    const ac = el.querySelector('.mapboxgl-ctrl-top-left'); if (ac) ac.style.marginTop = this.props.layout === 'sheet' ? '84px' : '0';
+    map.on('load', () => {
+      map.getStyle().layers.forEach(l => { if (l.type === 'symbol' && l.layout && l.layout['text-field']) map.setLayoutProperty(l.id, 'text-field', ['coalesce', ['get', 'name_ru'], ['get', 'name']]); });
+      map.addSource('zone', { type: 'geojson', data: { type: 'Feature', geometry: { type: 'Polygon', coordinates: [[...ZONE, ZONE[0]].map(([la, ln]) => [ln, la])] } } });
+      map.addLayer({ id: 'zone-fill', type: 'fill', source: 'zone', paint: { 'fill-color': '#614BE2', 'fill-opacity': .05 } });
+      map.addLayer({ id: 'zone-line', type: 'line', source: 'zone', paint: { 'line-color': '#614BE2', 'line-opacity': .5, 'line-width': 2, 'line-dasharray': [3, 3] } });
+      this._styled = true; this.syncLayers();
+    });
+    this.markers = STORES.map((s, i) => {
+      const e = document.createElement('div'); e.style.cursor = 'pointer';
+      e.addEventListener('click', ev => { ev.stopPropagation(); this.pickStore(i); });
+      return { el: e, mk: new gl.Marker({ element: e, anchor: 'bottom' }).setLngLat([s.lng, s.lat]), on: false };
+    });
+    map.on('movestart', () => { if (!this.state.moving) this.setState({ moving: true }); });
+    map.on('moveend', () => this.onMoveEnd());
+    this.ro = new ResizeObserver(() => map.resize()); this.ro.observe(el);
+    this.syncLayers();
+    if (this.state.mode === 'pickup') this.fitStores(false);
+    this.onMoveEnd();
+  }
+  syncLayers() {
+    const m = this.map; if (!m) return; const pick = this.state.mode === 'pickup';
+    if (this._styled) ['zone-fill', 'zone-line'].forEach(id => m.getLayer(id) && m.setLayoutProperty(id, 'visibility', pick ? 'none' : 'visible'));
+    this.markers.forEach((x, i) => {
+      const sel = i === this.state.store;
+      if (pick) { x.el.innerHTML = markerHtml(sel, STORES[i].name); x.el.style.zIndex = sel ? 3 : 1; x.mk.getElement().style.zIndex = sel ? 3 : 1; if (!x.on) { x.mk.addTo(m); x.on = true; } }
+      else if (x.on) { x.mk.remove(); x.on = false; }
+    });
+  }
+  fitStores(anim) {
+    if (!this.map) return; const b = new this.gl.LngLatBounds(); STORES.forEach(s => b.extend([s.lng, s.lat]));
+    const sheet = this.props.layout === 'sheet';
+    this.map.fitBounds(b, { padding: sheet ? { top: 78, bottom: 20, left: 90, right: 90 } : { top: 90, bottom: 40, left: 100, right: 100 }, maxZoom: 15, duration: anim ? 800 : 0 });
+  }
+  onMoveEnd() {
+    const c = this.map.getCenter(), center = { lat: c.lat, lng: c.lng };
+    this.setState({ moving: false, center, inZone: inPoly(center.lat, center.lng, ZONE) });
+    if (this.state.mode !== 'delivery') return;
+    const l = this._last;
+    if (l && Math.abs(l.lat - center.lat) < 1e-4 && Math.abs(l.lng - center.lng) < 1e-4) return;
+    this._last = center; this.reverse(center);
+  }
+  reverse(c) {
+    const id = ++this._rq; this.setState({ loading: true });
+    const done = f => { if (id !== this._rq) return; this.setState({ addr: f.line, sub: f.sub, house: f.house, loading: false }); };
+    dadata('geolocate/address', { lat: c.lat, lon: c.lng, count: 1, radius_meters: 100 })
+      .then(j => { const s = (j.suggestions || [])[0]; if (!s) throw 0; const f = fromDadata(s); if (!f.line) throw 0; done(f); })
+      .catch(() => mbReverse(c).then(f => { if (!f || !f.line) throw 0; done(f); }))
+      .catch(() => { if (id === this._rq) this.setState({ addr: 'Точка на карте', sub: 'Не смогли определить адрес — введите вручную', house: false, loading: false }); });
+  }
+  setQ(q) {
+    this.setState({ q }); clearTimeout(this._st);
+    if (!q.trim()) { this._sq++; this.setState({ sugg: [], sLoading: false, sDone: false }); return; }
+    this.setState({ sLoading: true, sDone: false });
+    this._st = setTimeout(() => this.search(q), 350);
+  }
+  search(q) {
+    const id = ++this._sq;
+    dadata('suggest/address', { query: q, count: 7, locations: [{ country_iso_code: 'KZ', city: 'Астана' }], restrict_value: true })
+      .then(j => {
+        if (id !== this._sq) return;
+        const seen = new Set(), res = [];
+        (j.suggestions || []).forEach(s => { const f = fromDadata(s); if (!f.line || seen.has(f.line)) return; seen.add(f.line); res.push(f); });
+        this.setState({ sugg: res, sLoading: false, sDone: true });
+      })
+      .catch(() => { if (id === this._sq) this.setState({ sugg: [], sLoading: false, sDone: true }); });
+  }
+  pickSugg(s) {
+    if (s.lat == null) {
+      // DaData для KZ иногда без координат — добираем через Mapbox Geocoding
+      this.setState({ searching: false, loading: true, addr: s.line });
+      return mbForward(s.value || s.line + ', Астана').then(c => c ? this.pickSugg({ ...s, ...c }) : this.setState({ loading: false, addr: s.line, sub: s.sub, house: s.house })).catch(() => this.setState({ loading: false }));
+    }
+    this._last = { lat: s.lat, lng: s.lng };
+    this.setState({ searching: false, q: '', sugg: [], addr: s.line, sub: s.sub, house: s.house, loading: false, inZone: inPoly(s.lat, s.lng, ZONE) });
+    if (this.map) this.map.flyTo({ center: [s.lng, s.lat], zoom: 17, duration: 800 });
+  }
+  startSearch(prefill) { this.setState({ searching: true }); this.setQ(prefill || ''); }
+  setMode(m) {
+    if (m === this.state.mode) return;
+    if (m === 'pickup') { this._dc = this.state.center; const n = this.nearest(this.state.center); this.setState({ mode: 'pickup', searching: false, store: n }, () => { this.fitStores(true); setTimeout(() => this.scrollCar(n), 50); }); }
+    else { this.setState({ mode: 'delivery', searching: false }, () => { const c = this._dc || HOME; if (this.map) this.map.flyTo({ center: [c.lng, c.lat], zoom: 17, duration: 800 }); }); }
+  }
+  onCarScroll() {
+    clearTimeout(this._ct);
+    if (this._carLock) { clearTimeout(this._cl); this._cl = setTimeout(() => { this._carLock = false; }, 160); return; }
+    this._ct = setTimeout(() => {
+      const c = this.carRef.current; if (!c || this._carLock) return;
+      let best = null, d = Infinity;
+      [...c.children].forEach(el => { const x = Math.abs(el.offsetLeft - c.offsetLeft - 20 - c.scrollLeft); if (x < d) { d = x; best = el; } });
+      const i = best ? +best.dataset.idx : null;
+      if (i != null && i !== this.state.store) this.pickStore(i, true);
+    }, 90);
+  }
+  scrollCar(i) {
+    const c = this.carRef.current; if (!c) return;
+    const el = [...c.children].find(x => +x.dataset.idx === i); if (!el) return;
+    this._carLock = true; clearTimeout(this._cl); this._cl = setTimeout(() => { this._carLock = false; }, 900);
+    c.scrollTo({ left: el.offsetLeft - c.offsetLeft - 20, behavior: 'smooth' });
+  }
+  pickStore(i, fromCar) { this.setState({ store: i }); if (!fromCar) this.scrollCar(i); const s = STORES[i]; if (this.map) this.map.flyTo({ center: [s.lng, s.lat], zoom: Math.max(this.map.getZoom(), 15), duration: 600 }); }
+  toast(t) { clearTimeout(this._tt); this.setState({ toast: t }); this._tt = setTimeout(() => this.setState({ toast: '' }), 2800); }
+  locate() {
+    if (!navigator.geolocation) return this.toast('Геолокация недоступна в этом браузере');
+    navigator.geolocation.getCurrentPosition(p => {
+      const c = { lat: p.coords.latitude, lng: p.coords.longitude };
+      if (this.state.mode === 'pickup') this.pickStore(this.nearest(c)); else if (this.map) this.map.flyTo({ center: [c.lng, c.lat], zoom: 17, duration: 800 });
+    }, () => this.toast('Не удалось определить, где вы. Разрешите доступ к геолокации'), { timeout: 6000 });
+  }
+  confirm() {
+    const s = this.state, p = this.props; if (!p.onConfirm) return;
+    if (s.mode === 'pickup') { const st = STORES[s.store]; p.onConfirm({ mode: 'pickup', address: st.name, store: st }); }
+    else p.onConfirm({ mode: 'delivery', address: s.addr, sub: s.sub, lat: s.center.lat, lng: s.center.lng });
+  }
+  renderVals() {
+    const p = this.props, s = this.state, sheet = p.layout === 'sheet', center = !sheet;
+    const deliv = s.mode === 'delivery', pick = !deliv, srch = s.searching;
+    const busy = s.moving || s.loading, out = deliv && !s.inZone && !s.moving;
+    const near = STORES[this.nearest(s.center)], nearDist = kmLabel(km(s.center, near));
+    const freeFrom = p.freeFrom ?? 8000, fee = p.fee ?? 1000;
+    // Точка отсчёта фиксируется при входе в самовывоз, иначе список пересортировывается при каждом движении карты
+    if (!this._ref) this._ref = s.center;
+    const ref = this._dc || this._ref;
+    const stores = STORES.map((st, i) => ({ st, i, d: km(ref, st) })).sort((a, b) => a.d - b.d).map(({ st, i, d }) => {
+      const o = openInfo(st.hours), sel = i === s.store;
+      return { idx: i, name: st.name, dist: kmLabel(d), openText: o.text, openColor: o.open ? '#15803D' : '#6B7280', pick: () => this.pickStore(i),
+        bg: sel ? '#F5F3FF' : '#fff', border: sel ? '#614BE2' : '#ECECF1', ring: sel ? '#614BE2' : '#D1D5DB', dot: sel ? '#614BE2' : 'transparent' };
+    });
+    const hasQ = !!s.q.trim();
+    const rows = (hasQ ? s.sugg.map(r => ({ ...r, recent: false, found: true })) : RECENT.map(r => ({ ...r, recent: true, found: false })))
+      .map(r => ({ ...r, parts: hasQ ? hl(r.line, s.q) : [{ t: r.line, w: 600, c: '#111827' }], bg: 'transparent', subLabel: r.house ? r.sub : (r.sub ? r.sub + ' · ' : '') + 'без номера дома', pick: () => this.pickSugg(r) }));
+    const ok = !busy && s.house && !!s.addr;
+    const bubbleOut = deliv && !s.inZone;
+    return {
+      isCenter: center, isSheet: sheet, mapRef: this.mapRef, inputRef: this.inputRef, carRef: this.carRef, onCarScroll: () => this.onCarScroll(), mode: s.mode, mapFail: s.mapFail,
+      title: deliv ? 'Куда доставить заказ?' : 'Где заберёте заказ?',
+      wrapPad: center ? '32px' : '0', dlgMaxW: center ? '1120px' : '100%', dlgMaxH: center ? '720px' : '100%', dlgRadius: center ? '32px' : '0', dlgDir: center ? 'row' : 'column',
+      mapOrder: center ? 2 : 0, panelW: center ? '420px' : '100%',
+      panelFlex: center ? '0 0 420px' : srch ? '1 1 100%' : '0 0 auto', panelMaxH: center ? 'none' : srch ? '100%' : '64%',
+      panelMt: sheet && !srch ? '-28px' : '0', panelRadius: sheet && !srch ? '28px 28px 0 0' : '0',
+      panelShadow: sheet ? '0 -12px 32px -16px rgba(17,24,39,.25)' : 'none', panelPad: center ? '20px 28px 20px' : srch ? '16px 16px 20px' : '14px 20px 16px',
+      showGrabber: sheet && !srch, panelScroll: srch ? 'hidden' : 'auto',
+      ctrlBottom: sheet ? '44px' : '20px', pinTop: sheet ? 'calc(50% + 22px)' : '50%', toastTop: sheet ? '88px' : '20px',
+      showPin: deliv, pinLift: s.moving ? 'translateY(-12px)' : 'none', pinShadow: s.moving ? .6 : 1,
+      pinBolt: !s.loading || s.moving, pinSpin: s.loading && !s.moving,
+      bubbleOpacity: s.moving || !s.addr ? 0 : 1,
+      bubbleBg: bubbleOut ? '#111827' : '#fff', bubbleColor: bubbleOut ? '#fff' : '#111827', bubbleSubColor: bubbleOut ? '#D1D5DB' : '#6B7280',
+      bubbleText: bubbleOut ? 'Сюда пока не доставляем' : s.loading ? 'Определяем адрес…' : s.addr || '',
+      bubbleSub: bubbleOut ? 'Передвиньте карту в зону доставки' : !s.loading && !s.house ? 'Уточните номер дома' : '35–45 мин',
+      hasBubbleSub: !s.loading || bubbleOut,
+      hasToast: !!s.toast, toast: s.toast,
+      zoomIn: () => this.map && this.map.zoomIn(), zoomOut: () => this.map && this.map.zoomOut(), locate: () => this.locate(),
+      close: () => p.onClose && p.onClose(), setMode: m => this.setMode(m),
+      searching: srch, q: s.q, hasQ, onQ: e => this.setQ(e.target.value), clearQ: () => { this.setQ(''); this.inputRef.current && this.inputRef.current.focus(); },
+      onQKey: e => { if (e.key === 'Enter' && s.sugg[0]) this.pickSugg(s.sugg[0]); },
+      rows, showRecent: !hasQ, sLoading: s.sLoading && hasQ && !s.sugg.length, noResults: hasQ && s.sDone && !s.sugg.length,
+      stopSearch: () => this.setState({ searching: false }), startSearch: () => this.startSearch(s.addr && s.addr !== 'Точка на карте' ? s.addr : ''), startSearchEmpty: () => this.startSearch(''),
+      showDeliv: deliv && !srch && !out, showOut: out && !srch, showPickup: pick && !srch,
+      addrLine: s.loading || s.moving ? 'Определяем адрес…' : s.addr || 'Точка на карте', addrColor: busy ? '#9CA3AF' : '#111827',
+      addrSub: busy ? 'Двигайте карту — пин укажет точку' : s.sub || 'Астана',
+      houseWarn: !busy && !!s.addr && !s.house, addrBorder: !busy && s.addr && !s.house ? '#F59E0B' : 'transparent',
+      feeLabel: fee ? money(fee) : 'Бесплатно', freeLabel: 'Бесплатно при заказе от ' + money(freeFrom),
+      outSub: 'Ближайший Frito — ' + near.name + ', ' + nearDist + ' отсюда. Заберите заказ сами — будет готов через 15 минут.', nearName: near.name,
+      toPickup: () => this.setMode('pickup'),
+      stores, pickCaption: sheet ? (STORES.length ? (stores.findIndex(x => x.idx === s.store) + 1) + ' из ' + STORES.length + ' · листайте' : '') : 'расстояние от ' + (this._dc ? 'точки доставки' : 'вас'), distCaption: 'расстояние от ' + (this._dc ? 'точки доставки' : 'вас'),
+      ctaDisabled: !ok, ctaBg: ok ? '#614BE2' : '#E5E7EB', ctaColor: ok ? '#fff' : '#9CA3AF', ctaCursor: ok ? 'pointer' : 'not-allowed',
+      ctaLabel: busy ? 'Определяем адрес…' : !s.house ? 'Укажите номер дома' : 'Доставить сюда',
+      confirm: () => this.confirm(),
+    };
+  }
+}
+</script>
+</body>
+</html>

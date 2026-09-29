@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="design_doc_mode" content="canvas">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#E9E8F0;}
+a{color:#614BE2;text-decoration:none}a:hover{color:#4A36C4}
+*{box-sizing:border-box}
+input,textarea,button{outline:none}
+</style>
+</helmet>
+<div style="padding:56px;font-family:Inter,system-ui,sans-serif;color:#111827;display:flex;flex-direction:column;gap:40px;width:1560px">
+
+<div style="display:flex;flex-direction:column;gap:8px">
+  <div style="font-size:13px;font-weight:600;color:#6B7280;letter-spacing:.04em">FRITO · UI KIT · v1</div>
+  <h1 style="margin:0;font-size:36px;font-weight:800;letter-spacing:-.02em">Дизайн-система Frito</h1>
+  <p style="margin:0;font-size:15px;color:#6B7280;max-width:720px;line-height:1.5">Токены и переиспользуемые элементы главного экрана и оформления заказа. Спека для вёрстки — в <code>design_handoff_frito/README.md</code>. Имена токенов совпадают с <code>tokens.css</code>.</p>
+</div>
+
+<!-- COLORS -->
+<section style="background:#fff;border-radius:24px;padding:28px 32px;display:flex;flex-direction:column;gap:20px">
+  <h2 style="margin:0;font-size:20px;font-weight:700">Цвета</h2>
+  <div style="display:grid;grid-template-columns:repeat(6,150px);gap:12px">
+    <sc-for list="{{ colors }}" as="c" hint-placeholder-count="18">
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <div style="height:64px;border-radius:14px;background:{{ c.hex }};border:1px solid rgba(17,24,39,.08)"></div>
+        <div style="font-size:12px;font-weight:600;font-family:ui-monospace,monospace">{{ c.name }}</div>
+        <div style="font-size:12px;color:#6B7280;font-family:ui-monospace,monospace">{{ c.hex }}</div>
+        <div style="font-size:11px;color:#9CA3AF;line-height:1.35">{{ c.use }}</div>
+      </div>
+    </sc-for>
+  </div>
+</section>
+
+<!-- TYPE -->
+<section style="background:#fff;border-radius:24px;padding:28px 32px;display:flex;flex-direction:column;gap:20px">
+  <h2 style="margin:0;font-size:20px;font-weight:700">Типографика · Inter</h2>
+  <div style="display:flex;flex-direction:column">
+    <sc-for list="{{ type }}" as="t" hint-placeholder-count="10">
+      <div style="display:grid;grid-template-columns:190px 1fr 240px;gap:24px;align-items:baseline;padding:12px 0;border-bottom:1px solid #F1F1F4">
+        <span style="font-size:12px;font-weight:600;font-family:ui-monospace,monospace;color:#614BE2">{{ t.token }}</span>
+        <span style="font-size:{{ t.size }};font-weight:{{ t.weight }};line-height:{{ t.lh }};letter-spacing:{{ t.ls }}">{{ t.sample }}</span>
+        <span style="font-size:12px;color:#6B7280;font-family:ui-monospace,monospace">{{ t.spec }}</span>
+      </div>
+    </sc-for>
+  </div>
+</section>
+
+<!-- RADIUS / SPACE / SHADOW -->
+<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:24px">
+  <section style="background:#fff;border-radius:24px;padding:28px 32px;display:flex;flex-direction:column;gap:16px">
+    <h2 style="margin:0;font-size:20px;font-weight:700">Радиусы</h2>
+    <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:flex-end">
+      <sc-for list="{{ radii }}" as="r" hint-placeholder-count="8">
+        <div style="display:flex;flex-direction:column;align-items:center;gap:6px"><div style="width:56px;height:56px;background:#EFEDFC;border:2px solid #614BE2;border-radius:{{ r.px }}"></div><span style="font-size:11px;font-family:ui-monospace,monospace;font-weight:600">{{ r.name }}</span><span style="font-size:11px;color:#6B7280">{{ r.px }}</span></div>
+      </sc-for>
+    </div>
+    <p style="margin:0;font-size:12px;color:#6B7280;line-height:1.45">Все кнопки, чипы, инпуты-пилюли — <b>pill</b>. Карточки товара — xl, панели корзины — lg (desktop) / md (mobile), модалки и шторки — 2xl.</p>
+  </section>
+  <section style="background:#fff;border-radius:24px;padding:28px 32px;display:flex;flex-direction:column;gap:16px">
+    <h2 style="margin:0;font-size:20px;font-weight:700">Отступы</h2>
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <sc-for list="{{ space }}" as="s" hint-placeholder-count="8">
+        <div style="display:flex;align-items:center;gap:12px"><span style="width:60px;font-size:11px;font-family:ui-monospace,monospace;font-weight:600">{{ s.name }}</span><div style="height:14px;width:{{ s.px }};background:#614BE2;border-radius:3px"></div><span style="font-size:11px;color:#6B7280">{{ s.px }}</span></div>
+      </sc-for>
+    </div>
+    <p style="margin:0;font-size:12px;color:#6B7280;line-height:1.45">Шаг 4px. Внутренний отступ панели: 20px (desktop) / 16px (mobile). Гэп между панелями: 16 / 12.</p>
+  </section>
+  <section style="background:#fff;border-radius:24px;padding:28px 32px;display:flex;flex-direction:column;gap:16px">
+    <h2 style="margin:0;font-size:20px;font-weight:700">Тени и оверлеи</h2>
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <div style="display:flex;align-items:center;gap:14px"><div style="width:64px;height:44px;border-radius:14px;background:#fff;box-shadow:0 1px 3px rgba(17,24,39,.12)"></div><div><div style="font-size:12px;font-family:ui-monospace,monospace;font-weight:600">shadow-xs</div><div style="font-size:11px;color:#6B7280">0 1px 3px rgba(17,24,39,.12) · активный сегмент</div></div></div>
+      <div style="display:flex;align-items:center;gap:14px"><div style="width:64px;height:44px;border-radius:14px;background:#fff;box-shadow:0 12px 32px -14px rgba(17,24,39,.2)"></div><div><div style="font-size:12px;font-family:ui-monospace,monospace;font-weight:600">shadow-card-hover</div><div style="font-size:11px;color:#6B7280">0 12px 32px -14px rgba(17,24,39,.2)</div></div></div>
+      <div style="display:flex;align-items:center;gap:14px"><div style="width:64px;height:44px;border-radius:14px;background:#614BE2;box-shadow:0 16px 36px -10px rgba(97,75,226,.6)"></div><div><div style="font-size:12px;font-family:ui-monospace,monospace;font-weight:600">shadow-fab</div><div style="font-size:11px;color:#6B7280">0 16px 36px -10px rgba(97,75,226,.6) · плавающая корзина</div></div></div>
+      <div style="display:flex;align-items:center;gap:14px"><div style="width:64px;height:44px;border-radius:14px;background:#fff;box-shadow:0 40px 100px -30px rgba(0,0,0,.4)"></div><div><div style="font-size:12px;font-family:ui-monospace,monospace;font-weight:600">shadow-modal</div><div style="font-size:11px;color:#6B7280">0 40px 100px -30px rgba(0,0,0,.4)</div></div></div>
+      <div style="display:flex;align-items:center;gap:14px"><div style="width:64px;height:44px;border-radius:14px;background:rgba(17,24,39,.45)"></div><div><div style="font-size:12px;font-family:ui-monospace,monospace;font-weight:600">overlay</div><div style="font-size:11px;color:#6B7280">rgba(17,24,39,.45) · под модалками и меню</div></div></div>
+    </div>
+  </section>
+</div>
+
+<!-- BUTTONS -->
+<section style="background:#fff;border-radius:24px;padding:28px 32px;display:flex;flex-direction:column;gap:24px">
+  <div><h2 style="margin:0 0 4px;font-size:20px;font-weight:700">Button</h2><p style="margin:0;font-size:13px;color:#6B7280">Всегда pill. variant × size. Высоты строго из шкалы: xl 60 · lg 56 · md 44 · sm 40 · xs 36 (значений 42, 52 и «по паддингу» нет). Иконочные — круг того же размера. CTA с суммой: текст слева, разделитель 1px (currentColor, opacity .3), сумма 700 справа — на desktop и mobile.</p></div>
+  <div style="display:grid;grid-template-columns:140px repeat(4,minmax(0,1fr));gap:16px 20px;white-space:nowrap;align-items:center;justify-items:start">
+    <span style="font-size:12px;color:#6B7280;font-family:ui-monospace,monospace"></span>
+    <span style="font-size:12px;color:#6B7280;font-family:ui-monospace,monospace">default</span><span style="font-size:12px;color:#6B7280;font-family:ui-monospace,monospace">hover</span><span style="font-size:12px;color:#6B7280;font-family:ui-monospace,monospace">disabled</span><span style="font-size:12px;color:#6B7280;font-family:ui-monospace,monospace">с иконкой / суммой</span>
+
+    <span style="font-size:13px;font-weight:600">primary · lg</span>
+    <button style="border:0;cursor:pointer;font:inherit;background:#614BE2;color:#fff;border-radius:999px;height:56px;padding:0 28px;font-size:17px;font-weight:600" style-hover="background:#503BCB">Перейти к оформлению</button>
+    <button style="border:0;cursor:pointer;font:inherit;background:#503BCB;color:#fff;border-radius:999px;height:56px;padding:0 28px;font-size:17px;font-weight:600">Перейти к оформлению</button>
+    <button style="border:0;cursor:not-allowed;font:inherit;background:#E5E7EB;color:#9CA3AF;border-radius:999px;height:56px;padding:0 28px;font-size:17px;font-weight:600">Перейти к оформлению</button>
+    <button style="border:0;cursor:pointer;font:inherit;background:#614BE2;color:#fff;border-radius:999px;height:56px;padding:0 22px;width:100%;display:flex;align-items:center;justify-content:space-between;gap:12px;font-size:16px;font-weight:600"><span>Перейти к оформлению</span><span style="display:flex;align-items:center;gap:12px"><span style="width:1px;height:22px;background:currentColor;opacity:.3"></span><span style="font-weight:700">9 470 тг.</span></span></button>
+
+    <span style="font-size:13px;font-weight:600">secondary · md</span>
+    <button style="border:0;cursor:pointer;font:inherit;background:#EFEDFC;color:#614BE2;border-radius:999px;height:44px;padding:0 22px;font-size:15px;font-weight:600" style-hover="background:#614BE2;color:#fff">В корзину</button>
+    <button style="border:0;cursor:pointer;font:inherit;background:#614BE2;color:#fff;border-radius:999px;height:44px;padding:0 22px;font-size:15px;font-weight:600">В корзину</button>
+    <button style="border:0;cursor:not-allowed;font:inherit;background:#F3F4F6;color:#9CA3AF;border-radius:999px;height:44px;padding:0 22px;font-size:15px;font-weight:600">В корзину</button>
+    <button style="display:flex;align-items:center;gap:8px;border:0;background:#EFEDFC;color:#614BE2;border-radius:999px;height:44px;padding:0 18px 0 12px;font:inherit;font-size:14px;font-weight:600;cursor:pointer"><img src="assets/ic-delivery-p.svg" alt="" style="width:20px;height:20px;object-fit:contain">Доставка</button>
+
+    <span style="font-size:13px;font-weight:600">ghost · sm</span>
+    <button style="border:0;cursor:pointer;font:inherit;background:#F3F4F6;color:#111827;border-radius:999px;height:40px;padding:0 16px;font-size:13px;font-weight:600" style-hover="background:#E5E7EB">Изменить</button>
+    <button style="border:0;cursor:pointer;font:inherit;background:#E5E7EB;color:#111827;border-radius:999px;height:40px;padding:0 16px;font-size:13px;font-weight:600">Изменить</button>
+    <button style="border:0;cursor:not-allowed;font:inherit;background:#F3F4F6;color:#9CA3AF;border-radius:999px;height:40px;padding:0 16px;font-size:13px;font-weight:600">Изменить</button>
+    <a href="#" style="display:inline-flex;align-items:center;gap:8px;color:#111827;font-size:15px;font-weight:600;background:#F3F4F6;border-radius:999px;height:40px;padding:0 18px 0 14px"><span style="font-size:18px;line-height:1">‹</span>В меню</a>
+
+    <span style="font-size:13px;font-weight:600">kaspi · брендовая</span>
+    <button aria-label="Оплатить с Kaspi.kz" style="border:0;cursor:pointer;background:transparent;padding:0;display:block;line-height:0;width:100%" style-hover="opacity:.92"><img src="assets/btn-kaspi-pay.svg" alt="Оплатить с Kaspi.kz" style="width:100%;height:auto;display:block"></button>
+    <button aria-label="Оплатить с Kaspi.kz" style="border:0;cursor:pointer;background:transparent;padding:0;display:block;line-height:0;width:100%;opacity:.92"><img src="assets/btn-kaspi-pay.svg" alt="" style="width:100%;height:auto;display:block"></button>
+    <span style="font-size:12px;color:#9CA3AF;line-height:1.4;white-space:normal">Готовый ассет банка (assets/btn-kaspi-pay.svg, 343×52, pill). Не перерисовывать, не менять цвет и пропорции; ширина 100% контейнера, height auto. Сумма — отдельной строкой над кнопкой.</span><span></span>
+
+    <span style="font-size:13px;font-weight:600">text</span>
+    <button style="border:0;background:transparent;font:inherit;font-size:13px;font-weight:500;color:#6B7280;cursor:pointer" style-hover="color:#EF4444">Очистить</button>
+    <button style="border:0;background:transparent;font:inherit;font-size:13px;font-weight:500;color:#EF4444;cursor:pointer">Очистить</button>
+    <a href="#" style="font-size:13px;font-weight:600">Изменить состав заказа</a>
+    <a href="#" style="font-size:13px;font-weight:600;color:#A899FF;background:#1B1740;padding:6px 10px;border-radius:8px">Все адреса на карте →</a>
+
+    <span style="font-size:13px;font-weight:600">icon</span>
+    <div style="display:flex;gap:10px;align-items:center">
+      <button style="border:0;background:#F3F4F6;border-radius:50%;width:48px;height:48px;display:flex;align-items:center;justify-content:center;line-height:1;padding:0;font:inherit;font-size:22px;color:#111827;cursor:pointer" style-hover="background:#E5E7EB"><span aria-hidden="true" style="position:relative;width:16px;height:16px;display:block"><span style="position:absolute;left:0;top:50%;width:100%;height:2px;margin-top:-1px;background:currentColor;border-radius:1px;transform:rotate(45deg)"></span><span style="position:absolute;left:0;top:50%;width:100%;height:2px;margin-top:-1px;background:currentColor;border-radius:1px;transform:rotate(-45deg)"></span></span></button>
+      <button style="border:0;background:#F3F4F6;border-radius:50%;width:44px;height:44px;display:flex;align-items:center;justify-content:center;line-height:1;padding:0;font:inherit;font-size:20px;color:#111827;cursor:pointer"><span aria-hidden="true" style="position:relative;width:16px;height:16px;display:block"><span style="position:absolute;left:0;top:50%;width:100%;height:2px;margin-top:-1px;background:currentColor;border-radius:1px;transform:rotate(45deg)"></span><span style="position:absolute;left:0;top:50%;width:100%;height:2px;margin-top:-1px;background:currentColor;border-radius:1px;transform:rotate(-45deg)"></span></span></button>
+      <button style="border:0;background:#F3F4F6;border-radius:50%;width:40px;height:40px;display:flex;align-items:center;justify-content:center;line-height:1;padding:0;font:inherit;font-size:20px;color:#111827;cursor:pointer"><span aria-hidden="true" style="position:relative;width:14px;height:14px;display:block"><span style="position:absolute;left:0;top:50%;width:100%;height:2px;margin-top:-1px;background:currentColor;border-radius:1px;transform:rotate(45deg)"></span><span style="position:absolute;left:0;top:50%;width:100%;height:2px;margin-top:-1px;background:currentColor;border-radius:1px;transform:rotate(-45deg)"></span></span></button>
+      <button style="border:0;background:#F3F4F6;border-radius:50%;width:36px;height:36px;display:flex;align-items:center;justify-content:center;line-height:1;padding:0;font:inherit;font-size:18px;color:#111827;cursor:pointer"><span aria-hidden="true" style="position:relative;width:14px;height:14px;display:block"><span style="position:absolute;left:0;top:50%;width:100%;height:2px;margin-top:-1px;background:currentColor;border-radius:1px;transform:rotate(45deg)"></span><span style="position:absolute;left:0;top:50%;width:100%;height:2px;margin-top:-1px;background:currentColor;border-radius:1px;transform:rotate(-45deg)"></span></span></button>
+    </div>
+    <div style="display:flex;gap:10px;align-items:center">
+      <button aria-label="Меню" style="width:44px;height:44px;border:0;background:transparent;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;padding:0"><span style="width:20px;height:2.5px;border-radius:2px;background:#111827;display:block"></span><span style="width:20px;height:2.5px;border-radius:2px;background:#111827;display:block"></span><span style="width:20px;height:2.5px;border-radius:2px;background:#111827;display:block"></span></button>
+      <button aria-label="Удалить" style="border:0;background:transparent;color:#9CA3AF;font-size:20px;line-height:1;cursor:pointer;padding:0;width:32px;height:32px;display:flex;align-items:center;justify-content:center" style-hover="color:#111827">×</button>
+    </div>
+    <div style="display:flex;gap:8px"><a href="#" aria-label="WhatsApp" style="width:44px;height:44px;border-radius:50%;background:#614BE2;display:flex;align-items:center;justify-content:center"><img src="assets/ic-whatsapp-w.svg" alt="" style="width:20px;height:20px"></a><a href="#" aria-label="Instagram" style="width:44px;height:44px;border-radius:50%;background:#1B1740;display:flex;align-items:center;justify-content:center"><img src="assets/ic-instagram-w.svg" alt="" style="width:20px;height:20px"></a></div>
+    <span style="font-size:12px;color:#9CA3AF;white-space:normal">48 модалка · 44 меню · 40 шторка mobile · 36 корзина mobile</span>
+  </div>
+</section>
+
+<!-- CHIPS + SEGMENT + STEPPER + TOGGLE -->
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
+  <section style="background:#fff;border-radius:24px;padding:28px 32px;display:flex;flex-direction:column;gap:20px">
+    <div><h2 style="margin:0 0 4px;font-size:20px;font-weight:700">Chip</h2><p style="margin:0;font-size:13px;color:#6B7280">Категории (tinted) и тайм-слоты (solid). Высота 44 / 40 (mobile) для категорий, 34 для слотов.</p></div>
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <button style="border:0;cursor:pointer;font:inherit;font-size:15px;font-weight:500;padding:12px 22px;border-radius:999px;background:#EFEDFC;color:#614BE2">Боксы</button>
+        <button style="border:0;cursor:pointer;font:inherit;font-size:15px;font-weight:500;padding:12px 22px;border-radius:999px;background:#F3F4F6;color:#111827" style-hover="background:#E5E7EB">Комбо</button>
+        <button style="border:0;cursor:pointer;font:inherit;font-size:15px;font-weight:500;padding:12px 22px;border-radius:999px;background:#F3F4F6;color:#111827">Бургеры</button>
+        <span style="align-self:center;font-size:12px;color:#9CA3AF;font-family:ui-monospace,monospace">chip · tinted · active / default</span>
+      </div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <button style="border:0;cursor:pointer;font:inherit;font-size:13px;font-weight:600;border-radius:999px;padding:9px 14px;background:#614BE2;color:#fff">12:30–13:00</button>
+        <button style="border:0;cursor:pointer;font:inherit;font-size:13px;font-weight:600;border-radius:999px;padding:9px 14px;background:#F3F4F6;color:#111827">13:00–13:30</button>
+        <button style="border:0;cursor:pointer;font:inherit;font-size:13px;font-weight:600;border-radius:999px;padding:9px 14px;background:#F3F4F6;color:#111827">13:30–14:00</button>
+        <span style="align-self:center;font-size:12px;color:#9CA3AF;font-family:ui-monospace,monospace">chip · solid · selected / default</span>
+      </div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;background:#1B1740;padding:12px;border-radius:14px">
+        <a href="#" style="display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.06);border-radius:999px;padding:8px 14px 8px 10px;color:#fff"><img src="assets/ic-pin-p.svg" alt="" style="width:14px;height:14px;filter:brightness(0) invert(1);opacity:.7"><span style="font-size:13px;font-weight:600">Сыганак 11</span><span style="font-size:12px;color:rgba(255,255,255,.5)">11:30 – 02:00</span></a>
+        <a href="#" style="display:flex;align-items:center;background:rgba(168,153,255,.15);border-radius:999px;padding:8px 14px;color:#A899FF;font-size:13px;font-weight:600">ещё 3</a>
+        <span style="align-self:center;font-size:12px;color:rgba(255,255,255,.5);font-family:ui-monospace,monospace">chip · on-dark (футер)</span>
+      </div>
+    </div>
+    <div><h2 style="margin:0 0 4px;font-size:20px;font-weight:700">Badge</h2></div>
+    <div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap">
+      <span style="min-width:26px;height:26px;border-radius:13px;background:#EF4444;color:#fff;font-size:14px;font-weight:700;display:flex;align-items:center;justify-content:center;padding:0 6px;border:2px solid #F7F7F9">3</span><span style="font-size:12px;color:#9CA3AF;font-family:ui-monospace,monospace">badge · count</span>
+      <span style="font-size:12px;font-weight:800;color:#614BE2;background:#EFEDFC;border-radius:8px;padding:4px 8px;letter-spacing:.04em">NEW10</span><span style="font-size:12px;color:#9CA3AF;font-family:ui-monospace,monospace">badge · promo</span>
+      <span style="display:flex;align-items:center;gap:6px;font-size:13px;color:#16A34A;font-weight:600"><span style="width:18px;height:18px;border-radius:50%;background:#16A34A;color:#fff;font-size:11px;display:flex;align-items:center;justify-content:center">✓</span>−10%</span><span style="font-size:12px;color:#9CA3AF;font-family:ui-monospace,monospace">badge · success</span>
+      <span style="width:24px;height:24px;border-radius:50%;background:#614BE2;color:#fff;display:flex;align-items:center;justify-content:center"><span aria-hidden="true" style="position:relative;width:10px;height:10px;display:block"><span style="position:absolute;left:0;top:50%;width:100%;height:2px;margin-top:-1px;background:currentColor;border-radius:1px"></span><span style="position:absolute;top:0;left:50%;height:100%;width:2px;margin-left:-1px;background:currentColor;border-radius:1px"></span></span></span><span style="font-size:12px;color:#9CA3AF;font-family:ui-monospace,monospace">badge · add (апселл)</span>
+    </div>
+  </section>
+
+  <section style="background:#fff;border-radius:24px;padding:28px 32px;display:flex;flex-direction:column;gap:20px">
+    <div><h2 style="margin:0 0 4px;font-size:20px;font-weight:700">Segment · Stepper · Toggle · Checkbox</h2><p style="margin:0;font-size:13px;color:#6B7280">Уже вынесены: FritoSegment, FritoStepper, FritoToggle.</p></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:center">
+      <dc-import name="FritoSegment" mode="delivery" icons="{{ true }}" height="{{ 40 }}" hint-size="100%,48px"></dc-import>
+      <dc-import name="FritoSegment" mode="pickup" variant="filled" icons="{{ true }}" height="{{ 40 }}" hint-size="100%,48px"></dc-import>
+      <span style="font-size:12px;color:#9CA3AF;font-family:ui-monospace,monospace">segment · light</span><span style="font-size:12px;color:#9CA3AF;font-family:ui-monospace,monospace">segment · filled</span>
+      <dc-import name="FritoSegment" mode="{{ nullMode }}" icons="{{ true }}" height="{{ 40 }}" hint-size="100%,48px"></dc-import>
+      <dc-import name="FritoSegment" mode="delivery" icons="{{ false }}" height="{{ 36 }}" hint-size="100%,44px"></dc-import>
+      <span style="font-size:12px;color:#9CA3AF;font-family:ui-monospace,monospace">segment · не выбрано</span><span style="font-size:12px;color:#9CA3AF;font-family:ui-monospace,monospace">segment · без иконок · 36</span>
+    </div>
+    <div style="display:flex;gap:24px;align-items:center;flex-wrap:wrap">
+      <div style="width:132px"><dc-import name="FritoStepper" qty="{{ qty }}" on-inc="{{ inc }}" on-dec="{{ dec }}" size="{{ 44 }}" hint-size="132px,44px"></dc-import></div>
+      <div style="width:112px"><dc-import name="FritoStepper" qty="{{ 1 }}" size="{{ 40 }}" hint-size="112px,40px"></dc-import></div>
+      <span style="font-size:12px;color:#9CA3AF;font-family:ui-monospace,monospace">stepper · 44 (desktop, 132) / 40 (mobile, 112)</span>
+    </div>
+    <div style="display:flex;gap:24px;align-items:center;flex-wrap:wrap">
+      <dc-import name="FritoToggle" on="{{ tog }}" on-change="{{ setTog }}" hint-size="48px,28px"></dc-import>
+      <dc-import name="FritoToggle" on="{{ false }}" hint-size="48px,28px"></dc-import>
+      <span style="font-size:12px;color:#9CA3AF;font-family:ui-monospace,monospace">toggle · 48×28</span>
+      <label style="display:flex;align-items:flex-start;gap:10px;cursor:pointer">
+        <button onClick="{{ toggleChk }}" role="checkbox" aria-checked="{{ chk }}" style="flex-shrink:0;width:20px;height:20px;border-radius:6px;border:2px solid {{ chkBorder }};background:{{ chkBg }};display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0;transition:all .15s"><span style="color:#fff;font-size:12px;font-weight:800;line-height:1;opacity:{{ chkOpacity }}">✓</span></button>
+        <span style="font-size:12px;color:#9CA3AF;line-height:1.45">Согласен с <a href="#">офертой</a></span>
+      </label>
+      <span style="font-size:12px;color:#9CA3AF;font-family:ui-monospace,monospace">checkbox · 20 · r6</span>
+    </div>
+    <div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap">
+      <span style="width:22px;height:22px;border-radius:50%;border:2px solid #614BE2;background:#614BE2;display:flex;align-items:center;justify-content:center"><span style="width:8px;height:8px;border-radius:50%;background:#fff"></span></span>
+      <span style="width:22px;height:22px;border-radius:50%;border:2px solid #D1D5DB;background:#fff"></span>
+      <span style="font-size:12px;color:#9CA3AF;font-family:ui-monospace,monospace">radio · 22 · точка 8</span>
+    </div>
+  </section>
+</div>
+
+<!-- INPUTS -->
+<section style="background:#fff;border-radius:24px;padding:28px 32px;display:flex;flex-direction:column;gap:20px">
+  <div><h2 style="margin:0 0 4px;font-size:20px;font-weight:700">Input</h2><p style="margin:0;font-size:13px;color:#6B7280">FritoInput — плавающий лейбл, фон surface-1, r14, высота 56 / textarea 84. В фокусе непустое поле показывает круглый «×» справа (очистка); вне фокуса и у телефона его нет. Промокод — единый паттерн на всех экранах: pill-инпут 44 + secondary «Применить»; после применения — плашка primary-100 с кодом и «×».</p></div>
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px">
+    <dc-import name="FritoInput" label="Номер телефона" mask="phone" required="{{ true }}" value="{{ phone }}" on-change="{{ setPhone }}" hint-size="100%,56px"></dc-import>
+    <dc-import name="FritoInput" label="Кв. / офис" value="{{ flat }}" on-change="{{ setFlat }}" hint-size="100%,56px"></dc-import>
+    <div style="position:relative;display:block;background:#F7F7F9;border-radius:14px;height:56px;border:2px solid #EF4444"><span style="position:absolute;left:14px;top:10px;font-size:11px;color:#EF4444;font-weight:500">Номер телефона</span><span style="position:absolute;left:14px;bottom:9px;font-size:15px;font-weight:600">+7 708</span></div>
+    <div style="position:relative;display:block;background:#F3F4F6;border-radius:14px;height:56px;opacity:.6"><span style="position:absolute;left:14px;top:10px;font-size:11px;color:#6B7280;font-weight:500">Ресторан</span><span style="position:absolute;left:14px;bottom:9px;font-size:15px;font-weight:600;color:#9CA3AF">Сыганак 11</span></div>
+    <span style="font-size:12px;color:#9CA3AF;font-family:ui-monospace,monospace;line-height:1.4">required · звёздочка danger в лейбле (текст «необязательно» не пишем) · mask="phone" · +7 (999) 999-99-99 · ведущая 8 игнорируется · «+» и код ≠ 7 → международный, до 15 цифр</span><span style="font-size:12px;color:#9CA3AF;font-family:ui-monospace,monospace">filled · clearable (× появляется только в фокусе при непустом значении; у телефона нет)</span><span style="font-size:12px;color:#9CA3AF;font-family:ui-monospace,monospace">error · border 2px danger (предложение)</span><span style="font-size:12px;color:#9CA3AF;font-family:ui-monospace,monospace">disabled (предложение)</span>
+  </div>
+  <div style="display:grid;grid-template-columns:2fr 1fr;gap:12px;align-items:start">
+    <dc-import name="FritoInput" label="Комментарий к заказу" value="" multiline="{{ true }}" hint-size="100%,84px"></dc-import>
+    <div></div>
+    <span style="font-size:12px;color:#9CA3AF;font-family:ui-monospace,monospace">textarea · 84</span><span></span>
+  </div>
+  <div><h3 style="margin:0 0 4px;font-size:16px;font-weight:700">PromoField · состояния</h3><p style="margin:0;font-size:13px;color:#6B7280">Ошибка: border 2px danger, фон #FEF2F2, сообщение 12/500 danger под полем. Сбрасывается при вводе. Enter = «Применить».</p></div>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px 20px;align-items:start">
+    <div style="display:flex;flex-direction:column;gap:6px"><div style="display:flex;gap:8px"><div style="flex:1;position:relative;min-width:0"><input value="" placeholder="Промокод" style="width:100%;border:2px solid transparent;background:#F3F4F6;border-radius:999px;height:44px;padding:0 16px 0 16px;font:inherit;font-size:14px;color:#111827;text-transform:uppercase"></div><button style="border:0;background:#EFEDFC;color:#614BE2;border-radius:999px;height:44px;padding:0 18px;font:inherit;font-size:14px;font-weight:600;cursor:pointer" style-hover="background:#E4E0FA">Применить</button></div></div>
+    <div style="display:flex;flex-direction:column;gap:6px"><div style="display:flex;gap:8px"><div style="flex:1;position:relative;min-width:0"><input value="SUMMER" placeholder="Промокод" style="width:100%;border:2px solid transparent;background:#F3F4F6;border-radius:999px;height:44px;padding:0 44px 0 16px;font:inherit;font-size:14px;color:#111827;text-transform:uppercase"><button aria-label="Очистить" style="position:absolute;right:8px;top:8px;width:28px;height:28px;border:0;border-radius:50%;background:#E5E7EB;color:#6B7280;cursor:pointer;padding:0;display:flex;align-items:center;justify-content:center"><span aria-hidden="true" style="position:relative;width:10px;height:10px;display:block"><span style="position:absolute;left:0;top:50%;width:100%;height:2px;margin-top:-1px;background:currentColor;border-radius:1px;transform:rotate(45deg)"></span><span style="position:absolute;left:0;top:50%;width:100%;height:2px;margin-top:-1px;background:currentColor;border-radius:1px;transform:rotate(-45deg)"></span></span></button></div><button style="border:0;background:#EFEDFC;color:#614BE2;border-radius:999px;height:44px;padding:0 18px;font:inherit;font-size:14px;font-weight:600;cursor:pointer" style-hover="background:#E4E0FA">Применить</button></div></div>
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;background:#EFEDFC;border-radius:14px;padding:10px 12px 10px 14px"><div style="display:flex;align-items:center;gap:10px"><span style="font-size:12px;font-weight:800;color:#614BE2;background:#fff;border-radius:8px;padding:4px 8px;letter-spacing:.04em">NEW10</span><span style="font-size:13px;color:#4A36C4;font-weight:600">−10% на первый заказ</span></div><button aria-label="Убрать промокод" style="border:0;background:transparent;color:#6B7280;cursor:pointer;padding:0;width:28px;height:28px;display:flex;align-items:center;justify-content:center;flex-shrink:0"><span aria-hidden="true" style="position:relative;width:12px;height:12px;display:block"><span style="position:absolute;left:0;top:50%;width:100%;height:2px;margin-top:-1px;background:currentColor;border-radius:1px;transform:rotate(45deg)"></span><span style="position:absolute;left:0;top:50%;width:100%;height:2px;margin-top:-1px;background:currentColor;border-radius:1px;transform:rotate(-45deg)"></span></span></button></div>
+    <span style="font-size:12px;color:#9CA3AF;font-family:ui-monospace,monospace">empty</span><span style="font-size:12px;color:#9CA3AF;font-family:ui-monospace,monospace">typing (uppercase)</span><span style="font-size:12px;color:#9CA3AF;font-family:ui-monospace,monospace">applied</span>
+    <div style="display:flex;flex-direction:column;gap:6px"><div style="display:flex;gap:8px"><div style="flex:1;position:relative;min-width:0"><input value="SUMMER" placeholder="Промокод" style="width:100%;border:2px solid #EF4444;background:#FEF2F2;border-radius:999px;height:44px;padding:0 44px 0 16px;font:inherit;font-size:14px;color:#111827;text-transform:uppercase"><button aria-label="Очистить" style="position:absolute;right:8px;top:8px;width:28px;height:28px;border:0;border-radius:50%;background:#E5E7EB;color:#6B7280;cursor:pointer;padding:0;display:flex;align-items:center;justify-content:center"><span aria-hidden="true" style="position:relative;width:10px;height:10px;display:block"><span style="position:absolute;left:0;top:50%;width:100%;height:2px;margin-top:-1px;background:currentColor;border-radius:1px;transform:rotate(45deg)"></span><span style="position:absolute;left:0;top:50%;width:100%;height:2px;margin-top:-1px;background:currentColor;border-radius:1px;transform:rotate(-45deg)"></span></span></button></div><button style="border:0;background:#EFEDFC;color:#614BE2;border-radius:999px;height:44px;padding:0 18px;font:inherit;font-size:14px;font-weight:600;cursor:pointer" style-hover="background:#E4E0FA">Применить</button></div><div style="font-size:12px;color:#EF4444;font-weight:500;padding:0 14px">Промокод не найден — проверьте написание</div></div>
+    <div style="display:flex;flex-direction:column;gap:6px"><div style="display:flex;gap:8px"><div style="flex:1;position:relative;min-width:0"><input value="OLD20" placeholder="Промокод" style="width:100%;border:2px solid #EF4444;background:#FEF2F2;border-radius:999px;height:44px;padding:0 44px 0 16px;font:inherit;font-size:14px;color:#111827;text-transform:uppercase"><button aria-label="Очистить" style="position:absolute;right:8px;top:8px;width:28px;height:28px;border:0;border-radius:50%;background:#E5E7EB;color:#6B7280;cursor:pointer;padding:0;display:flex;align-items:center;justify-content:center"><span aria-hidden="true" style="position:relative;width:10px;height:10px;display:block"><span style="position:absolute;left:0;top:50%;width:100%;height:2px;margin-top:-1px;background:currentColor;border-radius:1px;transform:rotate(45deg)"></span><span style="position:absolute;left:0;top:50%;width:100%;height:2px;margin-top:-1px;background:currentColor;border-radius:1px;transform:rotate(-45deg)"></span></span></button></div><button style="border:0;background:#EFEDFC;color:#614BE2;border-radius:999px;height:44px;padding:0 18px;font:inherit;font-size:14px;font-weight:600;cursor:pointer" style-hover="background:#E4E0FA">Применить</button></div><div style="font-size:12px;color:#EF4444;font-weight:500;padding:0 14px">Срок действия промокода истёк</div></div>
+    <div style="display:flex;flex-direction:column;gap:6px"><div style="display:flex;gap:8px"><div style="flex:1;position:relative;min-width:0"><input value="BIG15" placeholder="Промокод" style="width:100%;border:2px solid #EF4444;background:#FEF2F2;border-radius:999px;height:44px;padding:0 44px 0 16px;font:inherit;font-size:14px;color:#111827;text-transform:uppercase"><button aria-label="Очистить" style="position:absolute;right:8px;top:8px;width:28px;height:28px;border:0;border-radius:50%;background:#E5E7EB;color:#6B7280;cursor:pointer;padding:0;display:flex;align-items:center;justify-content:center"><span aria-hidden="true" style="position:relative;width:10px;height:10px;display:block"><span style="position:absolute;left:0;top:50%;width:100%;height:2px;margin-top:-1px;background:currentColor;border-radius:1px;transform:rotate(45deg)"></span><span style="position:absolute;left:0;top:50%;width:100%;height:2px;margin-top:-1px;background:currentColor;border-radius:1px;transform:rotate(-45deg)"></span></span></button></div><button style="border:0;background:#EFEDFC;color:#614BE2;border-radius:999px;height:44px;padding:0 18px;font:inherit;font-size:14px;font-weight:600;cursor:pointer" style-hover="background:#E4E0FA">Применить</button></div><div style="font-size:12px;color:#EF4444;font-weight:500;padding:0 14px">Промокод действует для заказов от 10 000 тг.</div></div>
+    <span style="font-size:12px;color:#9CA3AF;font-family:ui-monospace,monospace">error · not found</span><span style="font-size:12px;color:#9CA3AF;font-family:ui-monospace,monospace">error · expired</span><span style="font-size:12px;color:#9CA3AF;font-family:ui-monospace,monospace">error · min order</span>
+  </div>
+</section>
+
+<!-- OPTION CARDS + ROWS -->
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
+  <section style="background:#fff;border-radius:24px;padding:28px 32px;display:flex;flex-direction:column;gap:20px">
+    <div><h2 style="margin:0 0 4px;font-size:20px;font-weight:700">OptionCard</h2><p style="margin:0;font-size:13px;color:#6B7280">Выбор одного из N: border 2px, selected = primary + primary-50. Варианты: simple, radio (оплата), rich (модалка способа — иконка, заголовок, описание; кликабельна вся карточка).</p></div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap">
+      <button style="border:2px solid #614BE2;background:#F5F3FF;border-radius:16px;padding:12px 18px;font:inherit;cursor:pointer;display:flex;flex-direction:column;align-items:flex-start;gap:2px;text-align:left;color:#111827;min-width:150px"><span style="font-size:16px;font-weight:700">Как можно скорее</span><span style="font-size:12px;color:#6B7280">~45 мин</span></button>
+      <button style="border:2px solid #F1F1F4;background:#fff;border-radius:16px;padding:12px 18px;font:inherit;cursor:pointer;display:flex;flex-direction:column;align-items:flex-start;gap:2px;text-align:left;color:#111827;min-width:150px" style-hover="border-color:#D9D4F7"><span style="font-size:16px;font-weight:700">Ко времени</span><span style="font-size:12px;color:#6B7280">выбрать слот</span></button>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+      <button style="border:2px solid #614BE2;background:#F5F3FF;border-radius:16px;padding:12px 14px;font:inherit;cursor:pointer;display:flex;align-items:center;gap:12px;text-align:left;color:#111827"><span style="width:40px;height:40px;border-radius:12px;background:#F14635;display:flex;align-items:center;justify-content:center;flex-shrink:0"><img src="assets/ic-kaspi-w.svg" alt="" style="width:24px;height:24px"></span><span style="display:flex;flex-direction:column;gap:2px;flex:1"><span style="font-size:15px;font-weight:700">Kaspi</span><span style="font-size:12px;color:#6B7280">Счёт в приложении</span></span><span style="width:22px;height:22px;border-radius:50%;border:2px solid #614BE2;background:#614BE2;display:flex;align-items:center;justify-content:center"><span style="width:8px;height:8px;border-radius:50%;background:#fff"></span></span></button>
+      <button style="border:2px solid #F1F1F4;background:#fff;border-radius:16px;padding:12px 14px;font:inherit;cursor:pointer;display:flex;align-items:center;gap:12px;text-align:left;color:#111827"><span style="width:40px;height:40px;border-radius:12px;background:#EFEDFC;display:flex;align-items:center;justify-content:center;flex-shrink:0"><img src="assets/ic-card-p.svg" alt="" style="width:24px;height:24px"></span><span style="display:flex;flex-direction:column;gap:2px;flex:1"><span style="font-size:15px;font-weight:700">Картой онлайн</span><span style="font-size:12px;color:#6B7280">Visa · Mastercard</span></span><span style="width:22px;height:22px;border-radius:50%;border:2px solid #D1D5DB;background:#fff"></span></button>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+      <button style="display:flex;flex-direction:column;align-items:stretch;gap:8px;border:2px solid #ECECF1;cursor:pointer;font:inherit;background:#F8F8FB;color:#111827;border-radius:24px;padding:18px;text-align:left" style-hover="border-color:#614BE2;background:#F5F3FF"><img src="assets/ic-delivery-p.svg" alt="" style="width:48px;height:48px;object-fit:contain;align-self:center;margin:6px 0"><span style="font-size:19px;font-weight:700">Доставка</span><span style="font-size:13px;color:#6B7280;line-height:1.35;flex:1">Курьером за 35–45 мин · от 1 000 тг</span></button>
+      <button style="display:flex;flex-direction:column;align-items:stretch;gap:8px;border:2px solid #614BE2;cursor:pointer;font:inherit;background:#F5F3FF;color:#111827;border-radius:24px;padding:18px;text-align:left"><img src="assets/ic-pickup-p.svg" alt="" style="width:48px;height:48px;object-fit:contain;align-self:center;margin:6px 0"><span style="font-size:19px;font-weight:700">Самовывоз</span><span style="font-size:13px;color:#6B7280;line-height:1.35;flex:1">5 ресторанов · готово через 15 мин</span></button>
+    </div>
+  </section>
+
+  <section style="background:#fff;border-radius:24px;padding:28px 32px;display:flex;flex-direction:column;gap:20px">
+    <div><h2 style="margin:0 0 4px;font-size:20px;font-weight:700">Rows · Address · Panel</h2><p style="margin:0;font-size:13px;color:#6B7280">Составные блоки: адресная пилюля, строка адреса, строка настройки, панель (Card) с заголовком.</p></div>
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <button style="display:flex;align-items:center;gap:10px;height:48px;padding:0 16px 0 6px;font:inherit;font-size:13px;font-weight:600;color:#614BE2;border:1px dashed #B7ACF3;background:#F5F3FF;border-radius:999px;cursor:pointer;width:max-content;transition:all .15s" style-hover="background:#EFEDFC;border-color:#614BE2"><span style="width:36px;height:36px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center"><img src="assets/ic-pin-p.svg" alt="" style="width:16px;height:16px"></span>Выберите, как получить заказ<span aria-hidden="true" style="font-size:18px;line-height:1;margin-left:2px">›</span></button>
+      <button style="display:flex;align-items:center;gap:8px;border:1px solid #ECECF1;background:#fff;border-radius:999px;height:48px;padding:0 16px 0 6px;font:inherit;cursor:pointer;color:#111827;text-align:left;width:max-content" style-hover="border-color:#B7ACF3"><span style="width:36px;height:36px;border-radius:50%;background:#EFEDFC;display:flex;align-items:center;justify-content:center"><img src="assets/ic-pin-p.svg" alt="" style="width:16px;height:16px"></span><span style="display:flex;flex-direction:column;line-height:1.15"><span style="font-size:11px;color:#6B7280;font-weight:500">Адрес доставки</span><span style="font-size:14px;font-weight:700">пр-кт Туран, 52/6</span></span><span style="font-size:13px;color:#614BE2;font-weight:600;margin-left:8px">Изменить</span></button>
+      <span style="font-size:12px;color:#9CA3AF;font-family:ui-monospace,monospace">address-pill · empty (dashed, primary-50, открывает модалку) / filled</span>
+    </div>
+    <div style="background:#F7F7F9;border-radius:20px;padding:18px 20px;display:flex;flex-direction:column;gap:16px">
+      <div style="font-size:15px;font-weight:700">Способ получения</div>
+      <div style="display:flex;align-items:center;gap:14px"><span style="width:40px;height:40px;border-radius:50%;background:#EFEDFC;display:flex;align-items:center;justify-content:center;flex-shrink:0"><img src="assets/ic-delivery-p.svg" alt="" style="width:20px;height:20px"></span><div style="display:flex;flex-direction:column;gap:3px;flex:1"><div style="font-size:12px;color:#6B7280">Адрес доставки · <span style="color:#16A34A;font-weight:600">35–45 мин</span></div><div style="font-size:15px;font-weight:700">пр-кт Туран, 52/6</div></div><button style="border:0;background:#fff;border-radius:999px;padding:10px 16px;font:inherit;font-size:13px;font-weight:600;color:#111827;cursor:pointer;box-shadow:0 1px 2px rgba(0,0,0,.06)">Изменить</button></div>
+      <div style="border-top:1px solid #F1F1F4;padding-top:14px;display:flex;align-items:center;justify-content:space-between"><div style="display:flex;flex-direction:column;gap:2px"><span style="font-size:14px;font-weight:600">Оставить у двери</span><span style="font-size:12px;color:#6B7280">Курьер позвонит и оставит заказ</span></div><dc-import name="FritoToggle" on="{{ true }}" hint-size="48px,28px"></dc-import></div>
+    </div>
+    <span style="font-size:12px;color:#9CA3AF;font-family:ui-monospace,monospace">panel (r20, p18/20) → panel-title 15/700 → address-row → setting-row</span>
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <dc-import name="FritoDeliveryBar" subtotal="{{ 5200 }}" free-from="{{ 8000 }}" hint-size="100%,60px"></dc-import>
+      <dc-import name="FritoDeliveryBar" subtotal="{{ 9000 }}" free-from="{{ 8000 }}" compact="{{ true }}" hint-size="100%,56px"></dc-import>
+      <span style="font-size:12px;color:#9CA3AF;font-family:ui-monospace,monospace">delivery-bar · progress / done · compact</span>
+    </div>
+  </section>
+</div>
+
+<!-- PRODUCT + LINE + TOTALS -->
+<div style="display:grid;grid-template-columns:400px 1fr 360px;gap:24px;align-items:start">
+  <section style="background:#fff;border-radius:24px;padding:28px 32px;display:flex;flex-direction:column;gap:16px">
+    <h2 style="margin:0;font-size:20px;font-weight:700">ProductCard</h2>
+    <article style="background:#fff;border:1px solid #ECECF1;border-radius:24px;padding:14px;display:flex;flex-direction:column;gap:10px" style-hover="box-shadow:0 12px 32px -14px rgba(17,24,39,.2)">
+      <div style="aspect-ratio:1/1;border-radius:18px;background:#F3F4F6;overflow:hidden"><img src="{{ demoImg }}" alt="" style="width:100%;height:100%;object-fit:cover;display:block"></div>
+      <div style="display:flex;flex-direction:column;gap:6px;padding:2px 4px 0"><h3 style="margin:0;font-size:18px;font-weight:700;line-height:1.25">Сальса бокс</h3><p style="margin:0;font-size:14px;line-height:1.4;color:#6B7280;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">Сальса бургер, стрипсы (3 шт.), фри, напиток 0,5 л и фирменный соус Frito</p></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:4px 4px 0"><span style="font-size:20px;font-weight:700;white-space:nowrap">4 090 тг.</span><button style="border:0;cursor:pointer;font:inherit;font-size:15px;font-weight:600;background:#EFEDFC;color:#614BE2;border-radius:999px;width:132px;height:44px" style-hover="background:#614BE2;color:#fff">В корзину</button></div>
+    </article>
+    <span style="font-size:12px;color:#9CA3AF;font-family:ui-monospace,monospace">desktop · 3 в ряд · после добавления кнопка → stepper 132×44</span>
+  </section>
+  <section style="background:#fff;border-radius:24px;padding:28px 32px;display:flex;flex-direction:column;gap:16px">
+    <h2 style="margin:0;font-size:20px;font-weight:700">CartLine · OrderLine · UpsellTile</h2>
+    <div style="display:grid;grid-template-columns:104px minmax(0,1fr);gap:16px;padding:0 0 20px;border-bottom:1px solid #F1F1F4">
+      <div style="width:104px;height:104px;border-radius:18px;background:#F3F4F6;overflow:hidden"><img src="{{ demoImg }}" alt="" style="width:100%;height:100%;object-fit:cover;display:block"></div>
+      <div style="display:flex;flex-direction:column;justify-content:space-between;gap:12px;min-width:0">
+        <div style="display:flex;flex-direction:column;gap:4px"><div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px"><div style="font-size:16px;font-weight:700;line-height:1.3">Сальса бокс</div><button aria-label="Удалить" style="border:0;background:transparent;color:#9CA3AF;font-size:20px;line-height:1;cursor:pointer;padding:0;width:24px;height:24px;display:flex;align-items:center;justify-content:center;margin-top:-2px">×</button></div><div style="font-size:13px;color:#6B7280;line-height:1.4">Неострый 3 шт · Coca-cola 0,5 л</div><a href="#" style="font-size:13px;font-weight:600;align-self:flex-start">Изменить</a></div>
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:10px"><span style="font-size:17px;font-weight:700">4 090 тг.</span><div style="width:132px"><dc-import name="FritoStepper" qty="{{ 1 }}" size="{{ 44 }}" hint-size="132px,44px"></dc-import></div></div>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:48px minmax(0,1fr) auto;gap:12px;align-items:center">
+      <div style="width:48px;height:48px;border-radius:12px;background:#F3F4F6;overflow:hidden"><img src="{{ demoImg }}" alt="" style="width:100%;height:100%;object-fit:cover;display:block"></div>
+      <div style="display:flex;flex-direction:column;gap:2px;min-width:0"><span style="font-size:14px;font-weight:600">Сальса бокс</span><span style="font-size:12px;color:#6B7280;line-height:1.35">Неострый 3 шт · Coca-cola 0,5 л</span><span style="font-size:12px;color:#9CA3AF">1 × 4 090 тг.</span></div>
+      <span style="font-size:14px;font-weight:700">4 090 тг.</span>
+    </div>
+    <span style="font-size:12px;color:#9CA3AF;font-family:ui-monospace,monospace">cart-line (корзина) · order-line (оформление: name 14/600 · mods 12 ink-2 · qty×price 12 ink-3)</span>
+    <div style="display:flex;gap:12px">
+      <button style="display:flex;flex-direction:column;align-items:center;gap:8px;border:0;background:transparent;font:inherit;cursor:pointer;color:#111827;width:92px;padding:0"><span style="width:80px;height:80px;border-radius:18px;background:#F3F4F6;overflow:hidden;display:block;position:relative"><img src="{{ upsellImg }}" alt="" style="width:100%;height:100%;object-fit:cover;display:block"><span style="position:absolute;right:5px;bottom:5px;width:24px;height:24px;border-radius:50%;background:#614BE2;color:#fff;display:flex;align-items:center;justify-content:center"><span aria-hidden="true" style="position:relative;width:10px;height:10px;display:block"><span style="position:absolute;left:0;top:50%;width:100%;height:2px;margin-top:-1px;background:currentColor;border-radius:1px"></span><span style="position:absolute;top:0;left:50%;height:100%;width:2px;margin-left:-1px;background:currentColor;border-radius:1px"></span></span></span></span><span style="display:flex;flex-direction:column;gap:2px;align-items:center"><span style="font-size:12px;font-weight:500;color:#6B7280">Напитки</span><span style="font-size:13px;font-weight:700">650 тг.</span></span></button>
+      <span style="align-self:center;font-size:12px;color:#9CA3AF;font-family:ui-monospace,monospace">upsell-tile · 92 / 80 mobile</span>
+    </div>
+  </section>
+  <section style="background:#fff;border-radius:24px;padding:28px 32px;display:flex;flex-direction:column;gap:16px">
+    <h2 style="margin:0;font-size:20px;font-weight:700">Totals</h2>
+    <dc-import name="FritoTotals" subtotal="{{ 9470 }}" fee="{{ 1000 }}" discount="{{ 947 }}" total-title="К оплате" hint-size="100%,140px"></dc-import>
+    <div style="border-top:1px solid #F1F1F4;padding-top:12px"><dc-import name="FritoTotals" subtotal="{{ 9470 }}" fee="{{ 0 }}" discount="{{ 0 }}" fee-title="Самовывоз" compact="{{ true }}" hint-size="100%,100px"></dc-import></div>
+    <span style="font-size:12px;color:#9CA3AF;font-family:ui-monospace,monospace">totals · default / compact · fee 0 = «Бесплатно»</span>
+  </section>
+</div>
+
+<!-- ICONS -->
+<section style="background:#fff;border-radius:24px;padding:28px 32px;display:flex;flex-direction:column;gap:16px">
+  <h2 style="margin:0;font-size:20px;font-weight:700">Иконки · assets/</h2>
+  <div style="display:flex;gap:16px;flex-wrap:wrap">
+    <sc-for list="{{ icons }}" as="i" hint-placeholder-count="10">
+      <div style="display:flex;flex-direction:column;align-items:center;gap:8px;width:110px"><span style="width:56px;height:56px;border-radius:16px;background:{{ i.bg }};display:flex;align-items:center;justify-content:center"><img src="assets/{{ i.file }}" alt="" style="width:24px;height:24px;object-fit:contain"></span><span style="font-size:11px;font-family:ui-monospace,monospace;color:#6B7280;text-align:center">{{ i.file }}</span></div>
+    </sc-for>
+  </div>
+  <p style="margin:0;font-size:12px;color:#6B7280">Суффикс -p = primary (#614BE2), -w = white. Иконки 20–24px в кругах 36/40/44/48. Изображения: bag-frito.png, story-*.png, фото товаров с CDN.</p>
+</section>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { qty: 2, tog: true, chk: true, phone: '+7 708 261 63 92', flat: '157' };
+  renderVals() {
+    const s = this.state;
+    return {
+      nullMode: null,
+      colors: [
+        { name: 'primary', hex: '#614BE2', use: 'CTA, активные состояния, ссылки' },
+        { name: 'primary-hover', hex: '#503BCB', use: 'hover primary-кнопок' },
+        { name: 'primary-dark', hex: '#4A36C4', use: 'hover ссылок, текст в promo-плашке' },
+        { name: 'primary-100', hex: '#EFEDFC', use: 'secondary-кнопки, активный чип, все круги под иконками (пин, способ)' },
+        { name: 'primary-50', hex: '#F5F3FF', use: 'выбранная OptionCard, delivery-bar, фон пустой адресной пилюли' },
+        { name: 'primary-200', hex: '#D9D4F7', use: 'dashed border адресной пилюли, hover OptionCard' },
+        { name: 'primary-light', hex: '#A899FF', use: 'ссылки на тёмном (футер)' },
+        { name: 'ink', hex: '#111827', use: 'основной текст' },
+        { name: 'ink-2', hex: '#6B7280', use: 'вторичный текст, лейблы' },
+        { name: 'ink-3', hex: '#9CA3AF', use: 'подсказки, плейсхолдеры, disabled-текст' },
+        { name: 'border', hex: '#ECECF1', use: 'карточки, header/footer линии, OptionCard rich' },
+        { name: 'divider', hex: '#F1F1F4', use: 'разделители строк, OptionCard default' },
+        { name: 'surface-3', hex: '#E5E7EB', use: 'hover ghost, трек прогресса, disabled-кнопка' },
+        { name: 'surface-2', hex: '#F3F4F6', use: 'ghost-кнопки, чипы, фон фото, инпуты pill' },
+        { name: 'surface-1', hex: '#F7F7F9', use: 'фон экрана, FritoInput, панели корзины' },
+        { name: 'surface-0', hex: '#FFFFFF', use: 'панели, карточки, header' },
+        { name: 'dark', hex: '#1B1740', use: 'футер' },
+        { name: 'success', hex: '#16A34A', use: 'ETA, промокод применён, бесплатная доставка' },
+        { name: 'danger', hex: '#EF4444', use: 'бэдж счётчика, hover «Очистить», ошибка' },
+        { name: 'kaspi', hex: '#F14635', use: 'иконка и CTA Kaspi' },
+        { name: 'neutral-300', hex: '#D1D5DB', use: 'toggle off, radio/checkbox off border' },
+        { name: 'canvas', hex: '#E9E8F0', use: 'фон канваса макетов (не продукт)' },
+      ],
+      type: [
+        { token: 'display', size: '36px', weight: 800, lh: 1.1, ls: '-.02em', sample: 'Дизайн-система Frito', spec: '36 / 800 / 1.1 / -0.02em' },
+        { token: 'h1', size: '30px', weight: 700, lh: 1.15, ls: '-.01em', sample: 'Выберите способ получения', spec: '30 / 700 / 1.15 · modal desktop, h1 checkout 28/800' },
+        { token: 'h2', size: '24px', weight: 700, lh: 1.2, ls: '-.01em', sample: 'Боксы', spec: '24 / 700 · заголовок категории, modal mobile' },
+        { token: 'h3', size: '22px', weight: 700, lh: 1.2, ls: '-.01em', sample: '3 товара на 9 470 тг.', spec: '22 / 700 · заголовок корзины / меню' },
+        { token: 'title', size: '18px', weight: 700, lh: 1.25, ls: '0', sample: 'Сальса бокс', spec: '18 / 700 · название товара (mobile 15)' },
+        { token: 'panel-title', size: '16px', weight: 700, lh: 1.3, ls: '0', sample: 'Способ получения', spec: '16 / 700 · заголовок панели (cart 15, mobile 14–15)' },
+        { token: 'body-strong', size: '15px', weight: 600, lh: 1.4, ls: '0', sample: 'Перейти к оформлению', spec: '15 / 600 · кнопки md, значения инпутов' },
+        { token: 'body', size: '14px', weight: 400, lh: 1.4, ls: '0', sample: 'Сальса бургер, стрипсы (3 шт.), фри, напиток 0,5 л', spec: '14 / 400 / 1.4 · описание, строки итогов' },
+        { token: 'label', size: '13px', weight: 600, lh: 1.35, ls: '0', sample: 'Изменить · Неострый · Coca-cola 0,5 л', spec: '13 / 500–600 · ссылки-действия, модификаторы (400)' },
+        { token: 'caption', size: '12px', weight: 500, lh: 1.45, ls: '0', sample: 'Адрес доставки · 35–45 мин', spec: '12 / 400–500 · подписи, оферта, дисклеймеры' },
+        { token: 'micro', size: '11px', weight: 500, lh: 1.2, ls: '0', sample: 'Промокод', spec: '11 / 500 · плавающий лейбл инпута' },
+        { token: 'overline', size: '13px', weight: 600, lh: 1.2, ls: '.04em', sample: 'РЕСТОРАНЫ · 5', spec: '13 / 600–700 / +0.04em · uppercase секции' },
+        { token: 'price-xl', size: '24px', weight: 800, lh: 1.1, ls: '-.02em', sample: '9 470 тг.', spec: '24 / 800 / -0.02em · итого (compact 20)' },
+        { token: 'price', size: '20px', weight: 700, lh: 1.1, ls: '0', sample: '4 090 тг.', spec: '20 / 700 · цена в карточке (line 17, order-line 14)' },
+      ],
+      radii: [
+        { name: 'xs', px: '6px' }, { name: 'sm', px: '8px' }, { name: 'md-', px: '12px' }, { name: 'md', px: '14px' }, { name: 'md+', px: '16px' }, { name: 'lg', px: '20px' }, { name: 'xl', px: '24px' }, { name: '2xl', px: '32px' }, { name: 'pill', px: '999px' },
+      ],
+      space: [
+        { name: 'sp-1', px: '4px' }, { name: 'sp-2', px: '8px' }, { name: 'sp-3', px: '12px' }, { name: 'sp-4', px: '16px' }, { name: 'sp-5', px: '20px' }, { name: 'sp-6', px: '24px' }, { name: 'sp-7', px: '28px' }, { name: 'sp-8', px: '32px' }, { name: 'sp-10', px: '40px' },
+      ],
+      icons: [
+        { file: 'ic-delivery-p.svg', bg: '#EFEDFC' }, { file: 'ic-delivery-w.svg', bg: '#614BE2' }, { file: 'ic-pickup-p.svg', bg: '#EFEDFC' }, { file: 'ic-pickup-w.svg', bg: '#614BE2' },
+        { file: 'ic-pin-p.svg', bg: '#F5F3FF' }, { file: 'ic-card-p.svg', bg: '#EFEDFC' }, { file: 'ic-kaspi-w.svg', bg: '#F14635' },
+        { file: 'ic-whatsapp-w.svg', bg: '#614BE2' }, { file: 'ic-instagram-w.svg', bg: '#1B1740' }, { file: 'ic-tiktok-w.svg', bg: '#1B1740' },
+      ],
+      demoImg: 'https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/frito-co/96814/images/items/0a86b5cc0389ecd9f3e219c2ef8795b7.JPEG',
+      upsellImg: 'https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/frito-co/96814/images/items/b33fdd1975cc96cbfe2a3ac2edd7c7de.JPEG',
+      qty: s.qty, inc: () => this.setState({ qty: s.qty + 1 }), dec: () => this.setState({ qty: Math.max(0, s.qty - 1) }),
+      tog: s.tog, setTog: v => this.setState({ tog: v }),
+      chk: s.chk, toggleChk: () => this.setState({ chk: !s.chk }), chkBg: s.chk ? '#614BE2' : '#fff', chkBorder: s.chk ? '#614BE2' : '#D1D5DB', chkOpacity: s.chk ? 1 : 0,
+      phone: s.phone, setPhone: v => this.setState({ phone: v }), flat: s.flat, setFlat: v => this.setState({ flat: v }),
+    };
+  }
+}
+</script>
+</body>
+</html>

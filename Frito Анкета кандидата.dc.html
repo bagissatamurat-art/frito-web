@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F7F7F9}
+a{color:#614BE2;text-decoration:none}a:hover{color:#4A36C4}
+*{box-sizing:border-box}
+input::placeholder{color:#9CA3AF}
+input,select,button{outline:none}
+select:focus-visible{outline:none}
+</style>
+</helmet>
+<div style="font-family:Inter,system-ui,sans-serif;color:#111827;min-height:100vh;display:flex;flex-direction:column;background:#F7F7F9">
+  <dc-import name="FritoHeader" hint-size="100%,72px"></dc-import>
+
+  <main style="flex:1;display:flex;flex-direction:column;align-items:center;padding:clamp(24px,5vw,56px) 16px 48px">
+    <div style="width:100%;max-width:600px;display:flex;flex-direction:column;gap:20px">
+      <div style="display:flex;flex-direction:column;gap:10px;padding:0 4px">
+        <span style="font-size:12px;font-weight:700;letter-spacing:.06em;color:#614BE2">РАБОТА В FRITO</span>
+        <h1 style="margin:0;font-size:clamp(28px,4.5vw,40px);font-weight:800;letter-spacing:-.03em;line-height:1.05;text-wrap:balance">Анкета кандидата</h1>
+        <p style="margin:0;font-size:15px;color:#6B7280;line-height:1.5;text-wrap:pretty">Заполните анкету — HR-менеджер перезвонит в течение двух рабочих дней.</p>
+      </div>
+
+      <sc-if value="{{ showForm }}" hint-placeholder-val="{{ true }}">
+      <form onSubmit="{{ submit }}" noValidate="{{ true }}" style="background:#fff;border-radius:24px;padding:clamp(20px,4vw,32px);display:flex;flex-direction:column;gap:28px;box-shadow:0 1px 2px rgba(17,24,39,.04)">
+
+        <section style="display:flex;flex-direction:column;gap:12px">
+          <h2 style="margin:0 0 4px;font-size:17px;font-weight:700;letter-spacing:-.01em">О вас</h2>
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <dc-import name="FritoInput" label="ФИО" value="{{ f.name }}" on-change="{{ setName }}" required="{{ true }}" hint-size="100%,56px"></dc-import>
+            <sc-if value="{{ e.name }}" hint-placeholder-val="{{ false }}"><span style="font-size:12px;color:#EF4444;padding:0 14px">Укажите фамилию, имя и отчество</span></sc-if>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <dc-import name="FritoInput" label="Дата рождения" value="{{ f.dob }}" on-change="{{ setDob }}" required="{{ true }}" hint-size="100%,56px"></dc-import>
+            <sc-if value="{{ e.dob }}" hint-placeholder-val="{{ false }}"><span style="font-size:12px;color:#EF4444;padding:0 14px">{{ dobErr }}</span></sc-if>
+            <sc-if value="{{ dobHint }}" hint-placeholder-val="{{ true }}"><span style="font-size:12px;color:#9CA3AF;padding:0 14px">Формат ДД.ММ.ГГГГ</span></sc-if>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <dc-import name="FritoInput" label="Номер телефона" value="{{ f.phone }}" on-change="{{ setPhone }}" mask="phone" required="{{ true }}" clearable="{{ false }}" hint-size="100%,56px"></dc-import>
+            <sc-if value="{{ e.phone }}" hint-placeholder-val="{{ false }}"><span style="font-size:12px;color:#EF4444;padding:0 14px">Введите номер полностью</span></sc-if>
+          </div>
+        </section>
+
+        <section style="display:flex;flex-direction:column;gap:12px">
+          <h2 style="margin:0 0 4px;font-size:17px;font-weight:700;letter-spacing:-.01em">Где хотите работать</h2>
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <label style="position:relative;display:block;background:#F7F7F9;border-radius:14px;height:56px;cursor:pointer">
+              <span style="position:absolute;left:14px;top:10px;font-size:11px;color:#6B7280;font-weight:500;line-height:1;pointer-events:none">Город<span aria-hidden="true" style="color:#EF4444;margin-left:2px">*</span></span>
+              <select value="{{ f.city }}" onChange="{{ setCity }}" aria-required="true" style="position:absolute;left:0;right:0;top:0;bottom:0;width:100%;height:100%;padding:24px 44px 0 14px;border:0;background:transparent;font:inherit;font-size:15px;font-weight:600;color:#111827;appearance:none;cursor:pointer;border-radius:14px">
+                <option value="" disabled="{{ true }}">Выберите город</option>
+                <sc-for list="{{ cities }}" as="c" hint-placeholder-count="1"><option value="{{ c }}">{{ c }}</option></sc-for>
+              </select>
+              <span aria-hidden="true" style="position:absolute;right:20px;top:22px;width:9px;height:9px;border-right:2px solid #6B7280;border-bottom:2px solid #6B7280;transform:rotate(45deg);pointer-events:none"></span>
+            </label>
+            <sc-if value="{{ e.city }}" hint-placeholder-val="{{ false }}"><span style="font-size:12px;color:#EF4444;padding:0 14px">Выберите город</span></sc-if>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <label style="position:relative;display:block;background:#F7F7F9;border-radius:14px;height:56px;cursor:pointer;opacity:{{ branchOpacity }}">
+              <span style="position:absolute;left:14px;top:10px;font-size:11px;color:#6B7280;font-weight:500;line-height:1;pointer-events:none">Филиал<span aria-hidden="true" style="color:#EF4444;margin-left:2px">*</span></span>
+              <select value="{{ f.branch }}" onChange="{{ setBranch }}" disabled="{{ noCity }}" aria-required="true" style="position:absolute;left:0;right:0;top:0;bottom:0;width:100%;height:100%;padding:24px 44px 0 14px;border:0;background:transparent;font:inherit;font-size:15px;font-weight:600;color:#111827;appearance:none;cursor:pointer;border-radius:14px">
+                <option value="" disabled="{{ true }}">{{ branchPh }}</option>
+                <sc-for list="{{ branches }}" as="b" hint-placeholder-count="0"><option value="{{ b.name }}">{{ b.name }}</option></sc-for>
+                <option value="any">Любой филиал</option>
+              </select>
+              <span aria-hidden="true" style="position:absolute;right:20px;top:22px;width:9px;height:9px;border-right:2px solid #6B7280;border-bottom:2px solid #6B7280;transform:rotate(45deg);pointer-events:none"></span>
+            </label>
+            <sc-if value="{{ e.branch }}" hint-placeholder-val="{{ false }}"><span style="font-size:12px;color:#EF4444;padding:0 14px">Выберите филиал</span></sc-if>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <label style="position:relative;display:block;background:#F7F7F9;border-radius:14px;height:56px;cursor:pointer">
+              <span style="position:absolute;left:14px;top:10px;font-size:11px;color:#6B7280;font-weight:500;line-height:1;pointer-events:none">Вакансия<span aria-hidden="true" style="color:#EF4444;margin-left:2px">*</span></span>
+              <select value="{{ f.vacancy }}" onChange="{{ setVacancy }}" aria-required="true" style="position:absolute;left:0;right:0;top:0;bottom:0;width:100%;height:100%;padding:24px 44px 0 14px;border:0;background:transparent;font:inherit;font-size:15px;font-weight:600;color:#111827;appearance:none;cursor:pointer;border-radius:14px">
+                <option value="" disabled="{{ true }}">Выберите вакансию</option>
+                <sc-for list="{{ vacancies }}" as="v" hint-placeholder-count="4"><option value="{{ v }}">{{ v }}</option></sc-for>
+              </select>
+              <span aria-hidden="true" style="position:absolute;right:20px;top:22px;width:9px;height:9px;border-right:2px solid #6B7280;border-bottom:2px solid #6B7280;transform:rotate(45deg);pointer-events:none"></span>
+            </label>
+            <sc-if value="{{ e.vacancy }}" hint-placeholder-val="{{ false }}"><span style="font-size:12px;color:#EF4444;padding:0 14px">Выберите вакансию</span></sc-if>
+          </div>
+        </section>
+
+        <section style="display:flex;flex-direction:column;gap:12px">
+          <h2 style="margin:0;font-size:17px;font-weight:700;letter-spacing:-.01em">Откуда вы о нас узнали?<span aria-hidden="true" style="color:#EF4444;margin-left:3px">*</span></h2>
+          <div role="radiogroup" style="display:flex;flex-direction:column;gap:8px">
+            <sc-for list="{{ sources }}" as="s" hint-placeholder-count="6">
+              <label style="display:flex;align-items:center;gap:12px;min-height:48px;padding:0 14px;border-radius:14px;background:{{ s.bg }};border:1px solid {{ s.border }};cursor:pointer;transition:all .15s" style-hover="border-color:#B7ACF3">
+                <input type="radio" name="source" value="{{ s.id }}" checked="{{ s.on }}" onChange="{{ s.pick }}" style="position:absolute;opacity:0;width:0;height:0">
+                <span aria-hidden="true" style="width:20px;height:20px;border-radius:50%;flex-shrink:0;border:2px solid {{ s.ring }};display:flex;align-items:center;justify-content:center;transition:all .15s"><span style="width:10px;height:10px;border-radius:50%;background:#614BE2;transform:scale({{ s.dot }});transition:transform .15s"></span></span>
+                <span style="font-size:15px;font-weight:{{ s.weight }}">{{ s.label }}</span>
+              </label>
+            </sc-for>
+            <sc-if value="{{ otherOn }}" hint-placeholder-val="{{ false }}">
+              <div style="display:flex;flex-direction:column;gap:6px;margin-top:4px">
+                <dc-import name="FritoInput" label="Расскажите, откуда" value="{{ f.other }}" on-change="{{ setOther }}" required="{{ true }}" hint-size="100%,56px"></dc-import>
+                <sc-if value="{{ e.other }}" hint-placeholder-val="{{ false }}"><span style="font-size:12px;color:#EF4444;padding:0 14px">Напишите, откуда узнали</span></sc-if>
+              </div>
+            </sc-if>
+            <sc-if value="{{ e.source }}" hint-placeholder-val="{{ false }}"><span style="font-size:12px;color:#EF4444;padding:0 14px">Выберите один вариант</span></sc-if>
+          </div>
+        </section>
+
+        <section style="display:flex;flex-direction:column;gap:14px;padding-top:4px;border-top:1px solid #ECECF1">
+          <label style="display:flex;align-items:flex-start;gap:12px;cursor:pointer;padding-top:14px">
+            <input type="checkbox" checked="{{ f.agree }}" onChange="{{ toggleAgree }}" style="position:absolute;opacity:0;width:0;height:0">
+            <span aria-hidden="true" style="width:22px;height:22px;border-radius:7px;flex-shrink:0;margin-top:1px;border:2px solid {{ agreeRing }};background:{{ agreeBg }};display:flex;align-items:center;justify-content:center;transition:all .15s"><span style="width:10px;height:6px;border-left:2px solid #fff;border-bottom:2px solid #fff;transform:rotate(-45deg) translate(1px,-1px);opacity:{{ agreeCheck }}"></span></span>
+            <span style="font-size:13px;line-height:1.5;color:#374151">Соглашаюсь с <a href="#">условиями оферты</a> и даю согласие на <a href="#">обработку персональных данных</a><span aria-hidden="true" style="color:#EF4444;margin-left:2px">*</span></span>
+          </label>
+          <button type="submit" disabled="{{ sending }}" style="height:56px;border:0;border-radius:999px;background:{{ ctaBg }};color:#fff;font:inherit;font-size:16px;font-weight:700;cursor:{{ ctaCursor }};transition:background .15s;display:flex;align-items:center;justify-content:center" style-hover="background:{{ ctaHover }}">{{ ctaText }}</button>
+          <sc-if value="{{ ctaHint }}" hint-placeholder-val="{{ false }}"><span style="font-size:12px;color:#6B7280;text-align:center">{{ ctaHint }}</span></sc-if>
+        </section>
+      </form>
+      </sc-if>
+
+      <sc-if value="{{ showDone }}" hint-placeholder-val="{{ false }}">
+      <div style="background:#fff;border-radius:24px;padding:clamp(28px,5vw,44px) clamp(20px,4vw,32px);display:flex;flex-direction:column;align-items:center;gap:16px;text-align:center">
+        <span aria-hidden="true" style="width:64px;height:64px;border-radius:50%;background:#EFEDFC;display:flex;align-items:center;justify-content:center"><span style="width:22px;height:12px;border-left:3px solid #614BE2;border-bottom:3px solid #614BE2;transform:rotate(-45deg) translate(2px,-3px)"></span></span>
+        <h2 style="margin:0;font-size:24px;font-weight:800;letter-spacing:-.02em">Анкета отправлена</h2>
+        <p style="margin:0;font-size:15px;color:#6B7280;line-height:1.5;max-width:380px;text-wrap:pretty">{{ doneName }}, спасибо! HR-менеджер позвонит на {{ f.phone }} в течение двух рабочих дней.</p>
+        <button type="button" onClick="{{ reset }}" style="margin-top:8px;height:48px;padding:0 24px;border:0;border-radius:999px;background:#F7F7F9;color:#111827;font:inherit;font-size:14px;font-weight:600;cursor:pointer" style-hover="background:#ECECF1">Заполнить ещё одну</button>
+      </div>
+      </sc-if>
+    </div>
+  </main>
+
+  <div style="margin:0 clamp(12px,3vw,32px) 32px"><dc-import name="FritoFooter" hint-size="100%,420px"></dc-import></div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;state&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;form&quot;,&quot;options&quot;:[&quot;form&quot;,&quot;done&quot;],&quot;tsType&quot;:&quot;'form' | 'done'&quot;,&quot;section&quot;:&quot;Состояние&quot;},&quot;showErrors&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Состояние&quot;}}">
+const SOURCES = [
+  ['instagram', 'Instagram'], ['tiktok', 'TikTok'], ['friends', 'Друзья или знакомые'],
+  ['restaurant', 'Объявление в ресторане'], ['hh', 'Сайты вакансий (hh.kz и др.)'], ['other', 'Другое'],
+];
+let VACANCIES = ['Кассир-официант', 'Повар горячего цеха', 'Повар (ночная смена)', 'Курьер на авто', 'Менеджер смены', 'Управляющий рестораном'];
+const fmtDob = raw => {
+  const d = String(raw || '').replace(/\D/g, '').slice(0, 8);
+  let o = d.slice(0, 2);
+  if (d.length > 2) o += '.' + d.slice(2, 4);
+  if (d.length > 4) o += '.' + d.slice(4, 8);
+  return o;
+};
+const dobError = v => {
+  if (!v) return 'Укажите дату рождения';
+  const m = /^(\d{2})\.(\d{2})\.(\d{4})$/.exec(v);
+  if (!m) return 'Введите дату полностью: ДД.ММ.ГГГГ';
+  const [dd, mm, yy] = [+m[1], +m[2], +m[3]], dt = new Date(yy, mm - 1, dd);
+  if (dt.getFullYear() !== yy || dt.getMonth() !== mm - 1 || dt.getDate() !== dd) return 'Такой даты не существует';
+  const age = (Date.now() - dt) / 31557600000;
+  if (age < 16) return 'Принимаем кандидатов от 16 лет';
+  if (age > 80) return 'Проверьте год рождения';
+  return '';
+};
+const EMPTY = { name: '', dob: '', phone: '', city: '', branch: '', vacancy: '', source: '', other: '', agree: false };
+class Component extends DCLogic {
+  state = { f: { ...EMPTY }, tried: false, done: false, sending: false, logoBroken: false, stores: [] };
+  async componentDidMount() {
+    try { const m = await import('./frito-data.js'); VACANCIES = m.VACANCIES.map(v => v.title); this.setState({ stores: m.STORES }); } catch (e) {}
+    const pre = new URLSearchParams(location.search).get('vacancy');
+    if (pre && VACANCIES.includes(pre)) this.set('vacancy', pre);
+  }
+  set(k, v) { this.setState(s => ({ f: { ...s.f, [k]: v } })); }
+  errors(f) {
+    const e = {};
+    if (f.name.trim().split(/\s+/).length < 2) e.name = true;
+    if (dobError(f.dob)) e.dob = true;
+    if (f.phone.replace(/\D/g, '').length < 11) e.phone = true;
+    if (!f.city) e.city = true;
+    if (!f.branch) e.branch = true;
+    if (!f.vacancy) e.vacancy = true;
+    if (!f.source) e.source = true;
+    if (f.source === 'other' && !f.other.trim()) e.other = true;
+    return e;
+  }
+  renderVals() {
+    const p = this.props, s = this.state, f = s.f;
+    const showErr = s.tried || !!p.showErrors;
+    const errs = this.errors(f), e = showErr ? errs : {};
+    const stores = s.stores.length ? s.stores : [];
+    const cities = ['Астана'];
+    const branches = f.city ? stores : [];
+    const valid = !Object.keys(errs).length;
+    const canSend = valid && f.agree;
+    const done = p.state === 'done' || s.done;
+    return {
+      f, e, cities, branches, vacancies: VACANCIES, stores, storeCount: stores.length,
+      noCity: !f.city, branchOpacity: f.city ? 1 : .6, branchPh: f.city ? 'Выберите филиал' : 'Сначала выберите город',
+      dobErr: dobError(f.dob), dobHint: !e.dob && !/^\d{2}\.\d{2}\.\d{4}$/.test(f.dob),
+      setName: v => this.set('name', v), setDob: v => this.set('dob', fmtDob(v)), setPhone: v => this.set('phone', v),
+      setCity: ev => this.setState(st => ({ f: { ...st.f, city: ev.target.value, branch: '' } })),
+      setBranch: ev => this.set('branch', ev.target.value), setVacancy: ev => this.set('vacancy', ev.target.value),
+      setOther: v => this.set('other', v), toggleAgree: () => this.set('agree', !f.agree),
+      sources: SOURCES.map(([id, label]) => { const on = f.source === id; return { id, label, on, pick: () => this.set('source', id), bg: on ? '#F5F3FF' : '#F7F7F9', border: on ? '#614BE2' : 'transparent', ring: on ? '#614BE2' : '#D1D5DB', dot: on ? 1 : 0, weight: on ? 700 : 500 }; }),
+      otherOn: f.source === 'other',
+      agreeRing: f.agree ? '#614BE2' : '#D1D5DB', agreeBg: f.agree ? '#614BE2' : '#fff', agreeCheck: f.agree ? 1 : 0,
+      sending: s.sending, ctaText: s.sending ? 'Отправляем…' : 'Отправить анкету',
+      ctaBg: canSend ? '#614BE2' : '#C9C4E8', ctaHover: canSend ? '#503BCB' : '#C9C4E8', ctaCursor: canSend ? 'pointer' : 'default',
+      ctaHint: canSend ? '' : (!f.agree && valid ? 'Отметьте согласие с офертой, чтобы отправить' : s.tried ? 'Заполните отмеченные поля' : ''),
+      submit: ev => {
+        ev.preventDefault();
+        if (!canSend) { this.setState({ tried: true }); return; }
+        this.setState({ sending: true });
+        setTimeout(() => this.setState({ sending: false, done: true }), 700);
+      },
+      showForm: !done, showDone: done, doneName: f.name.trim().split(/\s+/)[1] || f.name.trim().split(/\s+/)[0] || 'Спасибо',
+      reset: () => this.setState({ f: { ...EMPTY }, tried: false, done: false }),
+    };
+  }
+}
+</script>
+</body>
+</html>
