@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
 <script src="./support.js"></script>
 </head>
 <body>
@@ -11,6 +11,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
+html,body{max-width:100%;overflow-x:hidden;overscroll-behavior-x:none;-webkit-text-size-adjust:100%}
 body{margin:0;background:#E9E8F0;}
 a{color:#614BE2;text-decoration:none}a:hover{color:#4A36C4}
 *{box-sizing:border-box}
@@ -50,14 +51,14 @@ input:focus-visible,textarea:focus-visible{outline:none}
 
   <div style="display:grid;grid-template-columns:minmax(0,1fr) 480px;min-height:0">
     <!-- menu 2/3 -->
-    <div ref="{{ dScrollRef }}" onScroll="{{ onDScroll }}" style="overflow-y:auto;min-height:0;scroll-behavior:smooth">
+    <div ref="{{ dScrollRef }}" onScroll="{{ onDScroll }}" style="overflow-y:auto;overflow-x:hidden;overscroll-behavior-x:none;min-height:0;scroll-behavior:smooth">
       <div style="background:#fff;padding:24px 32px 0">
         <div style="display:flex;gap:16px">
           <img src="assets/story-stores.png" alt="Рестораны и часы работы" style="width:188px;height:236px;border-radius:26px;object-fit:cover;object-position:center;display:block;cursor:pointer">
           <img src="assets/story-new10.png" alt="NEW10 −10% в первый месяц работы сайта" style="width:188px;height:236px;border-radius:26px;object-fit:cover;object-position:center;display:block;cursor:pointer">
           <img src="assets/story-whatsapp.png" alt="Заказ через WhatsApp" style="width:188px;height:236px;border-radius:26px;object-fit:cover;object-position:center 30%;display:block;cursor:pointer">
         </div>
-        <nav style="display:flex;gap:10px;padding:28px 0 20px;overflow-x:auto">
+        <nav style="display:flex;gap:10px;padding:28px 0 20px;overflow-x:auto;overflow-y:hidden;overscroll-behavior-x:contain">
           <sc-for list="{{ cats }}" as="cat" hint-placeholder-count="8">
             <button onClick="{{ cat.goD }}" style="border:0;cursor:pointer;font:inherit;font-size:15px;font-weight:500;padding:12px 22px;border-radius:999px;white-space:nowrap;background:{{ cat.dBg }};color:{{ cat.dColor }};transition:background .15s">{{ cat.name }}</button>
           </sc-for>
@@ -163,7 +164,7 @@ input:focus-visible,textarea:focus-visible{outline:none}
         <div style="display:flex;align-items:center;justify-content:space-between;padding:24px 24px 16px;background:#F7F7F9">
           <h2 style="margin:0;font-size:22px;font-weight:700;letter-spacing:-.01em">{{ dHeadline }}</h2>
         </div>
-        <div style="flex:1;overflow-y:auto;padding:4px 24px 20px;display:flex;flex-direction:column;gap:16px;min-height:0;background:#F7F7F9">
+        <div style="flex:1;overflow-y:auto;overflow-x:hidden;overscroll-behavior-x:none;padding:4px 24px 20px;display:flex;flex-direction:column;gap:16px;min-height:0;background:#F7F7F9">
           <!-- sold-out notice -->
           <sc-if value="{{ dHasSold }}" hint-placeholder-val="{{ false }}">
             <div style="display:flex;align-items:center;gap:12px;background:#FEF2F2;border-radius:16px;padding:12px 12px 12px 16px">
@@ -208,7 +209,7 @@ input:focus-visible,textarea:focus-visible{outline:none}
           <!-- upsell -->
           <div style="background:#fff;border-radius:20px;padding:18px 20px;display:flex;flex-direction:column;gap:14px">
             <div style="font-size:15px;font-weight:700">Добавить к заказу?</div>
-            <div style="display:flex;gap:12px;overflow-x:auto;padding-bottom:2px">
+            <div style="display:flex;gap:12px;overflow-x:auto;overflow-y:hidden;overscroll-behavior-x:contain;padding-bottom:2px">
               <sc-for list="{{ upsell }}" as="u" hint-placeholder-count="3">
                 <button onClick="{{ u.add }}" style="flex-shrink:0;display:flex;flex-direction:column;align-items:center;gap:8px;border:0;background:transparent;font:inherit;cursor:pointer;color:#111827;width:92px;padding:0">
                   <span style="width:80px;height:80px;border-radius:18px;background:#F3F4F6;overflow:hidden;display:block;position:relative"><img src="{{ u.img }}" alt="" style="width:100%;height:100%;object-fit:cover;display:block"><span style="position:absolute;right:5px;bottom:5px;width:24px;height:24px;border-radius:50%;background:#614BE2;color:#fff;display:flex;align-items:center;justify-content:center"><span aria-hidden="true" style="position:relative;width:10px;height:10px;display:block"><span style="position:absolute;left:0;top:50%;width:100%;height:2px;margin-top:-1px;background:currentColor;border-radius:1px"></span><span style="position:absolute;top:0;left:50%;height:100%;width:2px;margin-left:-1px;background:currentColor;border-radius:1px"></span></span></span></span>
@@ -278,7 +279,7 @@ input:focus-visible,textarea:focus-visible{outline:none}
         <h2 style="margin:0;font-size:22px;font-weight:700">Меню</h2>
         <button onClick="{{ closeMenu }}" style="border:0;background:#F3F4F6;border-radius:50%;width:44px;height:44px;display:flex;align-items:center;justify-content:center;line-height:1;padding:0;font:inherit;font-size:20px;color:#111827;cursor:pointer"><span aria-hidden="true" style="position:relative;width:16px;height:16px;display:block"><span style="position:absolute;left:0;top:50%;width:100%;height:2px;margin-top:-1px;background:currentColor;border-radius:1px;transform:rotate(45deg)"></span><span style="position:absolute;left:0;top:50%;width:100%;height:2px;margin-top:-1px;background:currentColor;border-radius:1px;transform:rotate(-45deg)"></span></span></button>
       </div>
-      <div style="flex:1;overflow-y:auto;padding:12px 28px 28px;display:flex;flex-direction:column;gap:20px">
+      <div style="flex:1;overflow-y:auto;overflow-x:hidden;overscroll-behavior-x:none;padding:12px 28px 28px;display:flex;flex-direction:column;gap:20px">
         <div style="background:#614BE2;border-radius:22px;padding:20px;display:flex;align-items:center;gap:14px;color:#fff">
           <span style="width:48px;height:48px;border-radius:50%;background:rgba(255,255,255,.18);position:relative;overflow:hidden;display:block;flex-shrink:0"><span style="position:absolute;left:50%;top:10px;width:15px;height:15px;margin-left:-7.5px;border-radius:50%;background:#fff"></span><span style="position:absolute;left:50%;top:30px;width:30px;height:30px;margin-left:-15px;border-radius:50%;background:#fff"></span></span>
           <div style="display:flex;flex-direction:column;gap:3px;flex:1"><div style="font-size:17px;font-weight:700">Войти по номеру</div><div style="font-size:13px;opacity:.85">История заказов, адреса и промокоды</div></div>
@@ -319,7 +320,7 @@ input:focus-visible,textarea:focus-visible{outline:none}
 <sc-if value="{{ isMobile }}" hint-placeholder-val="{{ false }}"><div>
 
 <section data-screen-label="Mobile" style="width:100%;height:100vh;height:100dvh;background:#F7F7F9;border-radius:0;overflow:hidden;position:relative;box-shadow:none">
-  <div ref="{{ mScrollRef }}" onScroll="{{ onMScroll }}" style="position:absolute;inset:0;overflow-y:auto;scroll-behavior:smooth">
+  <div ref="{{ mScrollRef }}" onScroll="{{ onMScroll }}" style="position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;overscroll-behavior-x:none;scroll-behavior:smooth">
     <div style="background:#fff">
       <header style="padding:16px 20px 0;display:flex;align-items:center;justify-content:space-between">
         <sc-if value="{{ logoOk }}" hint-placeholder-val="{{ true }}"><img src="https://frito.kz/brand.svg" alt="FRITO" onError="{{ logoFail }}" style="height:30px;display:block"></sc-if>
@@ -343,12 +344,12 @@ input:focus-visible,textarea:focus-visible{outline:none}
           </button>
         </sc-if>
       </div>
-      <div style="display:flex;gap:12px;padding:18px 20px 0;overflow-x:auto">
+      <div style="display:flex;gap:12px;padding:18px 20px 0;overflow-x:auto;overflow-y:hidden;overscroll-behavior-x:contain">
         <img src="assets/story-stores.png" alt="Рестораны и часы работы" style="flex-shrink:0;width:150px;height:190px;border-radius:24px;object-fit:cover;object-position:center;display:block">
         <img src="assets/story-new10.png" alt="NEW10 −10% в первый месяц работы сайта" style="flex-shrink:0;width:150px;height:190px;border-radius:24px;object-fit:cover;object-position:center;display:block">
         <img src="assets/story-whatsapp.png" alt="Заказ через WhatsApp" style="flex-shrink:0;width:150px;height:190px;border-radius:24px;object-fit:cover;object-position:center 30%;display:block">
       </div>
-      <nav style="position:sticky;top:0;z-index:2;background:rgba(255,255,255,.94);backdrop-filter:blur(12px);display:flex;gap:8px;padding:16px 20px;overflow-x:auto;border-bottom:1px solid #ECECF1">
+      <nav style="position:sticky;top:0;z-index:2;background:rgba(255,255,255,.94);backdrop-filter:blur(12px);display:flex;gap:8px;padding:16px 20px;overflow-x:auto;overflow-y:hidden;overscroll-behavior-x:contain;border-bottom:1px solid #ECECF1">
         <sc-for list="{{ cats }}" as="cat" hint-placeholder-count="6">
           <button onClick="{{ cat.goM }}" style="border:0;cursor:pointer;font:inherit;font-size:14px;font-weight:500;padding:10px 18px;border-radius:999px;white-space:nowrap;background:{{ cat.mBg }};color:{{ cat.mColor }};transition:background .15s">{{ cat.name }}</button>
         </sc-for>
@@ -459,7 +460,7 @@ input:focus-visible,textarea:focus-visible{outline:none}
         </div>
       </sc-if>
       <sc-if value="{{ hasItems }}" hint-placeholder-val="{{ false }}">
-        <div style="overflow-y:auto;padding:4px 16px 16px;min-height:0;flex:1;display:flex;flex-direction:column;gap:12px;background:#F7F7F9">
+        <div style="overflow-y:auto;overflow-x:hidden;overscroll-behavior-x:none;padding:4px 16px 16px;min-height:0;flex:1;display:flex;flex-direction:column;gap:12px;background:#F7F7F9">
           <sc-if value="{{ mHasSold }}" hint-placeholder-val="{{ false }}">
             <div style="display:flex;align-items:center;gap:10px;background:#FEF2F2;border-radius:14px;padding:10px 10px 10px 14px">
               <span style="flex-shrink:0;width:28px;height:28px;border-radius:50%;background:#EF4444;color:#fff;font-size:14px;font-weight:800;display:flex;align-items:center;justify-content:center;line-height:1">!</span>
@@ -499,7 +500,7 @@ input:focus-visible,textarea:focus-visible{outline:none}
           </div>
           <div style="background:#fff;border-radius:18px;padding:14px 16px;display:flex;flex-direction:column;gap:12px">
             <div style="font-size:14px;font-weight:700">Добавить к заказу?</div>
-            <div style="display:flex;gap:10px;overflow-x:auto;padding-bottom:2px">
+            <div style="display:flex;gap:10px;overflow-x:auto;overflow-y:hidden;overscroll-behavior-x:contain;padding-bottom:2px">
               <sc-for list="{{ upsell }}" as="u" hint-placeholder-count="3">
                 <button onClick="{{ u.addM }}" style="flex-shrink:0;display:flex;flex-direction:column;align-items:center;gap:6px;border:0;background:transparent;font:inherit;cursor:pointer;color:#111827;width:80px;padding:0">
                   <span style="width:68px;height:68px;border-radius:16px;background:#F3F4F6;overflow:hidden;display:block;position:relative"><img src="{{ u.img }}" alt="" style="width:100%;height:100%;object-fit:cover;display:block"><span style="position:absolute;right:4px;bottom:4px;width:22px;height:22px;border-radius:50%;background:#614BE2;color:#fff;display:flex;align-items:center;justify-content:center"><span aria-hidden="true" style="position:relative;width:10px;height:10px;display:block"><span style="position:absolute;left:0;top:50%;width:100%;height:2px;margin-top:-1px;background:currentColor;border-radius:1px"></span><span style="position:absolute;top:0;left:50%;height:100%;width:2px;margin-left:-1px;background:currentColor;border-radius:1px"></span></span></span></span>
@@ -566,7 +567,7 @@ input:focus-visible,textarea:focus-visible{outline:none}
         <h2 style="margin:0;font-size:20px;font-weight:700">Меню</h2>
         <button onClick="{{ closeMenu }}" style="border:0;background:#F3F4F6;border-radius:50%;width:40px;height:40px;display:flex;align-items:center;justify-content:center;line-height:1;padding:0;font:inherit;font-size:20px;color:#111827;cursor:pointer"><span aria-hidden="true" style="position:relative;width:14px;height:14px;display:block"><span style="position:absolute;left:0;top:50%;width:100%;height:2px;margin-top:-1px;background:currentColor;border-radius:1px;transform:rotate(45deg)"></span><span style="position:absolute;left:0;top:50%;width:100%;height:2px;margin-top:-1px;background:currentColor;border-radius:1px;transform:rotate(-45deg)"></span></span></button>
       </div>
-      <div style="flex:1;overflow-y:auto;padding:8px 20px 32px 24px;display:flex;flex-direction:column;gap:18px">
+      <div style="flex:1;overflow-y:auto;overflow-x:hidden;overscroll-behavior-x:none;padding:8px 20px 32px 24px;display:flex;flex-direction:column;gap:18px">
         <div style="background:#614BE2;border-radius:20px;padding:16px;display:flex;align-items:center;gap:12px;color:#fff">
           <span style="width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.18);position:relative;overflow:hidden;display:block;flex-shrink:0"><span style="position:absolute;left:50%;top:8px;width:13px;height:13px;margin-left:-6.5px;border-radius:50%;background:#fff"></span><span style="position:absolute;left:50%;top:25px;width:26px;height:26px;margin-left:-13px;border-radius:50%;background:#fff"></span></span>
           <div style="display:flex;flex-direction:column;gap:2px;flex:1"><div style="font-size:15px;font-weight:700">Войти по номеру</div><div style="font-size:12px;opacity:.85">Заказы, адреса, промокоды</div></div>
