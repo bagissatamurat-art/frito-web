@@ -30,7 +30,7 @@ input:focus-visible,textarea:focus-visible{outline:none}
     <sc-if value="{{ logoOk }}" hint-placeholder-val="{{ true }}"><img src="https://frito.kz/brand.svg" alt="FRITO" onError="{{ logoFail }}" style="height:34px;display:block"></sc-if>
     <sc-if value="{{ logoBroken }}" hint-placeholder-val="{{ false }}"><div style="display:flex;align-items:center;gap:8px;color:#614BE2;font-weight:800;font-size:26px;letter-spacing:-.02em"><span style="width:26px;height:30px;background:#614BE2;clip-path:polygon(45% 0,100% 0,60% 45%,85% 45%,20% 100%,40% 55%,10% 55%)"></span>FRITO</div></sc-if>
     <!-- delivery method: segmented + address -->
-    <dc-import name="FritoSegment" mode="{{ segMode }}" on-change="{{ pickMode }}" icons="{{ true }}" height="{{ 40 }}" style="margin-left:24px;width:280px;flex-shrink:0" hint-size="280px,48px"></dc-import>
+    <dc-import name="FritoSegment" mode="{{ segMode }}" on-change="{{ pickModeD }}" icons="{{ true }}" height="{{ 40 }}" style="margin-left:24px;width:280px;flex-shrink:0" hint-size="280px,48px"></dc-import>
     <sc-if value="{{ noMethod }}" hint-placeholder-val="{{ true }}">
       <button onClick="{{ openMethodD }}" style="display:flex;align-items:center;gap:10px;height:48px;padding:0 16px 0 6px;font:inherit;font-size:13px;font-weight:600;color:#614BE2;border:1px dashed #B7ACF3;background:#F5F3FF;border-radius:999px;cursor:pointer;white-space:nowrap;transition:all .15s" style-hover="background:#EFEDFC;border-color:#614BE2"><span style="width:36px;height:36px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0"><img src="assets/ic-pin-p.svg" alt="" style="width:16px;height:16px;object-fit:contain"></span>Выберите, как получить заказ<span aria-hidden="true" style="font-size:18px;line-height:1;margin-left:2px">›</span></button>
     </sc-if>
@@ -152,8 +152,8 @@ input:focus-visible,textarea:focus-visible{outline:none}
           <p style="margin:0;font-size:15px;color:#6B7280;line-height:1.5;max-width:280px">Добавьте бокс или комбо — здесь появится сумма и кнопка оформления.</p>
           <sc-if value="{{ noMethod }}" hint-placeholder-val="{{ true }}">
             <div style="display:flex;gap:8px;margin-top:6px">
-              <button onClick="{{ setDelivery }}" style="display:flex;align-items:center;gap:8px;border:0;background:#EFEDFC;color:#614BE2;border-radius:999px;height:44px;padding:0 18px 0 12px;font:inherit;font-size:14px;font-weight:600;cursor:pointer" style-hover="background:#E4E0FA"><img src="assets/ic-delivery-p.svg" alt="" style="width:20px;height:20px;object-fit:contain">Доставка</button>
-              <button onClick="{{ setPickup }}" style="display:flex;align-items:center;gap:8px;border:0;background:#EFEDFC;color:#614BE2;border-radius:999px;height:44px;padding:0 18px 0 12px;font:inherit;font-size:14px;font-weight:600;cursor:pointer" style-hover="background:#E4E0FA"><img src="assets/ic-pickup-p.svg" alt="" style="width:20px;height:20px;object-fit:contain">Самовывоз</button>
+              <button onClick="{{ pickDeliveryD }}" style="display:flex;align-items:center;gap:8px;border:0;background:#EFEDFC;color:#614BE2;border-radius:999px;height:44px;padding:0 18px 0 12px;font:inherit;font-size:14px;font-weight:600;cursor:pointer" style-hover="background:#E4E0FA"><img src="assets/ic-delivery-p.svg" alt="" style="width:20px;height:20px;object-fit:contain">Доставка</button>
+              <button onClick="{{ pickPickupD }}" style="display:flex;align-items:center;gap:8px;border:0;background:#EFEDFC;color:#614BE2;border-radius:999px;height:44px;padding:0 18px 0 12px;font:inherit;font-size:14px;font-weight:600;cursor:pointer" style-hover="background:#E4E0FA"><img src="assets/ic-pickup-p.svg" alt="" style="width:20px;height:20px;object-fit:contain">Самовывоз</button>
             </div>
           </sc-if>
         </div>
@@ -220,7 +220,7 @@ input:focus-visible,textarea:focus-visible{outline:none}
           <!-- method card -->
           <div style="background:#fff;border-radius:20px;padding:18px 20px;display:flex;flex-direction:column;gap:16px">
             <div style="font-size:15px;font-weight:700">Способ получения</div>
-            <dc-import name="FritoSegment" mode="{{ segMode }}" on-change="{{ pickMode }}" variant="filled" icons="{{ true }}" height="{{ 40 }}" hint-size="100%,48px"></dc-import>
+            <dc-import name="FritoSegment" mode="{{ segMode }}" on-change="{{ pickModeD }}" variant="filled" icons="{{ true }}" height="{{ 40 }}" hint-size="100%,48px"></dc-import>
             <sc-if value="{{ hasMethod }}" hint-placeholder-val="{{ false }}">
               <div style="display:flex;align-items:center;gap:14px;padding:4px 0">
                 <span style="width:40px;height:40px;border-radius:50%;background:#EFEDFC;display:flex;align-items:center;justify-content:center;flex-shrink:0"><img src="assets/ic-pin-p.svg" alt="" style="width:18px;height:18px;object-fit:contain"></span>
@@ -306,7 +306,7 @@ input:focus-visible,textarea:focus-visible{outline:none}
 
   <!-- MODAL: способ получения -->
   <sc-if value="{{ modalD }}" hint-placeholder-val="{{ false }}">
-    <dc-import name="FritoMethodModal" layout="center" pending="{{ methodPending }}" on-close="{{ closeModal }}" on-choose="{{ chooseMethod }}" style="position:absolute;inset:0;z-index:20" hint-size="100%,100%"></dc-import>
+    <dc-import name="FritoAddressModal" layout="center" start="{{ addrStart }}" mode="{{ addrStart }}" on-close="{{ closeModal }}" on-confirm="{{ confirmAddr }}" style="position:absolute;inset:0;z-index:20" hint-size="100%,100%"></dc-import>
   </sc-if>
   <!-- MODAL: товар -->
   <sc-if value="{{ pmD }}" hint-placeholder-val="{{ false }}">
@@ -331,7 +331,7 @@ input:focus-visible,textarea:focus-visible{outline:none}
         </div>
       </header>
       <div style="padding:14px 20px 0;display:flex;flex-direction:column;gap:10px">
-        <dc-import name="FritoSegment" mode="{{ segMode }}" on-change="{{ pickMode }}" icons="{{ true }}" height="{{ 44 }}" hint-size="100%,52px"></dc-import>
+        <dc-import name="FritoSegment" mode="{{ segMode }}" on-change="{{ pickModeM }}" icons="{{ true }}" height="{{ 44 }}" hint-size="100%,52px"></dc-import>
         <sc-if value="{{ noMethod }}" hint-placeholder-val="{{ true }}">
           <button onClick="{{ openMethodM }}" style="display:flex;align-items:center;gap:10px;height:48px;padding:0 14px 0 6px;font:inherit;font-size:13px;font-weight:600;color:#614BE2;border:1px dashed #B7ACF3;background:#F5F3FF;border-radius:999px;cursor:pointer;width:100%;text-align:left" style-active="background:#EFEDFC"><span style="width:36px;height:36px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0"><img src="assets/ic-pin-p.svg" alt="" style="width:16px;height:16px;object-fit:contain"></span><span style="flex:1">Выберите, как получить заказ</span><span aria-hidden="true" style="font-size:18px;line-height:1">›</span></button>
         </sc-if>
@@ -452,8 +452,8 @@ input:focus-visible,textarea:focus-visible{outline:none}
           <p style="margin:0;font-size:14px;color:#6B7280;line-height:1.45">Начните с бокса — в нём бургер, стрипсы, фри и напиток.</p>
           <sc-if value="{{ noMethod }}" hint-placeholder-val="{{ true }}">
             <div style="display:flex;gap:8px;margin-top:8px">
-              <button onClick="{{ setDelivery }}" style="display:flex;align-items:center;gap:8px;border:0;background:#EFEDFC;color:#614BE2;border-radius:999px;height:44px;padding:0 16px 0 12px;font:inherit;font-size:14px;font-weight:600;cursor:pointer" style-active="background:#E4E0FA"><img src="assets/ic-delivery-p.svg" alt="" style="width:20px;height:20px;object-fit:contain">Доставка</button>
-              <button onClick="{{ setPickup }}" style="display:flex;align-items:center;gap:8px;border:0;background:#EFEDFC;color:#614BE2;border-radius:999px;height:44px;padding:0 16px 0 12px;font:inherit;font-size:14px;font-weight:600;cursor:pointer" style-active="background:#E4E0FA"><img src="assets/ic-pickup-p.svg" alt="" style="width:20px;height:20px;object-fit:contain">Самовывоз</button>
+              <button onClick="{{ pickDeliveryM }}" style="display:flex;align-items:center;gap:8px;border:0;background:#EFEDFC;color:#614BE2;border-radius:999px;height:44px;padding:0 16px 0 12px;font:inherit;font-size:14px;font-weight:600;cursor:pointer" style-active="background:#E4E0FA"><img src="assets/ic-delivery-p.svg" alt="" style="width:20px;height:20px;object-fit:contain">Доставка</button>
+              <button onClick="{{ pickPickupM }}" style="display:flex;align-items:center;gap:8px;border:0;background:#EFEDFC;color:#614BE2;border-radius:999px;height:44px;padding:0 16px 0 12px;font:inherit;font-size:14px;font-weight:600;cursor:pointer" style-active="background:#E4E0FA"><img src="assets/ic-pickup-p.svg" alt="" style="width:20px;height:20px;object-fit:contain">Самовывоз</button>
             </div>
           </sc-if>
         </div>
@@ -510,7 +510,7 @@ input:focus-visible,textarea:focus-visible{outline:none}
           </div>
           <div style="background:#fff;border-radius:18px;padding:14px 16px;display:flex;flex-direction:column;gap:12px">
             <div style="font-size:14px;font-weight:700">Способ получения</div>
-            <dc-import name="FritoSegment" mode="{{ segMode }}" on-change="{{ pickMode }}" variant="filled" icons="{{ true }}" height="{{ 40 }}" hint-size="100%,48px"></dc-import>
+            <dc-import name="FritoSegment" mode="{{ segMode }}" on-change="{{ pickModeM }}" variant="filled" icons="{{ true }}" height="{{ 40 }}" hint-size="100%,48px"></dc-import>
             <sc-if value="{{ hasMethod }}" hint-placeholder-val="{{ false }}">
               <div style="display:flex;align-items:center;gap:10px;padding:2px 0">
                 <span style="width:36px;height:36px;border-radius:50%;background:#EFEDFC;display:flex;align-items:center;justify-content:center;flex-shrink:0"><img src="assets/ic-pin-p.svg" alt="" style="width:16px;height:16px;object-fit:contain"></span>
@@ -594,7 +594,7 @@ input:focus-visible,textarea:focus-visible{outline:none}
 
   <!-- MODAL: способ получения -->
   <sc-if value="{{ modalM }}" hint-placeholder-val="{{ false }}">
-    <dc-import name="FritoMethodModal" layout="sheet" pending="{{ methodPending }}" on-close="{{ closeModal }}" on-choose="{{ chooseMethod }}" style="position:absolute;inset:0;z-index:20" hint-size="100%,100%"></dc-import>
+    <dc-import name="FritoAddressModal" layout="sheet" start="{{ addrStart }}" mode="{{ addrStart }}" on-close="{{ closeModal }}" on-confirm="{{ confirmAddr }}" style="position:absolute;inset:0;z-index:20" hint-size="100%,100%"></dc-import>
   </sc-if>
   <!-- MODAL: товар -->
   <sc-if value="{{ pmM }}" hint-placeholder-val="{{ false }}">
@@ -710,7 +710,7 @@ class Component extends DCLogic {
     this.setState(s => {
       const cart = { ...s.cart };
       if (pid) cart[pid] = (cart[pid] || 0) + (s.pendingQty || 1);
-      return { mode, address, modal: null, pendingId: null, pendingQty: null, cart };
+      return { mode, address, modal: null, addrMode: null, pendingId: null, pendingQty: null, cart };
     });
   }
   openProduct(id, target, edit) { this.setState({ pm: id, pmTarget: target, pmEdit: !!edit, mobileOpen: edit ? this.state.mobileOpen : false }); }
@@ -794,8 +794,16 @@ class Component extends DCLogic {
       logoOk: !s.logoBroken, logoBroken: s.logoBroken, logoFail: () => this.setState({ logoBroken: true }),
       // method
       noMethod: !hasMethod, hasMethod, isDelivery, modeLabel, address: s.address || '',
-      openMethodD: () => this.setState({ modal: 'method', modalTarget: 'd', pendingId: null }),
-      openMethodM: () => this.setState({ modal: 'method', modalTarget: 'm', pendingId: null }),
+      openMethodD: () => this.setState({ modal: 'method', modalTarget: 'd', pendingId: null, addrMode: s.mode || 'delivery' }),
+      openMethodM: () => this.setState({ modal: 'method', modalTarget: 'm', pendingId: null, addrMode: s.mode || 'delivery' }),
+      pickModeD: m => this.setState({ modal: 'method', modalTarget: 'd', pendingId: null, addrMode: m }),
+      pickModeM: m => this.setState({ modal: 'method', modalTarget: 'm', pendingId: null, addrMode: m }),
+      pickDeliveryD: () => this.setState({ modal: 'method', modalTarget: 'd', pendingId: null, addrMode: 'delivery' }),
+      pickPickupD: () => this.setState({ modal: 'method', modalTarget: 'd', pendingId: null, addrMode: 'pickup' }),
+      pickDeliveryM: () => this.setState({ modal: 'method', modalTarget: 'm', pendingId: null, addrMode: 'delivery' }),
+      pickPickupM: () => this.setState({ modal: 'method', modalTarget: 'm', pendingId: null, addrMode: 'pickup' }),
+      addrStart: s.addrMode || s.mode || 'delivery',
+      confirmAddr: r => this.finishMethod(r.mode, r.address),
       modalD: modalOpen && s.modalTarget === 'd', modalM: modalOpen && s.modalTarget === 'm',
       methodPending: !!s.pendingId,
       chooseMethod: m => m === 'delivery' ? this.finishMethod('delivery', DEFAULT_ADDR) : this.finishMethod('pickup', STORES[0].name),
@@ -805,7 +813,7 @@ class Component extends DCLogic {
       closePm: () => this.setState({ pm: null }), pmAdd: r => this.addConfigured(r),
       modalTitle: 'Выберите способ получения заказа',
       modalSub: s.pendingId ? 'Товар добавится в корзину сразу после выбора' : 'Адрес или ресторан можно будет уточнить дальше',
-      closeModal: () => this.setState({ modal: null, pendingId: null, pendingQty: null }), stop: e => e.stopPropagation(),
+      closeModal: () => this.setState({ modal: null, addrMode: null, pendingId: null, pendingQty: null }), stop: e => e.stopPropagation(),
       chooseDelivery: () => this.finishMethod('delivery', DEFAULT_ADDR), choosePickup: () => this.finishMethod('pickup', STORES[0].name),
       setDelivery: () => this.finishMethod('delivery', isDelivery && s.address ? s.address : DEFAULT_ADDR),
       setPickup: () => this.finishMethod('pickup', s.mode === 'pickup' && s.address ? s.address : STORES[0].name),
