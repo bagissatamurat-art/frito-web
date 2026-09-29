@@ -58,12 +58,12 @@ input:focus-visible,textarea:focus-visible{outline:none}
           <img src="assets/story-new10.png" alt="NEW10 −10% в первый месяц работы сайта" style="width:188px;height:236px;border-radius:26px;object-fit:cover;object-position:center;display:block;cursor:pointer">
           <img src="assets/story-whatsapp.png" alt="Заказ через WhatsApp" style="width:188px;height:236px;border-radius:26px;object-fit:cover;object-position:center 30%;display:block;cursor:pointer">
         </div>
-        <nav style="display:flex;gap:10px;padding:28px 0 20px;overflow-x:auto;overflow-y:hidden;overscroll-behavior-x:contain">
+      </div>
+      <nav data-cat-nav style="position:sticky;top:0;z-index:2;background:rgba(255,255,255,.94);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);display:flex;gap:10px;padding:20px 32px;overflow-x:auto;overflow-y:hidden;overscroll-behavior-x:contain;scrollbar-width:none;border-bottom:1px solid #ECECF1">
           <sc-for list="{{ cats }}" as="cat" hint-placeholder-count="8">
-            <button onClick="{{ cat.goD }}" style="border:0;cursor:pointer;font:inherit;font-size:15px;font-weight:500;padding:12px 22px;border-radius:999px;white-space:nowrap;background:{{ cat.dBg }};color:{{ cat.dColor }};transition:background .15s">{{ cat.name }}</button>
+            <button data-idx="{{ cat.idx }}" onClick="{{ cat.goD }}" style="border:0;cursor:pointer;font:inherit;font-size:15px;font-weight:500;padding:12px 22px;border-radius:999px;white-space:nowrap;background:{{ cat.dBg }};color:{{ cat.dColor }};transition:background .15s">{{ cat.name }}</button>
           </sc-for>
         </nav>
-      </div>
       <div style="padding:8px 32px 48px;border-top:1px solid #ECECF1">
         <sc-for list="{{ cats }}" as="cat" hint-placeholder-count="3">
           <div id="d-cat-{{ cat.idx }}" style="padding-top:28px">
@@ -349,12 +349,12 @@ input:focus-visible,textarea:focus-visible{outline:none}
         <img src="assets/story-new10.png" alt="NEW10 −10% в первый месяц работы сайта" style="flex-shrink:0;width:150px;height:190px;border-radius:24px;object-fit:cover;object-position:center;display:block">
         <img src="assets/story-whatsapp.png" alt="Заказ через WhatsApp" style="flex-shrink:0;width:150px;height:190px;border-radius:24px;object-fit:cover;object-position:center 30%;display:block">
       </div>
-      <nav style="position:sticky;top:0;z-index:2;background:rgba(255,255,255,.94);backdrop-filter:blur(12px);display:flex;gap:8px;padding:16px 20px;overflow-x:auto;overflow-y:hidden;overscroll-behavior-x:contain;border-bottom:1px solid #ECECF1">
+    </div>
+    <nav data-cat-nav style="position:sticky;top:0;z-index:2;background:rgba(255,255,255,.94);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);display:flex;gap:8px;padding:16px 20px;overflow-x:auto;scrollbar-width:none;overflow-y:hidden;overscroll-behavior-x:contain;border-bottom:1px solid #ECECF1">
         <sc-for list="{{ cats }}" as="cat" hint-placeholder-count="6">
-          <button onClick="{{ cat.goM }}" style="border:0;cursor:pointer;font:inherit;font-size:14px;font-weight:500;padding:10px 18px;border-radius:999px;white-space:nowrap;background:{{ cat.mBg }};color:{{ cat.mColor }};transition:background .15s">{{ cat.name }}</button>
+          <button data-idx="{{ cat.idx }}" onClick="{{ cat.goM }}" style="border:0;cursor:pointer;font:inherit;font-size:14px;font-weight:500;padding:10px 18px;border-radius:999px;white-space:nowrap;background:{{ cat.mBg }};color:{{ cat.mColor }};transition:background .15s">{{ cat.name }}</button>
         </sc-for>
       </nav>
-    </div>
     <div style="padding:0 16px 24px">
       <sc-for list="{{ cats }}" as="cat" hint-placeholder-count="3">
         <div id="m-cat-{{ cat.idx }}" style="padding-top:24px">
@@ -725,15 +725,23 @@ class Component extends DCLogic {
   go(prefix, idx, ref, key) {
     const c = ref.current, el = c && c.querySelector('#' + prefix + '-cat-' + idx);
     if (!c || !el) return;
-    c.scrollTo({ top: el.offsetTop - c.offsetTop - (prefix === 'm' ? 64 : 0), behavior: 'smooth' });
+    const nav = c.querySelector('[data-cat-nav]'), navH = nav ? nav.offsetHeight : 0;
+    c.scrollTo({ top: el.offsetTop - c.offsetTop - navH + 1, behavior: 'smooth' });
     this.setState({ [key]: idx });
+    this.revealChip(c, idx);
+  }
+  // держим активную категорию в видимой части горизонтальной ленты
+  revealChip(c, idx) {
+    const nav = c.querySelector('[data-cat-nav]'), btn = nav && nav.querySelector('[data-idx="' + idx + '"]');
+    if (!btn) return;
+    nav.scrollTo({ left: btn.offsetLeft - (nav.clientWidth - btn.offsetWidth) / 2, behavior: 'smooth' });
   }
   track(prefix, ref, key) {
     const c = ref.current; if (!c) return;
-    const top = c.scrollTop + (prefix === 'm' ? 90 : 60);
+    const nav = c.querySelector('[data-cat-nav]'), top = c.scrollTop + (nav ? nav.offsetHeight : 0) + 24;
     let idx = 0;
     CATS.forEach((_, i) => { const el = c.querySelector('#' + prefix + '-cat-' + i); if (el && el.offsetTop - c.offsetTop <= top) idx = i; });
-    if (idx !== this.state[key]) this.setState({ [key]: idx });
+    if (idx !== this.state[key]) { this.setState({ [key]: idx }); this.revealChip(c, idx); }
   }
 
   _vwH = () => this.setState({ vw: window.innerWidth });
