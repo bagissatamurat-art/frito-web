@@ -91,7 +91,7 @@ class Component extends DCLogic {
     return {
       isCenter: !sheet, isSheet: sheet, v, hasExp: !!v.exp, sections,
       branchList: (v.branches || []).join(', '),
-      applyHref: p.applyHref || 'Frito Анкета кандидата.dc.html?vacancy=' + encodeURIComponent(v.title),
+      applyHref: p.applyHref || 'apply.dc.html?vacancy=' + encodeURIComponent(v.title),
       apply: e => { if (p.onApply) { e.preventDefault(); p.onApply(v); } },
       ctaLabel: p.ctaLabel || 'Откликнуться', note: p.note ?? 'HR перезвонит в течение 2 рабочих дней',
       close: () => p.onClose && p.onClose(),

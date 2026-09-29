@@ -135,6 +135,7 @@ input:focus-visible,textarea:focus-visible{outline:none}
             <a href="#" style="font-size:13px;font-weight:500;color:rgba(255,255,255,.75)" style-hover="color:#fff">Франшиза</a>
             <a href="#" style="font-size:13px;font-weight:500;color:rgba(255,255,255,.75)" style-hover="color:#fff">Поставщикам</a>
             <a href="#" style="font-size:13px;font-weight:500;color:rgba(255,255,255,.75)" style-hover="color:#fff">Предложить помещение</a>
+            <a href="vacancies.dc.html" style="font-size:13px;font-weight:500;color:rgba(255,255,255,.75)" style-hover="color:#fff">Вакансии</a>
             <a href="#" style="font-size:13px;font-weight:500;color:rgba(255,255,255,.75)" style-hover="color:#fff">Доставка и оплата</a>
             <a href="#" style="font-size:13px;font-weight:500;color:rgba(255,255,255,.75)" style-hover="color:#fff">Оферта</a>
             <a href="#" style="font-size:13px;font-weight:500;color:rgba(255,255,255,.75)" style-hover="color:#fff">Конфиденциальность</a>
@@ -287,7 +288,7 @@ input:focus-visible,textarea:focus-visible{outline:none}
         </div>
         <div style="display:flex;flex-direction:column">
           <sc-for list="{{ menuItems }}" as="mi" hint-placeholder-count="5">
-            <a href="#" style="display:flex;align-items:center;justify-content:space-between;padding:16px 4px;border-bottom:1px solid #F1F1F4;font-size:17px;font-weight:600;color:#111827"><span>{{ mi.label }}</span><span style="font-size:13px;font-weight:500;color:#6B7280">{{ mi.hint }}</span></a>
+            <a href="{{ mi.href }}" style="display:flex;align-items:center;justify-content:space-between;padding:16px 4px;border-bottom:1px solid #F1F1F4;font-size:17px;font-weight:600;color:#111827"><span>{{ mi.label }}</span><span style="font-size:13px;font-weight:500;color:#6B7280">{{ mi.hint }}</span></a>
           </sc-for>
         </div>
         <div style="display:flex;flex-direction:column;gap:10px">
@@ -420,6 +421,7 @@ input:focus-visible,textarea:focus-visible{outline:none}
         <a href="#" style="font-size:14px;font-weight:500;color:rgba(255,255,255,.75)">Франшиза</a>
         <a href="#" style="font-size:14px;font-weight:500;color:rgba(255,255,255,.75)">Поставщикам</a>
         <a href="#" style="font-size:14px;font-weight:500;color:rgba(255,255,255,.75)">Предложить помещение</a>
+        <a href="vacancies.dc.html" style="font-size:14px;font-weight:500;color:rgba(255,255,255,.75)">Вакансии</a>
         <a href="#" style="font-size:14px;font-weight:500;color:rgba(255,255,255,.75)">Доставка и оплата</a>
         <a href="#" style="font-size:14px;font-weight:500;color:rgba(255,255,255,.75)">Оферта и конфиденциальность</a>
       </nav>
@@ -575,7 +577,7 @@ input:focus-visible,textarea:focus-visible{outline:none}
         </div>
         <div style="display:flex;flex-direction:column">
           <sc-for list="{{ menuItems }}" as="mi" hint-placeholder-count="5">
-            <a href="#" style="display:flex;align-items:center;justify-content:space-between;padding:14px 2px;border-bottom:1px solid #F1F1F4;font-size:16px;font-weight:600;color:#111827"><span>{{ mi.label }}</span><span style="font-size:12px;font-weight:500;color:#6B7280">{{ mi.hint }}</span></a>
+            <a href="{{ mi.href }}" style="display:flex;align-items:center;justify-content:space-between;padding:14px 2px;border-bottom:1px solid #F1F1F4;font-size:16px;font-weight:600;color:#111827"><span>{{ mi.label }}</span><span style="font-size:12px;font-weight:500;color:#6B7280">{{ mi.hint }}</span></a>
           </sc-for>
         </div>
         <div style="display:flex;flex-direction:column;gap:6px">
@@ -797,8 +799,8 @@ class Component extends DCLogic {
       menuD: s.menu === 'd', menuM: s.menu === 'm',
       openMenuD: () => this.setState({ menu: 'd' }), openMenuM: () => this.setState({ menu: 'm' }), closeMenu: () => this.setState({ menu: null }),
       menuItems: [
-        { label: 'Мои заказы', hint: '' }, { label: 'Мои адреса', hint: s.address || '' }, { label: 'Промокоды', hint: 'NEW10 −10%' },
-        { label: 'Франшиза', hint: '' }, { label: 'Поставщикам', hint: '' }, { label: 'Предложить помещение', hint: '' }, { label: 'Правовая информация', hint: '' },
+        { label: 'Мои заказы', hint: '', href: '#' }, { label: 'Мои адреса', hint: s.address || '', href: '#' }, { label: 'Промокоды', hint: 'NEW10 −10%', href: '#' },
+        { label: 'Вакансии', hint: 'Работа в Frito', href: 'vacancies.dc.html' }, { label: 'Франшиза', hint: '', href: '#' }, { label: 'Поставщикам', hint: '', href: '#' }, { label: 'Предложить помещение', hint: '', href: '#' }, { label: 'Правовая информация', hint: '', href: '#' },
       ],
       logoOk: !s.logoBroken, logoBroken: s.logoBroken, logoFail: () => this.setState({ logoBroken: true }),
       // method
