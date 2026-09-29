@@ -14,7 +14,7 @@
   <sc-if value="{{ showClear }}" hint-placeholder-val="{{ false }}"><button type="button" onMouseDown="{{ preventBlur }}" onClick="{{ clear }}" aria-label="Очистить" style="position:absolute;right:8px;top:{{ clearTop }};width:28px;height:28px;border:0;border-radius:50%;background:#E5E7EB;color:#6B7280;cursor:pointer;padding:0;display:flex;align-items:center;justify-content:center;transition:background .15s" style-hover="background:#D1D5DB;color:#111827"><span aria-hidden="true" style="position:relative;width:10px;height:10px;display:block"><span style="position:absolute;left:0;top:50%;width:100%;height:2px;margin-top:-1px;background:currentColor;border-radius:1px;transform:rotate(45deg)"></span><span style="position:absolute;left:0;top:50%;width:100%;height:2px;margin-top:-1px;background:currentColor;border-radius:1px;transform:rotate(-45deg)"></span></span></button></sc-if>
 </label>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:320,&quot;height&quot;:100},&quot;label&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Номер телефона&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;value&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;multiline&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;},&quot;mask&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;none&quot;,&quot;options&quot;:[&quot;none&quot;,&quot;phone&quot;],&quot;tsType&quot;:&quot;'none' | 'phone'&quot;},&quot;required&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;},&quot;clearable&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;},&quot;onChange&quot;:{&quot;editor&quot;:null,&quot;default&quot;:null,&quot;tsType&quot;:&quot;(value: string) =&gt; void&quot;}}">
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:320,&quot;height&quot;:100},&quot;label&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Номер телефона&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;value&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;multiline&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;},&quot;mask&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;none&quot;,&quot;options&quot;:[&quot;none&quot;,&quot;phone&quot;,&quot;email&quot;],&quot;tsType&quot;:&quot;'none' | 'phone' | 'email'&quot;},&quot;required&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;},&quot;clearable&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;},&quot;onChange&quot;:{&quot;editor&quot;:null,&quot;default&quot;:null,&quot;tsType&quot;:&quot;(value: string) =&gt; void&quot;}}">
 // Маска +7 (999) 999-99-99. Ведущая 8 (или 7 при вставке 11 цифр) без префикса +7 игнорируется.
 const phoneDigits = raw => {
   const s = String(raw || '');
@@ -47,14 +47,14 @@ const phoneFormat = d => {
 class Component extends DCLogic {
   state = { focus: false };
   renderVals() {
-    const p = this.props, multi = !!p.multiline, phone = p.mask === 'phone';
+    const p = this.props, multi = !!p.multiline, phone = p.mask === 'phone', email = p.mask === 'email';
     const val = phone ? (phoneRaw(p.value) ?? (p.value === '+7 (' ? '+7 (' : phoneFormat(phoneDigits(p.value)))) : (p.value ?? '');
     const up = this.state.focus || String(val) !== '';
     return {
       label: p.label ?? '', req: !!p.required, val, single: !multi, multi, h: multi ? '84px' : '56px',
       top: up ? '10px' : (multi ? '16px' : '20px'), size: up ? '11px' : '15px',
       change: e => p.onChange && p.onChange(phone ? (phoneRaw(e.target.value) ?? phoneFormat(phoneDigits(e.target.value))) : e.target.value),
-      ph: phone && this.state.focus ? '+7 (___) ___-__-__' : '', im: phone ? 'tel' : 'text', type: phone ? 'tel' : 'text', maxLen: phone ? 20 : 524288, ac: phone ? 'tel' : 'on',
+      ph: phone && this.state.focus ? '+7 (___) ___-__-__' : '', im: phone ? 'tel' : email ? 'email' : 'text', type: phone ? 'tel' : email ? 'email' : 'text', maxLen: phone ? 20 : 524288, ac: phone ? 'tel' : email ? 'email' : 'on',
       focus: () => this.setState({ focus: true }), blur: () => this.setState({ focus: false }),
       showClear: !phone && p.clearable !== false && String(val) !== '' && this.state.focus,
       rightPad: !phone && p.clearable !== false ? '44px' : '14px', clearTop: multi ? '10px' : '14px',

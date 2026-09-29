@@ -49,8 +49,52 @@ select:focus-visible{outline:none}
             <sc-if value="{{ dobHint }}" hint-placeholder-val="{{ true }}"><span style="font-size:12px;color:#9CA3AF;padding:0 14px">Формат ДД.ММ.ГГГГ</span></sc-if>
           </div>
           <div style="display:flex;flex-direction:column;gap:6px">
+            <label style="position:relative;display:block;background:#F7F7F9;border-radius:14px;height:56px;cursor:pointer">
+              <span style="position:absolute;left:14px;top:10px;font-size:11px;color:#6B7280;font-weight:500;line-height:1;pointer-events:none">Гражданство<span aria-hidden="true" style="color:#EF4444;margin-left:2px">*</span></span>
+              <select value="{{ f.citizen }}" onChange="{{ setCitizen }}" aria-required="true" style="position:absolute;left:0;right:0;top:0;bottom:0;width:100%;height:100%;padding:24px 44px 0 14px;border:0;background:transparent;font:inherit;font-size:15px;font-weight:600;color:#111827;appearance:none;-webkit-appearance:none;cursor:pointer;border-radius:14px">
+                <option value="" disabled="{{ true }}">Выберите гражданство</option>
+                <sc-for list="{{ citizens }}" as="cz" hint-placeholder-count="6"><option value="{{ cz }}">{{ cz }}</option></sc-for>
+              </select>
+              <span aria-hidden="true" style="position:absolute;right:20px;top:22px;width:9px;height:9px;border-right:2px solid #6B7280;border-bottom:2px solid #6B7280;transform:rotate(45deg);pointer-events:none"></span>
+            </label>
+            <sc-if value="{{ e.citizen }}" hint-placeholder-val="{{ false }}"><span style="font-size:12px;color:#EF4444;padding:0 14px">Выберите гражданство</span></sc-if>
+          </div>
+          <sc-if value="{{ citizenOther }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <dc-import name="FritoInput" label="Укажите гражданство" value="{{ f.citizenOther }}" on-change="{{ setCitizenOther }}" required="{{ true }}" hint-size="100%,56px"></dc-import>
+            <sc-if value="{{ e.citizenOther }}" hint-placeholder-val="{{ false }}"><span style="font-size:12px;color:#EF4444;padding:0 14px">Укажите гражданство</span></sc-if>
+          </div>
+          </sc-if>
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <dc-import name="FritoInput" label="Адрес проживания" value="{{ f.address }}" on-change="{{ setAddress }}" required="{{ true }}" hint-size="100%,56px"></dc-import>
+            <sc-if value="{{ e.address }}" hint-placeholder-val="{{ false }}"><span style="font-size:12px;color:#EF4444;padding:0 14px">Укажите адрес: город, улица, дом</span></sc-if>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <label style="position:relative;display:block;background:#F7F7F9;border-radius:14px;height:56px;cursor:pointer">
+              <span style="position:absolute;left:14px;top:10px;font-size:11px;color:#6B7280;font-weight:500;line-height:1;pointer-events:none">Воинский учёт<span aria-hidden="true" style="color:#EF4444;margin-left:2px">*</span></span>
+              <select value="{{ f.military }}" onChange="{{ setMilitary }}" aria-required="true" style="position:absolute;left:0;right:0;top:0;bottom:0;width:100%;height:100%;padding:24px 44px 0 14px;border:0;background:transparent;font:inherit;font-size:15px;font-weight:600;color:#111827;appearance:none;-webkit-appearance:none;cursor:pointer;border-radius:14px">
+                <option value="" disabled="{{ true }}">Выберите вариант</option>
+                <sc-for list="{{ militaryOpts }}" as="mo" hint-placeholder-count="3"><option value="{{ mo }}">{{ mo }}</option></sc-for>
+              </select>
+              <span aria-hidden="true" style="position:absolute;right:20px;top:22px;width:9px;height:9px;border-right:2px solid #6B7280;border-bottom:2px solid #6B7280;transform:rotate(45deg);pointer-events:none"></span>
+            </label>
+            <sc-if value="{{ e.military }}" hint-placeholder-val="{{ false }}"><span style="font-size:12px;color:#EF4444;padding:0 14px">Выберите вариант</span></sc-if>
+          </div>
+        </section>
+
+        <section style="display:flex;flex-direction:column;gap:12px">
+          <h2 style="margin:0 0 4px;font-size:17px;font-weight:700;letter-spacing:-.01em">Контакты</h2>
+          <div style="display:flex;flex-direction:column;gap:6px">
             <dc-import name="FritoInput" label="Номер телефона" value="{{ f.phone }}" on-change="{{ setPhone }}" mask="phone" required="{{ true }}" clearable="{{ false }}" hint-size="100%,56px"></dc-import>
             <sc-if value="{{ e.phone }}" hint-placeholder-val="{{ false }}"><span style="font-size:12px;color:#EF4444;padding:0 14px">Введите номер полностью</span></sc-if>
+          </div>
+                  <div style="display:flex;flex-direction:column;gap:6px">
+            <dc-import name="FritoInput" label="Дополнительный номер телефона" value="{{ f.phone2 }}" on-change="{{ setPhone2 }}" mask="phone" clearable="{{ false }}" hint-size="100%,56px"></dc-import>
+            <sc-if value="{{ e.phone2 }}" hint-placeholder-val="{{ false }}"><span style="font-size:12px;color:#EF4444;padding:0 14px">Введите номер полностью или оставьте поле пустым</span></sc-if>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <dc-import name="FritoInput" label="Электронная почта" value="{{ f.email }}" on-change="{{ setEmail }}" mask="email" hint-size="100%,56px"></dc-import>
+            <sc-if value="{{ e.email }}" hint-placeholder-val="{{ false }}"><span style="font-size:12px;color:#EF4444;padding:0 14px">Проверьте адрес почты</span></sc-if>
           </div>
         </section>
 
@@ -89,6 +133,32 @@ select:focus-visible{outline:none}
               <span aria-hidden="true" style="position:absolute;right:20px;top:22px;width:9px;height:9px;border-right:2px solid #6B7280;border-bottom:2px solid #6B7280;transform:rotate(45deg);pointer-events:none"></span>
             </label>
             <sc-if value="{{ e.vacancy }}" hint-placeholder-val="{{ false }}"><span style="font-size:12px;color:#EF4444;padding:0 14px">Выберите вакансию</span></sc-if>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <label style="position:relative;display:block;background:#F7F7F9;border-radius:14px;height:56px;cursor:pointer">
+              <span style="position:absolute;left:14px;top:10px;font-size:11px;color:#6B7280;font-weight:500;line-height:1;pointer-events:none">Занятость в настоящее время<span aria-hidden="true" style="color:#EF4444;margin-left:2px">*</span></span>
+              <select value="{{ f.employment }}" onChange="{{ setEmployment }}" aria-required="true" style="position:absolute;left:0;right:0;top:0;bottom:0;width:100%;height:100%;padding:24px 44px 0 14px;border:0;background:transparent;font:inherit;font-size:15px;font-weight:600;color:#111827;appearance:none;-webkit-appearance:none;cursor:pointer;border-radius:14px">
+                <option value="" disabled="{{ true }}">Выберите вариант</option>
+                <sc-for list="{{ employmentOpts }}" as="em" hint-placeholder-count="4"><option value="{{ em }}">{{ em }}</option></sc-for>
+              </select>
+              <span aria-hidden="true" style="position:absolute;right:20px;top:22px;width:9px;height:9px;border-right:2px solid #6B7280;border-bottom:2px solid #6B7280;transform:rotate(45deg);pointer-events:none"></span>
+            </label>
+            <sc-if value="{{ e.employment }}" hint-placeholder-val="{{ false }}"><span style="font-size:12px;color:#EF4444;padding:0 14px">Выберите вариант</span></sc-if>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:8px;margin-top:4px">
+            <span style="font-size:13px;font-weight:600;color:#374151;padding:0 4px">Могу начать работу<span aria-hidden="true" style="color:#EF4444;margin-left:2px">*</span></span>
+            <div role="radiogroup" style="display:flex;gap:8px">
+              <sc-for list="{{ starts }}" as="st" hint-placeholder-count="3">
+                <button type="button" role="radio" aria-checked="{{ st.on }}" onClick="{{ st.pick }}" style="flex:1;min-width:0;height:48px;padding:0 8px;border-radius:14px;border:1px solid {{ st.border }};background:{{ st.bg }};font:inherit;font-size:15px;font-weight:{{ st.weight }};color:#111827;cursor:pointer;white-space:nowrap;transition:all .15s">{{ st.label }}</button>
+              </sc-for>
+            </div>
+            <sc-if value="{{ startDateOn }}" hint-placeholder-val="{{ false }}">
+              <label style="position:relative;display:block;background:#F7F7F9;border-radius:14px;height:56px;cursor:pointer">
+                <span style="position:absolute;left:14px;top:10px;font-size:11px;color:#6B7280;font-weight:500;line-height:1;pointer-events:none">Дата выхода<span aria-hidden="true" style="color:#EF4444;margin-left:2px">*</span></span>
+                <input type="date" value="{{ f.startDate }}" min="{{ today }}" onChange="{{ setStartDate }}" aria-required="true" style="position:absolute;left:0;right:0;top:0;bottom:0;width:100%;height:100%;padding:24px 14px 0 14px;border:0;background:transparent;font:inherit;font-size:15px;font-weight:600;color:#111827;appearance:none;-webkit-appearance:none;cursor:pointer;border-radius:14px;display:block;min-height:56px">
+              </label>
+            </sc-if>
+            <sc-if value="{{ e.start }}" hint-placeholder-val="{{ false }}"><span style="font-size:12px;color:#EF4444;padding:0 14px">Выберите, когда можете начать</span></sc-if>
           </div>
         </section>
 
@@ -162,7 +232,12 @@ const dobError = v => {
   if (age > 80) return 'Проверьте год рождения';
   return '';
 };
-const EMPTY = { name: '', dob: '', phone: '', city: '', branch: '', vacancy: '', source: '', other: '', agree: false };
+const CITIZENS = ['Казахстан', 'Россия', 'Кыргызстан', 'Узбекистан', 'Таджикистан', 'Другое'];
+const MILITARY = ['Состою на воинском учёте', 'Не состою на учёте', 'Не военнообязанный(ая)'];
+const EMPLOYMENT = ['Не работаю', 'Работаю', 'Учусь', 'Учусь и работаю'];
+const STARTS = [['today', 'Сегодня'], ['tomorrow', 'Завтра'], ['date', 'Выбрать дату']];
+const isoDate = d => d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+const EMPTY = { name: '', dob: '', citizen: '', citizenOther: '', address: '', military: '', phone: '', phone2: '', email: '', city: '', branch: '', vacancy: '', employment: '', start: '', startDate: '', source: '', other: '', agree: false };
 class Component extends DCLogic {
   state = { f: { ...EMPTY }, tried: false, done: false, sending: false, logoBroken: false, stores: [] };
   async componentDidMount() {
@@ -175,7 +250,16 @@ class Component extends DCLogic {
     const e = {};
     if (f.name.trim().split(/\s+/).length < 2) e.name = true;
     if (dobError(f.dob)) e.dob = true;
+    if (!f.citizen) e.citizen = true;
+    if (f.citizen === 'Другое' && !f.citizenOther.trim()) e.citizenOther = true;
+    if (f.address.trim().length < 5) e.address = true;
+    if (!f.military) e.military = true;
     if (f.phone.replace(/\D/g, '').length < 11) e.phone = true;
+    const p2 = f.phone2.replace(/\D/g, '').length;
+    if (p2 > 1 && p2 < 11) e.phone2 = true;
+    if (f.email.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(f.email.trim())) e.email = true;
+    if (!f.employment) e.employment = true;
+    if (!f.start || (f.start === 'date' && !f.startDate)) e.start = true;
     if (!f.city) e.city = true;
     if (!f.branch) e.branch = true;
     if (!f.vacancy) e.vacancy = true;
@@ -197,6 +281,13 @@ class Component extends DCLogic {
       f, e, cities, branches, vacancies: VACANCIES, stores, storeCount: stores.length,
       noCity: !f.city, branchOpacity: f.city ? 1 : .6, branchPh: f.city ? 'Выберите филиал' : 'Сначала выберите город',
       dobErr: dobError(f.dob), dobHint: !e.dob && !/^\d{2}\.\d{2}\.\d{4}$/.test(f.dob),
+      citizens: CITIZENS, militaryOpts: MILITARY, employmentOpts: EMPLOYMENT, citizenOther: f.citizen === 'Другое',
+      setCitizen: ev => this.set('citizen', ev.target.value), setCitizenOther: v => this.set('citizenOther', v),
+      setAddress: v => this.set('address', v), setMilitary: ev => this.set('military', ev.target.value),
+      setPhone2: v => this.set('phone2', v), setEmail: v => this.set('email', v.trim()),
+      setEmployment: ev => this.set('employment', ev.target.value), setStartDate: ev => this.set('startDate', ev.target.value),
+      starts: STARTS.map(([id, label]) => { const on = f.start === id; return { id, label, on, pick: () => this.set('start', id), bg: on ? '#F5F3FF' : '#F7F7F9', border: on ? '#614BE2' : 'transparent', weight: on ? 700 : 500 }; }),
+      startDateOn: f.start === 'date', today: isoDate(new Date()),
       setName: v => this.set('name', v), setDob: v => this.set('dob', fmtDob(v)), setPhone: v => this.set('phone', v),
       setCity: ev => this.setState(st => ({ f: { ...st.f, city: ev.target.value, branch: '' } })),
       setBranch: ev => this.set('branch', ev.target.value), setVacancy: ev => this.set('vacancy', ev.target.value),
