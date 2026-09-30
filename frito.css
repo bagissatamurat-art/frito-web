@@ -471,3 +471,22 @@ img.f-option__icon{object-fit:contain}
 .f-am__foot{padding:12px 20px 24px;border-top:1px solid var(--divider);background:#fff}
 .f-am__foot-note{font-size:13px;color:var(--ink-2);text-align:center}
 .f-am__foot--col{display:flex;flex-direction:column;gap:8px}
+
+/* общие классы страниц (из apply.dc.html) */
+.f-page{font-family:var(--font);color:var(--ink);min-height:100vh;display:flex;flex-direction:column;background:var(--surface-1)}
+.f-page-head{display:flex;flex-direction:column;gap:10px;padding:0 4px}
+.f-eyebrow{font-size:12px;font-weight:700;letter-spacing:.06em;color:var(--primary)}
+.f-page-title{margin:0;font-size:clamp(28px,4.5vw,40px);font-weight:800;letter-spacing:-.03em;line-height:1.05;text-wrap:balance}
+.f-page-lead{margin:0;font-size:15px;color:var(--ink-2);line-height:1.5;text-wrap:pretty}
+.f-field-wrap{display:flex;flex-direction:column;gap:6px}
+.f-hint{font-size:12px;color:var(--ink-3);padding:0 14px}
+.f-select{position:relative;display:block;background:var(--surface-1);border-radius:14px;height:56px;cursor:pointer}
+.f-select__label{position:absolute;left:14px;top:10px;font-size:11px;color:var(--ink-2);font-weight:500;line-height:1;pointer-events:none}
+.f-select__control{position:absolute;left:0;right:0;top:0;bottom:0;width:100%;height:100%;padding:24px 44px 0 14px;border:0;background:transparent;font:inherit;font-size:15px;font-weight:600;color:var(--ink);appearance:none;-webkit-appearance:none;cursor:pointer;border-radius:14px}
+.f-select__arrow{position:absolute;right:20px;top:22px;width:9px;height:9px;border-right:2px solid var(--ink-2);border-bottom:2px solid var(--ink-2);transform:rotate(45deg);pointer-events:none}
+.f-select__date{position:absolute;left:0;right:0;top:0;bottom:0;width:100%;height:100%;padding:24px 14px 0 14px;border:0;background:transparent;font:inherit;font-size:15px;font-weight:600;color:var(--ink);appearance:none;-webkit-appearance:none;cursor:pointer;border-radius:14px;display:block;min-height:56px}
+.f-sr-input{position:absolute;opacity:0;width:0;height:0}
+.f-footer-wrap{margin:0 clamp(12px,3vw,32px) 32px}
+
+/* общие классы страниц (из vacancies.dc.html) */
+.f-cover-img{width:100%;height:100%;object-fit:cover;display:block}

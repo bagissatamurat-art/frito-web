@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
 <link rel="stylesheet" href="./frito.css">
+<link rel="stylesheet" href="./vacancies.css">
 <script src="./frito.js"></script>
 <link rel="modulepreload" href="./frito-data.js">
 <script src="./support.js"></script>
@@ -20,73 +21,73 @@ a{color:#614BE2;text-decoration:none}a:hover{color:#4A36C4}
 button{outline:none}
 </style>
 </helmet>
-<div style="font-family:var(--font);color:var(--ink);min-height:100vh;display:flex;flex-direction:column;background:var(--surface-1)">
+<div class="f-page">
   <dc-import name="FritoHeader" back-label="В меню" hint-size="100%,72px"></dc-import>
 
-  <main style="flex:1;display:flex;flex-direction:column;gap:clamp(40px,6vw,72px);padding:clamp(20px,4vw,40px) clamp(12px,3vw,32px) 56px;max-width:1240px;width:100%;margin:0 auto">
+  <main class="vc-main">
 
     <!-- HERO -->
-    <section style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:24px;align-items:stretch">
-      <div style="background:var(--primary);border-radius:28px;padding:clamp(28px,4vw,48px);display:flex;flex-direction:column;justify-content:space-between;gap:32px;color:#fff;min-height:380px">
-        <div style="display:flex;flex-direction:column;gap:16px">
-          <span style="font-size:12px;font-weight:700;letter-spacing:.06em;color:rgba(255,255,255,.7)">РАБОТА В FRITO · АСТАНА</span>
-          <h1 style="margin:0;font-size:clamp(34px,5vw,56px);font-weight:800;letter-spacing:-.03em;line-height:1;text-wrap:balance">Настоящий chicken power начинается с команды</h1>
-          <p style="margin:0;font-size:16px;line-height:1.5;color:rgba(255,255,255,.85);max-width:460px;text-wrap:pretty">Frito — динамично развивающаяся сеть ресторанов быстрого питания. Фирменная жареная курочка по авторским рецептурам, {{ storeCount }} ресторанов в Астане и открытые вакансии в каждом.</p>
+    <section class="vc-hero">
+      <div class="vc-hero__card">
+        <div class="vc-hero__text">
+          <span class="vc-hero__eyebrow">РАБОТА В FRITO · АСТАНА</span>
+          <h1 class="vc-hero__title">Настоящий chicken power начинается с команды</h1>
+          <p class="vc-hero__lead">Frito — динамично развивающаяся сеть ресторанов быстрого питания. Фирменная жареная курочка по авторским рецептурам, {{ storeCount }} ресторанов в Астане и открытые вакансии в каждом.</p>
         </div>
-        <div style="display:flex;gap:10px;flex-wrap:wrap">
-          <a href="#vacancies" onClick="{{ toVacancies }}" style="display:flex;align-items:center;gap:10px;height:56px;padding:0 24px;border-radius:999px;background:#fff;color:var(--primary);font-size:16px;font-weight:700" style-hover="background:var(--primary-100);color:var(--primary-dark)">Смотреть вакансии<span style="background:var(--primary);color:#fff;border-radius:999px;min-width:26px;height:26px;padding:0 8px;display:flex;align-items:center;justify-content:center;font-size:13px">{{ total }}</span></a>
-          <a href="apply.dc.html" style="display:flex;align-items:center;height:56px;padding:0 24px;border-radius:999px;background:rgba(255,255,255,.14);color:#fff;font-size:16px;font-weight:700" style-hover="background:rgba(255,255,255,.22);color:#fff">Заполнить анкету</a>
+        <div class="vc-hero__actions">
+          <a href="#vacancies" onClick="{{ toVacancies }}" class="vc-hero__cta">Смотреть вакансии<span class="vc-hero__count">{{ total }}</span></a>
+          <a href="apply.dc.html" class="vc-hero__cta2">Заполнить анкету</a>
         </div>
       </div>
-      <div style="border-radius:28px;overflow:hidden;background:var(--dark);min-height:300px"><img src="assets/hero-staff-3.jpg" alt="Сотрудник Frito в форме" style="width:100%;height:100%;object-fit:cover;display:block"></div>
+      <div class="vc-hero__photo"><img src="assets/hero-staff-3.jpg" alt="Сотрудник Frito в форме" class="f-cover-img"></div>
     </section>
 
     <!-- VALUES + BENEFITS -->
-    <section style="display:flex;flex-direction:column;gap:20px">
-      <div style="display:flex;flex-direction:column;gap:6px;padding:0 4px">
-        <h2 style="margin:0;font-size:clamp(24px,3vw,32px);font-weight:800;letter-spacing:-.02em">Почему Frito</h2>
-        <p style="margin:0;font-size:15px;color:var(--ink-2)">Наши ценности и то, что получает каждый в команде.</p>
+    <section class="vc-block">
+      <div class="vc-block__head">
+        <h2 class="vc-h2">Почему Frito</h2>
+        <p class="vc-lead">Наши ценности и то, что получает каждый в команде.</p>
       </div>
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:16px">
-        <div style="background:var(--dark);color:#fff;border-radius:24px;padding:28px;display:flex;flex-direction:column;gap:12px">
-          <span style="font-size:12px;font-weight:700;letter-spacing:.06em;color:var(--primary-light)">ЦЕННОСТЬ 01</span>
-          <h3 style="margin:0;font-size:22px;font-weight:800;letter-spacing:-.02em">Качество</h3>
-          <p style="margin:0;font-size:14px;line-height:1.55;color:rgba(255,255,255,.7)">Мы всегда стремимся к качеству во всём: в продукции, в жизни, в людях. Для нас качество — не разовая акция, а стабильный стандарт.</p>
+      <div class="vc-why">
+        <div class="vc-why__card">
+          <span class="vc-why__eyebrow">ЦЕННОСТЬ 01</span>
+          <h3 class="vc-why__title">Качество</h3>
+          <p class="vc-why__text">Мы всегда стремимся к качеству во всём: в продукции, в жизни, в людях. Для нас качество — не разовая акция, а стабильный стандарт.</p>
         </div>
-        <div style="background:var(--dark);color:#fff;border-radius:24px;padding:28px;display:flex;flex-direction:column;gap:12px">
-          <span style="font-size:12px;font-weight:700;letter-spacing:.06em;color:var(--primary-light)">ЦЕННОСТЬ 02</span>
-          <h3 style="margin:0;font-size:22px;font-weight:800;letter-spacing:-.02em">Команда</h3>
-          <p style="margin:0;font-size:14px;line-height:1.55;color:rgba(255,255,255,.7)">Мы любим и ценим каждого сотрудника. Обучаем с нуля, растим внутри сети и отмечаем результат.</p>
+        <div class="vc-why__card">
+          <span class="vc-why__eyebrow">ЦЕННОСТЬ 02</span>
+          <h3 class="vc-why__title">Команда</h3>
+          <p class="vc-why__text">Мы любим и ценим каждого сотрудника. Обучаем с нуля, растим внутри сети и отмечаем результат.</p>
         </div>
-        <div style="border-radius:24px;overflow:hidden;background:var(--surface-2);min-height:200px"><img src="assets/photo-uniform.jpg" alt="Форма команды Frito" style="width:100%;height:100%;object-fit:cover;display:block"></div>
+        <div class="vc-why__photo"><img src="assets/photo-uniform.jpg" alt="Форма команды Frito" class="f-cover-img"></div>
       </div>
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:12px">
+      <div class="vc-steps">
         <sc-for list="{{ benefits }}" as="b" hint-placeholder-count="6">
-          <div style="background:#fff;border-radius:20px;padding:20px;display:flex;flex-direction:column;gap:10px">
-            <span style="width:40px;height:40px;border-radius:50%;background:var(--primary-100);display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:800;color:var(--primary)">{{ b.n }}</span>
-            <span style="font-size:15px;font-weight:700;letter-spacing:-.01em">{{ b.title }}</span>
-            <span style="font-size:13px;color:var(--ink-2);line-height:1.5">{{ b.text }}</span>
+          <div class="vc-step">
+            <span class="vc-step__num">{{ b.n }}</span>
+            <span class="vc-step__title">{{ b.title }}</span>
+            <span class="vc-step__text">{{ b.text }}</span>
           </div>
         </sc-for>
       </div>
     </section>
 
     <!-- VACANCIES -->
-    <section id="vacancies" ref="{{ vacRef }}" style="scroll-margin-top:16px;display:flex;flex-direction:column;gap:20px">
-      <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap;padding:0 4px">
-        <div style="display:flex;flex-direction:column;gap:6px">
-          <h2 style="margin:0;font-size:clamp(24px,3vw,32px);font-weight:800;letter-spacing:-.02em">Вакансии</h2>
-          <p style="margin:0;font-size:15px;color:var(--ink-2)">{{ countLabel }}</p>
+    <section id="vacancies" ref="{{ vacRef }}" class="vc-anchor-block">
+      <div class="vc-bar">
+        <div class="vc-bar__titles">
+          <h2 class="vc-h2">Вакансии</h2>
+          <p class="vc-lead">{{ countLabel }}</p>
         </div>
-        <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
-          <label style="position:relative;display:block;height:44px;min-width:180px">
-            <select value="{{ city }}" onChange="{{ setCity }}" aria-label="Город" style="width:100%;height:100%;padding:0 40px 0 16px;border:1px solid var(--border);background:#fff;border-radius:999px;font:inherit;font-size:14px;font-weight:600;color:var(--ink);appearance:none;cursor:pointer">
+        <div class="vc-filters">
+          <label class="vc-city">
+            <select value="{{ city }}" onChange="{{ setCity }}" aria-label="Город" class="vc-city__select">
               <option value="">Все города</option>
               <sc-for list="{{ cities }}" as="c" hint-placeholder-count="1"><option value="{{ c }}">{{ c }}</option></sc-for>
             </select>
-            <span aria-hidden="true" style="position:absolute;right:18px;top:16px;width:8px;height:8px;border-right:2px solid var(--ink-2);border-bottom:2px solid var(--ink-2);transform:rotate(45deg);pointer-events:none"></span>
+            <span aria-hidden="true" class="vc-city__arrow"></span>
           </label>
-          <div style="display:flex;gap:6px;flex-wrap:wrap">
+          <div class="vc-shifts">
             <sc-for list="{{ shiftChips }}" as="sh" hint-placeholder-count="5">
               <button type="button" onClick="{{ sh.pick }}" style="height:44px;padding:0 16px;border:0;border-radius:999px;background:{{ sh.bg }};color:{{ sh.color }};font:inherit;font-size:14px;font-weight:600;cursor:pointer;transition:all .15s" style-hover="background:{{ sh.hover }}">{{ sh.label }}</button>
             </sc-for>
@@ -94,75 +95,75 @@ button{outline:none}
         </div>
       </div>
       <sc-if value="{{ hasVac }}" hint-placeholder-val="{{ true }}">
-      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr));gap:12px">
+      <div class="vc-grid">
         <sc-for list="{{ vacancies }}" as="v" hint-placeholder-count="6">
-          <button type="button" onClick="{{ v.open }}" style="text-align:left;background:#fff;border:1px solid var(--border);border-radius:24px;padding:22px;display:flex;flex-direction:column;gap:14px;font:inherit;color:var(--ink);cursor:pointer;transition:all .15s" style-hover="border-color:#B7ACF3;box-shadow:var(--shadow-card-hover)">
-            <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px">
-              <span style="font-size:18px;font-weight:700;letter-spacing:-.01em;line-height:1.2">{{ v.title }}</span>
-              <span style="font-size:12px;font-weight:600;color:var(--primary);background:var(--primary-100);border-radius:999px;padding:5px 10px;white-space:nowrap">{{ v.shift }}</span>
+          <button type="button" onClick="{{ v.open }}" class="vc-card">
+            <div class="vc-card__top">
+              <span class="vc-card__title">{{ v.title }}</span>
+              <span class="vc-card__shift">{{ v.shift }}</span>
             </div>
-            <span style="font-size:20px;font-weight:800;letter-spacing:-.02em">{{ v.salary }}</span>
-            <span style="font-size:14px;color:var(--ink-2);line-height:1.5">{{ v.short }}</span>
-            <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:auto">
-              <span style="font-size:12px;color:var(--ink-2);background:var(--surface-2);border-radius:999px;padding:5px 10px">{{ v.exp }}</span>
-              <span style="font-size:12px;color:var(--ink-2);background:var(--surface-2);border-radius:999px;padding:5px 10px">{{ v.hours }}</span>
-              <span style="font-size:12px;color:var(--ink-2);background:var(--surface-2);border-radius:999px;padding:5px 10px">{{ v.branchLabel }}</span>
+            <span class="vc-card__pay">{{ v.salary }}</span>
+            <span class="vc-card__desc">{{ v.short }}</span>
+            <div class="vc-card__tags">
+              <span class="vc-tag">{{ v.exp }}</span>
+              <span class="vc-tag">{{ v.hours }}</span>
+              <span class="vc-tag">{{ v.branchLabel }}</span>
             </div>
           </button>
         </sc-for>
       </div>
       </sc-if>
       <sc-if value="{{ noVac }}" hint-placeholder-val="{{ false }}">
-        <div style="background:#fff;border-radius:24px;padding:40px;display:flex;flex-direction:column;align-items:center;gap:12px;text-align:center">
-          <span style="font-size:17px;font-weight:700">По этим фильтрам вакансий нет</span>
-          <span style="font-size:14px;color:var(--ink-2)">Заполните анкету — предложим, когда появится подходящая смена.</span>
-          <button type="button" onClick="{{ resetFilters }}" style="margin-top:8px;height:44px;padding:0 20px;border:0;border-radius:999px;background:var(--primary-100);color:var(--primary);font:inherit;font-size:14px;font-weight:600;cursor:pointer">Сбросить фильтры</button>
+        <div class="vc-empty">
+          <span class="vc-empty__title">По этим фильтрам вакансий нет</span>
+          <span class="vc-empty__text">Заполните анкету — предложим, когда появится подходящая смена.</span>
+          <button type="button" onClick="{{ resetFilters }}" class="vc-empty__btn">Сбросить фильтры</button>
         </div>
       </sc-if>
     </section>
 
     <!-- RESTAURANTS -->
-    <section style="display:flex;flex-direction:column;gap:20px">
-      <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap;padding:0 4px">
-        <div style="display:flex;flex-direction:column;gap:6px">
-          <h2 style="margin:0;font-size:clamp(24px,3vw,32px);font-weight:800;letter-spacing:-.02em">Рестораны</h2>
-          <p style="margin:0;font-size:15px;color:var(--ink-2)">Выберите ближайший — работать удобнее рядом с домом.</p>
+    <section class="vc-block">
+      <div class="vc-bar">
+        <div class="vc-bar__titles">
+          <h2 class="vc-h2">Рестораны</h2>
+          <p class="vc-lead">Выберите ближайший — работать удобнее рядом с домом.</p>
         </div>
-        <div style="display:flex;background:var(--surface-2);border-radius:999px;padding:4px;height:44px">
+        <div class="vc-view">
           <button type="button" onClick="{{ viewList }}" style="height:36px;padding:0 18px;border:0;border-radius:999px;background:{{ listBg }};color:{{ listColor }};font:inherit;font-size:14px;font-weight:600;cursor:pointer;box-shadow:{{ listShadow }}">Список</button>
           <button type="button" onClick="{{ viewMap }}" style="height:36px;padding:0 18px;border:0;border-radius:999px;background:{{ mapBg }};color:{{ mapColor }};font:inherit;font-size:14px;font-weight:600;cursor:pointer;box-shadow:{{ mapShadow }}">На карте</button>
         </div>
       </div>
       <sc-if value="{{ isList }}" hint-placeholder-val="{{ true }}">
-      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,260px),1fr));gap:12px">
+      <div class="vc-stores">
         <sc-for list="{{ stores }}" as="st" hint-placeholder-count="5">
-          <div style="background:#fff;border-radius:20px;padding:18px 20px;display:flex;align-items:center;gap:14px">
-            <span style="width:44px;height:44px;border-radius:50%;background:var(--primary-100);display:flex;align-items:center;justify-content:center;flex-shrink:0"><img src="assets/ic-pin-p.svg" alt="" style="width:18px;height:18px"></span>
-            <div style="display:flex;flex-direction:column;gap:2px;min-width:0">
-              <span style="font-size:15px;font-weight:700">{{ st.name }}</span>
-              <span style="font-size:13px;color:var(--ink-2)">{{ st.hours }} · {{ st.open }}</span>
+          <div class="vc-store">
+            <span class="vc-store__icon"><img src="assets/ic-pin-p.svg" alt="" class="vc-store__pin"></span>
+            <div class="vc-store__body">
+              <span class="vc-strong">{{ st.name }}</span>
+              <span class="vc-muted">{{ st.hours }} · {{ st.open }}</span>
             </div>
           </div>
         </sc-for>
       </div>
       </sc-if>
       <sc-if value="{{ isMap }}" hint-placeholder-val="{{ false }}">
-      <div style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2fr);gap:12px;min-height:440px">
-        <div style="display:flex;flex-direction:column;gap:8px;overflow:auto">
+      <div class="vc-map">
+        <div class="vc-map__list">
           <sc-for list="{{ stores }}" as="st" hint-placeholder-count="5">
             <a href="{{ st.gis }}" target="_blank" rel="noopener" onMouseEnter="{{ st.focus }}" style="text-align:left;background:{{ st.bg }};border:1px solid {{ st.border }};border-radius:16px;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;gap:10px;color:var(--ink)" style-hover="border-color:#B7ACF3;color:var(--ink)">
-              <span style="display:flex;flex-direction:column;gap:2px"><span style="font-size:14px;font-weight:700">{{ st.name }}</span><span style="font-size:12px;color:var(--ink-2)">{{ st.hours }}</span></span>
-              <span style="font-size:12px;font-weight:600;color:var(--primary);white-space:nowrap">2ГИС →</span>
+              <span class="vc-map__item"><span class="vc-map__name">{{ st.name }}</span><span class="vc-map__hours">{{ st.hours }}</span></span>
+              <span class="vc-map__link">2ГИС →</span>
             </a>
           </sc-for>
         </div>
-        <div style="border-radius:24px;overflow:hidden;background:var(--surface-3);position:relative;min-height:440px">
-          <sc-if value="{{ hasMap }}" hint-placeholder-val="{{ false }}"><iframe title="Карта 2ГИС" src="{{ mapSrc }}" style="width:100%;height:100%;border:0;display:block;min-height:440px" loading="lazy"></iframe></sc-if>
+        <div class="vc-map__frame">
+          <sc-if value="{{ hasMap }}" hint-placeholder-val="{{ false }}"><iframe title="Карта 2ГИС" src="{{ mapSrc }}" class="vc-map__iframe" loading="lazy"></iframe></sc-if>
           <sc-if value="{{ noMap }}" hint-placeholder-val="{{ true }}">
-            <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:24px;text-align:center;background:repeating-linear-gradient(45deg,var(--surface-3) 0 12px,var(--border) 12px 24px)">
-              <span style="width:48px;height:48px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center"><img src="assets/ic-pin-p.svg" alt="" style="width:20px;height:20px"></span>
-              <span style="font-size:15px;font-weight:700">Карта 2ГИС</span>
-              <span style="font-size:13px;color:var(--ink-2);max-width:300px">Вставьте URL виджета «Фирмы на карте» из кабинета 2ГИС в настройку mapEmbed. Пока — ссылки на адреса слева.</span>
+            <div class="vc-map__stub">
+              <span class="vc-map__stub-icon"><img src="assets/ic-pin-p.svg" alt="" class="vc-map__stub-pin"></span>
+              <span class="vc-strong">Карта 2ГИС</span>
+              <span class="vc-map__stub-text">Вставьте URL виджета «Фирмы на карте» из кабинета 2ГИС в настройку mapEmbed. Пока — ссылки на адреса слева.</span>
             </div>
           </sc-if>
         </div>
@@ -171,10 +172,10 @@ button{outline:none}
     </section>
   </main>
 
-  <div style="margin:0 clamp(12px,3vw,32px) 32px"><dc-import name="FritoFooter" hint-size="100%,420px"></dc-import></div>
+  <div class="f-footer-wrap"><dc-import name="FritoFooter" hint-size="100%,420px"></dc-import></div>
 
   <sc-if value="{{ modalOpen }}" hint-placeholder-val="{{ false }}">
-    <div style="position:fixed;inset:0;z-index:50"><dc-import name="FritoVacancyModal" layout="{{ mLayout }}" vacancy="{{ m }}" apply-href="{{ applyHref }}" on-close="{{ closeModal }}" style="position:absolute;inset:0" hint-size="100%,100%"></dc-import></div>
+    <div class="vc-modal-layer"><dc-import name="FritoVacancyModal" layout="{{ mLayout }}" vacancy="{{ m }}" apply-href="{{ applyHref }}" on-close="{{ closeModal }}" style="position:absolute;inset:0" hint-size="100%,100%"></dc-import></div>
   </sc-if>
 </div>
 </x-dc>

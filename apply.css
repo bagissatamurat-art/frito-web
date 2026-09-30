@@ -1,0 +1,24 @@
+/* Стили страницы apply.dc.html. Токены и общие компоненты — в frito.css */
+.ap-main{flex:1;display:flex;flex-direction:column;align-items:center;padding:clamp(24px,5vw,56px) 16px 48px}
+.ap-col{width:100%;max-width:600px;display:flex;flex-direction:column;gap:20px}
+.ap-form{background:#fff;border-radius:24px;padding:clamp(20px,4vw,32px);display:flex;flex-direction:column;gap:28px;box-shadow:0 1px 2px rgba(17,24,39,.04)}
+.ap-section{display:flex;flex-direction:column;gap:12px}
+.ap-section__title{margin:0 0 4px;font-size:17px;font-weight:700;letter-spacing:-.01em}
+.ap-start{display:flex;flex-direction:column;gap:8px;margin-top:4px}
+.ap-start__label{font-size:13px;font-weight:600;color:#374151;padding:0 4px}
+.ap-start__row{display:flex;gap:8px}
+.ap-q-title{margin:0;font-size:17px;font-weight:700;letter-spacing:-.01em}
+.ap-req{color:var(--danger);margin-left:3px}
+.ap-radios{display:flex;flex-direction:column;gap:8px}
+.ap-other{display:flex;flex-direction:column;gap:6px;margin-top:4px}
+.ap-submit{display:flex;flex-direction:column;gap:14px;padding-top:4px;border-top:1px solid var(--border)}
+.ap-agree{display:flex;align-items:flex-start;gap:12px;cursor:pointer;padding-top:14px}
+.ap-agree__text{font-size:13px;line-height:1.5;color:#374151}
+.ap-cta-hint{font-size:12px;color:var(--ink-2);text-align:center}
+.ap-done{background:#fff;border-radius:24px;padding:clamp(28px,5vw,44px) clamp(20px,4vw,32px);display:flex;flex-direction:column;align-items:center;gap:16px;text-align:center}
+.ap-done__icon{width:64px;height:64px;border-radius:50%;background:var(--primary-100);display:flex;align-items:center;justify-content:center}
+.ap-done__check{width:22px;height:12px;border-left:3px solid var(--primary);border-bottom:3px solid var(--primary);transform:rotate(-45deg) translate(2px,-3px)}
+.ap-done__title{margin:0;font-size:24px;font-weight:800;letter-spacing:-.02em}
+.ap-done__text{margin:0;font-size:15px;color:var(--ink-2);line-height:1.5;max-width:380px;text-wrap:pretty}
+.ap-done__btn{margin-top:8px;height:48px;padding:0 24px;border:0;border-radius:999px;background:var(--surface-1);color:var(--ink);font:inherit;font-size:14px;font-weight:600;cursor:pointer}
+.ap-done__btn:hover{background:var(--border)}

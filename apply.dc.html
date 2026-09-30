@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
 <link rel="stylesheet" href="./frito.css">
+<link rel="stylesheet" href="./apply.css">
 <script src="./frito.js"></script>
 <link rel="modulepreload" href="./frito-data.js">
 <script src="./support.js"></script>
@@ -22,189 +23,189 @@ input,select,button{outline:none}
 select:focus-visible{outline:none}
 </style>
 </helmet>
-<div style="font-family:var(--font);color:var(--ink);min-height:100vh;display:flex;flex-direction:column;background:var(--surface-1)">
+<div class="f-page">
   <dc-import name="FritoHeader" hint-size="100%,72px"></dc-import>
 
-  <main style="flex:1;display:flex;flex-direction:column;align-items:center;padding:clamp(24px,5vw,56px) 16px 48px">
-    <div style="width:100%;max-width:600px;display:flex;flex-direction:column;gap:20px">
-      <div style="display:flex;flex-direction:column;gap:10px;padding:0 4px">
-        <span style="font-size:12px;font-weight:700;letter-spacing:.06em;color:var(--primary)">РАБОТА В FRITO</span>
-        <h1 style="margin:0;font-size:clamp(28px,4.5vw,40px);font-weight:800;letter-spacing:-.03em;line-height:1.05;text-wrap:balance">Анкета кандидата</h1>
-        <p style="margin:0;font-size:15px;color:var(--ink-2);line-height:1.5;text-wrap:pretty">Заполните анкету — HR-менеджер перезвонит в течение двух рабочих дней.</p>
+  <main class="ap-main">
+    <div class="ap-col">
+      <div class="f-page-head">
+        <span class="f-eyebrow">РАБОТА В FRITO</span>
+        <h1 class="f-page-title">Анкета кандидата</h1>
+        <p class="f-page-lead">Заполните анкету — HR-менеджер перезвонит в течение двух рабочих дней.</p>
       </div>
 
       <sc-if value="{{ showForm }}" hint-placeholder-val="{{ true }}">
-      <form onSubmit="{{ submit }}" noValidate="{{ true }}" style="background:#fff;border-radius:24px;padding:clamp(20px,4vw,32px);display:flex;flex-direction:column;gap:28px;box-shadow:0 1px 2px rgba(17,24,39,.04)">
+      <form onSubmit="{{ submit }}" noValidate="{{ true }}" class="ap-form">
 
-        <section style="display:flex;flex-direction:column;gap:12px">
-          <h2 style="margin:0 0 4px;font-size:17px;font-weight:700;letter-spacing:-.01em">О вас</h2>
-          <div style="display:flex;flex-direction:column;gap:6px">
+        <section class="ap-section">
+          <h2 class="ap-section__title">О вас</h2>
+          <div class="f-field-wrap">
             <dc-import name="FritoInput" label="ФИО" value="{{ f.name }}" on-change="{{ setName }}" required="{{ true }}" hint-size="100%,56px"></dc-import>
-            <sc-if value="{{ e.name }}" hint-placeholder-val="{{ false }}"><span style="font-size:12px;color:var(--danger);padding:0 14px">Укажите фамилию, имя и отчество</span></sc-if>
+            <sc-if value="{{ e.name }}" hint-placeholder-val="{{ false }}"><span class="f-error">Укажите фамилию, имя и отчество</span></sc-if>
           </div>
-          <div style="display:flex;flex-direction:column;gap:6px">
+          <div class="f-field-wrap">
             <dc-import name="FritoInput" label="Дата рождения" value="{{ f.dob }}" on-change="{{ setDob }}" required="{{ true }}" hint-size="100%,56px"></dc-import>
-            <sc-if value="{{ e.dob }}" hint-placeholder-val="{{ false }}"><span style="font-size:12px;color:var(--danger);padding:0 14px">{{ dobErr }}</span></sc-if>
-            <sc-if value="{{ dobHint }}" hint-placeholder-val="{{ true }}"><span style="font-size:12px;color:var(--ink-3);padding:0 14px">Формат ДД.ММ.ГГГГ</span></sc-if>
+            <sc-if value="{{ e.dob }}" hint-placeholder-val="{{ false }}"><span class="f-error">{{ dobErr }}</span></sc-if>
+            <sc-if value="{{ dobHint }}" hint-placeholder-val="{{ true }}"><span class="f-hint">Формат ДД.ММ.ГГГГ</span></sc-if>
           </div>
-          <div style="display:flex;flex-direction:column;gap:6px">
-            <label style="position:relative;display:block;background:var(--surface-1);border-radius:14px;height:56px;cursor:pointer">
-              <span style="position:absolute;left:14px;top:10px;font-size:11px;color:var(--ink-2);font-weight:500;line-height:1;pointer-events:none">Гражданство<span aria-hidden="true" style="color:var(--danger);margin-left:2px">*</span></span>
-              <select value="{{ f.citizen }}" onChange="{{ setCitizen }}" aria-required="true" style="position:absolute;left:0;right:0;top:0;bottom:0;width:100%;height:100%;padding:24px 44px 0 14px;border:0;background:transparent;font:inherit;font-size:15px;font-weight:600;color:var(--ink);appearance:none;-webkit-appearance:none;cursor:pointer;border-radius:14px">
+          <div class="f-field-wrap">
+            <label class="f-select">
+              <span class="f-select__label">Гражданство<span aria-hidden="true" class="f-field__req">*</span></span>
+              <select value="{{ f.citizen }}" onChange="{{ setCitizen }}" aria-required="true" class="f-select__control">
                 <option value="" disabled="{{ true }}">Выберите гражданство</option>
                 <sc-for list="{{ citizens }}" as="cz" hint-placeholder-count="6"><option value="{{ cz }}">{{ cz }}</option></sc-for>
               </select>
-              <span aria-hidden="true" style="position:absolute;right:20px;top:22px;width:9px;height:9px;border-right:2px solid var(--ink-2);border-bottom:2px solid var(--ink-2);transform:rotate(45deg);pointer-events:none"></span>
+              <span aria-hidden="true" class="f-select__arrow"></span>
             </label>
-            <sc-if value="{{ e.citizen }}" hint-placeholder-val="{{ false }}"><span style="font-size:12px;color:var(--danger);padding:0 14px">Выберите гражданство</span></sc-if>
+            <sc-if value="{{ e.citizen }}" hint-placeholder-val="{{ false }}"><span class="f-error">Выберите гражданство</span></sc-if>
           </div>
           <sc-if value="{{ citizenOther }}" hint-placeholder-val="{{ false }}">
-          <div style="display:flex;flex-direction:column;gap:6px">
+          <div class="f-field-wrap">
             <dc-import name="FritoInput" label="Укажите гражданство" value="{{ f.citizenOther }}" on-change="{{ setCitizenOther }}" required="{{ true }}" hint-size="100%,56px"></dc-import>
-            <sc-if value="{{ e.citizenOther }}" hint-placeholder-val="{{ false }}"><span style="font-size:12px;color:var(--danger);padding:0 14px">Укажите гражданство</span></sc-if>
+            <sc-if value="{{ e.citizenOther }}" hint-placeholder-val="{{ false }}"><span class="f-error">Укажите гражданство</span></sc-if>
           </div>
           </sc-if>
-          <div style="display:flex;flex-direction:column;gap:6px">
+          <div class="f-field-wrap">
             <dc-import name="FritoInput" label="Адрес проживания" value="{{ f.address }}" on-change="{{ setAddress }}" required="{{ true }}" hint-size="100%,56px"></dc-import>
-            <sc-if value="{{ e.address }}" hint-placeholder-val="{{ false }}"><span style="font-size:12px;color:var(--danger);padding:0 14px">Укажите адрес: город, улица, дом</span></sc-if>
+            <sc-if value="{{ e.address }}" hint-placeholder-val="{{ false }}"><span class="f-error">Укажите адрес: город, улица, дом</span></sc-if>
           </div>
-          <div style="display:flex;flex-direction:column;gap:6px">
-            <label style="position:relative;display:block;background:var(--surface-1);border-radius:14px;height:56px;cursor:pointer">
-              <span style="position:absolute;left:14px;top:10px;font-size:11px;color:var(--ink-2);font-weight:500;line-height:1;pointer-events:none">Воинский учёт<span aria-hidden="true" style="color:var(--danger);margin-left:2px">*</span></span>
-              <select value="{{ f.military }}" onChange="{{ setMilitary }}" aria-required="true" style="position:absolute;left:0;right:0;top:0;bottom:0;width:100%;height:100%;padding:24px 44px 0 14px;border:0;background:transparent;font:inherit;font-size:15px;font-weight:600;color:var(--ink);appearance:none;-webkit-appearance:none;cursor:pointer;border-radius:14px">
+          <div class="f-field-wrap">
+            <label class="f-select">
+              <span class="f-select__label">Воинский учёт<span aria-hidden="true" class="f-field__req">*</span></span>
+              <select value="{{ f.military }}" onChange="{{ setMilitary }}" aria-required="true" class="f-select__control">
                 <option value="" disabled="{{ true }}">Выберите вариант</option>
                 <sc-for list="{{ militaryOpts }}" as="mo" hint-placeholder-count="3"><option value="{{ mo }}">{{ mo }}</option></sc-for>
               </select>
-              <span aria-hidden="true" style="position:absolute;right:20px;top:22px;width:9px;height:9px;border-right:2px solid var(--ink-2);border-bottom:2px solid var(--ink-2);transform:rotate(45deg);pointer-events:none"></span>
+              <span aria-hidden="true" class="f-select__arrow"></span>
             </label>
-            <sc-if value="{{ e.military }}" hint-placeholder-val="{{ false }}"><span style="font-size:12px;color:var(--danger);padding:0 14px">Выберите вариант</span></sc-if>
+            <sc-if value="{{ e.military }}" hint-placeholder-val="{{ false }}"><span class="f-error">Выберите вариант</span></sc-if>
           </div>
         </section>
 
-        <section style="display:flex;flex-direction:column;gap:12px">
-          <h2 style="margin:0 0 4px;font-size:17px;font-weight:700;letter-spacing:-.01em">Контакты</h2>
-          <div style="display:flex;flex-direction:column;gap:6px">
+        <section class="ap-section">
+          <h2 class="ap-section__title">Контакты</h2>
+          <div class="f-field-wrap">
             <dc-import name="FritoInput" label="Номер телефона" value="{{ f.phone }}" on-change="{{ setPhone }}" mask="phone" required="{{ true }}" clearable="{{ false }}" hint-size="100%,56px"></dc-import>
-            <sc-if value="{{ e.phone }}" hint-placeholder-val="{{ false }}"><span style="font-size:12px;color:var(--danger);padding:0 14px">Введите номер полностью</span></sc-if>
+            <sc-if value="{{ e.phone }}" hint-placeholder-val="{{ false }}"><span class="f-error">Введите номер полностью</span></sc-if>
           </div>
-                  <div style="display:flex;flex-direction:column;gap:6px">
+                  <div class="f-field-wrap">
             <dc-import name="FritoInput" label="Дополнительный номер телефона" value="{{ f.phone2 }}" on-change="{{ setPhone2 }}" mask="phone" clearable="{{ false }}" hint-size="100%,56px"></dc-import>
-            <sc-if value="{{ e.phone2 }}" hint-placeholder-val="{{ false }}"><span style="font-size:12px;color:var(--danger);padding:0 14px">Введите номер полностью или оставьте поле пустым</span></sc-if>
+            <sc-if value="{{ e.phone2 }}" hint-placeholder-val="{{ false }}"><span class="f-error">Введите номер полностью или оставьте поле пустым</span></sc-if>
           </div>
-          <div style="display:flex;flex-direction:column;gap:6px">
+          <div class="f-field-wrap">
             <dc-import name="FritoInput" label="Электронная почта" value="{{ f.email }}" on-change="{{ setEmail }}" mask="email" hint-size="100%,56px"></dc-import>
-            <sc-if value="{{ e.email }}" hint-placeholder-val="{{ false }}"><span style="font-size:12px;color:var(--danger);padding:0 14px">Проверьте адрес почты</span></sc-if>
+            <sc-if value="{{ e.email }}" hint-placeholder-val="{{ false }}"><span class="f-error">Проверьте адрес почты</span></sc-if>
           </div>
         </section>
 
-        <section style="display:flex;flex-direction:column;gap:12px">
-          <h2 style="margin:0 0 4px;font-size:17px;font-weight:700;letter-spacing:-.01em">Где хотите работать</h2>
-          <div style="display:flex;flex-direction:column;gap:6px">
-            <label style="position:relative;display:block;background:var(--surface-1);border-radius:14px;height:56px;cursor:pointer">
-              <span style="position:absolute;left:14px;top:10px;font-size:11px;color:var(--ink-2);font-weight:500;line-height:1;pointer-events:none">Город<span aria-hidden="true" style="color:var(--danger);margin-left:2px">*</span></span>
-              <select value="{{ f.city }}" onChange="{{ setCity }}" aria-required="true" style="position:absolute;left:0;right:0;top:0;bottom:0;width:100%;height:100%;padding:24px 44px 0 14px;border:0;background:transparent;font:inherit;font-size:15px;font-weight:600;color:var(--ink);appearance:none;cursor:pointer;border-radius:14px">
+        <section class="ap-section">
+          <h2 class="ap-section__title">Где хотите работать</h2>
+          <div class="f-field-wrap">
+            <label class="f-select">
+              <span class="f-select__label">Город<span aria-hidden="true" class="f-field__req">*</span></span>
+              <select value="{{ f.city }}" onChange="{{ setCity }}" aria-required="true" class="f-select__control">
                 <option value="" disabled="{{ true }}">Выберите город</option>
                 <sc-for list="{{ cities }}" as="c" hint-placeholder-count="1"><option value="{{ c }}">{{ c }}</option></sc-for>
               </select>
-              <span aria-hidden="true" style="position:absolute;right:20px;top:22px;width:9px;height:9px;border-right:2px solid var(--ink-2);border-bottom:2px solid var(--ink-2);transform:rotate(45deg);pointer-events:none"></span>
+              <span aria-hidden="true" class="f-select__arrow"></span>
             </label>
-            <sc-if value="{{ e.city }}" hint-placeholder-val="{{ false }}"><span style="font-size:12px;color:var(--danger);padding:0 14px">Выберите город</span></sc-if>
+            <sc-if value="{{ e.city }}" hint-placeholder-val="{{ false }}"><span class="f-error">Выберите город</span></sc-if>
           </div>
-          <div style="display:flex;flex-direction:column;gap:6px">
+          <div class="f-field-wrap">
             <label style="position:relative;display:block;background:var(--surface-1);border-radius:14px;height:56px;cursor:pointer;opacity:{{ branchOpacity }}">
-              <span style="position:absolute;left:14px;top:10px;font-size:11px;color:var(--ink-2);font-weight:500;line-height:1;pointer-events:none">Филиал<span aria-hidden="true" style="color:var(--danger);margin-left:2px">*</span></span>
-              <select value="{{ f.branch }}" onChange="{{ setBranch }}" disabled="{{ noCity }}" aria-required="true" style="position:absolute;left:0;right:0;top:0;bottom:0;width:100%;height:100%;padding:24px 44px 0 14px;border:0;background:transparent;font:inherit;font-size:15px;font-weight:600;color:var(--ink);appearance:none;cursor:pointer;border-radius:14px">
+              <span class="f-select__label">Филиал<span aria-hidden="true" class="f-field__req">*</span></span>
+              <select value="{{ f.branch }}" onChange="{{ setBranch }}" disabled="{{ noCity }}" aria-required="true" class="f-select__control">
                 <option value="" disabled="{{ true }}">{{ branchPh }}</option>
                 <sc-for list="{{ branches }}" as="b" hint-placeholder-count="0"><option value="{{ b.name }}">{{ b.name }}</option></sc-for>
                 <option value="any">Любой филиал</option>
               </select>
-              <span aria-hidden="true" style="position:absolute;right:20px;top:22px;width:9px;height:9px;border-right:2px solid var(--ink-2);border-bottom:2px solid var(--ink-2);transform:rotate(45deg);pointer-events:none"></span>
+              <span aria-hidden="true" class="f-select__arrow"></span>
             </label>
-            <sc-if value="{{ e.branch }}" hint-placeholder-val="{{ false }}"><span style="font-size:12px;color:var(--danger);padding:0 14px">Выберите филиал</span></sc-if>
+            <sc-if value="{{ e.branch }}" hint-placeholder-val="{{ false }}"><span class="f-error">Выберите филиал</span></sc-if>
           </div>
-          <div style="display:flex;flex-direction:column;gap:6px">
-            <label style="position:relative;display:block;background:var(--surface-1);border-radius:14px;height:56px;cursor:pointer">
-              <span style="position:absolute;left:14px;top:10px;font-size:11px;color:var(--ink-2);font-weight:500;line-height:1;pointer-events:none">Вакансия<span aria-hidden="true" style="color:var(--danger);margin-left:2px">*</span></span>
-              <select value="{{ f.vacancy }}" onChange="{{ setVacancy }}" aria-required="true" style="position:absolute;left:0;right:0;top:0;bottom:0;width:100%;height:100%;padding:24px 44px 0 14px;border:0;background:transparent;font:inherit;font-size:15px;font-weight:600;color:var(--ink);appearance:none;cursor:pointer;border-radius:14px">
+          <div class="f-field-wrap">
+            <label class="f-select">
+              <span class="f-select__label">Вакансия<span aria-hidden="true" class="f-field__req">*</span></span>
+              <select value="{{ f.vacancy }}" onChange="{{ setVacancy }}" aria-required="true" class="f-select__control">
                 <option value="" disabled="{{ true }}">Выберите вакансию</option>
                 <sc-for list="{{ vacancies }}" as="v" hint-placeholder-count="4"><option value="{{ v }}">{{ v }}</option></sc-for>
               </select>
-              <span aria-hidden="true" style="position:absolute;right:20px;top:22px;width:9px;height:9px;border-right:2px solid var(--ink-2);border-bottom:2px solid var(--ink-2);transform:rotate(45deg);pointer-events:none"></span>
+              <span aria-hidden="true" class="f-select__arrow"></span>
             </label>
-            <sc-if value="{{ e.vacancy }}" hint-placeholder-val="{{ false }}"><span style="font-size:12px;color:var(--danger);padding:0 14px">Выберите вакансию</span></sc-if>
+            <sc-if value="{{ e.vacancy }}" hint-placeholder-val="{{ false }}"><span class="f-error">Выберите вакансию</span></sc-if>
           </div>
-          <div style="display:flex;flex-direction:column;gap:6px">
-            <label style="position:relative;display:block;background:var(--surface-1);border-radius:14px;height:56px;cursor:pointer">
-              <span style="position:absolute;left:14px;top:10px;font-size:11px;color:var(--ink-2);font-weight:500;line-height:1;pointer-events:none">Занятость в настоящее время<span aria-hidden="true" style="color:var(--danger);margin-left:2px">*</span></span>
-              <select value="{{ f.employment }}" onChange="{{ setEmployment }}" aria-required="true" style="position:absolute;left:0;right:0;top:0;bottom:0;width:100%;height:100%;padding:24px 44px 0 14px;border:0;background:transparent;font:inherit;font-size:15px;font-weight:600;color:var(--ink);appearance:none;-webkit-appearance:none;cursor:pointer;border-radius:14px">
+          <div class="f-field-wrap">
+            <label class="f-select">
+              <span class="f-select__label">Занятость в настоящее время<span aria-hidden="true" class="f-field__req">*</span></span>
+              <select value="{{ f.employment }}" onChange="{{ setEmployment }}" aria-required="true" class="f-select__control">
                 <option value="" disabled="{{ true }}">Выберите вариант</option>
                 <sc-for list="{{ employmentOpts }}" as="em" hint-placeholder-count="4"><option value="{{ em }}">{{ em }}</option></sc-for>
               </select>
-              <span aria-hidden="true" style="position:absolute;right:20px;top:22px;width:9px;height:9px;border-right:2px solid var(--ink-2);border-bottom:2px solid var(--ink-2);transform:rotate(45deg);pointer-events:none"></span>
+              <span aria-hidden="true" class="f-select__arrow"></span>
             </label>
-            <sc-if value="{{ e.employment }}" hint-placeholder-val="{{ false }}"><span style="font-size:12px;color:var(--danger);padding:0 14px">Выберите вариант</span></sc-if>
+            <sc-if value="{{ e.employment }}" hint-placeholder-val="{{ false }}"><span class="f-error">Выберите вариант</span></sc-if>
           </div>
-          <div style="display:flex;flex-direction:column;gap:8px;margin-top:4px">
-            <span style="font-size:13px;font-weight:600;color:#374151;padding:0 4px">Могу начать работу<span aria-hidden="true" style="color:var(--danger);margin-left:2px">*</span></span>
-            <div role="radiogroup" style="display:flex;gap:8px">
+          <div class="ap-start">
+            <span class="ap-start__label">Могу начать работу<span aria-hidden="true" class="f-field__req">*</span></span>
+            <div role="radiogroup" class="ap-start__row">
               <sc-for list="{{ starts }}" as="st" hint-placeholder-count="3">
                 <button type="button" role="radio" aria-checked="{{ st.on }}" onClick="{{ st.pick }}" style="flex:1;min-width:0;height:48px;padding:0 8px;border-radius:14px;border:1px solid {{ st.border }};background:{{ st.bg }};font:inherit;font-size:15px;font-weight:{{ st.weight }};color:var(--ink);cursor:pointer;white-space:nowrap;transition:all .15s">{{ st.label }}</button>
               </sc-for>
             </div>
             <sc-if value="{{ startDateOn }}" hint-placeholder-val="{{ false }}">
-              <label style="position:relative;display:block;background:var(--surface-1);border-radius:14px;height:56px;cursor:pointer">
-                <span style="position:absolute;left:14px;top:10px;font-size:11px;color:var(--ink-2);font-weight:500;line-height:1;pointer-events:none">Дата выхода<span aria-hidden="true" style="color:var(--danger);margin-left:2px">*</span></span>
-                <input type="date" value="{{ f.startDate }}" min="{{ today }}" onChange="{{ setStartDate }}" aria-required="true" style="position:absolute;left:0;right:0;top:0;bottom:0;width:100%;height:100%;padding:24px 14px 0 14px;border:0;background:transparent;font:inherit;font-size:15px;font-weight:600;color:var(--ink);appearance:none;-webkit-appearance:none;cursor:pointer;border-radius:14px;display:block;min-height:56px">
+              <label class="f-select">
+                <span class="f-select__label">Дата выхода<span aria-hidden="true" class="f-field__req">*</span></span>
+                <input type="date" value="{{ f.startDate }}" min="{{ today }}" onChange="{{ setStartDate }}" aria-required="true" class="f-select__date">
               </label>
             </sc-if>
-            <sc-if value="{{ e.start }}" hint-placeholder-val="{{ false }}"><span style="font-size:12px;color:var(--danger);padding:0 14px">Выберите, когда можете начать</span></sc-if>
+            <sc-if value="{{ e.start }}" hint-placeholder-val="{{ false }}"><span class="f-error">Выберите, когда можете начать</span></sc-if>
           </div>
         </section>
 
-        <section style="display:flex;flex-direction:column;gap:12px">
-          <h2 style="margin:0;font-size:17px;font-weight:700;letter-spacing:-.01em">Откуда вы о нас узнали?<span aria-hidden="true" style="color:var(--danger);margin-left:3px">*</span></h2>
-          <div role="radiogroup" style="display:flex;flex-direction:column;gap:8px">
+        <section class="ap-section">
+          <h2 class="ap-q-title">Откуда вы о нас узнали?<span aria-hidden="true" class="ap-req">*</span></h2>
+          <div role="radiogroup" class="ap-radios">
             <sc-for list="{{ sources }}" as="s" hint-placeholder-count="6">
               <label style="display:flex;align-items:center;gap:12px;min-height:48px;padding:0 14px;border-radius:14px;background:{{ s.bg }};border:1px solid {{ s.border }};cursor:pointer;transition:all .15s" style-hover="border-color:#B7ACF3">
-                <input type="radio" name="source" value="{{ s.id }}" checked="{{ s.on }}" onChange="{{ s.pick }}" style="position:absolute;opacity:0;width:0;height:0">
+                <input type="radio" name="source" value="{{ s.id }}" checked="{{ s.on }}" onChange="{{ s.pick }}" class="f-sr-input">
                 <span aria-hidden="true" style="width:20px;height:20px;border-radius:50%;flex-shrink:0;border:2px solid {{ s.ring }};display:flex;align-items:center;justify-content:center;transition:all .15s"><span style="width:10px;height:10px;border-radius:50%;background:var(--primary);transform:scale({{ s.dot }});transition:transform .15s"></span></span>
                 <span style="font-size:15px;font-weight:{{ s.weight }}">{{ s.label }}</span>
               </label>
             </sc-for>
             <sc-if value="{{ otherOn }}" hint-placeholder-val="{{ false }}">
-              <div style="display:flex;flex-direction:column;gap:6px;margin-top:4px">
+              <div class="ap-other">
                 <dc-import name="FritoInput" label="Расскажите, откуда" value="{{ f.other }}" on-change="{{ setOther }}" required="{{ true }}" hint-size="100%,56px"></dc-import>
-                <sc-if value="{{ e.other }}" hint-placeholder-val="{{ false }}"><span style="font-size:12px;color:var(--danger);padding:0 14px">Напишите, откуда узнали</span></sc-if>
+                <sc-if value="{{ e.other }}" hint-placeholder-val="{{ false }}"><span class="f-error">Напишите, откуда узнали</span></sc-if>
               </div>
             </sc-if>
-            <sc-if value="{{ e.source }}" hint-placeholder-val="{{ false }}"><span style="font-size:12px;color:var(--danger);padding:0 14px">Выберите один вариант</span></sc-if>
+            <sc-if value="{{ e.source }}" hint-placeholder-val="{{ false }}"><span class="f-error">Выберите один вариант</span></sc-if>
           </div>
         </section>
 
-        <section style="display:flex;flex-direction:column;gap:14px;padding-top:4px;border-top:1px solid var(--border)">
-          <label style="display:flex;align-items:flex-start;gap:12px;cursor:pointer;padding-top:14px">
-            <input type="checkbox" checked="{{ f.agree }}" onChange="{{ toggleAgree }}" style="position:absolute;opacity:0;width:0;height:0">
+        <section class="ap-submit">
+          <label class="ap-agree">
+            <input type="checkbox" checked="{{ f.agree }}" onChange="{{ toggleAgree }}" class="f-sr-input">
             <span aria-hidden="true" style="width:22px;height:22px;border-radius:7px;flex-shrink:0;margin-top:1px;border:2px solid {{ agreeRing }};background:{{ agreeBg }};display:flex;align-items:center;justify-content:center;transition:all .15s"><span style="width:10px;height:6px;border-left:2px solid #fff;border-bottom:2px solid #fff;transform:rotate(-45deg) translate(1px,-1px);opacity:{{ agreeCheck }}"></span></span>
-            <span style="font-size:13px;line-height:1.5;color:#374151">Соглашаюсь с <a href="#">условиями оферты</a> и даю согласие на <a href="#">обработку персональных данных</a><span aria-hidden="true" style="color:var(--danger);margin-left:2px">*</span></span>
+            <span class="ap-agree__text">Соглашаюсь с <a href="#">условиями оферты</a> и даю согласие на <a href="#">обработку персональных данных</a><span aria-hidden="true" class="f-field__req">*</span></span>
           </label>
           <button type="submit" disabled="{{ sending }}" style="height:56px;border:0;border-radius:999px;background:{{ ctaBg }};color:#fff;font:inherit;font-size:16px;font-weight:700;cursor:{{ ctaCursor }};transition:background .15s;display:flex;align-items:center;justify-content:center" style-hover="background:{{ ctaHover }}">{{ ctaText }}</button>
-          <sc-if value="{{ ctaHint }}" hint-placeholder-val="{{ false }}"><span style="font-size:12px;color:var(--ink-2);text-align:center">{{ ctaHint }}</span></sc-if>
+          <sc-if value="{{ ctaHint }}" hint-placeholder-val="{{ false }}"><span class="ap-cta-hint">{{ ctaHint }}</span></sc-if>
         </section>
       </form>
       </sc-if>
 
       <sc-if value="{{ showDone }}" hint-placeholder-val="{{ false }}">
-      <div style="background:#fff;border-radius:24px;padding:clamp(28px,5vw,44px) clamp(20px,4vw,32px);display:flex;flex-direction:column;align-items:center;gap:16px;text-align:center">
-        <span aria-hidden="true" style="width:64px;height:64px;border-radius:50%;background:var(--primary-100);display:flex;align-items:center;justify-content:center"><span style="width:22px;height:12px;border-left:3px solid var(--primary);border-bottom:3px solid var(--primary);transform:rotate(-45deg) translate(2px,-3px)"></span></span>
-        <h2 style="margin:0;font-size:24px;font-weight:800;letter-spacing:-.02em">Анкета отправлена</h2>
-        <p style="margin:0;font-size:15px;color:var(--ink-2);line-height:1.5;max-width:380px;text-wrap:pretty">{{ doneName }}, спасибо! HR-менеджер позвонит на {{ f.phone }} в течение двух рабочих дней.</p>
-        <button type="button" onClick="{{ reset }}" style="margin-top:8px;height:48px;padding:0 24px;border:0;border-radius:999px;background:var(--surface-1);color:var(--ink);font:inherit;font-size:14px;font-weight:600;cursor:pointer" style-hover="background:var(--border)">Заполнить ещё одну</button>
+      <div class="ap-done">
+        <span aria-hidden="true" class="ap-done__icon"><span class="ap-done__check"></span></span>
+        <h2 class="ap-done__title">Анкета отправлена</h2>
+        <p class="ap-done__text">{{ doneName }}, спасибо! HR-менеджер позвонит на {{ f.phone }} в течение двух рабочих дней.</p>
+        <button type="button" onClick="{{ reset }}" class="ap-done__btn">Заполнить ещё одну</button>
       </div>
       </sc-if>
     </div>
   </main>
 
-  <div style="margin:0 clamp(12px,3vw,32px) 32px"><dc-import name="FritoFooter" hint-size="100%,420px"></dc-import></div>
+  <div class="f-footer-wrap"><dc-import name="FritoFooter" hint-size="100%,420px"></dc-import></div>
 </div>
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props="{&quot;state&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;form&quot;,&quot;options&quot;:[&quot;form&quot;,&quot;done&quot;],&quot;tsType&quot;:&quot;'form' | 'done'&quot;,&quot;section&quot;:&quot;Состояние&quot;},&quot;showErrors&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Состояние&quot;}}">
