@@ -114,13 +114,15 @@
         <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px">
           <div style="background:#F7F7F9;border-radius:16px;padding:12px 14px;display:flex;flex-direction:column;gap:4px;min-width:0">
             <span style="font-size:11px;font-weight:600;letter-spacing:.04em;color:#6B7280">ПРИВЕЗЁМ ЗА</span>
-            <span style="font-size:18px;font-weight:700;white-space:nowrap">35–45 мин</span>
-            <span style="font-size:12px;color:#6B7280;line-height:1.35;text-wrap:pretty">~15 мин готовим, остальное — в пути</span>
+            <sc-if value="{{ quoteKnown }}" hint-placeholder-val="{{ true }}"><span style="font-size:18px;font-weight:700;white-space:nowrap;animation:frito-fade .3s ease-out both">{{ etaLabel }}</span></sc-if>
+            <sc-if value="{{ quoteUnknown }}" hint-placeholder-val="{{ false }}"><span class="frito-skel" style="height:22px;width:78%;border-radius:8px;margin:1px 0"></span></sc-if>
+            <span style="font-size:12px;color:#6B7280;line-height:1.35;text-wrap:pretty">{{ etaSub }}</span>
           </div>
           <div style="background:#F7F7F9;border-radius:16px;padding:12px 14px;display:flex;flex-direction:column;gap:4px;min-width:0">
             <span style="font-size:11px;font-weight:600;letter-spacing:.04em;color:#6B7280">ДОСТАВКА</span>
-            <span style="font-size:18px;font-weight:700;white-space:nowrap">{{ feeLabel }}</span>
-            <span style="font-size:12px;color:#6B7280;line-height:1.35;text-wrap:pretty">{{ freeLabel }}</span>
+            <sc-if value="{{ quoteKnown }}" hint-placeholder-val="{{ true }}"><span style="font-size:18px;font-weight:700;white-space:nowrap;animation:frito-fade .3s ease-out both">{{ feeLabel }}</span></sc-if>
+            <sc-if value="{{ quoteUnknown }}" hint-placeholder-val="{{ false }}"><span class="frito-skel" style="height:22px;width:78%;border-radius:8px;margin:1px 0"></span></sc-if>
+            <span style="font-size:12px;color:#6B7280;line-height:1.35;text-wrap:pretty">{{ feeSub }}</span>
           </div>
         </div>
       </sc-if>
@@ -255,6 +257,12 @@ const hl = (line, q) => {
 const norm = s => String(s || '').toLowerCase().replace(/[.,\-]/g, ' ').replace(/\s+/g, ' ').trim();
 const inPoly = (lat, lng, poly) => { let ins = false; for (let i = 0, j = poly.length - 1; i < poly.length; j = i++) { const [yi, xi] = poly[i], [yj, xj] = poly[j]; if ((yi > lat) !== (yj > lat) && lng < (xj - xi) * (lat - yi) / (yj - yi) + xi) ins = !ins; } return ins; };
 const km = (a, b) => { const r = Math.PI / 180, x = Math.sin((b.lat - a.lat) * r / 2) ** 2 + Math.cos(a.lat * r) * Math.cos(b.lat * r) * Math.sin((b.lng - a.lng) * r / 2) ** 2; return 12742 * Math.asin(Math.sqrt(x)); };
+// Пример тарифа: время и стоимость зависят от расстояния до ближайшего ресторана
+const quote = d => {
+  const travel = Math.max(10, Math.round((6 + d * 3.5) / 5) * 5);
+  const fee = d < 2 ? 600 : d < 4 ? 900 : d < 7 ? 1200 : 1500;
+  return { travel, etaMin: 15 + travel - 5, etaMax: 15 + travel + 5, fee };
+};
 const kmLabel = d => d < 1 ? Math.max(50, Math.round(d * 20) * 50) + ' м' : d.toFixed(1).replace('.', ',') + ' км';
 const openInfo = hours => {
   const m = /(\d{2}):(\d{2})\s*[–-]\s*(\d{2}):(\d{2})/.exec(hours || ''); if (!m) return { text: hours, open: true };
@@ -341,7 +349,7 @@ class Component extends DCLogic {
       e.addEventListener('click', ev => { ev.stopPropagation(); this.pickStore(i); });
       return { el: e, mk: new gl.Marker({ element: e, anchor: 'bottom' }).setLngLat([s.lng, s.lat]), on: false };
     });
-    map.on('movestart', () => { if (!this.state.moving) this.setState({ moving: true }); });
+    map.on('movestart', e => { if (e.originalEvent) this._touched = true; if (!this.state.moving) this.setState({ moving: true }); });
     map.on('moveend', () => this.onMoveEnd());
     this.ro = new ResizeObserver(() => map.resize()); this.ro.observe(el);
     this.syncLayers();
@@ -396,6 +404,7 @@ class Component extends DCLogic {
       .catch(() => { if (id === this._sq) this.setState({ sugg: [], sLoading: false, sDone: true }); });
   }
   pickSugg(s) {
+    this._touched = true;
     if (s.lat == null) {
       // DaData для KZ иногда без координат — добираем через Mapbox Geocoding
       this.setState({ searching: false, loading: true, addr: s.line });
@@ -440,14 +449,16 @@ class Component extends DCLogic {
   confirm() {
     const s = this.state, p = this.props; if (!p.onConfirm) return;
     if (s.mode === 'pickup') { const st = STORES[s.store]; p.onConfirm({ mode: 'pickup', address: st.name, store: st }); }
-    else p.onConfirm({ mode: 'delivery', address: s.addr, sub: s.sub, lat: s.center.lat, lng: s.center.lng });
+    else { const q = quote(km(s.center, STORES[this.nearest(s.center)])); p.onConfirm({ mode: 'delivery', address: s.addr, sub: s.sub, lat: s.center.lat, lng: s.center.lng, fee: q.fee, eta: q.etaMin + '–' + q.etaMax + ' мин' }); }
   }
   renderVals() {
     const p = this.props, s = this.state, sheet = p.layout === 'sheet', center = !sheet;
     const deliv = s.mode === 'delivery', pick = !deliv, srch = s.searching;
     const busy = s.moving || s.loading, out = deliv && !s.inZone && !s.moving;
     const near = STORES[this.nearest(s.center)], nearDist = kmLabel(km(s.center, near));
-    const freeFrom = p.freeFrom ?? 8000, fee = p.fee ?? 1000;
+    const freeFrom = p.freeFrom ?? 8000;
+    const q = quote(km(s.center, near)), fee = q.fee;
+    const known = deliv && !busy && !!s.addr && s.house && s.inZone && !!this._touched;
     // Точка отсчёта фиксируется при входе в самовывоз, иначе список пересортировывается при каждом движении карты
     if (!this._ref) this._ref = s.center;
     const ref = this._dc || this._ref;
@@ -476,7 +487,7 @@ class Component extends DCLogic {
       bubbleOpacity: s.moving || !s.addr ? 0 : 1,
       bubbleBg: bubbleOut ? '#111827' : '#fff', bubbleColor: bubbleOut ? '#fff' : '#111827', bubbleSubColor: bubbleOut ? '#D1D5DB' : '#6B7280',
       bubbleText: bubbleOut ? 'Сюда пока не доставляем' : s.loading ? 'Определяем адрес…' : s.addr || '',
-      bubbleSub: bubbleOut ? 'Передвиньте карту в зону доставки' : !s.loading && !s.house ? 'Уточните номер дома' : '35–45 мин',
+      bubbleSub: bubbleOut ? 'Передвиньте карту в зону доставки' : !s.loading && !s.house ? 'Уточните номер дома' : known ? q.etaMin + '–' + q.etaMax + ' мин' : 'Двигайте карту, чтобы уточнить',
       hasBubbleSub: !s.loading || bubbleOut,
       hasToast: !!s.toast, toast: s.toast,
       zoomIn: () => this.map && this.map.zoomIn(), zoomOut: () => this.map && this.map.zoomOut(), locate: () => this.locate(),
@@ -489,7 +500,10 @@ class Component extends DCLogic {
       addrLine: s.loading || s.moving ? 'Определяем адрес…' : s.addr || 'Точка на карте', addrColor: busy ? '#9CA3AF' : '#111827',
       addrSub: busy ? 'Двигайте карту — пин укажет точку' : s.sub || 'Астана',
       houseWarn: !busy && !!s.addr && !s.house, addrBorder: !busy && s.addr && !s.house ? '#F59E0B' : 'transparent',
-      feeLabel: fee ? money(fee) : 'Бесплатно', freeLabel: 'Бесплатно при заказе от ' + money(freeFrom),
+      feeLabel: fee ? money(fee) : 'Бесплатно', quoteKnown: known, quoteUnknown: !known,
+      etaLabel: q.etaMin + '–' + q.etaMax + ' мин',
+      etaSub: known ? '~15 мин готовим, ~' + q.travel + ' мин в пути' : busy ? 'Считаем по адресу…' : !s.house && s.addr ? 'Укажите номер дома' : 'Зависит от адреса',
+      feeSub: known ? 'Бесплатно от ' + money(freeFrom) : 'Зависит от расстояния',
       outSub: 'Ближайший Frito — ' + near.name + ', ' + nearDist + ' отсюда. Заберите заказ сами — будет готов через 15 минут.', nearName: near.name,
       toPickup: () => this.setMode('pickup'),
       stores, pickCaption: sheet ? (STORES.length ? (stores.findIndex(x => x.idx === s.store) + 1) + ' из ' + STORES.length + ' · листайте' : '') : 'расстояние от ' + (this._dc ? 'точки доставки' : 'вас'), distCaption: 'расстояние от ' + (this._dc ? 'точки доставки' : 'вас'),

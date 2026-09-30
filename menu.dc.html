@@ -833,7 +833,7 @@ class Component extends DCLogic {
   }
   _rv() {
     const p = this.props, s = this.state;
-    const freeFrom = p.freeDeliveryFrom ?? 8000, fee = p.deliveryFee ?? 1000, forced = p.desktopState ?? 'auto';
+    const freeFrom = p.freeDeliveryFrom ?? 8000, fee = s.quote?.fee ?? p.deliveryFee ?? 1000, forced = p.desktopState ?? 'auto';
     const isDelivery = s.mode === 'delivery', hasMethod = !!s.mode;
     const modeLabel = s.mode === 'pickup' ? 'Самовывоз' : 'Доставка';
     const soldId = p.soldOut && p.soldOut !== 'none' ? p.soldOut : null;
@@ -898,7 +898,7 @@ class Component extends DCLogic {
       pickDeliveryM: () => this.setState({ modal: 'method', modalTarget: 'm', pendingId: null, addrMode: 'delivery' }),
       pickPickupM: () => this.setState({ modal: 'method', modalTarget: 'm', pendingId: null, addrMode: 'pickup' }),
       addrStart: s.addrMode || s.mode || 'delivery',
-      confirmAddr: r => this.animateOut('modal', () => this.finishMethod(r.mode, r.address)),
+      confirmAddr: r => this.animateOut('modal', () => { if (r.mode === 'delivery') this.setState({ quote: { fee: r.fee, eta: r.eta } }); this.finishMethod(r.mode, r.address); }),
       modalD: modalOpen && s.modalTarget === 'd', modalM: modalOpen && s.modalTarget === 'm',
       methodPending: !!s.pendingId,
       chooseMethod: m => m === 'delivery' ? this.finishMethod('delivery', DEFAULT_ADDR) : this.finishMethod('pickup', STORES[0].name),
@@ -914,7 +914,7 @@ class Component extends DCLogic {
       setPickup: () => this.finishMethod('pickup', s.mode === 'pickup' && s.address ? s.address : STORES[0].name),
       segMode: s.mode, pickMode: m => m === 'delivery' ? this.finishMethod('delivery', isDelivery && s.address ? s.address : DEFAULT_ADDR) : this.finishMethod('pickup', s.mode === 'pickup' && s.address ? s.address : STORES[0].name),
       addrCaption: isDelivery ? 'Адрес доставки' : 'Ресторан',
-      etaLabel: isDelivery ? '35–45 мин' : 'готово за 15 мин',
+      etaLabel: isDelivery ? (s.quote?.eta || '35–45 мин') : 'готово за 15 мин',
       door: s.door, setDoor: v => this.setState({ door: v }),
       liveSub: live.sub, liveDel: live.del, liveDisc: live.disc, freeFrom,
       // desktop cart
