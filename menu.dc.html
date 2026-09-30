@@ -37,7 +37,7 @@ input:focus-visible,textarea:focus-visible{outline:none}
     <!-- delivery method: segmented + address -->
     <dc-import name="FritoSegment" mode="{{ segMode }}" on-change="{{ pickModeD }}" icons="{{ true }}" height="{{ 40 }}" style="margin-left:24px;width:280px;flex-shrink:0" hint-size="280px,48px"></dc-import>
     <sc-if value="{{ noMethod }}" hint-placeholder-val="{{ true }}">
-      <button onClick="{{ openMethodD }}" class="mn-pill-empty"><span class="mn-pill__icon-white"><img src="assets/ic-pin-p.svg" alt="" class="mn-icon-16"></span>Выберите, как получить заказ<span aria-hidden="true" class="mn-pill__chev">›</span></button>
+      <button onClick="{{ openMethodD }}" class="mn-pill-empty"><span class="mn-pill__icon-white"><img src="assets/ic-pin-p.svg" alt="" class="mn-icon-16"></span>Укажите адрес доставки<span aria-hidden="true" class="mn-pill__chev">›</span></button>
     </sc-if>
     <sc-if value="{{ hasMethod }}" hint-placeholder-val="{{ false }}">
       <button onClick="{{ openMethodD }}" class="mn-pill">
@@ -357,7 +357,7 @@ input:focus-visible,textarea:focus-visible{outline:none}
       <div class="mn-m__method">
         <dc-import name="FritoSegment" mode="{{ segMode }}" on-change="{{ pickModeM }}" icons="{{ true }}" height="{{ 44 }}" hint-size="100%,52px"></dc-import>
         <sc-if value="{{ noMethod }}" hint-placeholder-val="{{ true }}">
-          <button onClick="{{ openMethodM }}" class="mn-m-pill-empty" style-active="background:var(--primary-100)"><span class="mn-pill__icon-white"><img src="assets/ic-pin-p.svg" alt="" class="mn-icon-16"></span><span class="mn-grow">Выберите, как получить заказ</span><span aria-hidden="true" class="mn-m-pill__chev">›</span></button>
+          <button onClick="{{ openMethodM }}" class="mn-m-pill-empty" style-active="background:var(--primary-100)"><span class="mn-pill__icon-white"><img src="assets/ic-pin-p.svg" alt="" class="mn-icon-16"></span><span class="mn-grow">Укажите адрес доставки</span><span aria-hidden="true" class="mn-m-pill__chev">›</span></button>
         </sc-if>
         <sc-if value="{{ hasMethod }}" hint-placeholder-val="{{ false }}">
           <button onClick="{{ openMethodM }}" class="mn-m-pill">
@@ -915,8 +915,8 @@ class Component extends DCLogic {
       logout: () => { try { localStorage.removeItem('frito_user'); } catch (e) {} this.setState({ userTick: Date.now() }); },
       menuMethodD: () => this.setState({ menu: null, modal: 'method', modalTarget: 'd', pendingId: null, addrMode: s.mode || 'delivery' }),
       menuMethodM: () => this.setState({ menu: null, modal: 'method', modalTarget: 'm', pendingId: null, addrMode: s.mode || 'delivery' }),
-      menuMethodCaption: !hasMethod ? 'Как получить заказ' : isDelivery ? 'Доставка' : 'Самовывоз',
-      menuMethodValue: !hasMethod ? 'Адрес или ресторан' : s.address,
+      menuMethodCaption: !hasMethod ? 'Доставка' : isDelivery ? 'Доставка' : 'Самовывоз',
+      menuMethodValue: !hasMethod ? 'Укажите адрес доставки' : s.address,
       menuMethodAction: hasMethod ? 'Изменить' : 'Выбрать',
       logoOk: !s.logoBroken, logoBroken: s.logoBroken, logoFail: () => this.setState({ logoBroken: true }),
       // method
@@ -944,7 +944,7 @@ class Component extends DCLogic {
       chooseDelivery: () => this.finishMethod('delivery', DEFAULT_ADDR), choosePickup: () => this.finishMethod('pickup', STORES[0].name),
       setDelivery: () => this.finishMethod('delivery', isDelivery && s.address ? s.address : DEFAULT_ADDR),
       setPickup: () => this.finishMethod('pickup', s.mode === 'pickup' && s.address ? s.address : STORES[0].name),
-      segMode: s.mode, pickMode: m => m === 'delivery' ? this.finishMethod('delivery', isDelivery && s.address ? s.address : DEFAULT_ADDR) : this.finishMethod('pickup', s.mode === 'pickup' && s.address ? s.address : STORES[0].name),
+      segMode: s.mode || 'delivery', pickMode: m => m === 'delivery' ? this.finishMethod('delivery', isDelivery && s.address ? s.address : DEFAULT_ADDR) : this.finishMethod('pickup', s.mode === 'pickup' && s.address ? s.address : STORES[0].name),
       addrCaption: isDelivery ? 'Адрес доставки' : 'Ресторан',
       etaLabel: isDelivery ? (s.quote?.eta || '35–45 мин') : 'готово за 15 мин',
       door: s.door, setDoor: v => this.setState({ door: v }),
