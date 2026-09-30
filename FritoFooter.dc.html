@@ -7,42 +7,42 @@
 </head>
 <body>
 <x-dc>
-<footer style="background:var(--dark);border-radius:28px;padding:clamp(28px,4vw,40px) clamp(22px,4vw,40px) 28px;display:flex;flex-direction:column;gap:32px;color:#fff;font-family:var(--font)">
-  <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:32px;flex-wrap:wrap">
-    <div style="display:flex;flex-direction:column;gap:14px;max-width:360px">
-      <sc-if value="{{ logoOk }}" hint-placeholder-val="{{ true }}"><img src="https://frito.kz/brand.svg" alt="FRITO" onError="{{ logoFail }}" style="height:34px;width:max-content;display:block;filter:brightness(0) invert(1)"></sc-if>
-      <sc-if value="{{ logoBroken }}" hint-placeholder-val="{{ false }}"><div style="font-size:32px;font-weight:800;letter-spacing:-.03em;line-height:1">FRITO</div></sc-if>
-      <p style="margin:0;font-size:13px;color:rgba(255,255,255,.6);line-height:1.5">Хрустящая курочка, бургеры и стрипсы. Доставка по Астане за 35–45 минут и самовывоз из пяти ресторанов.</p>
+<footer class="f-footer">
+  <div class="f-footer__top">
+    <div class="f-footer__brand">
+      <sc-if value="{{ logoOk }}" hint-placeholder-val="{{ true }}"><img class="f-footer__logo" src="https://frito.kz/brand.svg" alt="FRITO" onError="{{ logoFail }}"></sc-if>
+      <sc-if value="{{ logoBroken }}" hint-placeholder-val="{{ false }}"><div class="f-footer__wordmark">FRITO</div></sc-if>
+      <p class="f-footer__about">Хрустящая курочка, бургеры и стрипсы. Доставка по Астане за 35–45 минут и самовывоз из пяти ресторанов.</p>
     </div>
-    <div style="display:flex;flex-direction:column;gap:10px">
-      <a href="tel:+77009380000" style="font-size:22px;font-weight:700;color:#fff;letter-spacing:-.01em">+7 700 938 0000</a>
-      <span style="font-size:13px;color:rgba(255,255,255,.55)">ежедневно 11:30 – 02:00</span>
-      <div style="display:flex;gap:8px;margin-top:4px">
-        <a href="https://wa.me/77009380000" aria-label="WhatsApp" style="width:44px;height:44px;border-radius:50%;background:var(--primary);display:flex;align-items:center;justify-content:center" style-hover="background:var(--primary-hover)"><img src="assets/ic-whatsapp-w.svg" alt="" style="width:20px;height:20px"></a>
-        <a href="https://www.instagram.com/frito.kz/" aria-label="Instagram" style="width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center" style-hover="background:rgba(255,255,255,.18)"><img src="assets/ic-instagram-w.svg" alt="" style="width:20px;height:20px"></a>
-        <a href="https://www.tiktok.com/@frito.kz" aria-label="TikTok" style="width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center" style-hover="background:rgba(255,255,255,.18)"><img src="assets/ic-tiktok-w.svg" alt="" style="width:32px;height:32px"></a>
+    <div class="f-footer__contact">
+      <a class="f-footer__phone" href="tel:+77009380000">+7 700 938 0000</a>
+      <span class="f-footer__hours">ежедневно 11:30 – 02:00</span>
+      <div class="f-footer__socials">
+        <a class="f-footer__social f-footer__social--primary" href="https://wa.me/77009380000" aria-label="WhatsApp"><img src="assets/ic-whatsapp-w.svg" alt="" style="width:20px;height:20px"></a>
+        <a class="f-footer__social" href="https://www.instagram.com/frito.kz/" aria-label="Instagram"><img src="assets/ic-instagram-w.svg" alt="" style="width:20px;height:20px"></a>
+        <a class="f-footer__social" href="https://www.tiktok.com/@frito.kz" aria-label="TikTok"><img src="assets/ic-tiktok-w.svg" alt="" style="width:32px;height:32px"></a>
       </div>
     </div>
   </div>
   <sc-if value="{{ showStores }}" hint-placeholder-val="{{ true }}">
-  <div style="display:flex;flex-direction:column;gap:12px">
-    <div style="display:flex;align-items:center;justify-content:space-between;gap:12px">
-      <span style="font-size:13px;font-weight:700;color:rgba(255,255,255,.55);letter-spacing:.04em">РЕСТОРАНЫ · {{ storeCount }}</span>
-      <a href="#" style="font-size:13px;font-weight:600;color:var(--primary-light)" style-hover="color:#fff">Все адреса на карте →</a>
+  <div class="f-footer__stores">
+    <div class="f-footer__stores-head">
+      <span class="f-footer__overline">РЕСТОРАНЫ · {{ storeCount }}</span>
+      <a class="f-footer__maplink" href="#">Все адреса на карте →</a>
     </div>
-    <div style="display:flex;gap:8px;flex-wrap:wrap">
+    <div class="f-footer__pills">
       <sc-for list="{{ shown }}" as="st" hint-placeholder-count="5">
-        <a href="#" style="display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.06);border-radius:999px;padding:8px 14px 8px 10px;color:#fff" style-hover="background:rgba(255,255,255,.12);color:#fff"><img src="assets/ic-pin-p.svg" alt="" style="width:14px;height:14px;filter:brightness(0) invert(1);opacity:.7"><span style="font-size:13px;font-weight:600;white-space:nowrap">{{ st.name }}</span><span style="font-size:12px;color:rgba(255,255,255,.5);white-space:nowrap">{{ st.hours }}</span></a>
+        <a class="f-footer__pill" href="#"><img class="f-footer__pin" src="assets/ic-pin-p.svg" alt=""><span class="f-footer__pill-name">{{ st.name }}</span><span class="f-footer__pill-hours">{{ st.hours }}</span></a>
       </sc-for>
-      <sc-if value="{{ hasMore }}" hint-placeholder-val="{{ false }}"><a href="#" style="display:flex;align-items:center;background:rgba(168,153,255,.15);border-radius:999px;padding:8px 14px;color:var(--primary-light);font-size:13px;font-weight:600">ещё {{ more }}</a></sc-if>
+      <sc-if value="{{ hasMore }}" hint-placeholder-val="{{ false }}"><a class="f-footer__pill f-footer__pill--more" href="#">ещё {{ more }}</a></sc-if>
     </div>
   </div>
   </sc-if>
-  <div style="border-top:1px solid rgba(255,255,255,.1);padding-top:22px;display:flex;justify-content:space-between;align-items:center;gap:16px 24px;flex-wrap:wrap">
-    <nav style="display:flex;gap:12px 24px;flex-wrap:wrap">
-      <sc-for list="{{ links }}" as="l" hint-placeholder-count="6"><a href="{{ l.href }}" style="font-size:13px;font-weight:500;color:rgba(255,255,255,.75)" style-hover="color:#fff">{{ l.label }}</a></sc-for>
+  <div class="f-footer__bottom">
+    <nav class="f-footer__nav">
+      <sc-for list="{{ links }}" as="l" hint-placeholder-count="6"><a class="f-footer__link" href="{{ l.href }}">{{ l.label }}</a></sc-for>
     </nav>
-    <span style="font-size:12px;color:rgba(255,255,255,.4)">© 2026 ТОО «Frito Restaurants» · Астана</span>
+    <span class="f-footer__copy">© 2026 ТОО «Frito Restaurants» · Астана</span>
   </div>
 </footer>
 </x-dc>

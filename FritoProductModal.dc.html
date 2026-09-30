@@ -7,36 +7,36 @@
 </head>
 <body>
 <x-dc>
-<div style="position:relative;width:100%;height:100%;font-family:var(--font);color:var(--ink)">
+<div class="f-modal">
 <sc-if value="{{ isCenter }}" hint-placeholder-val="{{ true }}">
-  <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:40px">
-    <div onClick="{{ close }}" style="position:absolute;inset:0;background:var(--overlay);animation:frito-fade .22s ease-out both"></div>
-    <div role="dialog" aria-modal="true" aria-label="{{ name }}" style="position:relative;width:100%;max-width:1040px;height:100%;max-height:720px;background:#fff;border-radius:32px;overflow:hidden;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);box-shadow:var(--shadow-modal);animation:frito-pop .3s var(--ease) both">
-      <div style="background:var(--surface-2);min-height:0;display:flex;align-items:center;justify-content:center">
-        <sc-if value="{{ hasImg }}" hint-placeholder-val="{{ true }}"><img data-skel src="{{ img }}" alt="{{ name }}" style="width:100%;height:100%;object-fit:cover;display:block"></sc-if>
-        <sc-if value="{{ noImg }}" hint-placeholder-val="{{ false }}"><span style="font-family:ui-monospace,monospace;font-size:12px;color:var(--ink-3)">фото товара</span></sc-if>
+  <div class="f-modal__center">
+    <div class="f-overlay" onClick="{{ close }}"></div>
+    <div class="f-dialog f-dialog--flush f-pm" role="dialog" aria-modal="true" aria-label="{{ name }}">
+      <div class="f-pm__media">
+        <sc-if value="{{ hasImg }}" hint-placeholder-val="{{ true }}"><img class="f-pm__img" data-skel src="{{ img }}" alt="{{ name }}"></sc-if>
+        <sc-if value="{{ noImg }}" hint-placeholder-val="{{ false }}"><span class="f-pm__noimg">фото товара</span></sc-if>
       </div>
-      <div style="display:flex;flex-direction:column;min-height:0;position:relative">
+      <div class="f-pm__side">
         <dc-import name="FritoCloseButton" on-click="{{ close }}" style="position:absolute;top:24px;right:24px;z-index:2;width:48px;height:48px" hint-size="48px,48px"></dc-import>
-        <div ref="{{ bodyRef }}" style="position:relative;flex:1;min-height:0;overflow-y:auto;padding:36px 36px 28px;display:flex;flex-direction:column;gap:28px">
-          <div style="display:flex;flex-direction:column;gap:10px;padding-right:60px">
-            <h2 style="margin:0;font-size:30px;font-weight:700;line-height:1.15;letter-spacing:-.01em;text-wrap:pretty">{{ name }}</h2>
-            <div style="font-size:20px;font-weight:700">{{ priceLabel }}</div>
-            <p style="margin:4px 0 0;font-size:15px;line-height:1.5;color:var(--ink-2);text-wrap:pretty">{{ desc }}</p>
-            <sc-if value="{{ hasNote }}" hint-placeholder-val="{{ false }}"><p style="margin:0;font-size:13px;color:var(--ink-3)">{{ note }}</p></sc-if>
+        <div class="f-pm__body" ref="{{ bodyRef }}">
+          <div class="f-pm__intro">
+            <h2 class="f-modal__title">{{ name }}</h2>
+            <div class="f-pm__price">{{ priceLabel }}</div>
+            <p class="f-pm__desc">{{ desc }}</p>
+            <sc-if value="{{ hasNote }}" hint-placeholder-val="{{ false }}"><p class="f-pm__note">{{ note }}</p></sc-if>
           </div>
           <sc-for list="{{ groups }}" as="g" hint-placeholder-count="2">
-            <div id="pm-g-{{ g.id }}" style="display:flex;flex-direction:column;gap:12px">
-              <div style="display:flex;flex-direction:column;gap:4px">
-                <div style="display:flex;align-items:center;justify-content:space-between;gap:12px">
-                  <h3 style="margin:0;font-size:16px;font-weight:700;line-height:1.3">{{ g.title }}</h3>
-                  <sc-if value="{{ g.showReq }}" hint-placeholder-val="{{ false }}"><span style="flex-shrink:0;font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:#B91C1C;background:#FEF2F2;border-radius:999px;padding:5px 10px">Обязательно</span></sc-if>
-                  <sc-if value="{{ g.showOk }}" hint-placeholder-val="{{ false }}"><span style="flex-shrink:0;display:flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:#15803D;background:#F0FDF4;border-radius:999px;padding:4px 10px 4px 6px"><span style="width:16px;height:16px;border-radius:50%;background:var(--success);color:#fff;font-size:10px;display:flex;align-items:center;justify-content:center">✓</span>Выбрано</span></sc-if>
-                  <sc-if value="{{ g.showCount }}" hint-placeholder-val="{{ false }}"><span style="flex-shrink:0;font-size:13px;font-weight:600;color:var(--primary)">{{ g.countLabel }}</span></sc-if>
+            <div class="f-group" id="pm-g-{{ g.id }}">
+              <div class="f-group__head">
+                <div class="f-group__row">
+                  <h3 class="f-group__title">{{ g.title }}</h3>
+                  <sc-if value="{{ g.showReq }}" hint-placeholder-val="{{ false }}"><span class="f-tag f-tag--req">Обязательно</span></sc-if>
+                  <sc-if value="{{ g.showOk }}" hint-placeholder-val="{{ false }}"><span class="f-tag f-tag--ok"><span class="f-tag__check">✓</span>Выбрано</span></sc-if>
+                  <sc-if value="{{ g.showCount }}" hint-placeholder-val="{{ false }}"><span class="f-group__count">{{ g.countLabel }}</span></sc-if>
                 </div>
-                <div style="font-size:13px;line-height:1.4;color:{{ g.hintColor }};font-weight:{{ g.hintWeight }}">{{ g.hint }}</div>
+                <div class="f-group__hint" style="color:{{ g.hintColor }};font-weight:{{ g.hintWeight }}">{{ g.hint }}</div>
               </div>
-              <div style="display:flex;flex-direction:column;gap:8px">
+              <div class="f-group__opts">
                 <sc-for list="{{ g.opts }}" as="o" hint-placeholder-count="2">
                   <dc-import name="FritoOption" type="{{ g.type }}" label="{{ o.label }}" price="{{ o.price }}" selected="{{ o.selected }}" disabled="{{ o.disabled }}" on-toggle="{{ o.toggle }}" hint-size="100%,56px"></dc-import>
                 </sc-for>
@@ -44,9 +44,9 @@
             </div>
           </sc-for>
         </div>
-        <div style="padding:16px 36px 24px;border-top:1px solid var(--divider);display:flex;align-items:center;gap:12px;background:#fff">
+        <div class="f-pm__foot">
           <dc-import name="FritoStepper" qty="{{ qty }}" min="{{ 1 }}" on-inc="{{ inc }}" on-dec="{{ dec }}" size="{{ 56 }}" style="width:160px;flex-shrink:0" hint-size="160px,56px"></dc-import>
-          <button onClick="{{ submit }}" style="flex:1;min-width:0;border:0;cursor:pointer;font:inherit;background:var(--primary);color:#fff;border-radius:999px;height:56px;padding:0 24px;font-size:17px;font-weight:600;display:flex;align-items:center;justify-content:space-between;gap:12px;transition:background .15s" style-hover="background:var(--primary-hover)"><span>{{ ctaLabel }}</span><span style="display:flex;align-items:center;gap:12px"><span style="width:1px;height:22px;background:currentColor;opacity:.3"></span><span style="font-weight:700;white-space:nowrap">{{ totalLabel }}</span></span></button>
+          <button class="f-cta" onClick="{{ submit }}"><span class="f-cta__label">{{ ctaLabel }}</span><span class="f-cta__right"><span class="f-cta__sep"></span><span class="f-cta__sum">{{ totalLabel }}</span></span></button>
         </div>
       </div>
     </div>
@@ -54,46 +54,46 @@
 </sc-if>
 
 <sc-if value="{{ isSheet }}" hint-placeholder-val="{{ false }}">
-  <div onClick="{{ close }}" style="position:absolute;inset:0;background:var(--overlay);animation:frito-fade .22s ease-out both"></div>
-  <div role="dialog" aria-modal="true" aria-label="{{ name }}" style="position:absolute;left:0;right:0;bottom:0;top:48px;background:#fff;border-radius:32px 32px 0 0;overflow:hidden;display:flex;flex-direction:column;box-shadow:var(--shadow-sheet);animation:frito-sheet .38s var(--ease) both">
-    <div ref="{{ bodyRef }}" style="position:relative;flex:1;min-height:0;overflow-y:auto">
-      <div style="position:relative;aspect-ratio:4/3;background:var(--surface-2);display:flex;align-items:center;justify-content:center">
-        <sc-if value="{{ hasImg }}" hint-placeholder-val="{{ true }}"><img data-skel src="{{ img }}" alt="{{ name }}" style="width:100%;height:100%;object-fit:cover;display:block"></sc-if>
-        <sc-if value="{{ noImg }}" hint-placeholder-val="{{ false }}"><span style="font-family:ui-monospace,monospace;font-size:11px;color:var(--ink-3)">фото товара</span></sc-if>
-        <div style="position:absolute;top:10px;left:50%;margin-left:-20px;width:40px;height:4px;border-radius:2px;background:rgba(17,24,39,.25)"></div>
+  <div class="f-overlay" onClick="{{ close }}"></div>
+  <div class="f-sheet f-sheet--flush f-pm-sheet" role="dialog" aria-modal="true" aria-label="{{ name }}">
+    <div class="f-pm__scroll" ref="{{ bodyRef }}">
+      <div class="f-pm__media">
+        <sc-if value="{{ hasImg }}" hint-placeholder-val="{{ true }}"><img class="f-pm__img" data-skel src="{{ img }}" alt="{{ name }}"></sc-if>
+        <sc-if value="{{ noImg }}" hint-placeholder-val="{{ false }}"><span class="f-pm__noimg">фото товара</span></sc-if>
+        <div class="f-pm__grabber"></div>
       </div>
-      <div style="padding:20px 16px 28px;display:flex;flex-direction:column;gap:24px">
-        <div style="display:flex;flex-direction:column;gap:8px">
-          <h2 style="margin:0;font-size:24px;font-weight:700;line-height:1.15;letter-spacing:-.01em;text-wrap:pretty">{{ name }}</h2>
-          <div style="font-size:18px;font-weight:700">{{ priceLabel }}</div>
-          <p style="margin:4px 0 0;font-size:14px;line-height:1.5;color:var(--ink-2);text-wrap:pretty">{{ desc }}</p>
-          <sc-if value="{{ hasNote }}" hint-placeholder-val="{{ false }}"><p style="margin:0;font-size:12px;color:var(--ink-3)">{{ note }}</p></sc-if>
-        </div>
-        <sc-for list="{{ groups }}" as="g" hint-placeholder-count="2">
-          <div id="pm-g-{{ g.id }}" style="display:flex;flex-direction:column;gap:12px">
-            <div style="display:flex;flex-direction:column;gap:4px">
-              <div style="display:flex;align-items:center;justify-content:space-between;gap:10px">
-                <h3 style="margin:0;font-size:16px;font-weight:700;line-height:1.3">{{ g.title }}</h3>
-                <sc-if value="{{ g.showReq }}" hint-placeholder-val="{{ false }}"><span style="flex-shrink:0;font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:#B91C1C;background:#FEF2F2;border-radius:999px;padding:5px 10px">Обязательно</span></sc-if>
-                <sc-if value="{{ g.showOk }}" hint-placeholder-val="{{ false }}"><span style="flex-shrink:0;display:flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:#15803D;background:#F0FDF4;border-radius:999px;padding:4px 10px 4px 6px"><span style="width:16px;height:16px;border-radius:50%;background:var(--success);color:#fff;font-size:10px;display:flex;align-items:center;justify-content:center">✓</span>Выбрано</span></sc-if>
-                <sc-if value="{{ g.showCount }}" hint-placeholder-val="{{ false }}"><span style="flex-shrink:0;font-size:13px;font-weight:600;color:var(--primary)">{{ g.countLabel }}</span></sc-if>
-              </div>
-              <div style="font-size:13px;line-height:1.4;color:{{ g.hintColor }};font-weight:{{ g.hintWeight }}">{{ g.hint }}</div>
-            </div>
-            <div style="display:flex;flex-direction:column;gap:8px">
-              <sc-for list="{{ g.opts }}" as="o" hint-placeholder-count="2">
-                <dc-import name="FritoOption" type="{{ g.type }}" label="{{ o.label }}" price="{{ o.price }}" selected="{{ o.selected }}" disabled="{{ o.disabled }}" on-toggle="{{ o.toggle }}" hint-size="100%,56px"></dc-import>
-              </sc-for>
-            </div>
+      <div class="f-pm__content">
+          <div class="f-pm__intro">
+            <h2 class="f-modal__title">{{ name }}</h2>
+            <div class="f-pm__price">{{ priceLabel }}</div>
+            <p class="f-pm__desc">{{ desc }}</p>
+            <sc-if value="{{ hasNote }}" hint-placeholder-val="{{ false }}"><p class="f-pm__note">{{ note }}</p></sc-if>
           </div>
-        </sc-for>
+          <sc-for list="{{ groups }}" as="g" hint-placeholder-count="2">
+            <div class="f-group" id="pm-g-{{ g.id }}">
+              <div class="f-group__head">
+                <div class="f-group__row">
+                  <h3 class="f-group__title">{{ g.title }}</h3>
+                  <sc-if value="{{ g.showReq }}" hint-placeholder-val="{{ false }}"><span class="f-tag f-tag--req">Обязательно</span></sc-if>
+                  <sc-if value="{{ g.showOk }}" hint-placeholder-val="{{ false }}"><span class="f-tag f-tag--ok"><span class="f-tag__check">✓</span>Выбрано</span></sc-if>
+                  <sc-if value="{{ g.showCount }}" hint-placeholder-val="{{ false }}"><span class="f-group__count">{{ g.countLabel }}</span></sc-if>
+                </div>
+                <div class="f-group__hint" style="color:{{ g.hintColor }};font-weight:{{ g.hintWeight }}">{{ g.hint }}</div>
+              </div>
+              <div class="f-group__opts">
+                <sc-for list="{{ g.opts }}" as="o" hint-placeholder-count="2">
+                  <dc-import name="FritoOption" type="{{ g.type }}" label="{{ o.label }}" price="{{ o.price }}" selected="{{ o.selected }}" disabled="{{ o.disabled }}" on-toggle="{{ o.toggle }}" hint-size="100%,56px"></dc-import>
+                </sc-for>
+              </div>
+            </div>
+          </sc-for>
       </div>
     </div>
     <dc-import name="FritoCloseButton" variant="float" on-click="{{ close }}" style="position:absolute;top:14px;right:14px;z-index:2;width:40px;height:40px" hint-size="40px,40px"></dc-import>
-    <div style="padding:12px 16px 26px;border-top:1px solid var(--divider);display:flex;align-items:center;gap:10px;background:#fff">
-      <dc-import name="FritoStepper" qty="{{ qty }}" min="{{ 1 }}" on-inc="{{ inc }}" on-dec="{{ dec }}" size="{{ 56 }}" style="width:140px;flex-shrink:0" hint-size="140px,56px"></dc-import>
-      <button onClick="{{ submit }}" style="flex:1;min-width:0;border:0;cursor:pointer;font:inherit;background:var(--primary);color:#fff;border-radius:999px;height:56px;padding:0 18px;font-size:15px;font-weight:600;display:flex;align-items:center;justify-content:space-between;gap:10px" style-active="background:var(--primary-hover)"><span style="white-space:nowrap">{{ ctaLabel }}</span><span style="display:flex;align-items:center;gap:10px"><span style="width:1px;height:20px;background:currentColor;opacity:.3"></span><span style="font-weight:700;white-space:nowrap">{{ totalLabel }}</span></span></button>
-    </div>
+    <div class="f-pm__foot">
+          <dc-import name="FritoStepper" qty="{{ qty }}" min="{{ 1 }}" on-inc="{{ inc }}" on-dec="{{ dec }}" size="{{ 56 }}" style="width:140px;flex-shrink:0" hint-size="140px,56px"></dc-import>
+          <button class="f-cta" onClick="{{ submit }}"><span class="f-cta__label">{{ ctaLabel }}</span><span class="f-cta__right"><span class="f-cta__sep"></span><span class="f-cta__sum">{{ totalLabel }}</span></span></button>
+        </div>
   </div>
 </sc-if>
 </div>

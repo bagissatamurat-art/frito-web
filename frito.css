@@ -290,3 +290,122 @@ html.frito-reveal [data-reveal].is-in{animation:frito-rise .45s var(--ease) both
 .f-dbar__fill{height:100%;border-radius:3px;background:var(--dbar);transition:width .3s}
 .f-dbar--compact{padding:10px 12px}
 .f-dbar--compact .f-dbar__text{font-size:12px}
+
+/* 7. Модалки: общий каркас, товар, вакансия, способ получения; футер ---------- */
+
+/* каркас: «flush» — окно без внутренних отступов, с прокручиваемым телом и нижней панелью */
+.f-grabber-wrap{display:flex;justify-content:center}
+.f-dialog--flush,.f-sheet--flush{padding:0;gap:0;overflow:hidden}
+.f-dialog--flush > .f-modal__head{padding:32px 32px 0}
+.f-sheet--flush > .f-modal__head{padding:12px 16px 0 20px}
+.f-modal__body{flex:1;min-height:0;overflow-y:auto;display:flex;flex-direction:column;gap:24px;padding:24px 32px 28px}
+.f-sheet .f-modal__body{gap:22px;padding:20px 20px 24px}
+.f-modal__foot{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px 32px 24px;border-top:1px solid var(--divider)}
+.f-sheet .f-modal__foot{flex-direction:column;align-items:stretch;justify-content:flex-start;gap:8px;padding:12px 16px 26px;background:#fff}
+.f-modal__note{font-size:13px;line-height:1.4;color:var(--ink-2)}
+.f-sheet .f-modal__note{font-size:12px;line-height:normal;text-align:center}
+img.f-option__icon{object-fit:contain}
+.f-dialog .f-option:hover{transform:translateY(-2px)}
+
+/* чипы и теги */
+.f-chips{display:flex;gap:6px;flex-wrap:wrap}
+.f-chip{font-size:12px;color:#4B5563;background:var(--surface-2);border-radius:var(--r-pill);padding:5px 10px}
+.f-chip--primary{font-weight:600;color:var(--primary);background:var(--primary-100)}
+.f-tag{flex-shrink:0;border-radius:var(--r-pill)}
+.f-tag--req{font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:#B91C1C;background:#FEF2F2;padding:5px 10px}
+.f-tag--ok{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:#15803D;background:#F0FDF4;padding:4px 10px 4px 6px}
+.f-tag__check{width:16px;height:16px;border-radius:50%;background:var(--success);color:#fff;font-size:10px;display:flex;align-items:center;justify-content:center}
+
+/* вакансия */
+.f-vac__pay{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+.f-vac__sum{font-size:22px;font-weight:700}
+.f-vac__net{font-size:14px;color:var(--ink-2)}
+.f-sheet .f-vac__sum{font-size:20px}
+.f-sheet .f-vac__net{font-size:13px}
+.f-facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));gap:10px}
+.f-sheet .f-facts{grid-template-columns:minmax(0,1fr);gap:8px}
+.f-fact{display:flex;flex-direction:column;gap:4px;padding:14px 16px;background:var(--surface-1);border-radius:var(--r-md-plus)}
+.f-sheet .f-fact{padding:12px 14px}
+.f-fact__k{font-size:11px;font-weight:600;letter-spacing:.04em;color:var(--ink-2)}
+.f-fact__v{font-size:14px;font-weight:600;line-height:1.4}
+.f-sec{display:flex;flex-direction:column;gap:10px}
+.f-sec__title{margin:0;font-size:16px;font-weight:700}
+.f-sec__list{margin:0;padding:0 0 0 18px;display:flex;flex-direction:column;gap:6px;font-size:15px;line-height:1.5;color:#374151}
+.f-sheet .f-sec__list{font-size:14px}
+
+/* товар */
+.f-dialog.f-pm{max-width:1040px;height:100%;max-height:720px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+.f-sheet.f-pm-sheet{top:48px;max-height:none}
+.f-pm__media{display:flex;align-items:center;justify-content:center;min-height:0;background:var(--surface-2)}
+.f-sheet .f-pm__media{position:relative;aspect-ratio:4/3;min-height:auto}
+.f-pm__img{display:block;width:100%;height:100%;object-fit:cover}
+.f-pm__noimg{font-family:ui-monospace,monospace;font-size:12px;color:var(--ink-3)}
+.f-sheet .f-pm__noimg{font-size:11px}
+.f-pm__grabber{position:absolute;top:10px;left:50%;margin-left:-20px;width:40px;height:4px;border-radius:2px;background:rgba(17,24,39,.25)}
+.f-pm__side{position:relative;display:flex;flex-direction:column;min-height:0}
+.f-pm__body{position:relative;flex:1;min-height:0;overflow-y:auto;display:flex;flex-direction:column;gap:28px;padding:36px 36px 28px}
+.f-pm__scroll{position:relative;flex:1;min-height:0;overflow-y:auto}
+.f-pm__content{display:flex;flex-direction:column;gap:24px;padding:20px 16px 28px}
+.f-pm__intro{display:flex;flex-direction:column;gap:10px;padding-right:60px}
+.f-sheet .f-pm__intro{gap:8px;padding-right:0}
+.f-pm__price{font-size:20px;font-weight:700}
+.f-pm__desc{margin:4px 0 0;font-size:15px;line-height:1.5;color:var(--ink-2);text-wrap:pretty}
+.f-pm__note{margin:0;font-size:13px;color:var(--ink-3)}
+.f-sheet .f-pm__price{font-size:18px}
+.f-sheet .f-pm__desc{font-size:14px}
+.f-sheet .f-pm__note{font-size:12px}
+.f-pm__foot{display:flex;align-items:center;gap:12px;padding:16px 36px 24px;border-top:1px solid var(--divider);background:#fff}
+.f-sheet .f-pm__foot{gap:10px;padding:12px 16px 26px}
+.f-group{display:flex;flex-direction:column;gap:12px}
+.f-group__head{display:flex;flex-direction:column;gap:4px}
+.f-group__row{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.f-sheet .f-group__row{gap:10px}
+.f-group__title{margin:0;font-size:16px;font-weight:700;line-height:1.3}
+.f-group__count{flex-shrink:0;font-size:13px;font-weight:600;color:var(--primary)}
+.f-group__hint{font-size:13px;line-height:1.4}
+.f-group__opts{display:flex;flex-direction:column;gap:8px}
+
+/* CTA с суммой: «В корзину | 4 190 тг.» */
+.f-cta{flex:1;min-width:0;display:flex;align-items:center;justify-content:space-between;gap:12px;height:var(--h-lg);padding:0 24px;border:0;border-radius:var(--r-pill);background:var(--primary);color:#fff;font:inherit;font-size:17px;font-weight:600;cursor:pointer;transition:background .15s}
+.f-cta:hover,.f-cta:active{background:var(--primary-hover)}
+.f-cta__right{display:flex;align-items:center;gap:12px}
+.f-cta__sep{width:1px;height:22px;background:currentColor;opacity:.3}
+.f-cta__sum{font-weight:700;white-space:nowrap}
+.f-sheet .f-cta{gap:10px;padding:0 18px;font-size:15px}
+.f-sheet .f-cta__label{white-space:nowrap}
+.f-sheet .f-cta__right{gap:10px}
+.f-sheet .f-cta__sep{height:20px}
+
+/* футер */
+.f-footer{display:flex;flex-direction:column;gap:32px;padding:clamp(28px,4vw,40px) clamp(22px,4vw,40px) 28px;background:var(--dark);border-radius:28px;color:#fff;font-family:var(--font)}
+.f-footer a{text-decoration:none}
+.f-footer__top{display:flex;align-items:flex-start;justify-content:space-between;gap:32px;flex-wrap:wrap}
+.f-footer__brand{display:flex;flex-direction:column;gap:14px;max-width:360px}
+.f-footer__logo{display:block;height:34px;width:max-content;filter:brightness(0) invert(1)}
+.f-footer__wordmark{font-size:32px;font-weight:800;letter-spacing:-.03em;line-height:1}
+.f-footer__about{margin:0;font-size:13px;line-height:1.5;color:rgba(255,255,255,.6)}
+.f-footer__contact{display:flex;flex-direction:column;gap:10px}
+.f-footer__phone,.f-footer__phone:hover{font-size:22px;font-weight:700;letter-spacing:-.01em;color:#fff}
+.f-footer__hours{font-size:13px;color:rgba(255,255,255,.55)}
+.f-footer__socials{display:flex;gap:8px;margin-top:4px}
+.f-footer__social{display:flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.1)}
+.f-footer__social:hover{background:rgba(255,255,255,.18)}
+.f-footer__social--primary{background:var(--primary)}
+.f-footer__social--primary:hover{background:var(--primary-hover)}
+.f-footer__stores{display:flex;flex-direction:column;gap:12px}
+.f-footer__stores-head{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.f-footer__overline{font-size:13px;font-weight:700;letter-spacing:.04em;color:rgba(255,255,255,.55)}
+.f-footer__maplink{font-size:13px;font-weight:600;color:var(--primary-light)}
+.f-footer__maplink:hover{color:#fff}
+.f-footer__pills{display:flex;gap:8px;flex-wrap:wrap}
+.f-footer__pill,.f-footer__pill:hover{display:flex;align-items:center;gap:8px;padding:8px 14px 8px 10px;border-radius:var(--r-pill);background:rgba(255,255,255,.06);color:#fff}
+.f-footer__pill:hover{background:rgba(255,255,255,.12)}
+.f-footer__pill--more,.f-footer__pill--more:hover{gap:0;padding:8px 14px;background:rgba(168,153,255,.15);color:var(--primary-light);font-size:13px;font-weight:600}
+.f-footer__pin{width:14px;height:14px;filter:brightness(0) invert(1);opacity:.7}
+.f-footer__pill-name{font-size:13px;font-weight:600;white-space:nowrap}
+.f-footer__pill-hours{font-size:12px;color:rgba(255,255,255,.5);white-space:nowrap}
+.f-footer__bottom{display:flex;align-items:center;justify-content:space-between;gap:16px 24px;flex-wrap:wrap;padding-top:22px;border-top:1px solid rgba(255,255,255,.1)}
+.f-footer__nav{display:flex;gap:12px 24px;flex-wrap:wrap}
+.f-footer__link{font-size:13px;font-weight:500;color:rgba(255,255,255,.75)}
+.f-footer__link:hover{color:#fff}
+.f-footer__copy{font-size:12px;color:rgba(255,255,255,.4)}
