@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<title>Вход — Frito</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./frito.css">
+<style>
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;min-height:100vh;min-height:100dvh;background:#F7F7F9;font-family:Inter,system-ui,sans-serif;color:#111827;display:flex;flex-direction:column}
+a{color:#614BE2;text-decoration:none}
+button{font:inherit;cursor:pointer}
+header{position:relative;display:flex;align-items:center;justify-content:center;height:64px;padding:0 16px;background:#fff;border-bottom:1px solid #ECECF1}
+header img{height:30px;display:block}
+.back{position:absolute;left:16px;top:12px;width:40px;height:40px;border-radius:50%;background:#F3F4F6;display:flex;align-items:center;justify-content:center;color:#111827;border:0}
+main{flex:1;display:flex;flex-direction:column;align-items:center;padding:clamp(20px,5vw,56px) 16px calc(28px + env(safe-area-inset-bottom))}
+.card{width:100%;max-width:440px;background:#fff;border-radius:28px;padding:clamp(22px,5vw,32px);display:flex;flex-direction:column;gap:18px;box-shadow:0 1px 2px rgba(17,24,39,.04)}
+.step{display:none;flex-direction:column;gap:18px}
+.step.on{display:flex;animation:frito-rise .35s cubic-bezier(.2,.8,.2,1) both}
+h1{margin:0;font-size:clamp(24px,6vw,28px);font-weight:800;letter-spacing:-.03em;line-height:1.1;text-wrap:balance}
+.sub{margin:-8px 0 0;font-size:15px;line-height:1.5;color:#6B7280;text-wrap:pretty}
+.sub b{color:#111827;font-weight:600;white-space:nowrap}
+.perks{display:flex;flex-direction:column;gap:8px;margin:0;padding:14px 16px;list-style:none;background:#F5F3FF;border-radius:16px;font-size:14px;color:#374151}
+.perks li{display:flex;align-items:center;gap:10px}
+.perks svg{flex-shrink:0;color:#614BE2}
+.field{position:relative;background:#F7F7F9;border-radius:14px;height:56px;border:1.5px solid transparent;transition:border-color .15s,background .15s}
+.field:focus-within{border-color:#614BE2;background:#fff}
+.field.err{border-color:#EF4444}
+.field label{position:absolute;left:14px;top:9px;font-size:11px;font-weight:500;color:#6B7280;pointer-events:none}
+.field input{position:absolute;left:14px;right:14px;bottom:8px;height:24px;border:0;background:transparent;font:inherit;font-size:16px;font-weight:600;color:#111827;padding:0;outline:none}
+.btn{height:56px;border:0;border-radius:999px;display:flex;align-items:center;justify-content:center;gap:10px;font-size:16px;font-weight:700;color:#fff;width:100%}
+.btn:disabled{opacity:.55;cursor:default}
+.wa{background:#25D366}.wa:hover:not(:disabled){background:#1FBD5A}
+.tg{background:#229ED9}.tg:hover{background:#1B8DC4}
+.pri{background:#614BE2}.pri:hover:not(:disabled){background:#503BCB}
+.or{display:flex;align-items:center;gap:12px;font-size:13px;color:#9CA3AF}
+.or::before,.or::after{content:'';flex:1;height:1px;background:#ECECF1}
+.hint{font-size:12px;color:#EF4444;margin:-10px 0 0 14px;min-height:0}
+.guest{align-self:center;border:0;background:transparent;padding:8px 12px;font-size:13px;font-weight:500;color:#9CA3AF;text-decoration:underline;text-underline-offset:3px;text-decoration-color:#D1D5DB}
+.guest:hover{color:#6B7280}
+.legal{margin:0;font-size:12px;line-height:1.5;color:#9CA3AF;text-align:center;max-width:380px}
+.legal a{color:#6B7280;text-decoration:underline;text-underline-offset:2px}
+.link{align-self:flex-start;border:0;background:transparent;padding:0;font-size:14px;font-weight:600;color:#614BE2}
+.link:disabled{color:#9CA3AF;cursor:default}
+.code{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;position:relative}
+.code span{height:64px;border-radius:16px;background:#F7F7F9;border:1.5px solid transparent;display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:700;transition:border-color .15s,background .15s,transform .15s}
+.code span.cur{border-color:#614BE2;background:#fff}
+.code span.fill{transform:scale(1.04)}
+.code.err span{border-color:#EF4444;animation:shake .35s}
+.code input{position:absolute;inset:0;width:100%;height:100%;opacity:0;font-size:16px;border:0}
+@keyframes shake{25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+.demo{align-self:flex-start;background:#FEF3C7;color:#92400E;border-radius:999px;padding:5px 12px;font-size:12px;font-weight:700}
+.row{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+ol{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:12px;counter-reset:s}
+ol li{display:flex;gap:12px;align-items:flex-start;font-size:15px;line-height:1.45;color:#374151;counter-increment:s}
+ol li::before{content:counter(s);flex-shrink:0;width:26px;height:26px;border-radius:50%;background:#E6F4FB;color:#229ED9;font-size:13px;font-weight:800;display:flex;align-items:center;justify-content:center}
+.wait{display:flex;align-items:center;gap:10px;font-size:14px;color:#6B7280}
+.spin{width:18px;height:18px;border-radius:50%;border:2.5px solid #D6ECF7;border-top-color:#229ED9;animation:spin .8s linear infinite;flex-shrink:0}
+.btn .spin{border-color:rgba(255,255,255,.4);border-top-color:#fff}
+@keyframes spin{to{transform:rotate(360deg)}}
+.ok{align-self:center;width:72px;height:72px;border-radius:50%;background:#614BE2;display:flex;align-items:center;justify-content:center;box-shadow:0 12px 30px -8px rgba(97,75,226,.55);animation:frito-pop .45s cubic-bezier(.2,.8,.2,1) both}
+.center{text-align:center;align-items:center}
+</style>
+</head>
+<body>
+<header>
+  <button class="back" id="back" aria-label="Назад"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg></button>
+  <a href="menu.dc.html" aria-label="Frito — на главную"><img src="https://frito.kz/brand.svg" alt="FRITO"></a>
+</header>
+
+<main>
+  <div class="card">
+
+    <!-- 1. выбор способа -->
+    <section class="step on" id="s-start">
+      <h1>Войдите, чтобы оформить заказ</h1>
+      <p class="sub">Пришлём код в WhatsApp или подтвердим вход через Telegram — без паролей.</p>
+      <ul class="perks">
+        <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Статус заказа придёт в мессенджер</li>
+        <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Запомним адрес и повторим заказ в один тап</li>
+      </ul>
+      <form id="f-phone" novalidate style="display:flex;flex-direction:column;gap:18px">
+        <div class="field" id="phone-field"><label for="phone">Номер телефона</label><input id="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+7 (___) ___-__-__"></div>
+        <div class="hint" id="phone-hint" hidden>Введите номер полностью</div>
+        <button class="btn wa" type="submit" id="wa-btn">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.2a8.8 8.8 0 0 0-7.6 13.3L3.2 20.8l4.4-1.2A8.8 8.8 0 1 0 12 3.2z"/><path d="M9.2 8.3c-.4 0-.9.5-.9 1.3 0 2.6 3.4 6 6 6 .8 0 1.3-.5 1.3-.9v-.9l-1.8-.8-.9.9c-1.1-.5-2.1-1.5-2.6-2.6l.9-.9-.8-1.8z" fill="currentColor" stroke="none"/></svg>
+          <span>Получить код в WhatsApp</span>
+        </button>
+      </form>
+      <div class="or">или</div>
+      <button class="btn tg" type="button" id="tg-btn">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.7 4.2L3.6 10.8c-.9.4-.9 1 .1 1.3l4.3 1.4 1.6 5c.2.6.4.8.9.8.4 0 .6-.2.9-.5l2.2-2.1 4.4 3.3c.8.4 1.4.2 1.6-.8l2.9-13.6c.3-1.2-.5-1.8-1.8-1.4zM9 13.2l8.700-5.500c.4-.2.7-.1.4.2l-7.100 6.400-.300 3.800z"/></svg>
+        <span>Войти через Telegram</span>
+      </button>
+      <button class="guest" type="button" id="guest-btn">Продолжить без входа</button>
+    </section>
+
+    <!-- 2. код из WhatsApp -->
+    <section class="step" id="s-code">
+      <h1>Введите код</h1>
+      <p class="sub">Отправили 4 цифры в WhatsApp на <b id="code-phone"></b></p>
+      <span class="demo">Демо: подойдёт любой код</span>
+      <div class="code" id="code-box">
+        <span></span><span></span><span></span><span></span>
+        <input id="code" type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="4" aria-label="Код из WhatsApp">
+      </div>
+      <div class="row">
+        <button class="link" type="button" id="resend" disabled>Отправить ещё раз через 0:59</button>
+        <button class="link" type="button" data-to="s-start">Изменить номер</button>
+      </div>
+    </section>
+
+    <!-- 3. Telegram -->
+    <section class="step" id="s-tg">
+      <h1>Вход через Telegram</h1>
+      <ol>
+        <li>Откройте бота Frito в Telegram</li>
+        <li>Нажмите «Старт» и поделитесь номером телефона</li>
+        <li>Вернитесь на эту страницу — войдём автоматически</li>
+      </ol>
+      <a class="btn tg" id="tg-open" href="https://t.me/frito_kz_bot?start=login" target="_blank" rel="noopener">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.7 4.2L3.6 10.8c-.9.4-.9 1 .1 1.3l4.3 1.4 1.6 5c.2.6.4.8.9.8.4 0 .6-.2.9-.5l2.2-2.1 4.4 3.3c.8.4 1.4.2 1.6-.8l2.9-13.6c.3-1.2-.5-1.8-1.8-1.4zM9 13.2l8.700-5.500c.4-.2.7-.1.4.2l-7.100 6.400-.300 3.800z"/></svg>
+        <span>Открыть Telegram</span>
+      </a>
+      <div class="wait" id="tg-wait" hidden><span class="spin"></span>Ждём подтверждения в боте…</div>
+      <span class="demo">Демо: бот не подключён</span>
+      <div class="row">
+        <button class="link" type="button" id="tg-done">Я подтвердил в боте</button>
+        <button class="link" type="button" data-to="s-start" style="color:#6B7280">Другой способ</button>
+      </div>
+    </section>
+
+    <!-- 4. успех -->
+    <section class="step center" id="s-ok">
+      <span class="ok"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span>
+      <h1>Вы вошли</h1>
+      <p class="sub" style="margin:0">Переходим к оформлению заказа…</p>
+    </section>
+  </div>
+
+  <p class="legal" id="legal" style="margin-top:16px">Продолжая, вы соглашаетесь с <a href="#">офертой</a> и <a href="#">обработкой персональных данных</a></p>
+</main>
+
+<script>
+const NEXT = 'checkout.dc.html';
+const $ = id => document.getElementById(id);
+const digits = v => { let d = String(v).replace(/\D/g, ''); if (d[0] === '8') d = '7' + d.slice(1); if (d[0] !== '7') d = '7' + d; return d.slice(0, 11); };
+const fmt = d => { let o = '+7'; if (d.length > 1) o += ' (' + d.slice(1, 4); if (d.length >= 4) o += ') ' + d.slice(4, 7); if (d.length >= 7) o += '-' + d.slice(7, 9); if (d.length >= 9) o += '-' + d.slice(9, 11); return o; };
+
+function show(id) {
+  document.querySelectorAll('.step').forEach(s => s.classList.toggle('on', s.id === id));
+  $('legal').hidden = id !== 's-start';
+  clearInterval(timer);
+  if (id === 's-code') { $('code').value = ''; paint(); startTimer(); setTimeout(() => $('code').focus(), 50); }
+  if (id === 's-start') setTimeout(() => $('phone').focus({ preventScroll: true }), 50);
+}
+function done(via, phone) {
+  try { localStorage.setItem('frito_user', JSON.stringify({ via, phone: phone || null, at: Date.now() })); } catch (e) {}
+  show('s-ok');
+  setTimeout(() => { location.href = NEXT; }, 900);
+}
+
+// --- телефон → код в WhatsApp
+const phone = $('phone');
+phone.addEventListener('input', () => { const d = digits(phone.value); phone.value = d.length > 1 ? fmt(d) : ''; $('phone-field').classList.remove('err'); $('phone-hint').hidden = true; });
+phone.addEventListener('focus', () => { if (!phone.value) phone.value = '+7 ('; });
+phone.addEventListener('blur', () => { if (digits(phone.value).length <= 1) phone.value = ''; });
+$('f-phone').addEventListener('submit', e => {
+  e.preventDefault();
+  if (digits(phone.value).length < 11) { $('phone-field').classList.add('err'); $('phone-hint').hidden = false; phone.focus(); return; }
+  const b = $('wa-btn'); b.disabled = true; b.querySelector('span').textContent = 'Отправляем код…';
+  setTimeout(() => { b.disabled = false; b.querySelector('span').textContent = 'Получить код в WhatsApp'; $('code-phone').textContent = fmt(digits(phone.value)); show('s-code'); }, 700);
+});
+
+// --- ввод кода
+const code = $('code'), cells = [...document.querySelectorAll('#code-box span')];
+function paint() {
+  const v = code.value;
+  cells.forEach((c, i) => { c.textContent = v[i] || ''; c.classList.toggle('cur', i === Math.min(v.length, 3) && document.activeElement === code); c.classList.toggle('fill', !!v[i]); });
+}
+code.addEventListener('input', () => {
+  code.value = code.value.replace(/\D/g, '').slice(0, 4); $('code-box').classList.remove('err'); paint();
+  if (code.value.length === 4) { code.blur(); setTimeout(() => done('whatsapp', fmt(digits(phone.value))), 450); }
+});
+code.addEventListener('focus', paint); code.addEventListener('blur', paint);
+
+let timer = 0;
+function startTimer() {
+  let t = 59; const r = $('resend'); r.disabled = true;
+  const tick = () => { r.textContent = t > 0 ? 'Отправить ещё раз через 0:' + String(t).padStart(2, '0') : 'Отправить код ещё раз'; r.disabled = t > 0; if (t-- <= 0) clearInterval(timer); };
+  tick(); timer = setInterval(tick, 1000);
+}
+$('resend').addEventListener('click', startTimer);
+
+// --- Telegram
+$('tg-btn').addEventListener('click', () => { $('tg-wait').hidden = true; show('s-tg'); });
+$('tg-open').addEventListener('click', () => { $('tg-wait').hidden = false; });
+$('tg-done').addEventListener('click', () => done('telegram'));
+
+// --- без входа / назад
+$('guest-btn').addEventListener('click', () => { location.href = NEXT; });
+document.querySelectorAll('[data-to]').forEach(b => b.addEventListener('click', () => show(b.dataset.to)));
+$('back').addEventListener('click', () => { const cur = document.querySelector('.step.on').id; if (cur === 's-code' || cur === 's-tg') show('s-start'); else location.href = 'menu.dc.html'; });
+</script>
+</body>
+</html>

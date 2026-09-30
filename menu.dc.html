@@ -284,6 +284,13 @@ input:focus-visible,textarea:focus-visible{outline:none}
         <button onClick="{{ closeMenu }}" style="border:0;background:#F3F4F6;border-radius:50%;width:44px;height:44px;display:flex;align-items:center;justify-content:center;line-height:1;padding:0;font:inherit;font-size:20px;color:#111827;cursor:pointer"><span aria-hidden="true" style="position:relative;width:16px;height:16px;display:block"><span style="position:absolute;left:0;top:50%;width:100%;height:2px;margin-top:-1px;background:currentColor;border-radius:1px;transform:rotate(45deg)"></span><span style="position:absolute;left:0;top:50%;width:100%;height:2px;margin-top:-1px;background:currentColor;border-radius:1px;transform:rotate(-45deg)"></span></span></button>
       </div>
       <div style="flex:1;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;padding:8px 28px 28px;display:flex;flex-direction:column;gap:18px">
+        <sc-if value="{{ userIn }}" hint-placeholder-val="{{ false }}">
+          <div style="flex-shrink:0;display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:18px;background:#F5F3FF">
+            <span style="width:40px;height:40px;border-radius:50%;background:#614BE2;color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4.5 20a7.5 7.5 0 0 1 15 0"/></svg></span>
+            <span style="flex:1;min-width:0;display:flex;flex-direction:column;gap:2px"><span style="font-size:12px;color:#6B7280;font-weight:500">{{ userVia }}</span><span style="font-size:15px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ userName }}</span></span>
+            <button type="button" onClick="{{ logout }}" style="border:0;background:transparent;font:inherit;font-size:13px;font-weight:600;color:#6B7280;cursor:pointer;padding:6px">Выйти</button>
+          </div>
+        </sc-if>
         <button type="button" onClick="{{ menuMethodD }}" style="flex-shrink:0;display:flex;align-items:center;gap:12px;width:100%;padding:14px 14px 14px 12px;border:1px solid #ECECF1;border-radius:18px;background:#fff;font:inherit;text-align:left;cursor:pointer;color:#111827" style-hover="border-color:#B7ACF3">
           <span style="width:40px;height:40px;border-radius:50%;background:#EFEDFC;color:#614BE2;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.1-7-11.5a7 7 0 0 1 14 0C19 14.9 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg></span>
           <span style="flex:1;min-width:0;display:flex;flex-direction:column;gap:2px"><span style="font-size:12px;color:#6B7280;font-weight:500">{{ menuMethodCaption }}</span><span style="font-size:15px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ menuMethodValue }}</span></span>
@@ -581,6 +588,13 @@ input:focus-visible,textarea:focus-visible{outline:none}
         <button onClick="{{ closeMenu }}" style="border:0;background:#F3F4F6;border-radius:50%;width:40px;height:40px;display:flex;align-items:center;justify-content:center;line-height:1;padding:0;font:inherit;font-size:20px;color:#111827;cursor:pointer"><span aria-hidden="true" style="position:relative;width:14px;height:14px;display:block"><span style="position:absolute;left:0;top:50%;width:100%;height:2px;margin-top:-1px;background:currentColor;border-radius:1px;transform:rotate(45deg)"></span><span style="position:absolute;left:0;top:50%;width:100%;height:2px;margin-top:-1px;background:currentColor;border-radius:1px;transform:rotate(-45deg)"></span></span></button>
       </div>
       <div style="flex:1;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;padding:8px 20px calc(24px + env(safe-area-inset-bottom)) 20px;display:flex;flex-direction:column;gap:18px">
+        <sc-if value="{{ userIn }}" hint-placeholder-val="{{ false }}">
+          <div style="flex-shrink:0;display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:18px;background:#F5F3FF">
+            <span style="width:40px;height:40px;border-radius:50%;background:#614BE2;color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4.5 20a7.5 7.5 0 0 1 15 0"/></svg></span>
+            <span style="flex:1;min-width:0;display:flex;flex-direction:column;gap:2px"><span style="font-size:12px;color:#6B7280;font-weight:500">{{ userVia }}</span><span style="font-size:15px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ userName }}</span></span>
+            <button type="button" onClick="{{ logout }}" style="border:0;background:transparent;font:inherit;font-size:13px;font-weight:600;color:#6B7280;cursor:pointer;padding:6px">Выйти</button>
+          </div>
+        </sc-if>
         <button type="button" onClick="{{ menuMethodM }}" style="flex-shrink:0;display:flex;align-items:center;gap:12px;width:100%;padding:14px 14px 14px 12px;border:1px solid #ECECF1;border-radius:18px;background:#fff;font:inherit;text-align:left;cursor:pointer;color:#111827" style-hover="border-color:#B7ACF3">
           <span style="width:40px;height:40px;border-radius:50%;background:#EFEDFC;color:#614BE2;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.1-7-11.5a7 7 0 0 1 14 0C19 14.9 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg></span>
           <span style="flex:1;min-width:0;display:flex;flex-direction:column;gap:2px"><span style="font-size:12px;color:#6B7280;font-weight:500">{{ menuMethodCaption }}</span><span style="font-size:15px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ menuMethodValue }}</span></span>
@@ -809,6 +823,9 @@ class Component extends DCLogic {
   }
   stopStory() { clearTimeout(this._storyT); if (this._storyKey) window.removeEventListener('keydown', this._storyKey); this._storyKey = null; }
   closeStory() { this.stopStory(); this.animateOut('story', () => this.setState({ story: null })); }
+  // вход: login.html кладёт пользователя в localStorage.frito_user; вошедших ведём сразу на оформление
+  user() { try { return JSON.parse(localStorage.getItem('frito_user')); } catch (e) { return null; } }
+  checkoutUrl() { return this.user() ? 'checkout.dc.html' : 'login.html'; }
   // плавное закрытие: сначала играет анимация ухода (out), потом элемент убирается
   animateOut(key, fn) {
     if (this._outT) return;
@@ -881,6 +898,9 @@ class Component extends DCLogic {
       onDScroll: () => this.track('d', this.dScrollRef, 'activeD'), onMScroll: () => this.track('m', this.mScrollRef, 'activeM'),
       menuD: s.menu === 'd', menuM: s.menu === 'm',
       openMenuD: () => this.setState({ menu: 'd' }), openMenuM: () => this.setState({ menu: 'm' }), closeMenu: () => this.animateOut('menu', () => this.setState({ menu: null })),
+      userIn: !!this.user(), userName: (this.user() || {}).phone || 'Аккаунт Telegram',
+      userVia: (this.user() || {}).via === 'telegram' ? 'Вы вошли через Telegram' : 'Вы вошли через WhatsApp',
+      logout: () => { try { localStorage.removeItem('frito_user'); } catch (e) {} this.setState({ userTick: Date.now() }); },
       menuMethodD: () => this.setState({ menu: null, modal: 'method', modalTarget: 'd', pendingId: null, addrMode: s.mode || 'delivery' }),
       menuMethodM: () => this.setState({ menu: null, modal: 'method', modalTarget: 'm', pendingId: null, addrMode: s.mode || 'delivery' }),
       menuMethodCaption: !hasMethod ? 'Как получить заказ' : isDelivery ? 'Доставка' : 'Самовывоз',
@@ -939,8 +959,8 @@ class Component extends DCLogic {
       agreeBg: s.agree ? '#614BE2' : '#fff', agreeBorder: s.agree ? '#614BE2' : '#D1D5DB', agreeCheck: s.agree ? 1 : 0,
       checkoutBg: canCheckoutD ? '#614BE2' : '#E5E7EB', checkoutColor: canCheckoutD ? '#fff' : '#9CA3AF', checkoutCursor: canCheckoutD ? 'pointer' : 'not-allowed',
       checkoutBgM: canCheckoutM ? '#614BE2' : '#E5E7EB', checkoutColorM: canCheckoutM ? '#fff' : '#9CA3AF', checkoutCursorM: canCheckoutM ? 'pointer' : 'not-allowed',
-      checkoutD: () => { if (!canCheckoutD) return; if (!s.mode) this.setState({ modal: 'method', modalTarget: 'd' }); else location.href = 'checkout.dc.html'; },
-      checkoutM: () => { if (canCheckoutM) location.href = 'checkout.dc.html'; },
+      checkoutD: () => { if (!canCheckoutD) return; if (!s.mode) this.setState({ modal: 'method', modalTarget: 'd' }); else location.href = this.checkoutUrl(); },
+      checkoutM: () => { if (canCheckoutM) location.href = this.checkoutUrl(); },
       // mobile
       mSheetHeadBg: hasItems ? '#F7F7F9' : '#fff',
       lines, mHeadline: hasItems ? plural(count) + ' на ' + fmt(M.sub) : 'Корзина пуста',
