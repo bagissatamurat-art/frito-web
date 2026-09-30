@@ -11,7 +11,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-html,body{max-width:100%;overflow-x:hidden;overscroll-behavior-x:none;-webkit-text-size-adjust:100%}
+html,body{max-width:100%;overflow-x:clip;overscroll-behavior-x:none;-webkit-text-size-adjust:100%}
 .sc-placeholder,.sc-interp.sc-missing{border:0!important;background:transparent!important}
 .sc-placeholder::before,.sc-interp.sc-missing::before{display:none!important}
 *{-webkit-tap-highlight-color:transparent}
@@ -73,7 +73,7 @@ button{outline:none}
     </section>
 
     <!-- VACANCIES -->
-    <section id="vacancies" ref="{{ vacRef }}" style="display:flex;flex-direction:column;gap:20px">
+    <section id="vacancies" ref="{{ vacRef }}" style="scroll-margin-top:16px;display:flex;flex-direction:column;gap:20px">
       <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap;padding:0 4px">
         <div style="display:flex;flex-direction:column;gap:6px">
           <h2 style="margin:0;font-size:clamp(24px,3vw,32px);font-weight:800;letter-spacing:-.02em">Вакансии</h2>
@@ -220,7 +220,7 @@ class Component extends DCLogic {
     const mobile = (s.w || window.innerWidth) < 720;
     return {
       storeCount: storesRaw.length || 5, total: all.length, benefits: BENEFITS, vacRef: this.vacRef,
-      toVacancies: e => { e.preventDefault(); const el = this.vacRef.current; if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 16, behavior: 'smooth' }); },
+      toVacancies: e => { e.preventDefault(); const el = this.vacRef.current; if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' }); },
       cities, city: s.city, setCity: e => this.setState({ city: e.target.value }),
       shiftChips: [chip('Любая смена', ''), ...shifts.map(x => chip(x, x))],
       countLabel, hasVac: !d || n > 0, noVac: !!d && n === 0, resetFilters: () => this.setState({ city: '', shift: '' }),

@@ -11,7 +11,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-html,body{max-width:100%;overflow-x:hidden;overscroll-behavior-x:none;-webkit-text-size-adjust:100%}
+@keyframes story-fill{from{width:0}to{width:100%}}
+html,body{max-width:100%;overflow-x:clip;overscroll-behavior-x:none;-webkit-text-size-adjust:100%}
 .sc-placeholder,.sc-interp.sc-missing{border:0!important;background:transparent!important}
 .sc-placeholder::before,.sc-interp.sc-missing::before{display:none!important}
 *{-webkit-tap-highlight-color:transparent}
@@ -57,9 +58,9 @@ input:focus-visible,textarea:focus-visible{outline:none}
     <div ref="{{ dScrollRef }}" onScroll="{{ onDScroll }}" style="overflow-y:auto;overflow-x:hidden;overscroll-behavior-x:none;min-height:0;scroll-behavior:smooth">
       <div style="background:#fff;padding:24px 32px 0">
         <div style="display:flex;gap:16px">
-          <img src="assets/story-stores.png" alt="Рестораны и часы работы" style="width:188px;height:236px;border-radius:26px;object-fit:cover;object-position:center;display:block;cursor:pointer">
-          <img src="assets/story-new10.png" alt="NEW10 −10% в первый месяц работы сайта" style="width:188px;height:236px;border-radius:26px;object-fit:cover;object-position:center;display:block;cursor:pointer">
-          <img src="assets/story-whatsapp.png" alt="Заказ через WhatsApp" style="width:188px;height:236px;border-radius:26px;object-fit:cover;object-position:center 30%;display:block;cursor:pointer">
+          <img role="button" tabIndex="0" onClick="{{ openStoryD0 }}" src="assets/story-stores.png" alt="Заказ через WhatsApp" style="width:188px;height:236px;border-radius:26px;object-fit:cover;object-position:center;display:block;cursor:pointer">
+          <img role="button" tabIndex="0" onClick="{{ openStoryD1 }}" src="assets/story-new10.png" alt="NEW10 −10% в первый месяц работы сайта" style="width:188px;height:236px;border-radius:26px;object-fit:cover;object-position:center;display:block;cursor:pointer">
+          <img role="button" tabIndex="0" onClick="{{ openStoryD2 }}" src="assets/story-whatsapp.png" alt="Рестораны и часы работы" style="width:188px;height:236px;border-radius:26px;object-fit:cover;object-position:center 30%;display:block;cursor:pointer">
         </div>
       </div>
       <nav data-cat-nav style="position:sticky;top:0;z-index:2;background:rgba(255,255,255,.94);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);display:flex;gap:10px;padding:20px 32px;overflow-x:auto;overflow-y:hidden;overscroll-behavior-x:contain;scrollbar-width:none;border-bottom:1px solid #ECECF1">
@@ -349,9 +350,9 @@ input:focus-visible,textarea:focus-visible{outline:none}
         </sc-if>
       </div>
       <div style="display:flex;gap:12px;padding:18px 20px 0;overflow-x:auto;overflow-y:hidden;overscroll-behavior-x:contain">
-        <img src="assets/story-stores.png" alt="Рестораны и часы работы" style="flex-shrink:0;width:150px;height:190px;border-radius:24px;object-fit:cover;object-position:center;display:block">
-        <img src="assets/story-new10.png" alt="NEW10 −10% в первый месяц работы сайта" style="flex-shrink:0;width:150px;height:190px;border-radius:24px;object-fit:cover;object-position:center;display:block">
-        <img src="assets/story-whatsapp.png" alt="Заказ через WhatsApp" style="flex-shrink:0;width:150px;height:190px;border-radius:24px;object-fit:cover;object-position:center 30%;display:block">
+        <img role="button" tabIndex="0" onClick="{{ openStoryM0 }}" src="assets/story-stores.png" alt="Заказ через WhatsApp" style="flex-shrink:0;width:150px;height:190px;border-radius:24px;object-fit:cover;object-position:center;display:block;cursor:pointer">
+        <img role="button" tabIndex="0" onClick="{{ openStoryM1 }}" src="assets/story-new10.png" alt="NEW10 −10% в первый месяц работы сайта" style="flex-shrink:0;width:150px;height:190px;border-radius:24px;object-fit:cover;object-position:center;display:block;cursor:pointer">
+        <img role="button" tabIndex="0" onClick="{{ openStoryM2 }}" src="assets/story-whatsapp.png" alt="Рестораны и часы работы" style="flex-shrink:0;width:150px;height:190px;border-radius:24px;object-fit:cover;object-position:center 30%;display:block;cursor:pointer">
       </div>
     </div>
     <nav data-cat-nav style="position:sticky;top:0;z-index:2;background:rgba(255,255,255,.94);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);display:flex;gap:8px;padding:16px 20px;overflow-x:auto;scrollbar-width:none;overflow-y:hidden;overscroll-behavior-x:contain;border-bottom:1px solid #ECECF1">
@@ -609,6 +610,29 @@ input:focus-visible,textarea:focus-visible{outline:none}
 </section>
 </div></sc-if>
 
+<!-- STORIES viewer -->
+<sc-if value="{{ storyOpen }}" hint-placeholder-val="{{ false }}">
+<div role="dialog" aria-modal="true" aria-label="{{ storyAlt }}" style="position:fixed;inset:0;z-index:100;background:rgba(10,8,30,.92);display:flex;align-items:center;justify-content:center;font-family:Inter,system-ui,sans-serif">
+  <div onClick="{{ closeStory }}" style="position:absolute;inset:0"></div>
+  <div style="position:relative;height:{{ storyH }};aspect-ratio:9/16;max-width:100vw;border-radius:{{ storyRadius }};overflow:hidden;background:#5F4BE2;box-shadow:0 20px 60px rgba(0,0,0,.4)">
+    <img src="{{ storyImg }}" alt="{{ storyAlt }}" draggable="false" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;user-select:none;-webkit-user-select:none">
+    <div style="position:absolute;left:0;right:0;top:0;height:120px;background:linear-gradient(rgba(0,0,0,.35),rgba(0,0,0,0));pointer-events:none"></div>
+    <div style="position:absolute;left:12px;right:12px;top:calc(10px + env(safe-area-inset-top));display:flex;gap:4px;z-index:2">
+      <sc-for list="{{ storyBars }}" as="b" hint-placeholder-count="3">
+        <div style="flex:1;height:3px;border-radius:2px;background:rgba(255,255,255,.35);overflow:hidden"><div style="height:100%;background:#fff;border-radius:2px;width:{{ b.w }};animation:{{ b.anim }}"></div></div>
+      </sc-for>
+    </div>
+    <button type="button" onClick="{{ closeStory }}" aria-label="Закрыть" style="position:absolute;right:10px;top:calc(22px + env(safe-area-inset-top));z-index:3;width:40px;height:40px;border:0;border-radius:50%;background:rgba(0,0,0,.25);color:#fff;font-size:22px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center">×</button>
+    <button type="button" onClick="{{ prevStory }}" aria-label="Предыдущая" style="position:absolute;left:0;top:70px;bottom:96px;width:35%;border:0;background:transparent;cursor:pointer;z-index:1"></button>
+    <button type="button" onClick="{{ nextStory }}" aria-label="Следующая" style="position:absolute;right:0;top:70px;bottom:96px;width:65%;border:0;background:transparent;cursor:pointer;z-index:1"></button>
+    <div style="position:absolute;left:16px;right:16px;bottom:calc(20px + env(safe-area-inset-bottom));z-index:2">
+      <sc-if value="{{ storyIsLink }}" hint-placeholder-val="{{ false }}"><a href="{{ storyHref }}" target="_blank" rel="noopener" onClick="{{ closeStory }}" style="display:flex;align-items:center;justify-content:center;height:52px;border-radius:999px;background:#fff;color:#614BE2;font-size:16px;font-weight:700">{{ storyCta }}</a></sc-if>
+      <sc-if value="{{ storyIsBtn }}" hint-placeholder-val="{{ true }}"><button type="button" onClick="{{ storyAction }}" style="width:100%;height:52px;border:0;border-radius:999px;background:#fff;color:#614BE2;font:inherit;font-size:16px;font-weight:700;cursor:pointer">{{ storyCta }}</button></sc-if>
+    </div>
+  </div>
+</div>
+</sc-if>
+
 </div>
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props="{&quot;startWithMethod&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Сценарий&quot;},&quot;desktopState&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;auto&quot;,&quot;options&quot;:[&quot;auto&quot;,&quot;filled&quot;],&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Сценарий&quot;},&quot;soldOut&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;none&quot;,&quot;options&quot;:[&quot;none&quot;,&quot;fritos-combo&quot;,&quot;salsa-box&quot;,&quot;crispy&quot;,&quot;cola&quot;],&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Сценарий&quot;},&quot;footerStoresMax&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:8,&quot;min&quot;:1,&quot;max&quot;:30,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Футер&quot;},&quot;freeDeliveryFrom&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:8000,&quot;min&quot;:0,&quot;max&quot;:20000,&quot;step&quot;:500,&quot;unit&quot;:&quot;тг&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Доставка&quot;},&quot;deliveryFee&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:1000,&quot;min&quot;:0,&quot;max&quot;:3000,&quot;step&quot;:50,&quot;unit&quot;:&quot;тг&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Доставка&quot;}}">
@@ -680,6 +704,13 @@ const BURGERS = ['crispy','seul','classic','deluxe','salsa','cheese','rap-cheese
 const kindOf = id => id === 'strips-combo' ? 'stripsCombo' : /-box$/.test(id) ? 'box' : /-combo$/.test(id) ? 'combo' : BURGERS.includes(id) ? 'burger' : /^strips-/.test(id) ? 'strips' : null;
 const tgt = e => { const el = e && e.currentTarget; return el && el.closest && el.closest('[data-screen-label="Mobile"]') ? 'm' : 'd'; };
 
+const STORY_MS = 5000;
+const STORIES = [
+  // имена файлов перепутаны в исходниках: story-stores.png — переписка WhatsApp, story-whatsapp.png — рестораны
+  { img: 'assets/story-stores.png', alt: 'Заказ через WhatsApp', cta: 'Написать в WhatsApp', href: 'https://wa.me/77009380000' },
+  { img: 'assets/story-new10.png', alt: 'NEW10 −10% в первый месяц работы сайта', cta: 'Заказать со скидкой' },
+  { img: 'assets/story-whatsapp.png', alt: 'Рестораны и часы работы', cta: 'Выбрать ресторан', action: 'pickup' },
+];
 class Component extends DCLogic {
   state = { cart: {}, mobileOpen: false, mode: null, address: null, door: false, modal: null, modalTarget: null, pendingId: null, menu: null, agree: true, addrDraft: '', activeD: 0, activeM: 0, logoBroken: false, promo: 'NEW10', promoDraft: '', promoError: null, hidden: {}, pm: null, pmTarget: 'd', pmEdit: false, mods: {}, extra: {}, sels: {}, pendingQty: null };
   dScrollRef = React.createRef();
@@ -750,8 +781,33 @@ class Component extends DCLogic {
   }
 
   _vwH = () => this.setState({ vw: window.innerWidth });
-  componentWillUnmount() { window.removeEventListener('resize', this._vwH); }
-  renderVals() { const isDesktop = (this.state.vw ?? window.innerWidth) >= 1024; return { ...this._rv(), isDesktop, isMobile: !isDesktop }; }
+  componentWillUnmount() { window.removeEventListener('resize', this._vwH); this.stopStory(); }
+  // сторис: авто-переключение каждые STORY_MS, тап слева/справа — назад/вперёд
+  openStory(i, target) {
+    this.stopStory();
+    this.setState({ story: i, storyTarget: target });
+    this._storyT = setTimeout(() => this.nextStory(), STORY_MS);
+    this._storyKey = e => { if (e.key === 'Escape') this.closeStory(); else if (e.key === 'ArrowRight') this.nextStory(); else if (e.key === 'ArrowLeft') this.prevStory(); };
+    window.addEventListener('keydown', this._storyKey);
+  }
+  stopStory() { clearTimeout(this._storyT); if (this._storyKey) window.removeEventListener('keydown', this._storyKey); this._storyKey = null; }
+  closeStory() { this.stopStory(); this.setState({ story: null }); }
+  nextStory() { const i = this.state.story; if (i == null) return; if (i >= STORIES.length - 1) return this.closeStory(); this.openStory(i + 1, this.state.storyTarget); }
+  prevStory() { const i = this.state.story; if (i == null) return; this.openStory(Math.max(0, i - 1), this.state.storyTarget); }
+  renderVals() { const isDesktop = (this.state.vw ?? window.innerWidth) >= 1024; return { ...this._rv(), ...this._storyVals(isDesktop), isDesktop, isMobile: !isDesktop }; }
+  _storyVals(isDesktop) {
+    const i = this.state.story, st = i != null ? STORIES[i] : null, t = this.state.storyTarget || 'm';
+    const act = st && st.action === 'pickup' ? () => { this.closeStory(); this.setState({ modal: 'method', modalTarget: t, pendingId: null, addrMode: 'pickup' }); } : () => this.closeStory();
+    const open = {};
+    STORIES.forEach((_, k) => { open['openStoryD' + k] = () => this.openStory(k, 'd'); open['openStoryM' + k] = () => this.openStory(k, 'm'); });
+    return {
+      ...open, storyOpen: !!st, storyImg: st ? st.img : '', storyAlt: st ? st.alt : '', storyCta: st ? st.cta : '',
+      storyIsLink: !!(st && st.href), storyIsBtn: !!(st && !st.href), storyHref: st && st.href ? st.href : '#', storyAction: act,
+      storyH: isDesktop ? 'min(88vh, 760px)' : 'min(100dvh, 177.78vw)', storyRadius: isDesktop ? '24px' : '0',
+      storyBars: STORIES.map((_, k) => ({ w: i != null && k < i ? '100%' : '0', anim: k === i ? `story-fill ${STORY_MS}ms linear forwards` : 'none' })),
+      closeStory: () => this.closeStory(), nextStory: () => this.nextStory(), prevStory: () => this.prevStory(),
+    };
+  }
   _rv() {
     const p = this.props, s = this.state;
     const freeFrom = p.freeDeliveryFrom ?? 8000, fee = p.deliveryFee ?? 1000, forced = p.desktopState ?? 'auto';
