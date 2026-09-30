@@ -7,9 +7,9 @@
 </head>
 <body>
 <x-dc>
-<div style="display:flex;flex-direction:column;gap:8px;padding:{{ pad }};background:var(--primary-50);border-radius:14px;font-family:var(--font)">
-  <div style="display:flex;justify-content:space-between;gap:10px;font-size:{{ fs }};font-weight:600;color:{{ color }}"><span>{{ text }}</span><span style="color:var(--ink-2);font-weight:500;white-space:nowrap">{{ fromLabel }}</span></div>
-  <div style="height:6px;border-radius:3px;background:var(--surface-3);overflow:hidden"><div style="height:100%;border-radius:3px;background:{{ color }};width:{{ pct }};transition:width .3s"></div></div>
+<div class="{{ cls }}">
+  <div class="f-dbar__text"><span>{{ text }}</span><span class="f-dbar__from">{{ fromLabel }}</span></div>
+  <div class="f-dbar__track"><div class="f-dbar__fill" style="width:{{ pct }}"></div></div>
 </div>
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:360,&quot;height&quot;:80},&quot;subtotal&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:5200,&quot;min&quot;:0,&quot;max&quot;:30000,&quot;step&quot;:100,&quot;unit&quot;:&quot;тг&quot;,&quot;tsType&quot;:&quot;number&quot;},&quot;freeFrom&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:8000,&quot;min&quot;:0,&quot;max&quot;:30000,&quot;step&quot;:500,&quot;unit&quot;:&quot;тг&quot;,&quot;tsType&quot;:&quot;number&quot;},&quot;compact&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;}}">
@@ -20,7 +20,7 @@ class Component extends DCLogic {
     return {
       text: remain === 0 ? 'Доставка бесплатно' : 'Ещё ' + fmt(remain) + ' до бесплатной доставки',
       fromLabel: 'от ' + fmt(from), pct: Math.min(100, Math.round(sub / from * 100)) + '%',
-      color: remain === 0 ? 'var(--success)' : 'var(--primary)', pad: compact ? '10px 12px' : '12px 14px', fs: compact ? '12px' : '13px',
+      cls: 'f-dbar' + (remain === 0 ? ' is-free' : '') + (compact ? ' f-dbar--compact' : ''),
     };
   }
 }

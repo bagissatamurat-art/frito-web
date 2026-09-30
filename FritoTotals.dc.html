@@ -7,11 +7,11 @@
 </head>
 <body>
 <x-dc>
-<div style="display:flex;flex-direction:column;gap:{{ gap }};font-size:{{ fs }};color:var(--ink-2);font-family:var(--font)">
-  <div style="display:flex;justify-content:space-between"><span>Товары</span><span style="color:var(--ink);font-weight:600">{{ subtotalLabel }}</span></div>
-  <div style="display:flex;justify-content:space-between"><span>{{ feeTitle }}</span><span style="color:var(--ink);font-weight:600">{{ feeLabel }}</span></div>
-  <sc-if value="{{ hasDiscount }}" hint-placeholder-val="{{ true }}"><div style="display:flex;justify-content:space-between"><span>Скидка по промокоду</span><span style="color:var(--success);font-weight:600">−{{ discountLabel }}</span></div></sc-if>
-  <div style="border-top:1px solid var(--divider);padding-top:12px;margin-top:2px;display:flex;justify-content:space-between;align-items:baseline;color:var(--ink)"><span style="font-size:{{ tfs }};font-weight:700">{{ totalTitle }}</span><span style="font-size:{{ tsum }};font-weight:800;letter-spacing:-.02em">{{ totalLabel }}</span></div>
+<div class="{{ cls }}">
+  <div class="f-totals__row"><span>Товары</span><span class="f-totals__val">{{ subtotalLabel }}</span></div>
+  <div class="f-totals__row"><span>{{ feeTitle }}</span><span class="f-totals__val">{{ feeLabel }}</span></div>
+  <sc-if value="{{ hasDiscount }}" hint-placeholder-val="{{ true }}"><div class="f-totals__row"><span>Скидка по промокоду</span><span class="f-totals__val f-totals__val--ok">−{{ discountLabel }}</span></div></sc-if>
+  <div class="f-totals__total"><span class="f-totals__title">{{ totalTitle }}</span><span class="f-totals__sum">{{ totalLabel }}</span></div>
 </div>
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:360,&quot;height&quot;:180},&quot;subtotal&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:9470,&quot;min&quot;:0,&quot;max&quot;:50000,&quot;step&quot;:10,&quot;unit&quot;:&quot;тг&quot;,&quot;tsType&quot;:&quot;number&quot;},&quot;fee&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:1000,&quot;min&quot;:0,&quot;max&quot;:3000,&quot;step&quot;:50,&quot;unit&quot;:&quot;тг&quot;,&quot;tsType&quot;:&quot;number&quot;},&quot;discount&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:947,&quot;min&quot;:0,&quot;max&quot;:10000,&quot;step&quot;:10,&quot;unit&quot;:&quot;тг&quot;,&quot;tsType&quot;:&quot;number&quot;},&quot;feeTitle&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Доставка&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;totalTitle&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Сумма заказа&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;compact&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;}}">
@@ -22,7 +22,7 @@ class Component extends DCLogic {
     return {
       subtotalLabel: fmt(sub), feeTitle: p.feeTitle ?? 'Доставка', feeLabel: fee === 0 ? 'Бесплатно' : fmt(fee),
       hasDiscount: disc > 0, discountLabel: fmt(disc), totalTitle: p.totalTitle ?? 'Сумма заказа', totalLabel: fmt(sub + fee - disc),
-      gap: compact ? '8px' : '10px', fs: compact ? '13px' : '14px', tfs: compact ? '15px' : '16px', tsum: compact ? '20px' : '24px',
+      cls: 'f-totals' + (compact ? ' f-totals--compact' : ''),
     };
   }
 }

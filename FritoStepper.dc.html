@@ -7,17 +7,17 @@
 </head>
 <body>
 <x-dc>
-<div style="display:flex;align-items:center;justify-content:space-between;width:100%;height:{{ px }};font-family:var(--font)">
-  <button onClick="{{ dec }}" aria-label="Меньше" aria-disabled="{{ decDisabled }}" style="border:0;background:var(--surface-2);color:{{ decColor }};width:{{ px }};height:{{ px }};border-radius:50%;font-size:20px;cursor:{{ decCursor }};font:inherit;padding:0;display:flex;align-items:center;justify-content:center;line-height:1;flex-shrink:0" style-hover="background:var(--surface-3)">−</button>
-  <span style="text-align:center;font-weight:700;font-size:16px;color:var(--ink)">{{ qty }}</span>
-  <button onClick="{{ onInc }}" aria-label="Больше" style="border:0;background:var(--surface-2);color:var(--ink);width:{{ px }};height:{{ px }};border-radius:50%;font-size:20px;cursor:pointer;font:inherit;padding:0;display:flex;align-items:center;justify-content:center;line-height:1;flex-shrink:0" style-hover="background:var(--surface-3)">+</button>
+<div class="f-stepper" style="height:{{ px }}">
+  <button class="{{ decCls }}" onClick="{{ dec }}" aria-label="Меньше" aria-disabled="{{ decDisabled }}" style="width:{{ px }};height:{{ px }}">−</button>
+  <span class="f-stepper__qty">{{ qty }}</span>
+  <button class="f-stepper__btn" onClick="{{ onInc }}" aria-label="Больше" style="width:{{ px }};height:{{ px }}">+</button>
 </div>
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:160,&quot;height&quot;:60},&quot;qty&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:1,&quot;min&quot;:0,&quot;max&quot;:99,&quot;tsType&quot;:&quot;number&quot;},&quot;size&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:44,&quot;options&quot;:[40,44,56],&quot;tsType&quot;:&quot;number&quot;},&quot;min&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:null,&quot;min&quot;:0,&quot;max&quot;:10,&quot;tsType&quot;:&quot;number | undefined&quot;},&quot;onInc&quot;:{&quot;editor&quot;:null,&quot;default&quot;:null,&quot;tsType&quot;:&quot;() =&gt; void&quot;},&quot;onDec&quot;:{&quot;editor&quot;:null,&quot;default&quot;:null,&quot;tsType&quot;:&quot;() =&gt; void&quot;}}">
 class Component extends DCLogic {
   renderVals() {
     const p = this.props, qty = p.qty ?? 1, off = p.min != null && qty <= p.min;
-    return { px: (p.size ?? 44) + 'px', qty, onInc: p.onInc, decDisabled: off, decColor: off ? 'var(--neutral-300)' : 'var(--ink)', decCursor: off ? 'not-allowed' : 'pointer', dec: () => { if (!off && p.onDec) p.onDec(); } };
+    return { px: (p.size ?? 44) + 'px', qty, onInc: p.onInc, decDisabled: off, decCls: 'f-stepper__btn' + (off ? ' is-off' : ''), dec: () => { if (!off && p.onDec) p.onDec(); } };
   }
 }
 </script>

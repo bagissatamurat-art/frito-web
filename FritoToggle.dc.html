@@ -7,11 +7,11 @@
 </head>
 <body>
 <x-dc>
-<button onClick="{{ toggle }}" role="switch" aria-checked="{{ on }}" style="border:0;cursor:pointer;width:48px;height:28px;border-radius:14px;background:{{ bg }};position:relative;transition:background .2s;padding:0;display:block"><span style="position:absolute;top:3px;left:{{ left }};width:22px;height:22px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.2);transition:left .2s"></span></button>
+<button class="{{ cls }}" onClick="{{ toggle }}" role="switch" aria-checked="{{ on }}"><span class="f-toggle__knob"></span></button>
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:80,&quot;height&quot;:48},&quot;on&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;},&quot;onChange&quot;:{&quot;editor&quot;:null,&quot;default&quot;:null,&quot;tsType&quot;:&quot;(on: boolean) =&gt; void&quot;}}">
 class Component extends DCLogic {
-  renderVals() { const p = this.props, on = !!p.on; return { on, bg: on ? 'var(--primary)' : 'var(--neutral-300)', left: on ? '23px' : '3px', toggle: () => p.onChange && p.onChange(!on) }; }
+  renderVals() { const p = this.props, on = !!p.on; return { on, cls: 'f-toggle' + (on ? ' is-on' : ''), toggle: () => p.onChange && p.onChange(!on) }; }
 }
 </script>
 </body>

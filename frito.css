@@ -203,3 +203,90 @@ html.frito-reveal [data-reveal].is-in{animation:frito-rise .45s var(--ease) both
 @media (hover:hover){[data-reveal] img[data-skel]{transition:opacity .4s ease,transform .5s var(--ease)}[data-reveal]:hover img[data-skel]{transform:scale(1.04)}}
 
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+
+/* 6. Базовые компоненты (FritoInput, FritoCloseButton, FritoSegment, FritoStepper,
+      FritoToggle, FritoOption, FritoTotals, FritoDeliveryBar) ------------------ */
+
+/* крестик из двух линий */
+.f-x{position:relative;display:block;width:10px;height:10px}
+.f-x > span{position:absolute;left:0;top:50%;width:100%;height:2px;margin-top:-1px;background:currentColor;border-radius:1px;transform:rotate(45deg)}
+.f-x > span:last-child{transform:rotate(-45deg)}
+
+/* Поле ввода с плавающей подписью */
+.f-field{position:relative;display:block;height:var(--h-lg);background:var(--surface-1);border-radius:var(--r-md);cursor:text;font-family:var(--font)}
+.f-field--multi{height:84px}
+.f-field__label{position:absolute;left:14px;top:20px;font-size:15px;font-weight:500;line-height:1;color:var(--ink-2);white-space:nowrap;pointer-events:none;transition:all .15s}
+.f-field--multi .f-field__label{top:16px}
+.f-field.is-up .f-field__label{top:10px;font-size:11px}
+.f-field__req{color:var(--danger);margin-left:2px}
+.f-field__input,.f-field__area{position:absolute;left:14px;right:14px;border:0;background:transparent;font:inherit;color:var(--ink);padding:0;outline:none}
+.f-field__input{bottom:9px;height:22px;font-size:15px;font-weight:600}
+.f-field__area{top:28px;bottom:10px;font-size:14px;line-height:1.45;resize:none}
+.f-field--clearable .f-field__input,.f-field--clearable .f-field__area{right:44px}
+.f-field__clear{position:absolute;right:8px;top:14px;width:28px;height:28px;border:0;border-radius:50%;background:var(--surface-3);color:var(--ink-2);padding:0;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s}
+.f-field__clear:hover{background:var(--neutral-300);color:var(--ink)}
+.f-field--multi .f-field__clear{top:10px}
+
+/* Кнопка закрытия */
+.f-close{width:100%;height:100%;min-width:32px;min-height:32px;border:0;border-radius:50%;background:var(--surface-2);color:var(--ink);padding:0;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s}
+.f-close:hover{background:var(--surface-3)}
+.f-close:active{background:var(--neutral-300)}
+.f-close .f-x{width:38%;height:38%}
+.f-close--float{background:#fff;box-shadow:0 2px 8px rgba(17,24,39,.15);transition:box-shadow .15s}
+.f-close--float:hover{background:#fff;box-shadow:0 4px 14px rgba(17,24,39,.22)}
+.f-close--float:active{background:var(--surface-2)}
+
+/* Переключатель «Доставка / Самовывоз» */
+.f-seg{display:flex;align-items:center;gap:4px;width:100%;padding:4px;background:var(--surface-2);border-radius:var(--r-pill);font-family:var(--font)}
+.f-seg__btn{flex:1;display:flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:var(--r-pill);padding:0 14px;font:inherit;font-weight:600;white-space:nowrap;cursor:pointer;transition:all .15s}
+.f-seg__icon{width:20px;height:20px;object-fit:contain}
+
+/* Счётчик количества */
+.f-stepper{display:flex;align-items:center;justify-content:space-between;width:100%;font-family:var(--font)}
+.f-stepper__btn{flex-shrink:0;display:flex;align-items:center;justify-content:center;border:0;border-radius:50%;background:var(--surface-2);color:var(--ink);font:inherit;line-height:1;padding:0;cursor:pointer}
+.f-stepper__btn:hover{background:var(--surface-3)}
+.f-stepper__btn.is-off{color:var(--neutral-300);cursor:not-allowed}
+.f-stepper__qty{text-align:center;font-size:16px;font-weight:700;color:var(--ink)}
+
+/* Тумблер */
+.f-toggle{position:relative;display:block;width:48px;height:28px;border:0;border-radius:14px;background:var(--neutral-300);padding:0;cursor:pointer;transition:background .2s}
+.f-toggle.is-on{background:var(--primary)}
+.f-toggle__knob{position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.2);transition:left .2s}
+.f-toggle.is-on .f-toggle__knob{left:23px}
+
+/* Опция: radio / checkbox */
+.f-opt{display:flex;align-items:center;gap:14px;width:100%;min-height:var(--h-lg);padding:12px 16px;border:2px solid var(--border);border-radius:var(--r-md-plus);background:#fff;color:var(--ink);font:inherit;font-family:var(--font);text-align:left;cursor:pointer;transition:border-color .15s,background .15s}
+.f-opt.is-selected{border-color:var(--primary);background:var(--primary-50)}
+.f-opt.is-disabled{opacity:.45;cursor:not-allowed}
+.f-opt__label{flex:1;min-width:0;font-size:15px;font-weight:500;line-height:1.35}
+.f-opt__price{flex-shrink:0;font-size:14px;font-weight:600;color:var(--ink-2);white-space:nowrap}
+.f-mark{flex-shrink:0;display:flex;align-items:center;justify-content:center;border:2px solid var(--neutral-300);background:#fff;transition:all .15s}
+.f-mark > span{opacity:0}
+.f-mark--radio{width:22px;height:22px;border-radius:50%}
+.f-mark--radio > span{width:8px;height:8px;border-radius:50%;background:#fff}
+.f-mark--check{width:20px;height:20px;border-radius:var(--r-xs);margin:0 1px}
+.f-mark--check > span{color:#fff;font-size:12px;font-weight:800;line-height:1}
+.is-selected > .f-mark{border-color:var(--primary);background:var(--primary)}
+.is-selected > .f-mark > span{opacity:1}
+
+/* Итоги заказа */
+.f-totals{display:flex;flex-direction:column;gap:10px;font-size:14px;color:var(--ink-2);font-family:var(--font)}
+.f-totals__row{display:flex;justify-content:space-between}
+.f-totals__val{color:var(--ink);font-weight:600}
+.f-totals__val--ok{color:var(--success)}
+.f-totals__total{display:flex;justify-content:space-between;align-items:baseline;margin-top:2px;padding-top:12px;border-top:1px solid var(--divider);color:var(--ink)}
+.f-totals__title{font-size:16px;font-weight:700}
+.f-totals__sum{font-size:24px;font-weight:800;letter-spacing:-.02em}
+.f-totals--compact{gap:8px;font-size:13px}
+.f-totals--compact .f-totals__title{font-size:15px}
+.f-totals--compact .f-totals__sum{font-size:20px}
+
+/* Полоса «до бесплатной доставки» */
+.f-dbar{display:flex;flex-direction:column;gap:8px;padding:12px 14px;background:var(--primary-50);border-radius:var(--r-md);font-family:var(--font);--dbar:var(--primary)}
+.f-dbar.is-free{--dbar:var(--success)}
+.f-dbar__text{display:flex;justify-content:space-between;gap:10px;font-size:13px;font-weight:600;color:var(--dbar)}
+.f-dbar__from{color:var(--ink-2);font-weight:500;white-space:nowrap}
+.f-dbar__track{height:6px;border-radius:3px;background:var(--surface-3);overflow:hidden}
+.f-dbar__fill{height:100%;border-radius:3px;background:var(--dbar);transition:width .3s}
+.f-dbar--compact{padding:10px 12px}
+.f-dbar--compact .f-dbar__text{font-size:12px}
