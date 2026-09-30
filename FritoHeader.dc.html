@@ -7,9 +7,9 @@
 </head>
 <body>
 <x-dc>
-<header style="display:flex;align-items:center;justify-content:space-between;gap:16px;padding:0 clamp(16px,4vw,32px);height:72px;background:#fff;border-bottom:1px solid #ECECF1;font-family:Inter,system-ui,sans-serif">
+<header class="f-header">
   <a href="menu.dc.html" style="display:flex;align-items:center">
-    <sc-if value="{{ logoOk }}" hint-placeholder-val="{{ true }}"><img src="https://frito.kz/brand.svg" alt="FRITO" onError="{{ logoFail }}" style="height:32px;display:block"></sc-if>
+    <sc-if value="{{ logoOk }}" hint-placeholder-val="{{ true }}"><img src="https://frito.kz/brand.svg" alt="FRITO" onError="{{ logoFail }}" class="f-logo"></sc-if>
     <sc-if value="{{ logoBroken }}" hint-placeholder-val="{{ false }}"><span style="display:flex;align-items:center;gap:8px;color:#614BE2;font-weight:800;font-size:26px;letter-spacing:-.02em"><span style="width:26px;height:30px;background:#614BE2;clip-path:polygon(45% 0,100% 0,60% 45%,85% 45%,20% 100%,40% 55%,10% 55%)"></span>FRITO</span></sc-if>
   </a>
   <div style="display:flex;align-items:center;gap:8px;min-width:0">

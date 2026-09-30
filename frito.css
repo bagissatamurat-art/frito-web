@@ -1,32 +1,188 @@
-/* Общие стили сайта. Подключается в <head> до support.js, поэтому действует с первого кадра. */
+/* ==========================================================================
+   Frito — общие стили сайта.
+   Подключается в <head> до support.js, поэтому действует с первого кадра.
+   1. Токены UI Kit   2. База   3. Компоненты   4. Загрузка/скелетоны   5. Движение
+   Новые блоки собираем из токенов и классов .f-*, а не из инлайн-стилей.
+   ========================================================================== */
+
+/* 1. Токены — значения из «Frito UI Kit» -------------------------------- */
+:root{
+  /* цвет */
+  --primary:#614BE2; --primary-hover:#503BCB; --primary-dark:#4A36C4;
+  --primary-200:#D9D4F7; --primary-100:#EFEDFC; --primary-50:#F5F3FF; --primary-light:#A899FF;
+  --ink:#111827; --ink-2:#6B7280; --ink-3:#9CA3AF;
+  --border:#ECECF1; --divider:#F1F1F4;
+  --surface-0:#fff; --surface-1:#F7F7F9; --surface-2:#F3F4F6; --surface-3:#E5E7EB;
+  --dark:#1B1740; --success:#16A34A; --danger:#EF4444; --kaspi:#F14635; --neutral-300:#D1D5DB;
+  --warn-bg:#FEF3C7; --warn-ink:#92400E;
+  /* радиусы */
+  --r-xs:6px; --r-sm:8px; --r-md-:12px; --r-md:14px; --r-md-plus:16px; --r-lg:20px; --r-xl:24px; --r-2xl:32px; --r-pill:999px;
+  /* высоты контролов: xl 60 · lg 56 · md 44 · sm 40 · xs 36 */
+  --h-xl:60px; --h-lg:56px; --h-md:44px; --h-sm:40px; --h-xs:36px;
+  /* тени и оверлей */
+  --shadow-xs:0 1px 3px rgba(17,24,39,.12);
+  --shadow-card-hover:0 12px 32px -14px rgba(17,24,39,.2);
+  --shadow-fab:0 16px 36px -10px rgba(97,75,226,.6);
+  --shadow-modal:0 40px 100px -30px rgba(0,0,0,.4);
+  --shadow-sheet:0 -20px 60px -20px rgba(17,24,39,.35);
+  --overlay:rgba(17,24,39,.45);
+  /* шрифт и движение */
+  --font:Inter,system-ui,sans-serif;
+  --ease:cubic-bezier(.2,.8,.2,1);
+  /* шапка: одна высота и один логотип на всех страницах */
+  --header-h:60px; --logo-h:30px; --gutter:20px;
+}
+@media (min-width:1024px){ :root{ --header-h:76px; --logo-h:34px; --gutter:32px; } }
+
+/* 2. База ----------------------------------------------------------------- */
 html,body{max-width:100%;overflow-x:clip;overscroll-behavior-x:none;-webkit-text-size-adjust:100%}
 *{-webkit-tap-highlight-color:transparent}
+[hidden]{display:none!important}
 
+/* 3. Компоненты ----------------------------------------------------------- */
+
+/* Шапка и логотип */
+.f-header{display:flex;align-items:center;justify-content:space-between;gap:16px;height:var(--header-h);padding:0 var(--gutter);background:var(--surface-0);border-bottom:1px solid var(--border);font-family:var(--font)}
+.f-logo{height:var(--logo-h);width:auto;display:block}
+
+/* Кнопка: всегда pill. Вариант × размер */
+.f-btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;border:0;border-radius:var(--r-pill);font:inherit;font-weight:600;cursor:pointer;text-decoration:none;white-space:nowrap;
+  height:var(--h-lg);padding:0 28px;font-size:17px;transition:background-color .15s,color .15s,transform .14s ease}
+.f-btn--block{display:flex;width:100%}
+.f-btn--md{height:var(--h-md);padding:0 22px;font-size:15px}
+.f-btn--sm{height:var(--h-sm);padding:0 16px;font-size:13px}
+.f-btn--primary{background:var(--primary);color:#fff}
+.f-btn--primary:hover{background:var(--primary-hover);color:#fff}
+.f-btn--tonal{background:var(--primary-100);color:var(--primary)}
+.f-btn--tonal:hover{background:var(--primary);color:#fff}
+.f-btn--secondary{background:var(--surface-2);color:var(--ink)}
+.f-btn--secondary:hover{background:var(--surface-3);color:var(--ink)}
+.f-btn--outline{background:transparent;color:var(--primary);box-shadow:inset 0 0 0 1.5px var(--primary)}
+.f-btn--outline:hover{background:var(--primary-50);color:var(--primary)}
+.f-btn--ghost{height:auto;padding:6px 8px;background:transparent;color:var(--ink-2);font-size:13px;font-weight:500}
+.f-btn--ghost:hover{color:var(--ink)}
+.f-btn--quiet{color:var(--ink-3)}
+.f-btn--quiet:hover{color:var(--ink-2)}
+.f-btn:disabled,.f-btn.is-disabled{background:var(--surface-3);color:var(--ink-3);cursor:not-allowed}
+.f-btn--ghost:disabled{background:transparent}
+
+/* Модалка: оверлей + окно (ПК) или шторка (телефон) */
+.f-overlay{position:absolute;inset:0;background:var(--overlay);animation:frito-fade .22s ease-out both}
+.f-modal{position:relative;width:100%;height:100%;font-family:var(--font);color:var(--ink)}
+.f-modal__center{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:40px}
+.f-dialog{position:relative;width:100%;max-width:560px;background:var(--surface-0);border-radius:var(--r-2xl);padding:36px 40px 32px;display:flex;flex-direction:column;gap:20px;box-shadow:var(--shadow-modal);animation:frito-pop .3s var(--ease) both}
+.f-sheet{position:absolute;left:0;right:0;bottom:0;background:var(--surface-0);border-radius:var(--r-2xl) var(--r-2xl) 0 0;padding:10px 20px calc(24px + env(safe-area-inset-bottom));display:flex;flex-direction:column;gap:18px;max-height:92%;overflow-y:auto;box-shadow:var(--shadow-sheet);animation:frito-sheet .38s var(--ease) both}
+.f-grabber{align-self:center;flex-shrink:0;width:40px;height:4px;border-radius:2px;background:var(--surface-3)}
+.f-modal__head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px}
+.f-modal__titles{display:flex;flex-direction:column;gap:10px;min-width:0}
+.f-modal__title{margin:0;font-size:30px;font-weight:700;line-height:1.15;letter-spacing:-.01em;text-wrap:pretty}
+.f-modal__sub{margin:0;font-size:17px;color:var(--ink-2);line-height:1.4;text-wrap:pretty}
+.f-modal__close{flex-shrink:0;width:48px;height:48px}
+.f-sheet .f-modal__head{gap:12px}
+.f-sheet .f-modal__titles{gap:8px}
+.f-sheet .f-modal__title{font-size:24px}
+.f-sheet .f-modal__sub{font-size:15px}
+.f-sheet .f-modal__close{width:40px;height:40px}
+.f-step{display:flex;flex-direction:column;gap:14px;animation:frito-rise .3s var(--ease) both}
+
+/* OptionCard rich: иконка, заголовок, описание; кликабельна вся карточка */
+.f-options{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.f-option{display:flex;flex-direction:column;align-items:stretch;gap:8px;border:2px solid var(--border);border-radius:var(--r-xl);background:#F8F8FB;color:var(--ink);padding:18px;font:inherit;text-align:center;cursor:pointer;transition:border-color .15s,background-color .15s,transform .14s ease}
+.f-option:hover,.f-option:active{border-color:var(--primary);background:var(--primary-50)}
+.f-option__icon{align-self:center;width:48px;height:48px;margin:6px 0;color:var(--primary);display:flex;align-items:center;justify-content:center}
+.f-option__icon svg{width:42px;height:42px}
+.f-option__title{font-size:19px;font-weight:700}
+.f-option__desc{flex:1;font-size:13px;color:var(--ink-2);line-height:1.35}
+.f-sheet .f-options{gap:10px}
+.f-sheet .f-option{gap:6px;border-radius:22px;padding:14px 12px}
+.f-sheet .f-option__icon{width:40px;height:40px;margin:4px 0}
+.f-sheet .f-option__icon svg{width:34px;height:34px}
+.f-sheet .f-option__title{font-size:17px}
+.f-sheet .f-option__desc{font-size:12px}
+
+/* Поле-подсказка, бейдж, нумерованные шаги, код из 4 цифр */
+.f-error{font-size:12px;color:var(--danger);padding:0 14px}
+.f-badge{align-self:flex-start;border-radius:var(--r-pill);padding:5px 12px;font-size:12px;font-weight:700}
+.f-badge--warn{background:var(--warn-bg);color:var(--warn-ink)}
+.f-badge--success{background:#DCFCE7;color:#15803D}
+.f-steps{display:flex;flex-direction:column;gap:12px;margin:0;padding:0;list-style:none}
+.f-steps__item{display:flex;gap:12px;align-items:flex-start;font-size:15px;line-height:1.45;color:#374151}
+.f-steps__num{flex-shrink:0;width:26px;height:26px;border-radius:50%;background:var(--primary-100);color:var(--primary);font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center}
+.f-otp{position:relative;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;cursor:text}
+.f-otp__cell{height:64px;border-radius:var(--r-md);background:var(--surface-1);border:2px solid transparent;display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:700;transition:border-color .15s,background-color .15s}
+.f-otp__cell.is-current{background:var(--surface-0);border-color:var(--primary)}
+.f-otp__input{position:absolute;inset:0;width:100%;height:100%;opacity:0;border:0;font-size:16px}
+.f-row{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.f-wait{display:flex;align-items:center;gap:10px;font-size:14px;color:var(--ink-2)}
+.f-spinner{flex-shrink:0;width:18px;height:18px;border-radius:50%;border:2.5px solid var(--primary-100);border-top-color:var(--primary);animation:frito-spin .8s linear infinite}
+.f-success{align-self:center;width:72px;height:72px;border-radius:50%;background:var(--primary);display:flex;align-items:center;justify-content:center;box-shadow:0 12px 30px -8px rgba(97,75,226,.55);animation:frito-pop .45s var(--ease) both}
+
+/* Боковое меню (содержимое) */
+.f-drawer{flex:1;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;display:flex;flex-direction:column;gap:18px;padding:8px var(--gutter) calc(24px + env(safe-area-inset-bottom))}
+.f-drawer > *{flex-shrink:0}
+.f-tile{display:flex;align-items:center;gap:12px;width:100%;padding:12px 14px;border:1px solid var(--border);border-radius:18px;background:var(--surface-0);color:var(--ink);font:inherit;text-align:left;cursor:pointer;transition:border-color .15s}
+.f-tile:hover{border-color:#B7ACF3}
+.f-tile--soft{border-color:transparent;background:var(--primary-50);cursor:default}
+.f-tile--soft:hover{border-color:transparent}
+.f-tile__body{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.f-tile__caption{font-size:12px;font-weight:500;color:var(--ink-2)}
+.f-tile__value{font-size:15px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.f-tile__action{flex-shrink:0;font-size:13px;font-weight:600;color:var(--primary)}
+.f-icon{flex-shrink:0;width:40px;height:40px;display:flex;align-items:center;justify-content:center;color:var(--primary);background:var(--primary-100);border-radius:50%}
+.f-icon--square{border-radius:var(--r-md-);background:#F3F1FE}
+.f-icon--solid{background:var(--primary);color:#fff}
+.f-promo{position:relative;overflow:hidden;background:var(--primary);border-radius:var(--r-lg);padding:18px 18px 16px;color:#fff;display:flex;flex-direction:column;gap:6px}
+.f-promo::before{content:'';position:absolute;right:-18px;top:-26px;width:96px;height:120px;background:rgba(255,255,255,.1);clip-path:polygon(45% 0,100% 0,60% 45%,85% 45%,20% 100%,40% 55%,10% 55%)}
+.f-promo__code{font-size:22px;font-weight:800;letter-spacing:-.01em}
+.f-promo__pct{background:#fff;color:var(--primary);border-radius:var(--r-sm);padding:2px 8px;font-size:13px;font-weight:800}
+.f-promo__text{font-size:13px;line-height:1.4;opacity:.9}
+.f-nav{display:flex;flex-direction:column;gap:2px}
+.f-nav__item{display:flex;align-items:center;gap:14px;padding:13px 4px;border-radius:var(--r-md);color:var(--ink);cursor:pointer;text-decoration:none}
+.f-nav__item:hover{background:var(--surface-1);color:var(--ink)}
+.f-nav__label{flex:1;min-width:0;font-size:16px;font-weight:600}
+.f-nav__chev{display:flex;color:#C4C4CF}
+.f-overline{display:flex;align-items:center;gap:10px;padding:0 4px 6px;font-size:13px;font-weight:700;letter-spacing:.04em;color:var(--ink-2)}
+.f-overline svg{color:var(--primary)}
+.f-list{display:flex;flex-direction:column;gap:4px}
+.f-list__row{display:flex;align-items:center;gap:10px;width:100%;padding:11px 12px;border:0;border-radius:var(--r-md-);background:var(--surface-1);color:var(--ink);font:inherit;text-align:left;cursor:pointer}
+.f-list__row:hover{background:var(--primary-100)}
+.f-list__name{flex:1;font-size:15px;font-weight:600}
+.f-list__meta{font-size:13px;color:var(--ink-2);font-variant-numeric:tabular-nums}
+.f-contacts{margin-top:auto;display:flex;flex-direction:column;gap:10px;padding-top:4px}
+.f-call{display:flex;align-items:center;gap:12px;padding:14px 16px;border-radius:18px;background:var(--ink);color:#fff;text-decoration:none}
+.f-call:hover{color:#fff}
+.f-call__num{font-size:17px;font-weight:700;letter-spacing:-.01em}
+.f-call__hint{font-size:12px;opacity:.7}
+.f-socials{display:flex;gap:8px}
+.f-social{flex:1;min-width:0;height:64px;border-radius:var(--r-md-plus);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-size:12px;font-weight:600;text-decoration:none;transition:transform .15s}
+.f-social:hover{color:#fff;transform:translateY(-1px)}
+.f-social--wa{background:#25D366}
+.f-social--ig{background:linear-gradient(45deg,#F9CE34 0%,#EE2A7B 50%,#6228D7 100%)}
+.f-social--tt{background:var(--ink)}
+.f-mail{align-self:center;padding:4px;font-size:13px;color:var(--ink-2)}
+
+/* 4. Загрузка и скелетоны -------------------------------------------------- */
 /* Заглушки dc-import, пока компонент грузится: без рамок; мелкие элементы — скелетон */
 .sc-placeholder,.sc-interp.sc-missing{border:0!important;background:transparent!important;color:transparent!important}
 .sc-placeholder::before,.sc-interp.sc-missing::before{display:none!important}
+.frito-skel,
 .sc-placeholder:is([title=FritoInput],[title=FritoSegment],[title=FritoStepper],[title=FritoToggle],[title=FritoTotals],[title=FritoDeliveryBar],[title=FritoOption]){
   background:linear-gradient(90deg,#F1F1F4 25%,#E8E8EE 37%,#F1F1F4 63%)!important;background-size:400% 100%!important;
-  border-radius:14px!important;animation:frito-shimmer 1.4s ease infinite}
-
-/* Скелетон картинок: фон переливается, картинка проявляется после загрузки (класс ставит frito.js) */
+  border-radius:var(--r-md);animation:frito-shimmer 1.4s ease infinite}
+.frito-skel{display:block}
+/* Картинки: фон переливается, картинка проявляется после загрузки (класс ставит frito.js) */
 img[data-skel]{opacity:0;transition:opacity .4s ease}
 img[data-skel].is-loaded{opacity:1}
 :has(> img[data-skel]:not(.is-loaded)){background-image:linear-gradient(90deg,#F1F1F4 25%,#E8E8EE 37%,#F1F1F4 63%)!important;background-size:400% 100%!important;animation:frito-shimmer 1.4s ease infinite}
 
+/* 5. Движение -------------------------------------------------------------- */
 @keyframes frito-shimmer{0%{background-position:100% 50%}100%{background-position:0 50%}}
+@keyframes frito-spin{to{transform:rotate(360deg)}}
 @keyframes frito-fade{from{opacity:0}to{opacity:1}}
 @keyframes frito-pop{from{opacity:0;transform:translateY(12px) scale(.97)}to{opacity:1;transform:none}}
 @keyframes frito-rise{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:none}}
 @keyframes frito-sheet{from{transform:translateY(100%)}to{transform:none}}
 @keyframes frito-slide-l{from{transform:translateX(100%)}to{transform:none}}
-
-@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
-
-/* Скелетон-блок */
-.frito-skel{display:block;background:linear-gradient(90deg,#F1F1F4 25%,#E8E8EE 37%,#F1F1F4 63%);background-size:400% 100%;border-radius:14px;animation:frito-shimmer 1.4s ease infinite}
-
-/* Уход элементов (плавное закрытие) */
 @keyframes frito-out{to{opacity:0}}
 @keyframes frito-fade-out{to{opacity:0}}
 @keyframes frito-slide-out-r{to{transform:translateX(100%)}}
@@ -39,10 +195,11 @@ img[data-skel].is-loaded{opacity:1}
 
 /* Отклик на нажатие */
 button,[role=button]{transition:transform .14s ease,background-color .2s,border-color .2s,color .2s,box-shadow .2s,opacity .2s}
-button:active:not(:disabled),[role=button]:active{transform:scale(.97)}
+button:active:not(:disabled),[role=button]:active,.f-btn:active{transform:scale(.97)}
 
 /* Карточки появляются при прокрутке (класс frito-reveal ставит frito.js) */
 html.frito-reveal [data-reveal]:not(.is-in){opacity:0}
-html.frito-reveal [data-reveal].is-in{animation:frito-rise .45s cubic-bezier(.2,.8,.2,1) both;animation-delay:var(--d,0ms)}
-@media (hover:hover){[data-reveal] img[data-skel]{transition:opacity .4s ease,transform .5s cubic-bezier(.2,.8,.2,1)}[data-reveal]:hover img[data-skel]{transform:scale(1.04)}}
-@keyframes frito-spin{to{transform:rotate(360deg)}}
+html.frito-reveal [data-reveal].is-in{animation:frito-rise .45s var(--ease) both;animation-delay:var(--d,0ms)}
+@media (hover:hover){[data-reveal] img[data-skel]{transition:opacity .4s ease,transform .5s var(--ease)}[data-reveal]:hover img[data-skel]{transform:scale(1.04)}}
+
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
