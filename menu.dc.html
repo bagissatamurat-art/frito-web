@@ -332,6 +332,10 @@ input:focus-visible,textarea:focus-visible{outline:none}
   <sc-if value="{{ pmD }}" hint-placeholder-val="{{ false }}">
     <div style="position:absolute;inset:0;z-index:25;animation:{{ pmOutAnim }}"><dc-import name="FritoProductModal" layout="center" product="{{ pmProduct }}" qty="{{ pmQty }}" mode="{{ pmMode }}" on-close="{{ closePm }}" on-add="{{ pmAdd }}" style="position:absolute;inset:0" hint-size="100%,100%"></dc-import></div>
   </sc-if>
+  <!-- MODAL: вход перед оформлением -->
+  <sc-if value="{{ authD }}" hint-placeholder-val="{{ false }}">
+    <div style="position:absolute;inset:0;z-index:40;animation:{{ authOutAnim }}"><dc-import name="FritoAuthModal" layout="center" on-close="{{ closeAuth }}" on-done="{{ authDone }}" on-guest="{{ authGuest }}" style="position:absolute;inset:0" hint-size="100%,100%"></dc-import></div>
+  </sc-if>
 </section>
 </div></sc-if>
 
@@ -636,6 +640,10 @@ input:focus-visible,textarea:focus-visible{outline:none}
   <sc-if value="{{ pmM }}" hint-placeholder-val="{{ false }}">
     <div style="position:absolute;inset:0;z-index:25;animation:{{ pmOutAnim }}"><dc-import name="FritoProductModal" layout="sheet" product="{{ pmProduct }}" qty="{{ pmQty }}" mode="{{ pmMode }}" on-close="{{ closePm }}" on-add="{{ pmAdd }}" style="position:absolute;inset:0" hint-size="100%,100%"></dc-import></div>
   </sc-if>
+  <!-- MODAL: вход перед оформлением -->
+  <sc-if value="{{ authM }}" hint-placeholder-val="{{ false }}">
+    <div style="position:absolute;inset:0;z-index:40;animation:{{ authOutAnim }}"><dc-import name="FritoAuthModal" layout="sheet" on-close="{{ closeAuth }}" on-done="{{ authDone }}" on-guest="{{ authGuest }}" style="position:absolute;inset:0" hint-size="100%,100%"></dc-import></div>
+  </sc-if>
 </section>
 </div></sc-if>
 
@@ -823,9 +831,9 @@ class Component extends DCLogic {
   }
   stopStory() { clearTimeout(this._storyT); if (this._storyKey) window.removeEventListener('keydown', this._storyKey); this._storyKey = null; }
   closeStory() { this.stopStory(); this.animateOut('story', () => this.setState({ story: null })); }
-  // вход: login.html кладёт пользователя в localStorage.frito_user; вошедших ведём сразу на оформление
+  // вход: FritoAuthModal → пользователь в localStorage.frito_user; вошедших ведём сразу на оформление
   user() { try { return JSON.parse(localStorage.getItem('frito_user')); } catch (e) { return null; } }
-  checkoutUrl() { return this.user() ? 'checkout.dc.html' : 'login.html'; }
+  goCheckout(t) { if (this.user()) location.href = 'checkout.dc.html'; else this.setState({ auth: t }); }
   // плавное закрытие: сначала играет анимация ухода (out), потом элемент убирается
   animateOut(key, fn) {
     if (this._outT) return;
@@ -898,6 +906,11 @@ class Component extends DCLogic {
       onDScroll: () => this.track('d', this.dScrollRef, 'activeD'), onMScroll: () => this.track('m', this.mScrollRef, 'activeM'),
       menuD: s.menu === 'd', menuM: s.menu === 'm',
       openMenuD: () => this.setState({ menu: 'd' }), openMenuM: () => this.setState({ menu: 'm' }), closeMenu: () => this.animateOut('menu', () => this.setState({ menu: null })),
+      authD: s.auth === 'd', authM: s.auth === 'm',
+      authOutAnim: s.out === 'auth' ? `frito-out ${OUT_MS}ms ease-in both` : 'none',
+      closeAuth: () => this.animateOut('auth', () => this.setState({ auth: null })),
+      authDone: u => { try { localStorage.setItem('frito_user', JSON.stringify({ ...u, at: Date.now() })); } catch (e) {} location.href = 'checkout.dc.html'; },
+      authGuest: () => { location.href = 'checkout.dc.html'; },
       userIn: !!this.user(), userName: (this.user() || {}).phone || 'Аккаунт Telegram',
       userVia: (this.user() || {}).via === 'telegram' ? 'Вы вошли через Telegram' : 'Вы вошли через WhatsApp',
       logout: () => { try { localStorage.removeItem('frito_user'); } catch (e) {} this.setState({ userTick: Date.now() }); },
@@ -959,8 +972,8 @@ class Component extends DCLogic {
       agreeBg: s.agree ? '#614BE2' : '#fff', agreeBorder: s.agree ? '#614BE2' : '#D1D5DB', agreeCheck: s.agree ? 1 : 0,
       checkoutBg: canCheckoutD ? '#614BE2' : '#E5E7EB', checkoutColor: canCheckoutD ? '#fff' : '#9CA3AF', checkoutCursor: canCheckoutD ? 'pointer' : 'not-allowed',
       checkoutBgM: canCheckoutM ? '#614BE2' : '#E5E7EB', checkoutColorM: canCheckoutM ? '#fff' : '#9CA3AF', checkoutCursorM: canCheckoutM ? 'pointer' : 'not-allowed',
-      checkoutD: () => { if (!canCheckoutD) return; if (!s.mode) this.setState({ modal: 'method', modalTarget: 'd' }); else location.href = this.checkoutUrl(); },
-      checkoutM: () => { if (canCheckoutM) location.href = this.checkoutUrl(); },
+      checkoutD: () => { if (!canCheckoutD) return; if (!s.mode) this.setState({ modal: 'method', modalTarget: 'd' }); else this.goCheckout('d'); },
+      checkoutM: () => { if (canCheckoutM) this.goCheckout('m'); },
       // mobile
       mSheetHeadBg: hasItems ? '#F7F7F9' : '#fff',
       lines, mHeadline: hasItems ? plural(count) + ' на ' + fmt(M.sub) : 'Корзина пуста',

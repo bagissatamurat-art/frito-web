@@ -45,3 +45,4 @@ button:active:not(:disabled),[role=button]:active{transform:scale(.97)}
 html.frito-reveal [data-reveal]:not(.is-in){opacity:0}
 html.frito-reveal [data-reveal].is-in{animation:frito-rise .45s cubic-bezier(.2,.8,.2,1) both;animation-delay:var(--d,0ms)}
 @media (hover:hover){[data-reveal] img[data-skel]{transition:opacity .4s ease,transform .5s cubic-bezier(.2,.8,.2,1)}[data-reveal]:hover img[data-skel]{transform:scale(1.04)}}
+@keyframes frito-spin{to{transform:rotate(360deg)}}
