@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
 <link rel="stylesheet" href="./frito.css">
+<link rel="stylesheet" href="./checkout.css">
 <script src="./frito.js"></script>
 <link rel="modulepreload" href="./frito-data.js">
 <script src="./support.js"></script>
@@ -22,23 +23,23 @@ input::placeholder,textarea::placeholder{color:#9CA3AF}
 input,textarea,button{outline:none}
 </style>
 </helmet>
-<div style="font-family:var(--font);color:var(--ink);background:var(--surface-1)">
+<div class="co-root">
 
 <!-- скелетон, пока грузится frito-data.js -->
 <sc-if value="{{ loading }}" hint-placeholder-val="{{ false }}">
-<div aria-busy="true" aria-label="Загрузка" style="min-height:100vh;min-height:100dvh;background:var(--surface-1);display:flex;flex-direction:column;align-items:center;padding:16px 16px 32px;gap:12px">
-  <div style="width:100%;max-width:720px;display:flex;align-items:center;justify-content:space-between;height:44px"><span class="frito-skel" style="width:40px;height:40px;border-radius:50%"></span><span class="frito-skel" style="width:120px;height:20px;border-radius:8px"></span><span style="width:40px"></span></div>
-  <div style="width:100%;max-width:720px;background:#fff;border-radius:24px;padding:16px;display:flex;flex-direction:column;gap:12px">
-    <span class="frito-skel" style="height:44px;border-radius:999px"></span>
-    <div style="display:flex;gap:12px;align-items:center"><span class="frito-skel" style="width:40px;height:40px;border-radius:12px;flex-shrink:0"></span><span style="flex:1;display:flex;flex-direction:column;gap:6px"><span class="frito-skel" style="height:12px;width:60%;border-radius:6px"></span><span class="frito-skel" style="height:16px;width:85%;border-radius:6px"></span></span></div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px"><span class="frito-skel" style="height:56px"></span><span class="frito-skel" style="height:56px"></span><span class="frito-skel" style="height:56px"></span><span class="frito-skel" style="height:56px"></span></div>
+<div aria-busy="true" aria-label="Загрузка" class="co-sk">
+  <div class="co-sk__bar"><span class="frito-skel co-sk__circle"></span><span class="frito-skel co-sk__title"></span><span class="co-sk__spacer"></span></div>
+  <div class="co-sk__card">
+    <span class="frito-skel co-sk__seg"></span>
+    <div class="co-sk__row"><span class="frito-skel co-sk__icon"></span><span class="co-sk__lines"><span class="frito-skel co-sk__line-60"></span><span class="frito-skel co-sk__line-85"></span></span></div>
+    <div class="co-grid-2"><span class="frito-skel co-sk__field"></span><span class="frito-skel co-sk__field"></span><span class="frito-skel co-sk__field"></span><span class="frito-skel co-sk__field"></span></div>
   </div>
-  <div style="width:100%;max-width:720px;background:#fff;border-radius:24px;padding:16px;display:flex;flex-direction:column;gap:12px">
-    <span class="frito-skel" style="height:18px;width:40%;border-radius:6px"></span>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px"><span class="frito-skel" style="height:64px;border-radius:16px"></span><span class="frito-skel" style="height:64px;border-radius:16px"></span></div>
+  <div class="co-sk__card">
+    <span class="frito-skel co-sk__line-40"></span>
+    <div class="co-grid-2"><span class="frito-skel co-sk__opt"></span><span class="frito-skel co-sk__opt"></span></div>
   </div>
-  <div style="width:100%;max-width:720px;background:#fff;border-radius:24px;padding:16px;display:flex;flex-direction:column;gap:12px">
-    <span class="frito-skel" style="height:18px;width:30%;border-radius:6px"></span><span class="frito-skel" style="height:56px"></span><span class="frito-skel" style="height:56px"></span>
+  <div class="co-sk__card">
+    <span class="frito-skel co-sk__line-30"></span><span class="frito-skel co-sk__field"></span><span class="frito-skel co-sk__field"></span>
   </div>
 </div>
 </sc-if>
@@ -46,52 +47,52 @@ input,textarea,button{outline:none}
 <!-- ============ DESKTOP ============ -->
 <sc-if value="{{ isDesktop }}" hint-placeholder-val="{{ true }}"><div>
 
-<section data-screen-label="Desktop" style="animation:frito-fade .3s ease-out both;width:100%;height:100vh;height:100dvh;background:var(--surface-1);border-radius:0;overflow:hidden;display:grid;grid-template-rows:76px 1fr;position:relative;box-shadow:none">
-  <header style="display:flex;align-items:center;gap:20px;padding:0 32px;background:#fff;border-bottom:1px solid var(--border)">
-    <a href="menu.dc.html" style="display:flex;align-items:center;gap:8px;color:var(--ink);font-size:15px;font-weight:600;background:var(--surface-2);border-radius:999px;height:40px;padding:0 18px 0 14px"><span style="font-size:18px;line-height:1">‹</span>В меню</a>
-    <img src="https://frito.kz/brand.svg" alt="FRITO" class="f-logo" style="position:absolute;left:50%;transform:translateX(-50%)">
-    <button style="margin-left:auto;border:0;background:transparent;cursor:pointer;padding:8px;display:flex;flex-direction:column;gap:5px"><span style="width:22px;height:2px;background:var(--ink);border-radius:2px"></span><span style="width:22px;height:2px;background:var(--ink);border-radius:2px"></span><span style="width:22px;height:2px;background:var(--ink);border-radius:2px"></span></button>
+<section data-screen-label="Desktop" class="co-d">
+  <header class="co-d__header">
+    <a href="menu.dc.html" class="co-d__back"><span class="co-d__back-arrow">‹</span>В меню</a>
+    <img src="https://frito.kz/brand.svg" alt="FRITO" class="f-logo co-d__logo">
+    <button class="co-d__burger"><span class="co-d__burger-line"></span><span class="co-d__burger-line"></span><span class="co-d__burger-line"></span></button>
   </header>
-  <div style="overflow-y:auto;overflow-x:hidden;overscroll-behavior-x:none;padding:32px 32px 48px">
-    <div style="max-width:1120px;margin:0 auto;display:grid;grid-template-columns:minmax(0,1fr) 400px;gap:24px;align-items:start">
-      <div style="display:flex;flex-direction:column;gap:16px">
-        <h1 style="margin:0 0 4px;font-size:28px;font-weight:800;letter-spacing:-.02em">Оформление заказа</h1>
+  <div class="co-d__scroll">
+    <div class="co-d__grid">
+      <div class="co-d__left">
+        <h1 class="co-d__title">Оформление заказа</h1>
 
-        <div style="background:#fff;border-radius:20px;padding:20px 22px;display:flex;flex-direction:column;gap:16px">
-          <div style="display:flex;align-items:center;justify-content:space-between;gap:12px">
-            <div style="font-size:16px;font-weight:700">Способ получения</div>
+        <div class="co-panel-16">
+          <div class="co-row-between-12">
+            <div class="co-panel__title">Способ получения</div>
             <dc-import name="FritoSegment" mode="{{ mode }}" on-change="{{ setMode }}" style="width:220px" hint-size="220px,40px"></dc-import>
           </div>
-          <div style="display:flex;align-items:center;gap:14px;background:var(--surface-1);border-radius:16px;padding:14px 16px">
-            <span style="width:40px;height:40px;border-radius:50%;background:var(--primary-100);display:flex;align-items:center;justify-content:center;flex-shrink:0"><img src="{{ methodIcon }}" alt="" style="width:20px;height:20px;object-fit:contain"></span>
-            <div style="display:flex;flex-direction:column;gap:3px;flex:1;min-width:0">
-              <div style="font-size:12px;color:var(--ink-2)">{{ addrCaption }}</div>
-              <div style="font-size:15px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ addrLine }}</div>
+          <div class="co-addr">
+            <span class="co-icon-circle"><img src="{{ methodIcon }}" alt="" class="co-icon-20"></span>
+            <div class="co-addr__body">
+              <div class="co-addr__caption">{{ addrCaption }}</div>
+              <div class="co-addr__line">{{ addrLine }}</div>
             </div>
-            <button style="border:0;background:#fff;border-radius:999px;height:40px;padding:0 16px;font:inherit;font-size:13px;font-weight:600;color:var(--ink);cursor:pointer;box-shadow:0 1px 2px rgba(0,0,0,.06)">Изменить</button>
+            <button class="co-addr__change">Изменить</button>
           </div>
           <sc-if value="{{ isDelivery }}" hint-placeholder-val="{{ true }}">
-            <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px">
+            <div class="co-grid-4">
               <dc-import name="FritoInput" label="Подъезд" value="{{ entrance }}" on-change="{{ setEntrance }}" hint-size="100%,56px"></dc-import>
               <dc-import name="FritoInput" label="Этаж" value="{{ floor }}" on-change="{{ setFloor }}" hint-size="100%,56px"></dc-import>
               <dc-import name="FritoInput" label="Кв. / офис" value="{{ flat }}" on-change="{{ setFlat }}" hint-size="100%,56px"></dc-import>
               <dc-import name="FritoInput" label="Домофон" value="{{ intercom }}" on-change="{{ setIntercom }}" hint-size="100%,56px"></dc-import>
             </div>
-            <div style="display:flex;align-items:center;justify-content:space-between;padding-top:2px">
-              <div style="display:flex;flex-direction:column;gap:2px"><span style="font-size:14px;font-weight:600">Оставить у двери</span><span style="font-size:12px;color:var(--ink-2)">Курьер позвонит и оставит заказ</span></div>
+            <div class="co-door">
+              <div class="co-door__text"><span class="co-text-14-600">Оставить у двери</span><span class="co-caption">Курьер позвонит и оставит заказ</span></div>
               <dc-import name="FritoToggle" on="{{ door }}" on-change="{{ setDoor }}" hint-size="48px,28px"></dc-import>
             </div>
           </sc-if>
         </div>
 
-        <div style="background:#fff;border-radius:20px;padding:20px 22px;display:flex;flex-direction:column;gap:14px">
-          <div style="font-size:16px;font-weight:700">{{ timeTitle }}</div>
-          <div style="display:flex;gap:10px;flex-wrap:wrap">
-            <button onClick="{{ pickAsap }}" style="border:2px solid {{ asapBorder }};background:{{ asapBg }};border-radius:16px;padding:12px 18px;font:inherit;cursor:pointer;display:flex;flex-direction:column;align-items:flex-start;gap:2px;text-align:left;color:var(--ink);min-width:150px"><span style="font-size:16px;font-weight:700">Как можно скорее</span><span style="font-size:12px;color:var(--ink-2)">{{ asapHint }}</span></button>
-            <button onClick="{{ pickLater }}" style="border:2px solid {{ laterBorder }};background:{{ laterBg }};border-radius:16px;padding:12px 18px;font:inherit;cursor:pointer;display:flex;flex-direction:column;align-items:flex-start;gap:2px;text-align:left;color:var(--ink);min-width:150px"><span style="font-size:16px;font-weight:700">Ко времени</span><span style="font-size:12px;color:var(--ink-2)">выбрать слот</span></button>
+        <div class="co-panel-14">
+          <div class="co-panel__title">{{ timeTitle }}</div>
+          <div class="co-opts">
+            <button onClick="{{ pickAsap }}" style="border:2px solid {{ asapBorder }};background:{{ asapBg }};border-radius:16px;padding:12px 18px;font:inherit;cursor:pointer;display:flex;flex-direction:column;align-items:flex-start;gap:2px;text-align:left;color:var(--ink);min-width:150px"><span class="co-title-16">Как можно скорее</span><span class="co-caption">{{ asapHint }}</span></button>
+            <button onClick="{{ pickLater }}" style="border:2px solid {{ laterBorder }};background:{{ laterBg }};border-radius:16px;padding:12px 18px;font:inherit;cursor:pointer;display:flex;flex-direction:column;align-items:flex-start;gap:2px;text-align:left;color:var(--ink);min-width:150px"><span class="co-title-16">Ко времени</span><span class="co-caption">выбрать слот</span></button>
           </div>
           <sc-if value="{{ isLater }}" hint-placeholder-val="{{ false }}">
-            <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <div class="co-slots">
               <sc-for list="{{ slots }}" as="sl" hint-placeholder-count="6">
                 <button onClick="{{ sl.pick }}" style="border:0;cursor:pointer;font:inherit;font-size:13px;font-weight:600;border-radius:999px;padding:9px 14px;background:{{ sl.bg }};color:{{ sl.color }}">{{ sl.label }}</button>
               </sc-for>
@@ -99,22 +100,22 @@ input,textarea,button{outline:none}
           </sc-if>
         </div>
 
-        <div style="background:#fff;border-radius:20px;padding:20px 22px;display:flex;flex-direction:column;gap:14px">
-          <div style="font-size:16px;font-weight:700">Контакты</div>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+        <div class="co-panel-14">
+          <div class="co-panel__title">Контакты</div>
+          <div class="co-grid-2">
             <dc-import name="FritoInput" label="Имя" value="{{ name }}" on-change="{{ setName }}" hint-size="100%,56px"></dc-import>
             <dc-import name="FritoInput" label="Номер телефона" mask="phone" required="{{ true }}" value="{{ phone }}" on-change="{{ setPhone }}" hint-size="100%,56px"></dc-import>
           </div>
           <dc-import name="FritoInput" label="Комментарий к заказу" value="{{ comment }}" on-change="{{ setComment }}" multiline="{{ true }}" hint-size="100%,84px"></dc-import>
         </div>
 
-        <div style="background:#fff;border-radius:20px;padding:20px 22px;display:flex;flex-direction:column;gap:12px">
-          <div style="font-size:16px;font-weight:700">Оплата</div>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+        <div class="co-panel-12">
+          <div class="co-panel__title">Оплата</div>
+          <div class="co-grid-2">
             <sc-for list="{{ payments }}" as="pm" hint-placeholder-count="2">
               <button onClick="{{ pm.pick }}" style="border:2px solid {{ pm.border }};background:{{ pm.bg }};border-radius:16px;padding:12px 14px;font:inherit;cursor:pointer;display:flex;align-items:center;gap:12px;text-align:left;color:var(--ink)">
-                <span style="width:40px;height:40px;border-radius:12px;background:{{ pm.iconBg }};display:flex;align-items:center;justify-content:center;flex-shrink:0"><img src="{{ pm.icon }}" alt="" style="width:24px;height:24px;display:block"></span>
-                <span style="display:flex;flex-direction:column;gap:2px;flex:1;min-width:0"><span style="font-size:15px;font-weight:700">{{ pm.title }}</span><span style="font-size:12px;color:var(--ink-2)">{{ pm.sub }}</span></span>
+                <span style="width:40px;height:40px;border-radius:12px;background:{{ pm.iconBg }};display:flex;align-items:center;justify-content:center;flex-shrink:0"><img src="{{ pm.icon }}" alt="" class="co-pay__icon"></span>
+                <span class="co-pay__body"><span class="co-text-15-700">{{ pm.title }}</span><span class="co-caption">{{ pm.sub }}</span></span>
                 <span style="width:22px;height:22px;border-radius:50%;border:2px solid {{ pm.radioBorder }};background:{{ pm.radioBg }};display:flex;align-items:center;justify-content:center;flex-shrink:0"><span style="width:8px;height:8px;border-radius:50%;background:#fff;opacity:{{ pm.dot }}"></span></span>
               </button>
             </sc-for>
@@ -124,50 +125,50 @@ input,textarea,button{outline:none}
         </div>
       </div>
 
-      <div style="position:sticky;top:0;display:flex;flex-direction:column;gap:12px">
-        <div style="background:#fff;border-radius:20px;padding:20px 22px;display:flex;flex-direction:column;gap:14px">
-          <div style="display:flex;align-items:center;justify-content:space-between"><span style="font-size:16px;font-weight:700">Ваш заказ</span><span style="font-size:13px;color:var(--ink-2)">{{ countLabel }}</span></div>
+      <div class="co-d__aside">
+        <div class="co-panel-14">
+          <div class="co-row-between"><span class="co-title-16">Ваш заказ</span><span class="co-muted-13">{{ countLabel }}</span></div>
           <sc-if value="{{ hasSold }}" hint-placeholder-val="{{ false }}">
-            <div style="display:flex;align-items:center;gap:12px;background:#FEF2F2;border-radius:14px;padding:10px 10px 10px 14px">
-              <span style="flex-shrink:0;width:28px;height:28px;border-radius:50%;background:var(--danger);color:#fff;font-size:14px;font-weight:800;display:flex;align-items:center;justify-content:center;line-height:1">!</span>
-              <div style="flex:1;font-size:12px;font-weight:600;color:#B91C1C;line-height:1.35">{{ soldText }}</div>
-              <button onClick="{{ removeSold }}" style="flex-shrink:0;border:0;background:#fff;border-radius:999px;height:36px;padding:0 12px;font:inherit;font-size:12px;font-weight:600;color:var(--ink);cursor:pointer;box-shadow:0 1px 2px rgba(0,0,0,.06)" style-hover="background:var(--surface-2)">Убрать</button>
+            <div class="co-sold">
+              <span class="co-sold__icon">!</span>
+              <div class="co-sold__text">{{ soldText }}</div>
+              <button onClick="{{ removeSold }}" class="co-sold__btn">Убрать</button>
             </div>
           </sc-if>
-          <div style="display:flex;flex-direction:column;gap:12px">
+          <div class="co-lines">
             <sc-for list="{{ lines }}" as="l" hint-placeholder-count="3">
-              <div style="display:grid;grid-template-columns:48px minmax(0,1fr) auto;gap:12px;align-items:center">
-                <div style="width:48px;height:48px;border-radius:12px;background:var(--surface-2);overflow:hidden"><img data-skel src="{{ l.img }}" alt="" style="width:100%;height:100%;object-fit:cover;display:block;filter:{{ l.imgFilter }}"></div>
-                <div style="display:flex;flex-direction:column;gap:2px;min-width:0"><span style="font-size:14px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:{{ l.nameColor }}">{{ l.name }}</span><sc-if value="{{ l.hasMods }}" hint-placeholder-val="{{ true }}"><span style="font-size:12px;color:var(--ink-2);line-height:1.35">{{ l.mods }}</span></sc-if><sc-if value="{{ l.soldOut }}" hint-placeholder-val="{{ false }}"><span style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--danger);font-weight:600"><span style="width:6px;height:6px;border-radius:50%;background:var(--danger);flex-shrink:0"></span>Разобрали</span></sc-if><span style="font-size:12px;color:var(--ink-3)">{{ l.qtyLabel }}</span></div>
-                <sc-if value="{{ l.ok }}" hint-placeholder-val="{{ true }}"><span style="font-size:14px;font-weight:700;white-space:nowrap">{{ l.total }}</span></sc-if>
-                <sc-if value="{{ l.soldOut }}" hint-placeholder-val="{{ false }}"><span style="font-size:14px;font-weight:700;white-space:nowrap;color:var(--ink-3);text-decoration:line-through">{{ l.total }}</span></sc-if>
+              <div class="co-line">
+                <div class="co-line__img"><img data-skel src="{{ l.img }}" alt="" style="width:100%;height:100%;object-fit:cover;display:block;filter:{{ l.imgFilter }}"></div>
+                <div class="co-line__body"><span style="font-size:14px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:{{ l.nameColor }}">{{ l.name }}</span><sc-if value="{{ l.hasMods }}" hint-placeholder-val="{{ true }}"><span class="co-line__mods">{{ l.mods }}</span></sc-if><sc-if value="{{ l.soldOut }}" hint-placeholder-val="{{ false }}"><span class="co-line__sold"><span class="co-dot-danger"></span>Разобрали</span></sc-if><span class="co-line__qty">{{ l.qtyLabel }}</span></div>
+                <sc-if value="{{ l.ok }}" hint-placeholder-val="{{ true }}"><span class="co-line__price">{{ l.total }}</span></sc-if>
+                <sc-if value="{{ l.soldOut }}" hint-placeholder-val="{{ false }}"><span class="co-line__price-off">{{ l.total }}</span></sc-if>
               </div>
             </sc-for>
           </div>
-          <a href="menu.dc.html" style="font-size:13px;font-weight:600;align-self:flex-start">Изменить состав заказа</a>
+          <a href="menu.dc.html" class="co-link">Изменить состав заказа</a>
         </div>
 
-        <div style="background:#fff;border-radius:20px;padding:20px 22px;display:flex;flex-direction:column;gap:12px">
+        <div class="co-panel-12">
           <sc-if value="{{ hasPromo }}" hint-placeholder-val="{{ true }}">
-            <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--primary-100);border-radius:14px;padding:10px 12px 10px 14px">
-              <div style="display:flex;align-items:center;gap:10px;min-width:0"><span style="font-size:12px;font-weight:800;color:var(--primary);background:#fff;border-radius:8px;padding:4px 8px;letter-spacing:.04em">{{ promoCode }}</span><span style="font-size:13px;color:var(--primary-dark);font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ promoDesc }}</span></div>
-              <button onClick="{{ removePromo }}" aria-label="Убрать промокод" style="border:0;background:transparent;color:var(--ink-2);cursor:pointer;padding:0;width:28px;height:28px;display:flex;align-items:center;justify-content:center;flex-shrink:0"><span aria-hidden="true" style="position:relative;width:12px;height:12px;display:block"><span style="position:absolute;left:0;top:50%;width:100%;height:2px;margin-top:-1px;background:currentColor;border-radius:1px;transform:rotate(45deg)"></span><span style="position:absolute;left:0;top:50%;width:100%;height:2px;margin-top:-1px;background:currentColor;border-radius:1px;transform:rotate(-45deg)"></span></span></button>
+            <div class="co-promo">
+              <div class="co-promo__left"><span class="co-promo__code">{{ promoCode }}</span><span class="co-promo__text">{{ promoDesc }}</span></div>
+              <button onClick="{{ removePromo }}" aria-label="Убрать промокод" class="co-icon-btn"><span aria-hidden="true" class="co-x12"><span class="co-xl1"></span><span class="co-xl2"></span></span></button>
             </div>
           </sc-if>
           <sc-if value="{{ noPromo }}" hint-placeholder-val="{{ false }}">
-            <div style="display:flex;flex-direction:column;gap:6px">
-              <div style="display:flex;gap:8px">
-                <div style="flex:1;position:relative;min-width:0"><input value="{{ promoDraft }}" onChange="{{ setPromoDraft }}" onKeyDown="{{ promoKey }}" onFocus="{{ promoFocus }}" onBlur="{{ promoBlur }}" placeholder="Промокод" style="width:100%;border:2px solid {{ promoBorder }};background:{{ promoBg }};border-radius:999px;height:44px;padding:0 44px 0 16px;font:inherit;font-size:14px;color:var(--ink);text-transform:uppercase;transition:all .15s" style-focus="border-color:var(--primary);background:#fff"><sc-if value="{{ promoHasDraft }}" hint-placeholder-val="{{ false }}"><button type="button" onMouseDown="{{ preventBlur }}" onClick="{{ clearPromoDraft }}" aria-label="Очистить" style="position:absolute;right:8px;top:8px;width:28px;height:28px;border:0;border-radius:50%;background:var(--surface-3);color:var(--ink-2);cursor:pointer;padding:0;display:flex;align-items:center;justify-content:center" style-hover="background:var(--neutral-300);color:var(--ink)"><span aria-hidden="true" style="position:relative;width:10px;height:10px;display:block"><span style="position:absolute;left:0;top:50%;width:100%;height:2px;margin-top:-1px;background:currentColor;border-radius:1px;transform:rotate(45deg)"></span><span style="position:absolute;left:0;top:50%;width:100%;height:2px;margin-top:-1px;background:currentColor;border-radius:1px;transform:rotate(-45deg)"></span></span></button></sc-if></div>
-                <button onClick="{{ applyPromo }}" style="border:0;background:var(--primary-100);color:var(--primary);border-radius:999px;height:44px;padding:0 18px;font:inherit;font-size:14px;font-weight:600;cursor:pointer" style-hover="background:#E4E0FA">Применить</button>
+            <div class="co-stack-6">
+              <div class="co-row-8">
+                <div class="co-promo__field"><input value="{{ promoDraft }}" onChange="{{ setPromoDraft }}" onKeyDown="{{ promoKey }}" onFocus="{{ promoFocus }}" onBlur="{{ promoBlur }}" placeholder="Промокод" style="width:100%;border:2px solid {{ promoBorder }};background:{{ promoBg }};border-radius:999px;height:44px;padding:0 44px 0 16px;font:inherit;font-size:14px;color:var(--ink);text-transform:uppercase;transition:all .15s" style-focus="border-color:var(--primary);background:#fff"><sc-if value="{{ promoHasDraft }}" hint-placeholder-val="{{ false }}"><button type="button" onMouseDown="{{ preventBlur }}" onClick="{{ clearPromoDraft }}" aria-label="Очистить" class="co-promo__clear"><span aria-hidden="true" class="co-x10"><span class="co-xl1"></span><span class="co-xl2"></span></span></button></sc-if></div>
+                <button onClick="{{ applyPromo }}" class="co-promo__apply">Применить</button>
               </div>
-              <sc-if value="{{ promoHasError }}" hint-placeholder-val="{{ false }}"><div style="font-size:12px;color:var(--danger);font-weight:500;padding:0 14px">{{ promoError }}</div></sc-if>
+              <sc-if value="{{ promoHasError }}" hint-placeholder-val="{{ false }}"><div class="co-promo__err">{{ promoError }}</div></sc-if>
             </div>
           </sc-if>
           <sc-if value="{{ isDelivery }}" hint-placeholder-val="{{ true }}"><dc-import name="FritoDeliveryBar" subtotal="{{ subtotal }}" free-from="{{ freeFrom }}" hint-size="100%,60px"></dc-import></sc-if>
-          <div style="padding-top:4px"><dc-import name="FritoTotals" subtotal="{{ subtotal }}" fee="{{ fee }}" discount="{{ discount }}" fee-title="{{ feeTitle }}" total-title="К оплате" hint-size="100%,140px"></dc-import></div>
-          <sc-if value="{{ isKaspi }}" hint-placeholder-val="{{ true }}"><button aria-label="Оплатить с Kaspi.kz" onClick="{{ payGo }}" disabled="{{ payDisabled }}" style="width:100%;border:0;cursor:{{ payCursor }};background:transparent;padding:0;margin-top:4px;display:block;line-height:0;opacity:{{ payOpacity }};filter:{{ payFilter }}" style-hover="opacity:.92"><img src="assets/btn-kaspi-pay.svg" alt="Оплатить с Kaspi.kz" style="width:100%;height:auto;display:block"></button></sc-if>
-          <sc-if value="{{ notKaspi }}" hint-placeholder-val="{{ false }}"><button onClick="{{ payGo }}" disabled="{{ payDisabled }}" style="width:100%;border:0;cursor:{{ payCursor }};font:inherit;background:{{ payBg }};color:{{ payColor }};border-radius:999px;height:56px;padding:0 24px;font-size:17px;font-weight:600;display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:4px" style-hover="background:var(--primary-hover)"><span>{{ payLabel }}</span><span style="display:flex;align-items:center;gap:14px"><span style="width:1px;height:22px;background:currentColor;opacity:.3"></span><span style="font-weight:700">{{ totalLabel }}</span></span></button></sc-if>
-          <p style="margin:0;font-size:12px;color:var(--ink-3);line-height:1.45;text-align:center">Нажимая кнопку, вы соглашаетесь с <a href="#">публичной офертой</a> и <a href="#">политикой обработки данных</a></p>
+          <div class="co-totals-wrap"><dc-import name="FritoTotals" subtotal="{{ subtotal }}" fee="{{ fee }}" discount="{{ discount }}" fee-title="{{ feeTitle }}" total-title="К оплате" hint-size="100%,140px"></dc-import></div>
+          <sc-if value="{{ isKaspi }}" hint-placeholder-val="{{ true }}"><button aria-label="Оплатить с Kaspi.kz" onClick="{{ payGo }}" disabled="{{ payDisabled }}" style="width:100%;border:0;cursor:{{ payCursor }};background:transparent;padding:0;margin-top:4px;display:block;line-height:0;opacity:{{ payOpacity }};filter:{{ payFilter }}" style-hover="opacity:.92"><img src="assets/btn-kaspi-pay.svg" alt="Оплатить с Kaspi.kz" class="co-kaspi-img"></button></sc-if>
+          <sc-if value="{{ notKaspi }}" hint-placeholder-val="{{ false }}"><button onClick="{{ payGo }}" disabled="{{ payDisabled }}" style="width:100%;border:0;cursor:{{ payCursor }};font:inherit;background:{{ payBg }};color:{{ payColor }};border-radius:999px;height:56px;padding:0 24px;font-size:17px;font-weight:600;display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:4px" style-hover="background:var(--primary-hover)"><span>{{ payLabel }}</span><span class="co-cta__right"><span class="co-cta__sep"></span><span class="co-bold">{{ totalLabel }}</span></span></button></sc-if>
+          <p class="co-legal">Нажимая кнопку, вы соглашаетесь с <a href="#">публичной офертой</a> и <a href="#">политикой обработки данных</a></p>
         </div>
       </div>
     </div>
@@ -178,45 +179,45 @@ input,textarea,button{outline:none}
 <!-- ============ MOBILE ============ -->
 <sc-if value="{{ isMobile }}" hint-placeholder-val="{{ false }}"><div>
 
-<section data-screen-label="Mobile" style="animation:frito-fade .3s ease-out both;width:100%;height:100vh;height:100dvh;background:var(--surface-1);border-radius:0;overflow:hidden;position:relative;box-shadow:none;display:flex;flex-direction:column">
-  <div style="display:flex;align-items:center;justify-content:space-between;padding:16px 16px 12px;background:var(--surface-1)">
-    <a href="menu.dc.html" aria-label="Назад" style="width:40px;height:40px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;color:var(--ink);font-size:22px;line-height:1;padding-bottom:2px">‹</a>
-    <span style="font-size:17px;font-weight:700">Оформление</span>
-    <span style="width:40px"></span>
+<section data-screen-label="Mobile" class="co-m">
+  <div class="co-m__header">
+    <a href="menu.dc.html" aria-label="Назад" class="co-m__back">‹</a>
+    <span class="co-m__title">Оформление</span>
+    <span class="co-sk__spacer"></span>
   </div>
-  <div style="flex:1;overflow-y:auto;overflow-x:hidden;overscroll-behavior-x:none;padding:4px 16px 24px;display:flex;flex-direction:column;gap:12px">
-    <div style="background:#fff;border-radius:18px;padding:16px;display:flex;flex-direction:column;gap:14px">
+  <div class="co-m__scroll">
+    <div class="co-m-panel-14">
       <dc-import name="FritoSegment" mode="{{ mode }}" on-change="{{ setMode }}" hint-size="100%,42px"></dc-import>
-      <div style="display:flex;align-items:center;gap:12px">
-        <span style="width:40px;height:40px;border-radius:50%;background:var(--primary-100);display:flex;align-items:center;justify-content:center;flex-shrink:0"><img src="{{ methodIcon }}" alt="" style="width:20px;height:20px;object-fit:contain"></span>
-        <div style="display:flex;flex-direction:column;gap:2px;flex:1;min-width:0">
-          <div style="font-size:11px;color:var(--ink-2)">{{ addrCaption }}</div>
-          <div style="font-size:14px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ addrLine }}</div>
+      <div class="co-m-addr">
+        <span class="co-icon-circle"><img src="{{ methodIcon }}" alt="" class="co-icon-20"></span>
+        <div class="co-m-addr__body">
+          <div class="co-m-addr__caption">{{ addrCaption }}</div>
+          <div class="co-m-addr__line">{{ addrLine }}</div>
         </div>
-        <button style="border:0;background:var(--surface-2);border-radius:999px;height:36px;padding:0 12px;font:inherit;font-size:12px;font-weight:600;color:var(--ink);cursor:pointer;flex-shrink:0">Изменить</button>
+        <button class="co-m-addr__change">Изменить</button>
       </div>
       <sc-if value="{{ isDelivery }}" hint-placeholder-val="{{ true }}">
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+        <div class="co-m-grid-2">
           <dc-import name="FritoInput" label="Подъезд" value="{{ entrance }}" on-change="{{ setEntrance }}" hint-size="100%,56px"></dc-import>
           <dc-import name="FritoInput" label="Этаж" value="{{ floor }}" on-change="{{ setFloor }}" hint-size="100%,56px"></dc-import>
           <dc-import name="FritoInput" label="Кв. / офис" value="{{ flat }}" on-change="{{ setFlat }}" hint-size="100%,56px"></dc-import>
           <dc-import name="FritoInput" label="Домофон" value="{{ intercom }}" on-change="{{ setIntercom }}" hint-size="100%,56px"></dc-import>
         </div>
-        <div style="display:flex;align-items:center;justify-content:space-between">
-          <span style="font-size:14px;font-weight:600">Оставить у двери</span>
+        <div class="co-row-between">
+          <span class="co-text-14-600">Оставить у двери</span>
           <dc-import name="FritoToggle" on="{{ door }}" on-change="{{ setDoor }}" hint-size="48px,28px"></dc-import>
         </div>
       </sc-if>
     </div>
 
-    <div style="background:#fff;border-radius:18px;padding:16px;display:flex;flex-direction:column;gap:12px">
-      <div style="font-size:15px;font-weight:700">{{ timeTitle }}</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
-        <button onClick="{{ pickAsap }}" style="border:2px solid {{ asapBorder }};background:{{ asapBg }};border-radius:14px;padding:10px 12px;font:inherit;cursor:pointer;display:flex;flex-direction:column;align-items:flex-start;gap:2px;text-align:left;color:var(--ink)"><span style="font-size:14px;font-weight:700">Скорее</span><span style="font-size:11px;color:var(--ink-2)">{{ asapHint }}</span></button>
-        <button onClick="{{ pickLater }}" style="border:2px solid {{ laterBorder }};background:{{ laterBg }};border-radius:14px;padding:10px 12px;font:inherit;cursor:pointer;display:flex;flex-direction:column;align-items:flex-start;gap:2px;text-align:left;color:var(--ink)"><span style="font-size:14px;font-weight:700">Ко времени</span><span style="font-size:11px;color:var(--ink-2)">выбрать слот</span></button>
+    <div class="co-m-panel-12">
+      <div class="co-m-panel__title">{{ timeTitle }}</div>
+      <div class="co-m-grid-2">
+        <button onClick="{{ pickAsap }}" style="border:2px solid {{ asapBorder }};background:{{ asapBg }};border-radius:14px;padding:10px 12px;font:inherit;cursor:pointer;display:flex;flex-direction:column;align-items:flex-start;gap:2px;text-align:left;color:var(--ink)"><span class="co-text-14-700">Скорее</span><span class="co-m-caption">{{ asapHint }}</span></button>
+        <button onClick="{{ pickLater }}" style="border:2px solid {{ laterBorder }};background:{{ laterBg }};border-radius:14px;padding:10px 12px;font:inherit;cursor:pointer;display:flex;flex-direction:column;align-items:flex-start;gap:2px;text-align:left;color:var(--ink)"><span class="co-text-14-700">Ко времени</span><span class="co-m-caption">выбрать слот</span></button>
       </div>
       <sc-if value="{{ isLater }}" hint-placeholder-val="{{ false }}">
-        <div style="display:flex;gap:8px;overflow-x:auto;overflow-y:hidden;overscroll-behavior-x:contain;margin:0 -16px;padding:0 16px">
+        <div class="co-m-slots">
           <sc-for list="{{ slots }}" as="sl" hint-placeholder-count="6">
             <button onClick="{{ sl.pick }}" style="flex-shrink:0;border:0;cursor:pointer;font:inherit;font-size:13px;font-weight:600;border-radius:999px;padding:9px 14px;background:{{ sl.bg }};color:{{ sl.color }}">{{ sl.label }}</button>
           </sc-for>
@@ -224,19 +225,19 @@ input,textarea,button{outline:none}
       </sc-if>
     </div>
 
-    <div style="background:#fff;border-radius:18px;padding:16px;display:flex;flex-direction:column;gap:10px">
-      <div style="font-size:15px;font-weight:700;margin-bottom:2px">Контакты</div>
+    <div class="co-m-panel-10">
+      <div class="co-m-panel__title-mb">Контакты</div>
       <dc-import name="FritoInput" label="Имя" value="{{ name }}" on-change="{{ setName }}" hint-size="100%,56px"></dc-import>
       <dc-import name="FritoInput" label="Номер телефона" mask="phone" required="{{ true }}" value="{{ phone }}" on-change="{{ setPhone }}" hint-size="100%,56px"></dc-import>
       <dc-import name="FritoInput" label="Комментарий к заказу" value="{{ comment }}" on-change="{{ setComment }}" multiline="{{ true }}" hint-size="100%,84px"></dc-import>
     </div>
 
-    <div style="background:#fff;border-radius:18px;padding:16px;display:flex;flex-direction:column;gap:10px">
-      <div style="font-size:15px;font-weight:700;margin-bottom:2px">Оплата</div>
+    <div class="co-m-panel-10">
+      <div class="co-m-panel__title-mb">Оплата</div>
       <sc-for list="{{ payments }}" as="pm" hint-placeholder-count="2">
         <button onClick="{{ pm.pick }}" style="border:2px solid {{ pm.border }};background:{{ pm.bg }};border-radius:14px;padding:10px 12px;font:inherit;cursor:pointer;display:flex;align-items:center;gap:12px;text-align:left;color:var(--ink);width:100%">
-          <span style="width:38px;height:38px;border-radius:11px;background:{{ pm.iconBg }};display:flex;align-items:center;justify-content:center;flex-shrink:0"><img src="{{ pm.icon }}" alt="" style="width:22px;height:22px;display:block"></span>
-          <span style="display:flex;flex-direction:column;gap:1px;flex:1;min-width:0"><span style="font-size:14px;font-weight:700">{{ pm.title }}</span><span style="font-size:12px;color:var(--ink-2)">{{ pm.sub }}</span></span>
+          <span style="width:38px;height:38px;border-radius:11px;background:{{ pm.iconBg }};display:flex;align-items:center;justify-content:center;flex-shrink:0"><img src="{{ pm.icon }}" alt="" class="co-m-pay__icon"></span>
+          <span class="co-m-pay__body"><span class="co-text-14-700">{{ pm.title }}</span><span class="co-caption">{{ pm.sub }}</span></span>
           <span style="width:22px;height:22px;border-radius:50%;border:2px solid {{ pm.radioBorder }};background:{{ pm.radioBg }};display:flex;align-items:center;justify-content:center;flex-shrink:0"><span style="width:8px;height:8px;border-radius:50%;background:#fff;opacity:{{ pm.dot }}"></span></span>
         </button>
       </sc-for>
@@ -244,52 +245,52 @@ input,textarea,button{outline:none}
       <sc-if value="{{ isCash }}" hint-placeholder-val="{{ false }}"><dc-import name="FritoInput" label="С какой суммы подготовить сдачу" value="{{ change }}" on-change="{{ setChange }}" hint-size="100%,56px"></dc-import></sc-if>
     </div>
 
-    <div style="background:#fff;border-radius:18px;padding:16px;display:flex;flex-direction:column;gap:12px">
-      <div style="display:flex;align-items:center;justify-content:space-between"><span style="font-size:15px;font-weight:700">Ваш заказ</span><a href="menu.dc.html" style="font-size:13px;font-weight:600">Изменить</a></div>
+    <div class="co-m-panel-12">
+      <div class="co-row-between"><span class="co-text-15-700">Ваш заказ</span><a href="menu.dc.html" class="co-m-link">Изменить</a></div>
       <sc-if value="{{ hasSold }}" hint-placeholder-val="{{ false }}">
-        <div style="display:flex;align-items:center;gap:10px;background:#FEF2F2;border-radius:14px;padding:10px 10px 10px 12px">
-          <span style="flex-shrink:0;width:28px;height:28px;border-radius:50%;background:var(--danger);color:#fff;font-size:14px;font-weight:800;display:flex;align-items:center;justify-content:center;line-height:1">!</span>
-          <div style="flex:1;font-size:12px;font-weight:600;color:#B91C1C;line-height:1.35">{{ soldText }}</div>
-          <button onClick="{{ removeSold }}" style="flex-shrink:0;border:0;background:#fff;border-radius:999px;height:36px;padding:0 12px;font:inherit;font-size:12px;font-weight:600;color:var(--ink);cursor:pointer;box-shadow:0 1px 2px rgba(0,0,0,.06)">Убрать</button>
+        <div class="co-m-sold">
+          <span class="co-sold__icon">!</span>
+          <div class="co-sold__text">{{ soldText }}</div>
+          <button onClick="{{ removeSold }}" class="co-m-sold__btn">Убрать</button>
         </div>
       </sc-if>
-      <div style="display:flex;flex-direction:column;gap:10px">
+      <div class="co-m-lines">
         <sc-for list="{{ lines }}" as="l" hint-placeholder-count="3">
-          <div style="display:grid;grid-template-columns:44px minmax(0,1fr) auto;gap:10px;align-items:center">
-            <div style="width:44px;height:44px;border-radius:11px;background:var(--surface-2);overflow:hidden"><img data-skel src="{{ l.img }}" alt="" style="width:100%;height:100%;object-fit:cover;display:block;filter:{{ l.imgFilter }}"></div>
-            <div style="display:flex;flex-direction:column;gap:1px;min-width:0"><span style="font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:{{ l.nameColor }}">{{ l.name }}</span><sc-if value="{{ l.hasMods }}" hint-placeholder-val="{{ true }}"><span style="font-size:11px;color:var(--ink-2);line-height:1.35">{{ l.mods }}</span></sc-if><sc-if value="{{ l.soldOut }}" hint-placeholder-val="{{ false }}"><span style="display:flex;align-items:center;gap:6px;font-size:11px;color:var(--danger);font-weight:600"><span style="width:6px;height:6px;border-radius:50%;background:var(--danger);flex-shrink:0"></span>Разобрали</span></sc-if><span style="font-size:11px;color:var(--ink-3)">{{ l.qtyLabel }}</span></div>
-            <sc-if value="{{ l.ok }}" hint-placeholder-val="{{ true }}"><span style="font-size:13px;font-weight:700;white-space:nowrap">{{ l.total }}</span></sc-if>
-            <sc-if value="{{ l.soldOut }}" hint-placeholder-val="{{ false }}"><span style="font-size:13px;font-weight:700;white-space:nowrap;color:var(--ink-3);text-decoration:line-through">{{ l.total }}</span></sc-if>
+          <div class="co-m-line">
+            <div class="co-m-line__img"><img data-skel src="{{ l.img }}" alt="" style="width:100%;height:100%;object-fit:cover;display:block;filter:{{ l.imgFilter }}"></div>
+            <div class="co-m-line__body"><span style="font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:{{ l.nameColor }}">{{ l.name }}</span><sc-if value="{{ l.hasMods }}" hint-placeholder-val="{{ true }}"><span class="co-m-line__mods">{{ l.mods }}</span></sc-if><sc-if value="{{ l.soldOut }}" hint-placeholder-val="{{ false }}"><span class="co-m-line__sold"><span class="co-dot-danger"></span>Разобрали</span></sc-if><span class="co-m-line__qty">{{ l.qtyLabel }}</span></div>
+            <sc-if value="{{ l.ok }}" hint-placeholder-val="{{ true }}"><span class="co-m-line__price">{{ l.total }}</span></sc-if>
+            <sc-if value="{{ l.soldOut }}" hint-placeholder-val="{{ false }}"><span class="co-m-line__price-off">{{ l.total }}</span></sc-if>
           </div>
         </sc-for>
       </div>
       <sc-if value="{{ hasPromo }}" hint-placeholder-val="{{ true }}">
-        <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;background:var(--primary-100);border-radius:12px;padding:8px 10px 8px 12px">
-          <div style="display:flex;align-items:center;gap:8px;min-width:0"><span style="font-size:11px;font-weight:800;color:var(--primary);background:#fff;border-radius:7px;padding:3px 7px;letter-spacing:.04em">{{ promoCode }}</span><span style="font-size:12px;color:var(--primary-dark);font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ promoDesc }}</span></div>
-          <button onClick="{{ removePromo }}" aria-label="Убрать промокод" style="border:0;background:transparent;color:var(--ink-2);cursor:pointer;padding:0;width:28px;height:28px;display:flex;align-items:center;justify-content:center;flex-shrink:0"><span aria-hidden="true" style="position:relative;width:12px;height:12px;display:block"><span style="position:absolute;left:0;top:50%;width:100%;height:2px;margin-top:-1px;background:currentColor;border-radius:1px;transform:rotate(45deg)"></span><span style="position:absolute;left:0;top:50%;width:100%;height:2px;margin-top:-1px;background:currentColor;border-radius:1px;transform:rotate(-45deg)"></span></span></button>
+        <div class="co-m-promo">
+          <div class="co-m-promo__left"><span class="co-m-promo__code">{{ promoCode }}</span><span class="co-m-promo__text">{{ promoDesc }}</span></div>
+          <button onClick="{{ removePromo }}" aria-label="Убрать промокод" class="co-icon-btn"><span aria-hidden="true" class="co-x12"><span class="co-xl1"></span><span class="co-xl2"></span></span></button>
         </div>
       </sc-if>
       <sc-if value="{{ noPromo }}" hint-placeholder-val="{{ false }}">
-        <div style="display:flex;flex-direction:column;gap:6px">
-          <div style="display:flex;gap:8px">
-            <div style="flex:1;position:relative;min-width:0"><input value="{{ promoDraft }}" onChange="{{ setPromoDraft }}" onKeyDown="{{ promoKey }}" onFocus="{{ promoFocus }}" onBlur="{{ promoBlur }}" placeholder="Промокод" style="width:100%;border:2px solid {{ promoBorder }};background:{{ promoBg }};border-radius:999px;height:44px;padding:0 40px 0 14px;font:inherit;font-size:14px;color:var(--ink);text-transform:uppercase;transition:all .15s" style-focus="border-color:var(--primary);background:#fff"><sc-if value="{{ promoHasDraft }}" hint-placeholder-val="{{ false }}"><button type="button" onMouseDown="{{ preventBlur }}" onClick="{{ clearPromoDraft }}" aria-label="Очистить" style="position:absolute;right:8px;top:8px;width:28px;height:28px;border:0;border-radius:50%;background:var(--surface-3);color:var(--ink-2);cursor:pointer;padding:0;display:flex;align-items:center;justify-content:center"><span aria-hidden="true" style="position:relative;width:10px;height:10px;display:block"><span style="position:absolute;left:0;top:50%;width:100%;height:2px;margin-top:-1px;background:currentColor;border-radius:1px;transform:rotate(45deg)"></span><span style="position:absolute;left:0;top:50%;width:100%;height:2px;margin-top:-1px;background:currentColor;border-radius:1px;transform:rotate(-45deg)"></span></span></button></sc-if></div>
-            <button onClick="{{ applyPromo }}" style="border:0;background:var(--primary-100);color:var(--primary);border-radius:999px;height:44px;padding:0 14px;font:inherit;font-size:13px;font-weight:600;cursor:pointer">Применить</button>
+        <div class="co-stack-6">
+          <div class="co-row-8">
+            <div class="co-promo__field"><input value="{{ promoDraft }}" onChange="{{ setPromoDraft }}" onKeyDown="{{ promoKey }}" onFocus="{{ promoFocus }}" onBlur="{{ promoBlur }}" placeholder="Промокод" style="width:100%;border:2px solid {{ promoBorder }};background:{{ promoBg }};border-radius:999px;height:44px;padding:0 40px 0 14px;font:inherit;font-size:14px;color:var(--ink);text-transform:uppercase;transition:all .15s" style-focus="border-color:var(--primary);background:#fff"><sc-if value="{{ promoHasDraft }}" hint-placeholder-val="{{ false }}"><button type="button" onMouseDown="{{ preventBlur }}" onClick="{{ clearPromoDraft }}" aria-label="Очистить" class="co-m-promo__clear"><span aria-hidden="true" class="co-x10"><span class="co-xl1"></span><span class="co-xl2"></span></span></button></sc-if></div>
+            <button onClick="{{ applyPromo }}" class="co-m-promo__apply">Применить</button>
           </div>
-          <sc-if value="{{ promoHasError }}" hint-placeholder-val="{{ false }}"><div style="font-size:12px;color:var(--danger);font-weight:500;padding:0 12px">{{ promoError }}</div></sc-if>
+          <sc-if value="{{ promoHasError }}" hint-placeholder-val="{{ false }}"><div class="co-m-promo__err">{{ promoError }}</div></sc-if>
         </div>
       </sc-if>
       <sc-if value="{{ isDelivery }}" hint-placeholder-val="{{ true }}"><dc-import name="FritoDeliveryBar" subtotal="{{ subtotal }}" free-from="{{ freeFrom }}" compact="{{ true }}" hint-size="100%,56px"></dc-import></sc-if>
-      <div style="border-top:1px solid var(--divider);padding-top:12px"><dc-import name="FritoTotals" subtotal="{{ subtotal }}" fee="{{ fee }}" discount="{{ discount }}" fee-title="{{ feeTitle }}" total-title="К оплате" compact="{{ true }}" hint-size="100%,120px"></dc-import></div>
+      <div class="co-m-totals"><dc-import name="FritoTotals" subtotal="{{ subtotal }}" fee="{{ fee }}" discount="{{ discount }}" fee-title="{{ feeTitle }}" total-title="К оплате" compact="{{ true }}" hint-size="100%,120px"></dc-import></div>
     </div>
-    <p style="margin:0;padding:0 8px;font-size:11px;color:var(--ink-3);line-height:1.45;text-align:center">Нажимая кнопку оплаты, вы соглашаетесь с <a href="#">публичной офертой</a> и <a href="#">политикой обработки данных</a></p>
+    <p class="co-m-legal">Нажимая кнопку оплаты, вы соглашаетесь с <a href="#">публичной офертой</a> и <a href="#">политикой обработки данных</a></p>
   </div>
-  <div style="padding:12px 16px 26px;border-top:1px solid var(--border);background:#fff;display:flex;flex-direction:column;gap:8px">
+  <div class="co-m__foot">
     <sc-if value="{{ isKaspi }}" hint-placeholder-val="{{ true }}">
-      <div style="display:flex;align-items:center;justify-content:space-between;padding:0 4px"><span style="font-size:13px;color:var(--ink-2)">К оплате</span><span style="font-size:17px;font-weight:700">{{ totalLabel }}</span></div>
-      <button aria-label="Оплатить с Kaspi.kz" onClick="{{ payGo }}" disabled="{{ payDisabled }}" style="width:100%;border:0;cursor:{{ payCursor }};background:transparent;padding:0;display:block;line-height:0;opacity:{{ payOpacity }};filter:{{ payFilter }}" style-active="opacity:.9"><img src="assets/btn-kaspi-pay.svg" alt="Оплатить с Kaspi.kz" style="width:100%;height:auto;display:block"></button>
+      <div class="co-m__foot-row"><span class="co-muted-13">К оплате</span><span class="co-m__title">{{ totalLabel }}</span></div>
+      <button aria-label="Оплатить с Kaspi.kz" onClick="{{ payGo }}" disabled="{{ payDisabled }}" style="width:100%;border:0;cursor:{{ payCursor }};background:transparent;padding:0;display:block;line-height:0;opacity:{{ payOpacity }};filter:{{ payFilter }}" style-active="opacity:.9"><img src="assets/btn-kaspi-pay.svg" alt="Оплатить с Kaspi.kz" class="co-kaspi-img"></button>
     </sc-if>
     <sc-if value="{{ notKaspi }}" hint-placeholder-val="{{ false }}">
-      <button onClick="{{ payGo }}" disabled="{{ payDisabled }}" style="width:100%;border:0;cursor:{{ payCursor }};font:inherit;background:{{ payBg }};color:{{ payColor }};border-radius:999px;height:56px;padding:0 22px;display:flex;align-items:center;justify-content:space-between;gap:12px;font-size:16px;font-weight:600"><span>{{ payLabel }}</span><span style="display:flex;align-items:center;gap:12px"><span style="width:1px;height:22px;background:currentColor;opacity:.3"></span><span style="font-weight:700">{{ totalLabel }}</span></span></button>
+      <button onClick="{{ payGo }}" disabled="{{ payDisabled }}" style="width:100%;border:0;cursor:{{ payCursor }};font:inherit;background:{{ payBg }};color:{{ payColor }};border-radius:999px;height:56px;padding:0 22px;display:flex;align-items:center;justify-content:space-between;gap:12px;font-size:16px;font-weight:600"><span>{{ payLabel }}</span><span class="co-m-cta__right"><span class="co-cta__sep"></span><span class="co-bold">{{ totalLabel }}</span></span></button>
     </sc-if>
   </div>
 </section>
