@@ -21,7 +21,7 @@ button{outline:none}
 @keyframes frito-pulse{0%{box-shadow:0 0 0 0 rgba(97,75,226,.45)}100%{box-shadow:0 0 0 12px rgba(97,75,226,0)}}
 </style>
 </helmet>
-<div style="font-family:Inter,system-ui,sans-serif;color:#111827;min-height:100vh;display:flex;flex-direction:column;background:#F7F7F9">
+<div style="font-family:var(--font);color:var(--ink);min-height:100vh;display:flex;flex-direction:column;background:var(--surface-1)">
   <dc-import name="FritoHeader" title="{{ headerTitle }}" hint-size="100%,72px"></dc-import>
 
   <main style="flex:1;display:flex;justify-content:center;padding:clamp(16px,4vw,40px) clamp(12px,3vw,32px) 48px">
@@ -32,7 +32,7 @@ button{outline:none}
 
         <!-- RATING -->
         <sc-if value="{{ showRating }}" hint-placeholder-val="{{ false }}">
-          <section data-screen-label="Оценка" style="position:relative;overflow:hidden;background:#614BE2;color:#fff;border-radius:28px;padding:clamp(22px,3.5vw,32px);display:flex;flex-direction:column;gap:18px">
+          <section data-screen-label="Оценка" style="position:relative;overflow:hidden;background:var(--primary);color:#fff;border-radius:28px;padding:clamp(22px,3.5vw,32px);display:flex;flex-direction:column;gap:18px">
             <span aria-hidden="true" style="position:absolute;right:-30px;top:-40px;width:190px;height:240px;background:rgba(255,255,255,.08);clip-path:polygon(45% 0,100% 0,60% 45%,85% 45%,20% 100%,40% 55%,10% 55%);pointer-events:none"></span>
             <sc-if value="{{ notRated }}" hint-placeholder-val="{{ true }}">
               <div style="position:relative;display:flex;flex-direction:column;gap:6px"><h2 style="margin:0;font-size:clamp(24px,3.4vw,30px);font-weight:800;letter-spacing:-.02em;line-height:1.15">{{ rateTitle }}</h2><span style="font-size:15px;color:#E4E0FA;line-height:1.45">Оценка займёт 10 секунд и поможет нам готовить ещё вкуснее</span></div>
@@ -51,16 +51,16 @@ button{outline:none}
                   </div>
                   <label style="display:flex;flex-direction:column;gap:6px">
                     <span style="font-size:14px;font-weight:600;color:#E4E0FA">Комментарий</span>
-                    <textarea value="{{ comment }}" onChange="{{ setComment }}" maxLength="500" rows="3" placeholder="{{ commentPh }}" style="width:100%;min-height:96px;resize:vertical;border:0;border-radius:16px;background:#fff;color:#111827;font:inherit;font-size:15px;line-height:1.45;padding:12px 14px;outline:none"></textarea>
+                    <textarea value="{{ comment }}" onChange="{{ setComment }}" maxLength="500" rows="3" placeholder="{{ commentPh }}" style="width:100%;min-height:96px;resize:vertical;border:0;border-radius:16px;background:#fff;color:var(--ink);font:inherit;font-size:15px;line-height:1.45;padding:12px 14px;outline:none"></textarea>
                     <span style="align-self:flex-end;font-size:12px;color:#C9C1F7">{{ commentCount }}</span>
                   </label>
-                  <button type="button" onClick="{{ sendRating }}" style="align-self:flex-start;height:56px;padding:0 28px;border:0;border-radius:999px;background:#fff;color:#614BE2;font:inherit;font-size:16px;font-weight:700;cursor:pointer" style-hover="background:#F5F3FF">Отправить оценку</button>
+                  <button type="button" onClick="{{ sendRating }}" style="align-self:flex-start;height:56px;padding:0 28px;border:0;border-radius:999px;background:#fff;color:var(--primary);font:inherit;font-size:16px;font-weight:700;cursor:pointer" style-hover="background:var(--primary-50)">Отправить оценку</button>
                 </div>
               </sc-if>
             </sc-if>
             <sc-if value="{{ rated }}" hint-placeholder-val="{{ false }}">
               <div style="position:relative;display:flex;align-items:center;gap:14px">
-                <span style="flex-shrink:0;width:52px;height:52px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center"><span style="width:18px;height:10px;border-left:3px solid #614BE2;border-bottom:3px solid #614BE2;transform:rotate(-45deg);margin-top:-4px"></span></span>
+                <span style="flex-shrink:0;width:52px;height:52px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center"><span style="width:18px;height:10px;border-left:3px solid var(--primary);border-bottom:3px solid var(--primary);transform:rotate(-45deg);margin-top:-4px"></span></span>
                 <div style="display:flex;flex-direction:column;gap:2px"><span style="font-size:20px;font-weight:800">Спасибо за оценку!</span><span style="font-size:14px;color:#E4E0FA">{{ ratedSub }}</span></div>
               </div>
             </sc-if>
@@ -71,13 +71,13 @@ button{outline:none}
         <section data-screen-label="Статус" style="background:#fff;border-radius:28px;padding:clamp(20px,3vw,32px);display:flex;flex-direction:column;gap:20px">
           <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
             <span style="font-size:14px;font-weight:700">Заказ №4821</span>
-            <span style="font-size:12px;font-weight:600;color:#614BE2;background:#EFEDFC;border-radius:999px;padding:4px 10px">{{ modeLabel }}</span>
-            <span style="font-size:13px;color:#6B7280">оформлен в 14:12</span>
+            <span style="font-size:12px;font-weight:600;color:var(--primary);background:var(--primary-100);border-radius:999px;padding:4px 10px">{{ modeLabel }}</span>
+            <span style="font-size:13px;color:var(--ink-2)">оформлен в 14:12</span>
           </div>
 
           <sc-if value="{{ isNormal }}" hint-placeholder-val="{{ true }}">
             <div style="display:flex;flex-direction:column;gap:6px">
-              <span style="font-size:17px;font-weight:600;color:#6B7280">{{ heroPre }}</span>
+              <span style="font-size:17px;font-weight:600;color:var(--ink-2)">{{ heroPre }}</span>
               <span style="font-size:clamp(44px,8vw,72px);font-weight:800;letter-spacing:-.03em;line-height:1">{{ heroBig }}</span>
               <span style="font-size:15px;color:#4B5563;margin-top:4px">{{ heroSub }}</span>
             </div>
@@ -88,7 +88,7 @@ button{outline:none}
             </div>
             <div style="display:flex;flex-direction:column;gap:4px">
               <span style="font-size:20px;font-weight:700">{{ curTitle }}</span>
-              <span style="font-size:15px;color:#6B7280;line-height:1.45;text-wrap:pretty">{{ curDesc }}</span>
+              <span style="font-size:15px;color:var(--ink-2);line-height:1.45;text-wrap:pretty">{{ curDesc }}</span>
             </div>
             <sc-if value="{{ showDelay }}" hint-placeholder-val="{{ false }}">
               <div style="display:flex;gap:12px;align-items:flex-start;background:#FFFBEB;border-radius:18px;padding:14px 16px">
@@ -101,13 +101,13 @@ button{outline:none}
               <span style="font-size:14px;font-weight:600;color:#4B5563">Как добраться до ресторана</span>
               <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px">
               <sc-for list="{{ routes }}" as="r" hint-placeholder-count="3">
-                <a href="{{ r.href }}" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:10px;height:60px;padding:0 12px 0 10px;border-radius:16px;background:#614BE2;color:#fff;transition:background .15s;box-shadow:0 6px 16px -8px rgba(97,75,226,.6);min-width:0" style-hover="background:#503BCB;color:#fff"><span style="flex-shrink:0;width:36px;height:36px;border-radius:10px;background:#fff;overflow:hidden;display:flex;align-items:center;justify-content:center"><img src="{{ r.logo }}" alt="" style="width:100%;height:100%;object-fit:cover;display:block"></span><span style="display:flex;flex-direction:column;gap:1px;min-width:0"><span style="font-size:14px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ r.name }}</span><span style="font-size:12px;color:#D9D3FB">маршрут</span></span></a>
+                <a href="{{ r.href }}" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:10px;height:60px;padding:0 12px 0 10px;border-radius:16px;background:var(--primary);color:#fff;transition:background .15s;box-shadow:0 6px 16px -8px rgba(97,75,226,.6);min-width:0" style-hover="background:var(--primary-hover);color:#fff"><span style="flex-shrink:0;width:36px;height:36px;border-radius:10px;background:#fff;overflow:hidden;display:flex;align-items:center;justify-content:center"><img src="{{ r.logo }}" alt="" style="width:100%;height:100%;object-fit:cover;display:block"></span><span style="display:flex;flex-direction:column;gap:1px;min-width:0"><span style="font-size:14px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ r.name }}</span><span style="font-size:12px;color:#D9D3FB">маршрут</span></span></a>
               </sc-for>
             </div>
             </div>
             </sc-if>
             <sc-if value="{{ isDone }}" hint-placeholder-val="{{ false }}">
-              <button type="button" onClick="{{ repeat }}" style="align-self:flex-start;height:52px;padding:0 24px;border:0;border-radius:999px;background:#614BE2;color:#fff;font:inherit;font-size:16px;font-weight:600;cursor:pointer" style-hover="background:#503BCB">Повторить заказ</button>
+              <button type="button" onClick="{{ repeat }}" style="align-self:flex-start;height:52px;padding:0 24px;border:0;border-radius:999px;background:var(--primary);color:#fff;font:inherit;font-size:16px;font-weight:600;cursor:pointer" style-hover="background:var(--primary-hover)">Повторить заказ</button>
             </sc-if>
           </sc-if>
 
@@ -118,8 +118,8 @@ button{outline:none}
               <span style="font-size:15px;color:#4B5563;line-height:1.5;text-wrap:pretty">Kaspi отклонил платёж. Заказ сохранили — оплатите в течение 15 минут, и мы сразу начнём готовить.</span>
             </div>
             <div style="display:flex;gap:10px;flex-wrap:wrap">
-              <button type="button" onClick="{{ retryPay }}" style="height:56px;padding:0 20px 0 12px;border:0;border-radius:999px;background:#F14635;color:#fff;font:inherit;font-size:16px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:10px"><img src="assets/ic-kaspi-w.svg" alt="" style="width:32px;height:32px">Оплатить снова</button>
-              <button type="button" style="height:56px;padding:0 22px;border:0;border-radius:999px;background:#F3F4F6;color:#111827;font:inherit;font-size:16px;font-weight:600;cursor:pointer" style-hover="background:#E5E7EB">Другой способ оплаты</button>
+              <button type="button" onClick="{{ retryPay }}" style="height:56px;padding:0 20px 0 12px;border:0;border-radius:999px;background:var(--kaspi);color:#fff;font:inherit;font-size:16px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:10px"><img src="assets/ic-kaspi-w.svg" alt="" style="width:32px;height:32px">Оплатить снова</button>
+              <button type="button" style="height:56px;padding:0 22px;border:0;border-radius:999px;background:var(--surface-2);color:var(--ink);font:inherit;font-size:16px;font-weight:600;cursor:pointer" style-hover="background:var(--surface-3)">Другой способ оплаты</button>
             </div>
           </sc-if>
 
@@ -128,7 +128,7 @@ button{outline:none}
               <span style="font-size:clamp(30px,5vw,40px);font-weight:800;letter-spacing:-.02em;line-height:1.1">Заказ отменён</span>
               <span style="font-size:15px;color:#4B5563;line-height:1.5;text-wrap:pretty">Отменён в 14:14. Деньги вернутся на карту Kaspi в течение 1–3 рабочих дней.</span>
             </div>
-            <button type="button" onClick="{{ repeat }}" style="align-self:flex-start;height:52px;padding:0 24px;border:0;border-radius:999px;background:#614BE2;color:#fff;font:inherit;font-size:16px;font-weight:600;cursor:pointer" style-hover="background:#503BCB">Повторить заказ</button>
+            <button type="button" onClick="{{ repeat }}" style="align-self:flex-start;height:52px;padding:0 24px;border:0;border-radius:999px;background:var(--primary);color:#fff;font:inherit;font-size:16px;font-weight:600;cursor:pointer" style-hover="background:var(--primary-hover)">Повторить заказ</button>
           </sc-if>
         </section>
 
@@ -149,9 +149,9 @@ button{outline:none}
                 <div style="display:flex;flex-direction:column;gap:4px;padding:3px 0 20px">
                   <div style="display:flex;align-items:baseline;justify-content:space-between;gap:12px">
                     <span style="font-size:16px;font-weight:{{ s.weight }};color:{{ s.color }}">{{ s.t }}</span>
-                    <span style="flex-shrink:0;font-size:13px;color:#9CA3AF">{{ s.timeLabel }}</span>
+                    <span style="flex-shrink:0;font-size:13px;color:var(--ink-3)">{{ s.timeLabel }}</span>
                   </div>
-                  <sc-if value="{{ s.showDesc }}" hint-placeholder-val="{{ false }}"><span style="font-size:14px;color:#6B7280;line-height:1.45;text-wrap:pretty">{{ s.d }}</span></sc-if>
+                  <sc-if value="{{ s.showDesc }}" hint-placeholder-val="{{ false }}"><span style="font-size:14px;color:var(--ink-2);line-height:1.45;text-wrap:pretty">{{ s.d }}</span></sc-if>
                 </div>
               </div>
             </sc-for>
@@ -163,55 +163,55 @@ button{outline:none}
       <div style="display:flex;flex-direction:column;gap:16px;min-width:0">
         <section style="background:#fff;border-radius:28px;padding:clamp(18px,3vw,24px);display:flex;flex-direction:column;gap:10px">
           <h2 style="margin:0 0 4px;font-size:18px;font-weight:700">Нужна помощь?</h2>
-          <a href="https://wa.me/77009380000?text=%D0%97%D0%B0%D0%BA%D0%B0%D0%B7%20%E2%84%964821" target="_blank" style="display:flex;align-items:center;gap:12px;min-height:56px;padding:8px 16px 8px 8px;border-radius:18px;background:#F7F7F9;color:#111827" style-hover="background:#EFEDFC;color:#111827">
+          <a href="https://wa.me/77009380000?text=%D0%97%D0%B0%D0%BA%D0%B0%D0%B7%20%E2%84%964821" target="_blank" style="display:flex;align-items:center;gap:12px;min-height:56px;padding:8px 16px 8px 8px;border-radius:18px;background:var(--surface-1);color:var(--ink)" style-hover="background:var(--primary-100);color:var(--ink)">
             <span style="flex-shrink:0;width:40px;height:40px;border-radius:50%;background:#25D366;display:flex;align-items:center;justify-content:center"><img src="assets/ic-whatsapp-w.svg" alt="" style="width:20px;height:20px"></span>
-            <span style="display:flex;flex-direction:column;gap:1px;flex:1;min-width:0"><span style="font-size:15px;font-weight:600">Написать в WhatsApp</span><span style="font-size:13px;color:#6B7280">Ответим за пару минут</span></span>
+            <span style="display:flex;flex-direction:column;gap:1px;flex:1;min-width:0"><span style="font-size:15px;font-weight:600">Написать в WhatsApp</span><span style="font-size:13px;color:var(--ink-2)">Ответим за пару минут</span></span>
           </a>
-          <a href="tel:+77009380000" style="display:flex;align-items:center;gap:12px;min-height:56px;padding:8px 16px 8px 8px;border-radius:18px;background:#F7F7F9;color:#111827" style-hover="background:#EFEDFC;color:#111827">
-            <span style="flex-shrink:0;width:40px;height:40px;border-radius:50%;background:#EFEDFC;display:flex;align-items:center;justify-content:center"><svg width="18" height="18" viewBox="0 0 24 24" fill="#614BE2"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"></path></svg></span>
-            <span style="display:flex;flex-direction:column;gap:1px;flex:1;min-width:0"><span style="font-size:15px;font-weight:600">Поддержка</span><span style="font-size:13px;color:#6B7280">+7 700 938 0000 · 11:30 – 02:00</span></span>
+          <a href="tel:+77009380000" style="display:flex;align-items:center;gap:12px;min-height:56px;padding:8px 16px 8px 8px;border-radius:18px;background:var(--surface-1);color:var(--ink)" style-hover="background:var(--primary-100);color:var(--ink)">
+            <span style="flex-shrink:0;width:40px;height:40px;border-radius:50%;background:var(--primary-100);display:flex;align-items:center;justify-content:center"><svg width="18" height="18" viewBox="0 0 24 24" fill="#614BE2"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"></path></svg></span>
+            <span style="display:flex;flex-direction:column;gap:1px;flex:1;min-width:0"><span style="font-size:15px;font-weight:600">Поддержка</span><span style="font-size:13px;color:var(--ink-2)">+7 700 938 0000 · 11:30 – 02:00</span></span>
           </a>
           <sc-if value="{{ canCancel }}" hint-placeholder-val="{{ false }}">
             <button type="button" onClick="{{ askCancel }}" style="height:48px;border:0;border-radius:999px;background:transparent;color:#DC2626;font:inherit;font-size:15px;font-weight:600;cursor:pointer" style-hover="background:#FEF2F2">Отменить заказ</button>
           </sc-if>
-          <sc-if value="{{ cancelHint }}" hint-placeholder-val="{{ false }}"><span style="font-size:12px;color:#9CA3AF;text-align:center;line-height:1.4;padding-top:2px">Отменить можно только до начала готовки</span></sc-if>
+          <sc-if value="{{ cancelHint }}" hint-placeholder-val="{{ false }}"><span style="font-size:12px;color:var(--ink-3);text-align:center;line-height:1.4;padding-top:2px">Отменить можно только до начала готовки</span></sc-if>
         </section>
 
         <section data-screen-label="Состав" style="background:#fff;border-radius:28px;padding:clamp(18px,3vw,24px);display:flex;flex-direction:column;gap:14px">
-          <button type="button" onClick="{{ toggleItems }}" aria-expanded="{{ itemsOpen }}" style="display:flex;align-items:center;justify-content:space-between;gap:12px;border:0;background:transparent;padding:0;font:inherit;color:#111827;cursor:pointer;text-align:left">
-            <span style="display:flex;flex-direction:column;gap:2px"><span style="font-size:18px;font-weight:700">Состав и чек</span><span style="font-size:13px;color:#6B7280">3 позиции · {{ totalLabel }}</span></span>
-            <span style="flex-shrink:0;width:36px;height:36px;border-radius:50%;background:#F3F4F6;display:flex;align-items:center;justify-content:center"><span style="width:9px;height:9px;border-right:2.5px solid #111827;border-bottom:2.5px solid #111827;transform:{{ chevron }};transition:transform .2s"></span></span>
+          <button type="button" onClick="{{ toggleItems }}" aria-expanded="{{ itemsOpen }}" style="display:flex;align-items:center;justify-content:space-between;gap:12px;border:0;background:transparent;padding:0;font:inherit;color:var(--ink);cursor:pointer;text-align:left">
+            <span style="display:flex;flex-direction:column;gap:2px"><span style="font-size:18px;font-weight:700">Состав и чек</span><span style="font-size:13px;color:var(--ink-2)">3 позиции · {{ totalLabel }}</span></span>
+            <span style="flex-shrink:0;width:36px;height:36px;border-radius:50%;background:var(--surface-2);display:flex;align-items:center;justify-content:center"><span style="width:9px;height:9px;border-right:2.5px solid var(--ink);border-bottom:2.5px solid var(--ink);transform:{{ chevron }};transition:transform .2s"></span></span>
           </button>
           <sc-if value="{{ itemsOpen }}" hint-placeholder-val="{{ true }}">
             <div style="display:flex;flex-direction:column;gap:12px">
               <sc-for list="{{ items }}" as="it" hint-placeholder-count="3">
                 <div style="display:flex;gap:12px;align-items:center">
-                  <img src="{{ it.img }}" alt="" style="flex-shrink:0;width:56px;height:56px;border-radius:14px;object-fit:cover;background:#F3F4F6">
-                  <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:2px"><span style="font-size:15px;font-weight:600">{{ it.name }}</span><span style="font-size:13px;color:#6B7280;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ it.mods }}</span></div>
-                  <div style="flex-shrink:0;display:flex;flex-direction:column;align-items:flex-end;gap:2px"><span style="font-size:15px;font-weight:700;white-space:nowrap">{{ it.priceLabel }}</span><span style="font-size:12px;color:#9CA3AF">× {{ it.qty }}</span></div>
+                  <img src="{{ it.img }}" alt="" style="flex-shrink:0;width:56px;height:56px;border-radius:14px;object-fit:cover;background:var(--surface-2)">
+                  <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:2px"><span style="font-size:15px;font-weight:600">{{ it.name }}</span><span style="font-size:13px;color:var(--ink-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ it.mods }}</span></div>
+                  <div style="flex-shrink:0;display:flex;flex-direction:column;align-items:flex-end;gap:2px"><span style="font-size:15px;font-weight:700;white-space:nowrap">{{ it.priceLabel }}</span><span style="font-size:12px;color:var(--ink-3)">× {{ it.qty }}</span></div>
                 </div>
               </sc-for>
             </div>
-            <div style="border-top:1px solid #F1F1F4;padding-top:12px"><dc-import name="FritoTotals" subtotal="{{ 9470 }}" fee="{{ fee }}" discount="{{ 947 }}" fee-title="{{ feeTitle }}" total-title="Оплачено" hint-size="100%,140px"></dc-import></div>
+            <div style="border-top:1px solid var(--divider);padding-top:12px"><dc-import name="FritoTotals" subtotal="{{ 9470 }}" fee="{{ fee }}" discount="{{ 947 }}" fee-title="{{ feeTitle }}" total-title="Оплачено" hint-size="100%,140px"></dc-import></div>
             <a href="#" style="align-self:flex-start;font-size:14px;font-weight:600">Скачать чек (PDF)</a>
           </sc-if>
         </section>
 
         <section style="background:#fff;border-radius:28px;padding:clamp(18px,3vw,24px);display:flex;flex-direction:column;gap:14px">
           <div style="display:flex;gap:12px;align-items:flex-start">
-            <span style="flex-shrink:0;width:40px;height:40px;border-radius:12px;background:#EFEDFC;display:flex;align-items:center;justify-content:center"><img src="{{ placeIcon }}" alt="" style="width:22px;height:22px"></span>
-            <div style="display:flex;flex-direction:column;gap:2px;min-width:0"><span style="font-size:13px;color:#6B7280">{{ placeCaption }}</span><span style="font-size:15px;font-weight:700">{{ placeLine }}</span><span style="font-size:13px;color:#6B7280">{{ placeSub }}</span></div>
+            <span style="flex-shrink:0;width:40px;height:40px;border-radius:12px;background:var(--primary-100);display:flex;align-items:center;justify-content:center"><img src="{{ placeIcon }}" alt="" style="width:22px;height:22px"></span>
+            <div style="display:flex;flex-direction:column;gap:2px;min-width:0"><span style="font-size:13px;color:var(--ink-2)">{{ placeCaption }}</span><span style="font-size:15px;font-weight:700">{{ placeLine }}</span><span style="font-size:13px;color:var(--ink-2)">{{ placeSub }}</span></div>
           </div>
           <sc-if value="{{ showRoutes }}" hint-placeholder-val="{{ false }}">
             <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px">
               <sc-for list="{{ routes }}" as="r" hint-placeholder-count="3">
-                <a href="{{ r.href }}" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:10px;height:60px;padding:0 12px 0 10px;border-radius:16px;background:#614BE2;color:#fff;transition:background .15s;box-shadow:0 6px 16px -8px rgba(97,75,226,.6);min-width:0" style-hover="background:#503BCB;color:#fff"><span style="flex-shrink:0;width:36px;height:36px;border-radius:10px;background:#fff;overflow:hidden;display:flex;align-items:center;justify-content:center"><img src="{{ r.logo }}" alt="" style="width:100%;height:100%;object-fit:cover;display:block"></span><span style="display:flex;flex-direction:column;gap:1px;min-width:0"><span style="font-size:14px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ r.name }}</span><span style="font-size:12px;color:#D9D3FB">маршрут</span></span></a>
+                <a href="{{ r.href }}" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:10px;height:60px;padding:0 12px 0 10px;border-radius:16px;background:var(--primary);color:#fff;transition:background .15s;box-shadow:0 6px 16px -8px rgba(97,75,226,.6);min-width:0" style-hover="background:var(--primary-hover);color:#fff"><span style="flex-shrink:0;width:36px;height:36px;border-radius:10px;background:#fff;overflow:hidden;display:flex;align-items:center;justify-content:center"><img src="{{ r.logo }}" alt="" style="width:100%;height:100%;object-fit:cover;display:block"></span><span style="display:flex;flex-direction:column;gap:1px;min-width:0"><span style="font-size:14px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ r.name }}</span><span style="font-size:12px;color:#D9D3FB">маршрут</span></span></a>
               </sc-for>
             </div>
           </sc-if>
-          <div style="display:flex;gap:12px;align-items:center;border-top:1px solid #F1F1F4;padding-top:14px">
-            <span style="flex-shrink:0;width:40px;height:40px;border-radius:12px;background:#F14635;display:flex;align-items:center;justify-content:center"><img src="assets/ic-kaspi-w.svg" alt="" style="width:26px;height:26px"></span>
-            <div style="display:flex;flex-direction:column;gap:2px;flex:1;min-width:0"><span style="font-size:13px;color:#6B7280">Оплата</span><span style="font-size:15px;font-weight:700">Kaspi Pay</span></div>
+          <div style="display:flex;gap:12px;align-items:center;border-top:1px solid var(--divider);padding-top:14px">
+            <span style="flex-shrink:0;width:40px;height:40px;border-radius:12px;background:var(--kaspi);display:flex;align-items:center;justify-content:center"><img src="assets/ic-kaspi-w.svg" alt="" style="width:26px;height:26px"></span>
+            <div style="display:flex;flex-direction:column;gap:2px;flex:1;min-width:0"><span style="font-size:13px;color:var(--ink-2)">Оплата</span><span style="font-size:15px;font-weight:700">Kaspi Pay</span></div>
             <span style="flex-shrink:0;font-size:12px;font-weight:600;color:{{ payColor }};background:{{ payBg }};border-radius:999px;padding:4px 10px">{{ payStatus }}</span>
           </div>
         </section>
@@ -223,12 +223,12 @@ button{outline:none}
 
   <sc-if value="{{ confirmCancel }}" hint-placeholder-val="{{ false }}">
     <div style="position:fixed;inset:0;z-index:50;display:flex;align-items:{{ cAlign }};justify-content:center;padding:{{ cPad }}">
-      <div onClick="{{ closeCancel }}" style="position:absolute;inset:0;background:rgba(17,24,39,.45)"></div>
-      <div role="dialog" aria-modal="true" style="position:relative;width:100%;max-width:440px;background:#fff;border-radius:{{ cRadius }};padding:28px 24px 24px;display:flex;flex-direction:column;gap:18px;box-shadow:0 40px 100px -30px rgba(0,0,0,.4)">
-        <div style="display:flex;flex-direction:column;gap:8px"><h2 style="margin:0;font-size:24px;font-weight:700">Отменить заказ?</h2><p style="margin:0;font-size:15px;color:#6B7280;line-height:1.5">Мы ещё не начали готовить. Деньги вернутся на карту Kaspi в течение 1–3 рабочих дней.</p></div>
+      <div onClick="{{ closeCancel }}" style="position:absolute;inset:0;background:var(--overlay)"></div>
+      <div role="dialog" aria-modal="true" style="position:relative;width:100%;max-width:440px;background:#fff;border-radius:{{ cRadius }};padding:28px 24px 24px;display:flex;flex-direction:column;gap:18px;box-shadow:var(--shadow-modal)">
+        <div style="display:flex;flex-direction:column;gap:8px"><h2 style="margin:0;font-size:24px;font-weight:700">Отменить заказ?</h2><p style="margin:0;font-size:15px;color:var(--ink-2);line-height:1.5">Мы ещё не начали готовить. Деньги вернутся на карту Kaspi в течение 1–3 рабочих дней.</p></div>
         <div style="display:flex;flex-direction:column;gap:10px">
           <button type="button" onClick="{{ doCancel }}" style="height:56px;border:0;border-radius:999px;background:#DC2626;color:#fff;font:inherit;font-size:16px;font-weight:600;cursor:pointer" style-hover="background:#B91C1C">Да, отменить</button>
-          <button type="button" onClick="{{ closeCancel }}" style="height:56px;border:0;border-radius:999px;background:#F3F4F6;color:#111827;font:inherit;font-size:16px;font-weight:600;cursor:pointer" style-hover="background:#E5E7EB">Не отменять</button>
+          <button type="button" onClick="{{ closeCancel }}" style="height:56px;border:0;border-radius:999px;background:var(--surface-2);color:var(--ink);font:inherit;font-size:16px;font-weight:600;cursor:pointer" style-hover="background:var(--surface-3)">Не отменять</button>
         </div>
       </div>
     </div>
@@ -264,7 +264,7 @@ const money = n => String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ' ') + ' тг';
 const TAGS_GOOD = ['Вкусно', 'Горячее', 'Быстро', 'Вежливый курьер', 'Аккуратно упаковано'];
 const TAGS_BAD = ['Остыло', 'Долго', 'Не всё привезли', 'Невкусно', 'Помялась упаковка'];
 const liveBar = React.createElement('span', { style: { position: 'absolute', inset: 0, borderRadius: 'inherit', background: 'linear-gradient(90deg,#614BE2 0%,#A89BF3 50%,#614BE2 100%)', backgroundSize: '200% 100%', animation: 'frito-flow 1.6s linear infinite' } });
-const pulseDot = React.createElement('span', { style: { width: 10, height: 10, borderRadius: '50%', background: '#614BE2', animation: 'frito-pulse 1.4s ease-out infinite' } });
+const pulseDot = React.createElement('span', { style: { width: 10, height: 10, borderRadius: '50%', background: 'var(--primary)', animation: 'frito-pulse 1.4s ease-out infinite' } });
 
 class Component extends DCLogic {
   // сценарий можно задать в адресе: status.dc.html?mode=pickup&stage=done&issue=delayed&demo=1
@@ -307,7 +307,7 @@ class Component extends DCLogic {
       else { heroPre = 'Заказ'; heroBig = 'Выдан'; heroSub = 'В 14:41 · приятного аппетита!'; }
     }
     const list = STEPS[mode];
-    const segs = list.map((_, i) => ({ bg: !normal ? (issue === 'paymentFailed' && i === 1 ? '#FCA5A5' : '#E5E7EB') : i < cur || done ? '#614BE2' : i === cur ? '#E4E0FA' : '#ECECF1', live: normal && i === cur && !done ? liveBar : null }));
+    const segs = list.map((_, i) => ({ bg: !normal ? (issue === 'paymentFailed' && i === 1 ? '#FCA5A5' : 'var(--surface-3)') : i < cur || done ? 'var(--primary)' : i === cur ? '#E4E0FA' : 'var(--border)', live: normal && i === cur && !done ? liveBar : null }));
     let steps = list.map((st, i) => {
       const isDone = normal ? i < cur || done : i < cur;
       const isCur = normal && i === cur && !done;
@@ -315,13 +315,13 @@ class Component extends DCLogic {
       return {
         t: failed ? 'Оплата не прошла' : st.t, d: failed ? 'Платёж отклонён — оплатите снова, чтобы мы начали готовить.' : st.d,
         timeLabel: isDone || isCur || failed ? st.time : '',
-        dotBg: failed ? '#DC2626' : isDone ? '#614BE2' : '#fff', dotBorder: failed ? '#DC2626' : isDone || isCur ? '#614BE2' : '#E5E7EB',
+        dotBg: failed ? '#DC2626' : isDone ? 'var(--primary)' : '#fff', dotBorder: failed ? '#DC2626' : isDone || isCur ? 'var(--primary)' : 'var(--surface-3)',
         check: isDone && !failed, cross: failed, pulse: isCur ? pulseDot : null,
-        weight: isCur || failed ? 700 : 600, color: failed ? '#B91C1C' : isDone || isCur ? '#111827' : '#9CA3AF',
-        showDesc: isCur || failed || (done && i === 4), lineColor: i < cur || done ? '#614BE2' : '#E5E7EB', hasLine: true,
+        weight: isCur || failed ? 700 : 600, color: failed ? '#B91C1C' : isDone || isCur ? 'var(--ink)' : 'var(--ink-3)',
+        showDesc: isCur || failed || (done && i === 4), lineColor: i < cur || done ? 'var(--primary)' : 'var(--surface-3)', hasLine: true,
       };
     });
-    if (issue === 'cancelled') steps = steps.slice(0, cur + 1).concat([{ t: 'Отменён', d: 'Вы отменили заказ. Деньги вернутся в течение 1–3 рабочих дней.', timeLabel: '14:14', dotBg: '#6B7280', dotBorder: '#6B7280', check: false, cross: true, pulse: null, weight: 700, color: '#111827', showDesc: true, lineColor: '#E5E7EB', hasLine: false }]);
+    if (issue === 'cancelled') steps = steps.slice(0, cur + 1).concat([{ t: 'Отменён', d: 'Вы отменили заказ. Деньги вернутся в течение 1–3 рабочих дней.', timeLabel: '14:14', dotBg: 'var(--ink-2)', dotBorder: 'var(--ink-2)', check: false, cross: true, pulse: null, weight: 700, color: 'var(--ink)', showDesc: true, lineColor: 'var(--surface-3)', hasLine: false }]);
     steps[steps.length - 1].hasLine = false;
     const good = s.stars >= 4, pool = good ? TAGS_GOOD : TAGS_BAD;
     const fee = pick ? 0 : 1000, total = 9470 - 947 + fee;
@@ -336,7 +336,7 @@ class Component extends DCLogic {
       showRating: done, notRated: !s.rated, rated: s.rated, hasStars: s.stars > 0,
       stars: [1, 2, 3, 4, 5].map(n => ({ label: n + ' из 5', pick: () => this.setState({ stars: n, tags: {} }), bg: n <= s.stars ? '#fff' : 'rgba(255,255,255,.14)', color: n <= s.stars ? '#F5B301' : 'rgba(255,255,255,.55)' })),
       tagsTitle: good ? 'Что понравилось?' : 'Что пошло не так?',
-      tags: pool.map(t => { const on = !!s.tags[t]; return { label: t, toggle: () => this.setState(x => ({ tags: { ...x.tags, [t]: !on } })), bg: on ? '#fff' : 'rgba(255,255,255,.14)', color: on ? '#614BE2' : '#fff' }; }),
+      tags: pool.map(t => { const on = !!s.tags[t]; return { label: t, toggle: () => this.setState(x => ({ tags: { ...x.tags, [t]: !on } })), bg: on ? '#fff' : 'rgba(255,255,255,.14)', color: on ? 'var(--primary)' : '#fff' }; }),
       sendRating: () => this.setState({ rated: true }),
       rateTitle: pick ? 'Как вам заказ?' : 'Как вам заказ и доставка?',
       comment: s.comment, setComment: e => this.setState({ comment: e.target.value.slice(0, 500) }), commentCount: s.comment.length + ' / 500',
@@ -358,7 +358,7 @@ class Component extends DCLogic {
       ],
       placeIcon: pick ? 'assets/ic-pickup-p.svg' : 'assets/ic-pin-p.svg', placeCaption: pick ? 'Ресторан' : 'Адрес доставки',
       placeLine: pick ? 'Frito, Сыганак 11' : 'пр-кт Туран, 52/6', placeSub: pick ? 'Ежедневно 11:30 – 02:00' : 'Астана · курьер позвонит у двери',
-      payStatus: issue === 'cancelled' ? 'Возврат' : paid ? 'Оплачено' : 'Не оплачено', payColor: issue === 'cancelled' ? '#4B5563' : paid ? '#15803D' : '#B91C1C', payBg: issue === 'cancelled' ? '#F3F4F6' : paid ? '#F0FDF4' : '#FEF2F2',
+      payStatus: issue === 'cancelled' ? 'Возврат' : paid ? 'Оплачено' : 'Не оплачено', payColor: issue === 'cancelled' ? '#4B5563' : paid ? '#15803D' : '#B91C1C', payBg: issue === 'cancelled' ? 'var(--surface-2)' : paid ? '#F0FDF4' : '#FEF2F2',
     };
   }
 }

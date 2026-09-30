@@ -7,22 +7,22 @@
 </head>
 <body>
 <x-dc>
-<div style="position:relative;width:100%;height:100%;font-family:Inter,system-ui,sans-serif;color:#111827">
-<sc-if value="{{ isCenter }}" hint-placeholder-val="{{ true }}"><div onClick="{{ close }}" style="position:absolute;inset:0;background:rgba(17,24,39,.45);animation:frito-fade .22s ease-out both"></div></sc-if>
+<div style="position:relative;width:100%;height:100%;font-family:var(--font);color:var(--ink)">
+<sc-if value="{{ isCenter }}" hint-placeholder-val="{{ true }}"><div onClick="{{ close }}" style="position:absolute;inset:0;background:var(--overlay);animation:frito-fade .22s ease-out both"></div></sc-if>
 <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:{{ wrapPad }};pointer-events:none">
-<div role="dialog" aria-modal="true" aria-label="{{ title }}" style="position:relative;pointer-events:auto;width:100%;height:100%;max-width:{{ dlgMaxW }};max-height:{{ dlgMaxH }};border-radius:{{ dlgRadius }};overflow:hidden;background:#fff;display:flex;flex-direction:{{ dlgDir }};box-shadow:0 40px 100px -30px rgba(0,0,0,.4);animation:frito-rise .32s cubic-bezier(.2,.8,.2,1) both">
+<div role="dialog" aria-modal="true" aria-label="{{ title }}" style="position:relative;pointer-events:auto;width:100%;height:100%;max-width:{{ dlgMaxW }};max-height:{{ dlgMaxH }};border-radius:{{ dlgRadius }};overflow:hidden;background:#fff;display:flex;flex-direction:{{ dlgDir }};box-shadow:var(--shadow-modal);animation:frito-rise .32s var(--ease) both">
 
   <!-- MAP -->
   <div style="position:relative;flex:1 1 0;min-height:0;min-width:0;order:{{ mapOrder }};background:#EEF0F3;overflow:hidden">
     <div ref="{{ mapRef }}" style="position:absolute;inset:0;z-index:0;background:#EEF0F3"></div>
-    <sc-if value="{{ mapFail }}" hint-placeholder-val="{{ false }}"><div style="position:absolute;inset:0;z-index:1;display:flex;align-items:center;justify-content:center;font-size:14px;color:#6B7280">Карта не загрузилась — введите адрес вручную</div></sc-if>
+    <sc-if value="{{ mapFail }}" hint-placeholder-val="{{ false }}"><div style="position:absolute;inset:0;z-index:1;display:flex;align-items:center;justify-content:center;font-size:14px;color:var(--ink-2)">Карта не загрузилась — введите адрес вручную</div></sc-if>
 
     <sc-if value="{{ showPin }}" hint-placeholder-val="{{ true }}">
       <div style="position:absolute;left:50%;top:{{ pinTop }};width:0;height:0;z-index:3;pointer-events:none">
         <div style="position:absolute;left:-8px;top:-3px;width:16px;height:6px;border-radius:50%;background:rgba(17,24,39,.35);transform:scale({{ pinShadow }});transition:transform .2s"></div>
         <div style="position:absolute;left:-26px;bottom:0;width:52px;height:74px;transform:{{ pinLift }};transition:transform .2s ease-out">
-          <div style="position:absolute;left:24px;top:36px;width:4px;height:38px;border-radius:2px;background:#614BE2;z-index:0"></div>
-          <div style="position:absolute;left:0;top:0;z-index:1;box-sizing:border-box;width:52px;height:52px;border-radius:50%;background:#614BE2;border:3px solid #fff;box-shadow:0 6px 16px rgba(50,30,140,.35);display:flex;align-items:center;justify-content:center"><sc-if value="{{ pinBolt }}" hint-placeholder-val="{{ true }}"><span style="width:20px;height:25px;background:#fff;clip-path:polygon(45% 0,100% 0,60% 45%,85% 45%,20% 100%,40% 55%,10% 55%);transform:translateX(-1px)"></span></sc-if><sc-if value="{{ pinSpin }}" hint-placeholder-val="{{ false }}"><span aria-label="Определяем адрес" style="width:22px;height:22px;box-sizing:border-box;border-radius:50%;border:3px solid rgba(255,255,255,.3);border-top-color:#fff;animation:frito-spin .7s linear infinite"></span></sc-if></div>
+          <div style="position:absolute;left:24px;top:36px;width:4px;height:38px;border-radius:2px;background:var(--primary);z-index:0"></div>
+          <div style="position:absolute;left:0;top:0;z-index:1;box-sizing:border-box;width:52px;height:52px;border-radius:50%;background:var(--primary);border:3px solid #fff;box-shadow:0 6px 16px rgba(50,30,140,.35);display:flex;align-items:center;justify-content:center"><sc-if value="{{ pinBolt }}" hint-placeholder-val="{{ true }}"><span style="width:20px;height:25px;background:#fff;clip-path:polygon(45% 0,100% 0,60% 45%,85% 45%,20% 100%,40% 55%,10% 55%);transform:translateX(-1px)"></span></sc-if><sc-if value="{{ pinSpin }}" hint-placeholder-val="{{ false }}"><span aria-label="Определяем адрес" style="width:22px;height:22px;box-sizing:border-box;border-radius:50%;border:3px solid rgba(255,255,255,.3);border-top-color:#fff;animation:frito-spin .7s linear infinite"></span></sc-if></div>
         </div>
       </div>
     </sc-if>
@@ -35,7 +35,7 @@
     </sc-if>
 
     <sc-if value="{{ hasToast }}" hint-placeholder-val="{{ false }}">
-      <div style="position:absolute;left:50%;top:{{ toastTop }};transform:translateX(-50%);z-index:5;background:#111827;color:#fff;font-size:13px;font-weight:500;border-radius:12px;padding:10px 14px;max-width:calc(100% - 32px);width:max-content;text-align:center">{{ toast }}</div>
+      <div style="position:absolute;left:50%;top:{{ toastTop }};transform:translateX(-50%);z-index:5;background:var(--ink);color:#fff;font-size:13px;font-weight:500;border-radius:12px;padding:10px 14px;max-width:calc(100% - 32px);width:max-content;text-align:center">{{ toast }}</div>
     </sc-if>
 
     <sc-if value="{{ isCenter }}" hint-placeholder-val="{{ true }}">
@@ -44,12 +44,12 @@
     <div style="position:absolute;right:16px;bottom:{{ ctrlBottom }};z-index:4;display:flex;flex-direction:column;gap:8px;align-items:center">
       <sc-if value="{{ isCenter }}" hint-placeholder-val="{{ true }}">
         <div style="display:flex;flex-direction:column;background:#fff;border-radius:14px;box-shadow:0 4px 14px rgba(17,24,39,.15);overflow:hidden">
-          <button type="button" onClick="{{ zoomIn }}" aria-label="Приблизить" style="width:44px;height:44px;border:0;background:#fff;cursor:pointer;font:inherit;font-size:22px;font-weight:500;color:#111827;padding:0" style-hover="background:#F3F4F6">+</button>
-          <div style="height:1px;background:#F1F1F4;margin:0 10px"></div>
-          <button type="button" onClick="{{ zoomOut }}" aria-label="Отдалить" style="width:44px;height:44px;border:0;background:#fff;cursor:pointer;font:inherit;font-size:22px;font-weight:500;color:#111827;padding:0" style-hover="background:#F3F4F6">−</button>
+          <button type="button" onClick="{{ zoomIn }}" aria-label="Приблизить" style="width:44px;height:44px;border:0;background:#fff;cursor:pointer;font:inherit;font-size:22px;font-weight:500;color:var(--ink);padding:0" style-hover="background:var(--surface-2)">+</button>
+          <div style="height:1px;background:var(--divider);margin:0 10px"></div>
+          <button type="button" onClick="{{ zoomOut }}" aria-label="Отдалить" style="width:44px;height:44px;border:0;background:#fff;cursor:pointer;font:inherit;font-size:22px;font-weight:500;color:var(--ink);padding:0" style-hover="background:var(--surface-2)">−</button>
         </div>
       </sc-if>
-      <button type="button" onClick="{{ locate }}" aria-label="Где я" style="width:52px;height:52px;border:0;border-radius:50%;background:#fff;box-shadow:0 4px 14px rgba(17,24,39,.15);cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0" style-hover="background:#F7F7F9"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#111827" stroke-width="2" stroke-linejoin="round"><path d="M21 3L3 10.5l7.5 3L13.5 21z"></path></svg></button>
+      <button type="button" onClick="{{ locate }}" aria-label="Где я" style="width:52px;height:52px;border:0;border-radius:50%;background:#fff;box-shadow:0 4px 14px rgba(17,24,39,.15);cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0" style-hover="background:var(--surface-1)"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#111827" stroke-width="2" stroke-linejoin="round"><path d="M21 3L3 10.5l7.5 3L13.5 21z"></path></svg></button>
     </div>
   </div>
 
@@ -61,7 +61,7 @@
         <dc-import name="FritoSegment" mode="{{ mode }}" variant="filled" icons="{{ true }}" height="{{ 44 }}" on-change="{{ setMode }}" hint-size="100%,52px"></dc-import>
       </div>
     </sc-if>
-    <sc-if value="{{ showGrabber }}" hint-placeholder-val="{{ false }}"><div style="display:flex;justify-content:center;padding-top:10px"><div style="width:40px;height:4px;border-radius:2px;background:#E5E7EB"></div></div></sc-if>
+    <sc-if value="{{ showGrabber }}" hint-placeholder-val="{{ false }}"><div style="display:flex;justify-content:center;padding-top:10px"><div style="width:40px;height:4px;border-radius:2px;background:var(--surface-3)"></div></div></sc-if>
 
     <div style="flex:1 1 auto;min-height:0;overflow-y:{{ panelScroll }};padding:{{ panelPad }};display:flex;flex-direction:column;gap:16px">
 
@@ -69,60 +69,60 @@
       <sc-if value="{{ searching }}" hint-placeholder-val="{{ false }}">
       <div style="flex:1 1 0;min-height:0;display:flex;flex-direction:column;gap:12px">
         <div style="flex-shrink:0;display:flex;align-items:center;gap:8px">
-          <sc-if value="{{ isSheet }}" hint-placeholder-val="{{ false }}"><button type="button" onClick="{{ stopSearch }}" aria-label="Назад" style="flex-shrink:0;width:44px;height:44px;border:0;border-radius:50%;background:#F3F4F6;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0"><span aria-hidden="true" style="width:10px;height:10px;border-left:2.5px solid #111827;border-bottom:2.5px solid #111827;transform:rotate(45deg);margin-left:4px"></span></button></sc-if>
-          <label style="flex:1;min-width:0;height:52px;background:#F7F7F9;border-radius:14px;border:2px solid #614BE2;display:flex;align-items:center;gap:10px;padding:0 8px 0 12px;cursor:text">
+          <sc-if value="{{ isSheet }}" hint-placeholder-val="{{ false }}"><button type="button" onClick="{{ stopSearch }}" aria-label="Назад" style="flex-shrink:0;width:44px;height:44px;border:0;border-radius:50%;background:var(--surface-2);cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0"><span aria-hidden="true" style="width:10px;height:10px;border-left:2.5px solid var(--ink);border-bottom:2.5px solid var(--ink);transform:rotate(45deg);margin-left:4px"></span></button></sc-if>
+          <label style="flex:1;min-width:0;height:52px;background:var(--surface-1);border-radius:14px;border:2px solid var(--primary);display:flex;align-items:center;gap:10px;padding:0 8px 0 12px;cursor:text">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6B7280" stroke-width="2.2" stroke-linecap="round" style="flex-shrink:0"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg>
-            <input ref="{{ inputRef }}" value="{{ q }}" onChange="{{ onQ }}" onKeyDown="{{ onQKey }}" placeholder="Улица и номер дома" autoComplete="off" style="flex:1;min-width:0;border:0;background:transparent;font:inherit;font-size:16px;font-weight:600;color:#111827;outline:none;padding:0">
-            <sc-if value="{{ hasQ }}" hint-placeholder-val="{{ false }}"><button type="button" onClick="{{ clearQ }}" aria-label="Очистить" style="flex-shrink:0;width:28px;height:28px;border:0;border-radius:50%;background:#E5E7EB;color:#6B7280;cursor:pointer;padding:0;display:flex;align-items:center;justify-content:center" style-hover="background:#D1D5DB;color:#111827"><span aria-hidden="true" style="position:relative;width:10px;height:10px;display:block"><span style="position:absolute;left:0;top:50%;width:100%;height:2px;margin-top:-1px;background:currentColor;border-radius:1px;transform:rotate(45deg)"></span><span style="position:absolute;left:0;top:50%;width:100%;height:2px;margin-top:-1px;background:currentColor;border-radius:1px;transform:rotate(-45deg)"></span></span></button></sc-if>
+            <input ref="{{ inputRef }}" value="{{ q }}" onChange="{{ onQ }}" onKeyDown="{{ onQKey }}" placeholder="Улица и номер дома" autoComplete="off" style="flex:1;min-width:0;border:0;background:transparent;font:inherit;font-size:16px;font-weight:600;color:var(--ink);outline:none;padding:0">
+            <sc-if value="{{ hasQ }}" hint-placeholder-val="{{ false }}"><button type="button" onClick="{{ clearQ }}" aria-label="Очистить" style="flex-shrink:0;width:28px;height:28px;border:0;border-radius:50%;background:var(--surface-3);color:var(--ink-2);cursor:pointer;padding:0;display:flex;align-items:center;justify-content:center" style-hover="background:var(--neutral-300);color:var(--ink)"><span aria-hidden="true" style="position:relative;width:10px;height:10px;display:block"><span style="position:absolute;left:0;top:50%;width:100%;height:2px;margin-top:-1px;background:currentColor;border-radius:1px;transform:rotate(45deg)"></span><span style="position:absolute;left:0;top:50%;width:100%;height:2px;margin-top:-1px;background:currentColor;border-radius:1px;transform:rotate(-45deg)"></span></span></button></sc-if>
           </label>
-          <sc-if value="{{ isCenter }}" hint-placeholder-val="{{ false }}"><button type="button" onClick="{{ stopSearch }}" style="flex-shrink:0;border:0;background:transparent;font:inherit;font-size:14px;font-weight:600;color:#614BE2;cursor:pointer;padding:0 4px">Отмена</button></sc-if>
+          <sc-if value="{{ isCenter }}" hint-placeholder-val="{{ false }}"><button type="button" onClick="{{ stopSearch }}" style="flex-shrink:0;border:0;background:transparent;font:inherit;font-size:14px;font-weight:600;color:var(--primary);cursor:pointer;padding:0 4px">Отмена</button></sc-if>
         </div>
         <div style="flex:1 1 0;min-height:0;overflow-y:auto;display:flex;flex-direction:column;gap:2px;margin:0 -8px;padding:0 8px">
-          <sc-if value="{{ showRecent }}" hint-placeholder-val="{{ false }}"><div style="font-size:12px;font-weight:600;color:#6B7280;letter-spacing:.04em;padding:4px 8px">НЕДАВНИЕ</div></sc-if>
+          <sc-if value="{{ showRecent }}" hint-placeholder-val="{{ false }}"><div style="font-size:12px;font-weight:600;color:var(--ink-2);letter-spacing:.04em;padding:4px 8px">НЕДАВНИЕ</div></sc-if>
           <sc-for list="{{ rows }}" as="r" hint-placeholder-count="3">
-            <button type="button" onClick="{{ r.pick }}" style="display:flex;align-items:center;gap:12px;width:100%;border:0;background:{{ r.bg }};border-radius:14px;padding:10px 8px;cursor:pointer;font:inherit;color:#111827;text-align:left" style-hover="background:#F7F7F9">
-              <span style="flex-shrink:0;width:36px;height:36px;border-radius:50%;background:#F3F4F6;display:flex;align-items:center;justify-content:center">
+            <button type="button" onClick="{{ r.pick }}" style="display:flex;align-items:center;gap:12px;width:100%;border:0;background:{{ r.bg }};border-radius:14px;padding:10px 8px;cursor:pointer;font:inherit;color:var(--ink);text-align:left" style-hover="background:var(--surface-1)">
+              <span style="flex-shrink:0;width:36px;height:36px;border-radius:50%;background:var(--surface-2);display:flex;align-items:center;justify-content:center">
                 <sc-if value="{{ r.recent }}" hint-placeholder-val="{{ false }}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#6B7280" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg></sc-if>
                 <sc-if value="{{ r.found }}" hint-placeholder-val="{{ true }}"><svg width="18" height="18" viewBox="0 0 24 24" fill="#614BE2"><path d="M12 2a7 7 0 0 0-7 7c0 5 7 13 7 13s7-8 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"></path></svg></sc-if>
               </span>
               <span style="display:flex;flex-direction:column;gap:2px;min-width:0;flex:1">
                 <span style="font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis"><sc-for list="{{ r.parts }}" as="p" hint-placeholder-count="1"><span style="font-weight:{{ p.w }};color:{{ p.c }}">{{ p.t }}</span></sc-for></span>
-                <span style="font-size:13px;color:#6B7280;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ r.subLabel }}</span>
+                <span style="font-size:13px;color:var(--ink-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ r.subLabel }}</span>
               </span>
             </button>
           </sc-for>
-          <sc-if value="{{ sLoading }}" hint-placeholder-val="{{ false }}"><div style="font-size:14px;color:#6B7280;padding:12px 8px">Ищем адрес…</div></sc-if>
-          <sc-if value="{{ noResults }}" hint-placeholder-val="{{ false }}"><div style="font-size:14px;color:#6B7280;padding:12px 8px;line-height:1.45">Ничего не нашли. Проверьте написание или поставьте точку на карте.</div></sc-if>
+          <sc-if value="{{ sLoading }}" hint-placeholder-val="{{ false }}"><div style="font-size:14px;color:var(--ink-2);padding:12px 8px">Ищем адрес…</div></sc-if>
+          <sc-if value="{{ noResults }}" hint-placeholder-val="{{ false }}"><div style="font-size:14px;color:var(--ink-2);padding:12px 8px;line-height:1.45">Ничего не нашли. Проверьте написание или поставьте точку на карте.</div></sc-if>
         </div>
-        <button type="button" onClick="{{ stopSearch }}" style="flex-shrink:0;display:flex;align-items:center;justify-content:center;gap:8px;height:48px;border:0;border-radius:999px;background:#F3F4F6;font:inherit;font-size:15px;font-weight:600;color:#111827;cursor:pointer" style-hover="background:#E5E7EB"><span style="width:12px;height:15px;background:#614BE2;clip-path:polygon(45% 0,100% 0,60% 45%,85% 45%,20% 100%,40% 55%,10% 55%)"></span>Указать точку на карте</button>
+        <button type="button" onClick="{{ stopSearch }}" style="flex-shrink:0;display:flex;align-items:center;justify-content:center;gap:8px;height:48px;border:0;border-radius:999px;background:var(--surface-2);font:inherit;font-size:15px;font-weight:600;color:var(--ink);cursor:pointer" style-hover="background:var(--surface-3)"><span style="width:12px;height:15px;background:var(--primary);clip-path:polygon(45% 0,100% 0,60% 45%,85% 45%,20% 100%,40% 55%,10% 55%)"></span>Указать точку на карте</button>
       </div>
       </sc-if>
 
       <!-- delivery -->
       <sc-if value="{{ showDeliv }}" hint-placeholder-val="{{ true }}">
         <div style="display:flex;flex-direction:column;gap:8px">
-          <button type="button" onClick="{{ startSearch }}" style="display:flex;align-items:center;gap:12px;width:100%;min-height:64px;border:2px solid {{ addrBorder }};background:#F7F7F9;border-radius:16px;padding:10px 14px 10px 10px;cursor:pointer;font:inherit;color:#111827;text-align:left;transition:border-color .15s" style-hover="border-color:#B7ACF3">
-            <span style="flex-shrink:0;width:40px;height:40px;border-radius:50%;background:#EFEDFC;display:flex;align-items:center;justify-content:center"><img src="assets/ic-pin-p.svg" alt="" style="width:18px;height:18px;object-fit:contain"></span>
+          <button type="button" onClick="{{ startSearch }}" style="display:flex;align-items:center;gap:12px;width:100%;min-height:64px;border:2px solid {{ addrBorder }};background:var(--surface-1);border-radius:16px;padding:10px 14px 10px 10px;cursor:pointer;font:inherit;color:var(--ink);text-align:left;transition:border-color .15s" style-hover="border-color:#B7ACF3">
+            <span style="flex-shrink:0;width:40px;height:40px;border-radius:50%;background:var(--primary-100);display:flex;align-items:center;justify-content:center"><img src="assets/ic-pin-p.svg" alt="" style="width:18px;height:18px;object-fit:contain"></span>
             <span style="display:flex;flex-direction:column;gap:2px;min-width:0;flex:1">
               <span style="font-size:16px;font-weight:700;color:{{ addrColor }};white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ addrLine }}</span>
-              <span style="font-size:13px;color:#6B7280;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ addrSub }}</span>
+              <span style="font-size:13px;color:var(--ink-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ addrSub }}</span>
             </span>
-            <span style="flex-shrink:0;font-size:14px;font-weight:600;color:#614BE2">Изменить</span>
+            <span style="flex-shrink:0;font-size:14px;font-weight:600;color:var(--primary)">Изменить</span>
           </button>
           <sc-if value="{{ houseWarn }}" hint-placeholder-val="{{ false }}"><div style="font-size:13px;font-weight:600;color:#B45309;padding:0 4px">Уточните номер дома — нажмите на адрес</div></sc-if>
         </div>
         <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px">
-          <div style="background:#F7F7F9;border-radius:16px;padding:12px 14px;display:flex;flex-direction:column;gap:4px;min-width:0">
-            <span style="font-size:11px;font-weight:600;letter-spacing:.04em;color:#6B7280">ПРИВЕЗЁМ ЗА</span>
+          <div style="background:var(--surface-1);border-radius:16px;padding:12px 14px;display:flex;flex-direction:column;gap:4px;min-width:0">
+            <span style="font-size:11px;font-weight:600;letter-spacing:.04em;color:var(--ink-2)">ПРИВЕЗЁМ ЗА</span>
             <sc-if value="{{ quoteKnown }}" hint-placeholder-val="{{ true }}"><span style="font-size:18px;font-weight:700;white-space:nowrap;animation:frito-fade .3s ease-out both">{{ etaLabel }}</span></sc-if>
             <sc-if value="{{ quoteUnknown }}" hint-placeholder-val="{{ false }}"><span class="frito-skel" style="height:22px;width:78%;border-radius:8px;margin:1px 0"></span></sc-if>
-            <span style="font-size:12px;color:#6B7280;line-height:1.35;text-wrap:pretty">{{ etaSub }}</span>
+            <span style="font-size:12px;color:var(--ink-2);line-height:1.35;text-wrap:pretty">{{ etaSub }}</span>
           </div>
-          <div style="background:#F7F7F9;border-radius:16px;padding:12px 14px;display:flex;flex-direction:column;gap:4px;min-width:0">
-            <span style="font-size:11px;font-weight:600;letter-spacing:.04em;color:#6B7280">ДОСТАВКА</span>
+          <div style="background:var(--surface-1);border-radius:16px;padding:12px 14px;display:flex;flex-direction:column;gap:4px;min-width:0">
+            <span style="font-size:11px;font-weight:600;letter-spacing:.04em;color:var(--ink-2)">ДОСТАВКА</span>
             <sc-if value="{{ quoteKnown }}" hint-placeholder-val="{{ true }}"><span style="font-size:18px;font-weight:700;white-space:nowrap;animation:frito-fade .3s ease-out both">{{ feeLabel }}</span></sc-if>
             <sc-if value="{{ quoteUnknown }}" hint-placeholder-val="{{ false }}"><span class="frito-skel" style="height:22px;width:78%;border-radius:8px;margin:1px 0"></span></sc-if>
-            <span style="font-size:12px;color:#6B7280;line-height:1.35;text-wrap:pretty">{{ feeSub }}</span>
+            <span style="font-size:12px;color:var(--ink-2);line-height:1.35;text-wrap:pretty">{{ feeSub }}</span>
           </div>
         </div>
       </sc-if>
@@ -131,11 +131,11 @@
       <sc-if value="{{ showOut }}" hint-placeholder-val="{{ false }}">
         <div style="display:flex;flex-direction:column;gap:8px">
           <h3 style="margin:0;font-size:22px;font-weight:700;line-height:1.2">Сюда пока не доставляем</h3>
-          <p style="margin:0;font-size:15px;color:#6B7280;line-height:1.45;text-wrap:pretty">{{ outSub }}</p>
+          <p style="margin:0;font-size:15px;color:var(--ink-2);line-height:1.45;text-wrap:pretty">{{ outSub }}</p>
         </div>
         <div style="display:flex;flex-direction:column;gap:10px">
-          <button type="button" onClick="{{ toPickup }}" style="height:56px;border:0;border-radius:999px;background:#614BE2;color:#fff;font:inherit;font-size:16px;font-weight:600;cursor:pointer" style-hover="background:#503BCB">Выбрать самовывоз</button>
-          <button type="button" onClick="{{ startSearchEmpty }}" style="height:56px;border:0;border-radius:999px;background:#F3F4F6;color:#111827;font:inherit;font-size:16px;font-weight:600;cursor:pointer" style-hover="background:#E5E7EB">Ввести другой адрес</button>
+          <button type="button" onClick="{{ toPickup }}" style="height:56px;border:0;border-radius:999px;background:var(--primary);color:#fff;font:inherit;font-size:16px;font-weight:600;cursor:pointer" style-hover="background:var(--primary-hover)">Выбрать самовывоз</button>
+          <button type="button" onClick="{{ startSearchEmpty }}" style="height:56px;border:0;border-radius:999px;background:var(--surface-2);color:var(--ink);font:inherit;font-size:16px;font-weight:600;cursor:pointer" style-hover="background:var(--surface-3)">Ввести другой адрес</button>
         </div>
       </sc-if>
 
@@ -143,15 +143,15 @@
       <sc-if value="{{ showPickup }}" hint-placeholder-val="{{ false }}">
         <div style="display:flex;align-items:baseline;justify-content:space-between;gap:12px">
           <h3 style="margin:0;font-size:18px;font-weight:700">Рестораны Frito</h3>
-          <span style="font-size:13px;color:#6B7280">{{ pickCaption }}</span>
+          <span style="font-size:13px;color:var(--ink-2)">{{ pickCaption }}</span>
         </div>
         <sc-if value="{{ isSheet }}" hint-placeholder-val="{{ false }}">
           <div ref="{{ carRef }}" onScroll="{{ onCarScroll }}" style="display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding:0 20px;padding:2px 20px 4px;margin:0 -20px;scrollbar-width:none">
             <sc-for list="{{ stores }}" as="s" hint-placeholder-count="2">
-              <button type="button" data-idx="{{ s.idx }}" onClick="{{ s.pick }}" style="flex:0 0 78%;scroll-snap-align:start;display:flex;flex-direction:column;gap:10px;border:2px solid {{ s.border }};background:{{ s.bg }};border-radius:20px;padding:14px 16px;cursor:pointer;font:inherit;color:#111827;text-align:left;transition:border-color .15s,background .15s">
+              <button type="button" data-idx="{{ s.idx }}" onClick="{{ s.pick }}" style="flex:0 0 78%;scroll-snap-align:start;display:flex;flex-direction:column;gap:10px;border:2px solid {{ s.border }};background:{{ s.bg }};border-radius:20px;padding:14px 16px;cursor:pointer;font:inherit;color:var(--ink);text-align:left;transition:border-color .15s,background .15s">
                 <span style="display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%">
                   <span style="font-size:17px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ s.name }}</span>
-                  <span style="flex-shrink:0;font-size:13px;font-weight:600;color:#614BE2;background:#EFEDFC;border-radius:999px;padding:4px 10px">{{ s.dist }}</span>
+                  <span style="flex-shrink:0;font-size:13px;font-weight:600;color:var(--primary);background:var(--primary-100);border-radius:999px;padding:4px 10px">{{ s.dist }}</span>
                 </span>
                 <span style="display:flex;align-items:center;gap:8px;font-size:13px;font-weight:500;color:{{ s.openColor }}"><span style="width:8px;height:8px;border-radius:50%;background:{{ s.openColor }}"></span>{{ s.openText }}</span>
               </button>
@@ -161,10 +161,10 @@
         <sc-if value="{{ isCenter }}" hint-placeholder-val="{{ true }}">
         <div style="display:flex;flex-direction:column;gap:8px">
           <sc-for list="{{ stores }}" as="s" hint-placeholder-count="4">
-            <button type="button" onClick="{{ s.pick }}" style="display:flex;flex-direction:column;gap:10px;width:100%;border:2px solid {{ s.border }};background:{{ s.bg }};border-radius:20px;padding:14px 16px;cursor:pointer;font:inherit;color:#111827;text-align:left;transition:border-color .15s,background .15s" style-hover="border-color:#B7ACF3">
+            <button type="button" onClick="{{ s.pick }}" style="display:flex;flex-direction:column;gap:10px;width:100%;border:2px solid {{ s.border }};background:{{ s.bg }};border-radius:20px;padding:14px 16px;cursor:pointer;font:inherit;color:var(--ink);text-align:left;transition:border-color .15s,background .15s" style-hover="border-color:#B7ACF3">
               <span style="display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%">
                 <span style="font-size:17px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ s.name }}</span>
-                <span style="flex-shrink:0;font-size:13px;font-weight:600;color:#614BE2;background:#EFEDFC;border-radius:999px;padding:4px 10px">{{ s.dist }}</span>
+                <span style="flex-shrink:0;font-size:13px;font-weight:600;color:var(--primary);background:var(--primary-100);border-radius:999px;padding:4px 10px">{{ s.dist }}</span>
               </span>
               <span style="display:flex;align-items:center;gap:8px;font-size:13px;font-weight:500;color:{{ s.openColor }}"><span style="width:8px;height:8px;border-radius:50%;background:{{ s.openColor }}"></span>{{ s.openText }}</span>
             </button>
@@ -175,14 +175,14 @@
     </div>
 
     <sc-if value="{{ showDeliv }}" hint-placeholder-val="{{ true }}">
-      <div style="padding:12px 20px 24px;border-top:1px solid #F1F1F4;background:#fff">
+      <div style="padding:12px 20px 24px;border-top:1px solid var(--divider);background:#fff">
         <button type="button" onClick="{{ confirm }}" disabled="{{ ctaDisabled }}" style="width:100%;height:56px;border:0;border-radius:999px;background:{{ ctaBg }};color:{{ ctaColor }};font:inherit;font-size:17px;font-weight:600;cursor:{{ ctaCursor }};transition:background .15s">{{ ctaLabel }}</button>
       </div>
     </sc-if>
     <sc-if value="{{ showPickup }}" hint-placeholder-val="{{ false }}">
-      <div style="padding:12px 20px 24px;border-top:1px solid #F1F1F4;background:#fff;display:flex;flex-direction:column;gap:8px">
-        <button type="button" onClick="{{ confirm }}" style="width:100%;height:56px;border:0;border-radius:999px;background:#614BE2;color:#fff;font:inherit;font-size:17px;font-weight:600;cursor:pointer" style-hover="background:#503BCB">Заберу отсюда</button>
-        <span style="font-size:13px;color:#6B7280;text-align:center">Готово через 15 минут · без доплаты</span>
+      <div style="padding:12px 20px 24px;border-top:1px solid var(--divider);background:#fff;display:flex;flex-direction:column;gap:8px">
+        <button type="button" onClick="{{ confirm }}" style="width:100%;height:56px;border:0;border-radius:999px;background:var(--primary);color:#fff;font:inherit;font-size:17px;font-weight:600;cursor:pointer" style-hover="background:var(--primary-hover)">Заберу отсюда</button>
+        <span style="font-size:13px;color:var(--ink-2);text-align:center">Готово через 15 минут · без доплаты</span>
       </div>
     </sc-if>
   </div>

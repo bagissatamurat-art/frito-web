@@ -7,7 +7,7 @@
 </head>
 <body>
 <x-dc>
-<div style="display:flex;align-items:center;gap:4px;background:#F3F4F6;border-radius:999px;padding:4px;font-family:Inter,system-ui,sans-serif;width:100%">
+<div style="display:flex;align-items:center;gap:4px;background:var(--surface-2);border-radius:999px;padding:4px;font-family:var(--font);width:100%">
   <button onClick="{{ pickDelivery }}" style="flex:1;display:flex;align-items:center;justify-content:center;gap:8px;border:0;cursor:pointer;font:inherit;font-size:{{ fs }};font-weight:600;height:{{ h }};border-radius:999px;padding:0 14px;white-space:nowrap;background:{{ dBg }};color:{{ dColor }};box-shadow:{{ dShadow }};transition:all .15s"><sc-if value="{{ icons }}" hint-placeholder-val="{{ false }}"><img src="{{ dIcon }}" alt="" style="width:20px;height:20px;object-fit:contain"></sc-if>Доставка</button>
   <button onClick="{{ pickPickup }}" style="flex:1;display:flex;align-items:center;justify-content:center;gap:8px;border:0;cursor:pointer;font:inherit;font-size:{{ fs }};font-weight:600;height:{{ h }};border-radius:999px;padding:0 14px;white-space:nowrap;background:{{ pBg }};color:{{ pColor }};box-shadow:{{ pShadow }};transition:all .15s"><sc-if value="{{ icons }}" hint-placeholder-val="{{ false }}"><img src="{{ pIcon }}" alt="" style="width:20px;height:20px;object-fit:contain"></sc-if>Самовывоз</button>
 </div>
@@ -17,7 +17,7 @@ class Component extends DCLogic {
   renderVals() {
     const p = this.props, m = p.mode ?? null;
     const filled = p.variant === 'filled';
-    const st = on => on ? (filled ? { bg: '#614BE2', color: '#fff', shadow: 'none' } : { bg: '#fff', color: '#111827', shadow: '0 1px 3px rgba(17,24,39,.12)' }) : { bg: 'transparent', color: '#6B7280', shadow: 'none' };
+    const st = on => on ? (filled ? { bg: 'var(--primary)', color: '#fff', shadow: 'none' } : { bg: '#fff', color: 'var(--ink)', shadow: '0 1px 3px rgba(17,24,39,.12)' }) : { bg: 'transparent', color: 'var(--ink-2)', shadow: 'none' };
     const d = st(m === 'delivery'), k = st(m === 'pickup');
     const ic = (name, on) => 'assets/ic-' + name + (filled && on ? '-w' : '-p') + '.svg';
     return { dBg: d.bg, dColor: d.color, dShadow: d.shadow, pBg: k.bg, pColor: k.color, pShadow: k.shadow, icons: !!p.icons,

@@ -7,7 +7,7 @@
 </head>
 <body>
 <x-dc>
-<footer style="background:#1B1740;border-radius:28px;padding:clamp(28px,4vw,40px) clamp(22px,4vw,40px) 28px;display:flex;flex-direction:column;gap:32px;color:#fff;font-family:Inter,system-ui,sans-serif">
+<footer style="background:var(--dark);border-radius:28px;padding:clamp(28px,4vw,40px) clamp(22px,4vw,40px) 28px;display:flex;flex-direction:column;gap:32px;color:#fff;font-family:var(--font)">
   <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:32px;flex-wrap:wrap">
     <div style="display:flex;flex-direction:column;gap:14px;max-width:360px">
       <sc-if value="{{ logoOk }}" hint-placeholder-val="{{ true }}"><img src="https://frito.kz/brand.svg" alt="FRITO" onError="{{ logoFail }}" style="height:34px;width:max-content;display:block;filter:brightness(0) invert(1)"></sc-if>
@@ -18,7 +18,7 @@
       <a href="tel:+77009380000" style="font-size:22px;font-weight:700;color:#fff;letter-spacing:-.01em">+7 700 938 0000</a>
       <span style="font-size:13px;color:rgba(255,255,255,.55)">ежедневно 11:30 – 02:00</span>
       <div style="display:flex;gap:8px;margin-top:4px">
-        <a href="https://wa.me/77009380000" aria-label="WhatsApp" style="width:44px;height:44px;border-radius:50%;background:#614BE2;display:flex;align-items:center;justify-content:center" style-hover="background:#503BCB"><img src="assets/ic-whatsapp-w.svg" alt="" style="width:20px;height:20px"></a>
+        <a href="https://wa.me/77009380000" aria-label="WhatsApp" style="width:44px;height:44px;border-radius:50%;background:var(--primary);display:flex;align-items:center;justify-content:center" style-hover="background:var(--primary-hover)"><img src="assets/ic-whatsapp-w.svg" alt="" style="width:20px;height:20px"></a>
         <a href="https://www.instagram.com/frito.kz/" aria-label="Instagram" style="width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center" style-hover="background:rgba(255,255,255,.18)"><img src="assets/ic-instagram-w.svg" alt="" style="width:20px;height:20px"></a>
         <a href="https://www.tiktok.com/@frito.kz" aria-label="TikTok" style="width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center" style-hover="background:rgba(255,255,255,.18)"><img src="assets/ic-tiktok-w.svg" alt="" style="width:32px;height:32px"></a>
       </div>
@@ -28,13 +28,13 @@
   <div style="display:flex;flex-direction:column;gap:12px">
     <div style="display:flex;align-items:center;justify-content:space-between;gap:12px">
       <span style="font-size:13px;font-weight:700;color:rgba(255,255,255,.55);letter-spacing:.04em">РЕСТОРАНЫ · {{ storeCount }}</span>
-      <a href="#" style="font-size:13px;font-weight:600;color:#A899FF" style-hover="color:#fff">Все адреса на карте →</a>
+      <a href="#" style="font-size:13px;font-weight:600;color:var(--primary-light)" style-hover="color:#fff">Все адреса на карте →</a>
     </div>
     <div style="display:flex;gap:8px;flex-wrap:wrap">
       <sc-for list="{{ shown }}" as="st" hint-placeholder-count="5">
         <a href="#" style="display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.06);border-radius:999px;padding:8px 14px 8px 10px;color:#fff" style-hover="background:rgba(255,255,255,.12);color:#fff"><img src="assets/ic-pin-p.svg" alt="" style="width:14px;height:14px;filter:brightness(0) invert(1);opacity:.7"><span style="font-size:13px;font-weight:600;white-space:nowrap">{{ st.name }}</span><span style="font-size:12px;color:rgba(255,255,255,.5);white-space:nowrap">{{ st.hours }}</span></a>
       </sc-for>
-      <sc-if value="{{ hasMore }}" hint-placeholder-val="{{ false }}"><a href="#" style="display:flex;align-items:center;background:rgba(168,153,255,.15);border-radius:999px;padding:8px 14px;color:#A899FF;font-size:13px;font-weight:600">ещё {{ more }}</a></sc-if>
+      <sc-if value="{{ hasMore }}" hint-placeholder-val="{{ false }}"><a href="#" style="display:flex;align-items:center;background:rgba(168,153,255,.15);border-radius:999px;padding:8px 14px;color:var(--primary-light);font-size:13px;font-weight:600">ещё {{ more }}</a></sc-if>
     </div>
   </div>
   </sc-if>

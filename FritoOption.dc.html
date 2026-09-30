@@ -7,11 +7,11 @@
 </head>
 <body>
 <x-dc>
-<button onClick="{{ toggle }}" role="{{ role }}" aria-checked="{{ sel }}" aria-disabled="{{ dis }}" style="width:100%;min-height:56px;display:flex;align-items:center;gap:14px;padding:12px 16px;border:2px solid {{ border }};background:{{ bg }};border-radius:16px;font:inherit;font-family:Inter,system-ui,sans-serif;cursor:{{ cursor }};text-align:left;color:#111827;opacity:{{ op }};transition:border-color .15s,background .15s">
+<button onClick="{{ toggle }}" role="{{ role }}" aria-checked="{{ sel }}" aria-disabled="{{ dis }}" style="width:100%;min-height:56px;display:flex;align-items:center;gap:14px;padding:12px 16px;border:2px solid {{ border }};background:{{ bg }};border-radius:16px;font:inherit;font-family:var(--font);cursor:{{ cursor }};text-align:left;color:var(--ink);opacity:{{ op }};transition:border-color .15s,background .15s">
   <sc-if value="{{ isRadio }}" hint-placeholder-val="{{ true }}"><span style="flex-shrink:0;width:22px;height:22px;border-radius:50%;border:2px solid {{ markBorder }};background:{{ markBg }};display:flex;align-items:center;justify-content:center;transition:all .15s"><span style="width:8px;height:8px;border-radius:50%;background:#fff;opacity:{{ markOp }}"></span></span></sc-if>
   <sc-if value="{{ isCheck }}" hint-placeholder-val="{{ false }}"><span style="flex-shrink:0;width:20px;height:20px;border-radius:6px;border:2px solid {{ markBorder }};background:{{ markBg }};display:flex;align-items:center;justify-content:center;margin:0 1px;transition:all .15s"><span style="color:#fff;font-size:12px;font-weight:800;line-height:1;opacity:{{ markOp }}">✓</span></span></sc-if>
   <span style="flex:1;min-width:0;font-size:15px;font-weight:500;line-height:1.35">{{ label }}</span>
-  <sc-if value="{{ hasPrice }}" hint-placeholder-val="{{ false }}"><span style="flex-shrink:0;font-size:14px;font-weight:600;color:#6B7280;white-space:nowrap">{{ priceLabel }}</span></sc-if>
+  <sc-if value="{{ hasPrice }}" hint-placeholder-val="{{ false }}"><span style="flex-shrink:0;font-size:14px;font-weight:600;color:var(--ink-2);white-space:nowrap">{{ priceLabel }}</span></sc-if>
 </button>
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:420,&quot;height&quot;:80},&quot;type&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;radio&quot;,&quot;options&quot;:[&quot;radio&quot;,&quot;checkbox&quot;],&quot;tsType&quot;:&quot;'radio' | 'checkbox'&quot;},&quot;label&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Неострый&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;price&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:0,&quot;min&quot;:0,&quot;max&quot;:5000,&quot;step&quot;:50,&quot;unit&quot;:&quot;тг&quot;,&quot;tsType&quot;:&quot;number&quot;},&quot;selected&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;},&quot;disabled&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;},&quot;onToggle&quot;:{&quot;editor&quot;:null,&quot;default&quot;:null,&quot;tsType&quot;:&quot;() =&gt; void&quot;}}">
@@ -22,8 +22,8 @@ class Component extends DCLogic {
     return {
       isRadio: radio, isCheck: !radio, role: radio ? 'radio' : 'checkbox', sel, dis, label: p.label ?? 'Неострый',
       hasPrice: price > 0, priceLabel: '+' + fmt(price),
-      border: sel ? '#614BE2' : '#ECECF1', bg: sel ? '#F5F3FF' : '#fff', op: dis ? .45 : 1, cursor: dis ? 'not-allowed' : 'pointer',
-      markBorder: sel ? '#614BE2' : '#D1D5DB', markBg: sel ? '#614BE2' : '#fff', markOp: sel ? 1 : 0,
+      border: sel ? 'var(--primary)' : 'var(--border)', bg: sel ? 'var(--primary-50)' : '#fff', op: dis ? .45 : 1, cursor: dis ? 'not-allowed' : 'pointer',
+      markBorder: sel ? 'var(--primary)' : 'var(--neutral-300)', markBg: sel ? 'var(--primary)' : '#fff', markOp: sel ? 1 : 0,
       toggle: () => { if (!dis && p.onToggle) p.onToggle(); },
     };
   }
