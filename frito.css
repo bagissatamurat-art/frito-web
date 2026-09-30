@@ -409,3 +409,65 @@ img.f-option__icon{object-fit:contain}
 .f-footer__link{font-size:13px;font-weight:500;color:rgba(255,255,255,.75)}
 .f-footer__link:hover{color:#fff}
 .f-footer__copy{font-size:12px;color:rgba(255,255,255,.4)}
+
+/* 8. Модалка адреса с картой (FritoAddressModal) ----------------------------- */
+.f-am__mapfail{position:absolute;inset:0;z-index:1;display:flex;align-items:center;justify-content:center;font-size:14px;color:var(--ink-2)}
+.f-am__pin-stem{position:absolute;left:24px;top:36px;width:4px;height:38px;border-radius:2px;background:var(--primary);z-index:0}
+.f-am__pin-head{position:absolute;left:0;top:0;z-index:1;box-sizing:border-box;width:52px;height:52px;border-radius:50%;background:var(--primary);border:3px solid #fff;box-shadow:0 6px 16px rgba(50,30,140,.35);display:flex;align-items:center;justify-content:center}
+.f-am__bolt{width:20px;height:25px;background:#fff;clip-path:polygon(45% 0,100% 0,60% 45%,85% 45%,20% 100%,40% 55%,10% 55%);transform:translateX(-1px)}
+.f-am__pin-spin{width:22px;height:22px;box-sizing:border-box;border-radius:50%;border:3px solid rgba(255,255,255,.3);border-top-color:#fff;animation:frito-spin .7s linear infinite}
+.f-am__topbar{position:absolute;top:20px;left:16px;right:16px;z-index:4;display:flex;align-items:center;gap:14px}
+.f-am__topbar-close{flex-shrink:0;width:48px;height:48px}
+.f-am__topbar-seg{flex:1;min-width:0;background:#fff;border-radius:999px;padding:2px;box-shadow:0 4px 14px rgba(17,24,39,.15)}
+.f-am__close{position:absolute;top:20px;right:20px;z-index:4;width:48px;height:48px}
+.f-am__zoom{display:flex;flex-direction:column;background:#fff;border-radius:14px;box-shadow:0 4px 14px rgba(17,24,39,.15);overflow:hidden}
+.f-am__zoom-btn{width:44px;height:44px;border:0;background:#fff;cursor:pointer;font:inherit;font-size:22px;font-weight:500;color:var(--ink);padding:0}
+.f-am__zoom-btn:hover{background:var(--surface-2)}
+.f-am__zoom-sep{height:1px;background:var(--divider);margin:0 10px}
+.f-am__locate{width:52px;height:52px;border:0;border-radius:50%;background:#fff;box-shadow:0 4px 14px rgba(17,24,39,.15);cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0}
+.f-am__locate:hover{background:var(--surface-1)}
+.f-am__head{padding:28px 28px 0;display:flex;flex-direction:column;gap:18px}
+.f-am__title{margin:0;font-size:26px;font-weight:700;line-height:1.15;letter-spacing:-.01em;text-wrap:pretty}
+.f-am__search{flex:1 1 0;min-height:0;display:flex;flex-direction:column;gap:12px}
+.f-am__search-row{flex-shrink:0;display:flex;align-items:center;gap:8px}
+.f-am__back{flex-shrink:0;width:44px;height:44px;border:0;border-radius:50%;background:var(--surface-2);cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0}
+.f-am__back-arrow{width:10px;height:10px;border-left:2.5px solid var(--ink);border-bottom:2.5px solid var(--ink);transform:rotate(45deg);margin-left:4px}
+.f-am__query{flex:1;min-width:0;height:52px;background:var(--surface-1);border-radius:14px;border:2px solid var(--primary);display:flex;align-items:center;gap:10px;padding:0 8px 0 12px;cursor:text}
+.f-am__query-input{flex:1;min-width:0;border:0;background:transparent;font:inherit;font-size:16px;font-weight:600;color:var(--ink);outline:none;padding:0}
+.f-am__query-clear{flex-shrink:0;width:28px;height:28px;border:0;border-radius:50%;background:var(--surface-3);color:var(--ink-2);cursor:pointer;padding:0;display:flex;align-items:center;justify-content:center}
+.f-am__query-clear:hover{background:var(--neutral-300);color:var(--ink)}
+.f-am__cancel{flex-shrink:0;border:0;background:transparent;font:inherit;font-size:14px;font-weight:600;color:var(--primary);cursor:pointer;padding:0 4px}
+.f-am__results{flex:1 1 0;min-height:0;overflow-y:auto;display:flex;flex-direction:column;gap:2px;margin:0 -8px;padding:0 8px}
+.f-am__results-label{font-size:12px;font-weight:600;color:var(--ink-2);letter-spacing:.04em;padding:4px 8px}
+.f-am__result-icon{flex-shrink:0;width:36px;height:36px;border-radius:50%;background:var(--surface-2);display:flex;align-items:center;justify-content:center}
+.f-am__lines{display:flex;flex-direction:column;gap:2px;min-width:0;flex:1}
+.f-am__result-title{font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.f-am__line-sub{font-size:13px;color:var(--ink-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.f-am__msg{font-size:14px;color:var(--ink-2);padding:12px 8px}
+.f-am__tomap{flex-shrink:0;display:flex;align-items:center;justify-content:center;gap:8px;height:48px;border:0;border-radius:999px;background:var(--surface-2);font:inherit;font-size:15px;font-weight:600;color:var(--ink);cursor:pointer}
+.f-am__tomap:hover{background:var(--surface-3)}
+.f-am__bolt-sm{width:12px;height:15px;background:var(--primary);clip-path:polygon(45% 0,100% 0,60% 45%,85% 45%,20% 100%,40% 55%,10% 55%)}
+.f-am__stack{display:flex;flex-direction:column;gap:8px}
+.f-am__addr-icon{flex-shrink:0;width:40px;height:40px;border-radius:50%;background:var(--primary-100);display:flex;align-items:center;justify-content:center}
+.f-am__addr-pin{width:18px;height:18px;object-fit:contain}
+.f-am__addr-action{flex-shrink:0;font-size:14px;font-weight:600;color:var(--primary)}
+.f-am__warn{font-size:13px;font-weight:600;color:#B45309;padding:0 4px}
+.f-am__quotes{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.f-am__quote{background:var(--surface-1);border-radius:16px;padding:12px 14px;display:flex;flex-direction:column;gap:4px;min-width:0}
+.f-am__quote-k{font-size:11px;font-weight:600;letter-spacing:.04em;color:var(--ink-2)}
+.f-am__quote-v{font-size:18px;font-weight:700;white-space:nowrap;animation:frito-fade .3s ease-out both}
+.f-am__quote-skel{height:22px;width:78%;border-radius:8px;margin:1px 0}
+.f-am__quote-sub{font-size:12px;color:var(--ink-2);line-height:1.35;text-wrap:pretty}
+.f-am__out-title{margin:0;font-size:22px;font-weight:700;line-height:1.2}
+.f-am__out-text{margin:0;font-size:15px;color:var(--ink-2);line-height:1.45;text-wrap:pretty}
+.f-am__actions{display:flex;flex-direction:column;gap:10px}
+.f-am__pick-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px}
+.f-am__pick-title{margin:0;font-size:18px;font-weight:700}
+.f-am__caption{font-size:13px;color:var(--ink-2)}
+.f-am__carousel{display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding:0 20px;padding:2px 20px 4px;margin:0 -20px;scrollbar-width:none}
+.f-am__store-row{display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%}
+.f-am__store-name{font-size:17px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.f-am__store-dist{flex-shrink:0;font-size:13px;font-weight:600;color:var(--primary);background:var(--primary-100);border-radius:999px;padding:4px 10px}
+.f-am__foot{padding:12px 20px 24px;border-top:1px solid var(--divider);background:#fff}
+.f-am__foot-note{font-size:13px;color:var(--ink-2);text-align:center}
+.f-am__foot--col{display:flex;flex-direction:column;gap:8px}
