@@ -3,6 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<link rel="stylesheet" href="./frito.css">
+<script src="./frito.js"></script>
 <script src="./support.js"></script>
 </head>
 <body>
@@ -11,10 +13,6 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-html,body{max-width:100%;overflow-x:clip;overscroll-behavior-x:none;-webkit-text-size-adjust:100%}
-.sc-placeholder,.sc-interp.sc-missing{border:0!important;background:transparent!important}
-.sc-placeholder::before,.sc-interp.sc-missing::before{display:none!important}
-*{-webkit-tap-highlight-color:transparent}
 body{margin:0;background:#E9E8F0;}
 a{color:#614BE2;text-decoration:none}a:hover{color:#4A36C4}
 *{box-sizing:border-box}
@@ -119,7 +117,7 @@ input,textarea,button{outline:none}
           <div style="display:flex;flex-direction:column;gap:12px">
             <sc-for list="{{ lines }}" as="l" hint-placeholder-count="3">
               <div style="display:grid;grid-template-columns:48px minmax(0,1fr) auto;gap:12px;align-items:center">
-                <div style="width:48px;height:48px;border-radius:12px;background:#F3F4F6;overflow:hidden"><img src="{{ l.img }}" alt="" style="width:100%;height:100%;object-fit:cover;display:block;filter:{{ l.imgFilter }}"></div>
+                <div style="width:48px;height:48px;border-radius:12px;background:#F3F4F6;overflow:hidden"><img data-skel src="{{ l.img }}" alt="" style="width:100%;height:100%;object-fit:cover;display:block;filter:{{ l.imgFilter }}"></div>
                 <div style="display:flex;flex-direction:column;gap:2px;min-width:0"><span style="font-size:14px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:{{ l.nameColor }}">{{ l.name }}</span><sc-if value="{{ l.hasMods }}" hint-placeholder-val="{{ true }}"><span style="font-size:12px;color:#6B7280;line-height:1.35">{{ l.mods }}</span></sc-if><sc-if value="{{ l.soldOut }}" hint-placeholder-val="{{ false }}"><span style="display:flex;align-items:center;gap:6px;font-size:12px;color:#EF4444;font-weight:600"><span style="width:6px;height:6px;border-radius:50%;background:#EF4444;flex-shrink:0"></span>Разобрали</span></sc-if><span style="font-size:12px;color:#9CA3AF">{{ l.qtyLabel }}</span></div>
                 <sc-if value="{{ l.ok }}" hint-placeholder-val="{{ true }}"><span style="font-size:14px;font-weight:700;white-space:nowrap">{{ l.total }}</span></sc-if>
                 <sc-if value="{{ l.soldOut }}" hint-placeholder-val="{{ false }}"><span style="font-size:14px;font-weight:700;white-space:nowrap;color:#9CA3AF;text-decoration:line-through">{{ l.total }}</span></sc-if>
@@ -238,7 +236,7 @@ input,textarea,button{outline:none}
       <div style="display:flex;flex-direction:column;gap:10px">
         <sc-for list="{{ lines }}" as="l" hint-placeholder-count="3">
           <div style="display:grid;grid-template-columns:44px minmax(0,1fr) auto;gap:10px;align-items:center">
-            <div style="width:44px;height:44px;border-radius:11px;background:#F3F4F6;overflow:hidden"><img src="{{ l.img }}" alt="" style="width:100%;height:100%;object-fit:cover;display:block;filter:{{ l.imgFilter }}"></div>
+            <div style="width:44px;height:44px;border-radius:11px;background:#F3F4F6;overflow:hidden"><img data-skel src="{{ l.img }}" alt="" style="width:100%;height:100%;object-fit:cover;display:block;filter:{{ l.imgFilter }}"></div>
             <div style="display:flex;flex-direction:column;gap:1px;min-width:0"><span style="font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:{{ l.nameColor }}">{{ l.name }}</span><sc-if value="{{ l.hasMods }}" hint-placeholder-val="{{ true }}"><span style="font-size:11px;color:#6B7280;line-height:1.35">{{ l.mods }}</span></sc-if><sc-if value="{{ l.soldOut }}" hint-placeholder-val="{{ false }}"><span style="display:flex;align-items:center;gap:6px;font-size:11px;color:#EF4444;font-weight:600"><span style="width:6px;height:6px;border-radius:50%;background:#EF4444;flex-shrink:0"></span>Разобрали</span></sc-if><span style="font-size:11px;color:#9CA3AF">{{ l.qtyLabel }}</span></div>
             <sc-if value="{{ l.ok }}" hint-placeholder-val="{{ true }}"><span style="font-size:13px;font-weight:700;white-space:nowrap">{{ l.total }}</span></sc-if>
             <sc-if value="{{ l.soldOut }}" hint-placeholder-val="{{ false }}"><span style="font-size:13px;font-weight:700;white-space:nowrap;color:#9CA3AF;text-decoration:line-through">{{ l.total }}</span></sc-if>
@@ -344,7 +342,7 @@ class Component extends DCLogic {
       countLabel: D.plural(LINES.reduce((a, l) => a + (l.soldOut ? 0 : l.qty), 0)),
       hasSold, soldText: soldLines.map(l => l.name).join(', ') + ' разобрали — уберите ' + (soldLines.length > 1 ? 'их' : 'его') + ', чтобы продолжить',
       removeSold: () => this.setState(st => ({ hidden: { ...st.hidden, ...Object.fromEntries(soldLines.map(l => [l.id, true])) } })),
-      payDisabled: hasSold || LINES.length === 0, payGo: () => { location.href = 'status.dc.html'; }, payCursor: hasSold ? 'not-allowed' : 'pointer',
+      payDisabled: hasSold || LINES.length === 0, payGo: () => { location.href = 'order-status.html?mode=' + mode; }, payCursor: hasSold ? 'not-allowed' : 'pointer',
       payBg: hasSold ? '#E5E7EB' : '#614BE2', payColor: hasSold ? '#9CA3AF' : '#fff', payOpacity: hasSold ? .5 : 1, payFilter: hasSold ? 'grayscale(1)' : 'none',
       hasPromo, noPromo: !hasPromo, promoCode: promo, promoDesc: '−' + pct + '% на первый заказ',
       removePromo: () => this.setState({ promo: null, promoTouched: true }),

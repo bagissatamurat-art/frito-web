@@ -8,9 +8,9 @@
 <body>
 <x-dc>
 <div style="position:relative;width:100%;height:100%;font-family:Inter,system-ui,sans-serif;color:#111827">
-<sc-if value="{{ isCenter }}" hint-placeholder-val="{{ true }}"><div onClick="{{ close }}" style="position:absolute;inset:0;background:rgba(17,24,39,.45)"></div></sc-if>
+<sc-if value="{{ isCenter }}" hint-placeholder-val="{{ true }}"><div onClick="{{ close }}" style="position:absolute;inset:0;background:rgba(17,24,39,.45);animation:frito-fade .22s ease-out both"></div></sc-if>
 <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:{{ wrapPad }};pointer-events:none">
-<div role="dialog" aria-modal="true" aria-label="{{ title }}" style="position:relative;pointer-events:auto;width:100%;height:100%;max-width:{{ dlgMaxW }};max-height:{{ dlgMaxH }};border-radius:{{ dlgRadius }};overflow:hidden;background:#fff;display:flex;flex-direction:{{ dlgDir }};box-shadow:0 40px 100px -30px rgba(0,0,0,.4)">
+<div role="dialog" aria-modal="true" aria-label="{{ title }}" style="position:relative;pointer-events:auto;width:100%;height:100%;max-width:{{ dlgMaxW }};max-height:{{ dlgMaxH }};border-radius:{{ dlgRadius }};overflow:hidden;background:#fff;display:flex;flex-direction:{{ dlgDir }};box-shadow:0 40px 100px -30px rgba(0,0,0,.4);animation:frito-rise .32s cubic-bezier(.2,.8,.2,1) both">
 
   <!-- MAP -->
   <div style="position:relative;flex:1 1 0;min-height:0;min-width:0;order:{{ mapOrder }};background:#EEF0F3;overflow:hidden">

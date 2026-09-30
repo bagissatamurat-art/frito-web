@@ -1,0 +1,24 @@
+/* Общие стили сайта. Подключается в <head> до support.js, поэтому действует с первого кадра. */
+html,body{max-width:100%;overflow-x:clip;overscroll-behavior-x:none;-webkit-text-size-adjust:100%}
+*{-webkit-tap-highlight-color:transparent}
+
+/* Заглушки dc-import, пока компонент грузится: без рамок; мелкие элементы — скелетон */
+.sc-placeholder,.sc-interp.sc-missing{border:0!important;background:transparent!important;color:transparent!important}
+.sc-placeholder::before,.sc-interp.sc-missing::before{display:none!important}
+.sc-placeholder:is([title=FritoInput],[title=FritoSegment],[title=FritoStepper],[title=FritoToggle],[title=FritoTotals],[title=FritoDeliveryBar],[title=FritoOption]){
+  background:linear-gradient(90deg,#F1F1F4 25%,#E8E8EE 37%,#F1F1F4 63%)!important;background-size:400% 100%!important;
+  border-radius:14px!important;animation:frito-shimmer 1.4s ease infinite}
+
+/* Скелетон картинок: фон переливается, картинка проявляется после загрузки (класс ставит frito.js) */
+img[data-skel]{opacity:0;transition:opacity .4s ease}
+img[data-skel].is-loaded{opacity:1}
+:has(> img[data-skel]:not(.is-loaded)){background-image:linear-gradient(90deg,#F1F1F4 25%,#E8E8EE 37%,#F1F1F4 63%)!important;background-size:400% 100%!important;animation:frito-shimmer 1.4s ease infinite}
+
+@keyframes frito-shimmer{0%{background-position:100% 50%}100%{background-position:0 50%}}
+@keyframes frito-fade{from{opacity:0}to{opacity:1}}
+@keyframes frito-pop{from{opacity:0;transform:translateY(12px) scale(.97)}to{opacity:1;transform:none}}
+@keyframes frito-rise{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:none}}
+@keyframes frito-sheet{from{transform:translateY(100%)}to{transform:none}}
+@keyframes frito-slide-l{from{transform:translateX(100%)}to{transform:none}}
+
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}

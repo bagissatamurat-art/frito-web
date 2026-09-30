@@ -10,8 +10,8 @@
 <div style="position:relative;width:100%;height:100%;font-family:Inter,system-ui,sans-serif;color:#111827">
 <sc-if value="{{ isCenter }}" hint-placeholder-val="{{ true }}">
   <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:40px">
-    <div onClick="{{ close }}" style="position:absolute;inset:0;background:rgba(17,24,39,.45)"></div>
-    <div role="dialog" aria-modal="true" style="position:relative;width:100%;max-width:560px;background:#fff;border-radius:32px;padding:36px 40px 40px;display:flex;flex-direction:column;gap:20px;box-shadow:0 40px 100px -30px rgba(0,0,0,.4)">
+    <div onClick="{{ close }}" style="position:absolute;inset:0;background:rgba(17,24,39,.45);animation:frito-fade .22s ease-out both"></div>
+    <div role="dialog" aria-modal="true" style="position:relative;width:100%;max-width:560px;background:#fff;border-radius:32px;padding:36px 40px 40px;display:flex;flex-direction:column;gap:20px;box-shadow:0 40px 100px -30px rgba(0,0,0,.4);animation:frito-pop .3s cubic-bezier(.2,.8,.2,1) both">
       <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px">
         <div style="display:flex;flex-direction:column;gap:10px">
           <h2 style="margin:0;font-size:30px;font-weight:700;line-height:1.15;letter-spacing:-.01em;text-wrap:pretty">Выберите способ получения заказа</h2>
@@ -35,8 +35,8 @@
   </div>
 </sc-if>
 <sc-if value="{{ isSheet }}" hint-placeholder-val="{{ false }}">
-  <div onClick="{{ close }}" style="position:absolute;inset:0;background:rgba(17,24,39,.45)"></div>
-  <div role="dialog" aria-modal="true" style="position:absolute;left:0;right:0;bottom:0;background:#fff;border-radius:32px 32px 0 0;padding:10px 20px 34px;display:flex;flex-direction:column;gap:18px;max-height:90%;overflow-y:auto">
+  <div onClick="{{ close }}" style="position:absolute;inset:0;background:rgba(17,24,39,.45);animation:frito-fade .22s ease-out both"></div>
+  <div role="dialog" aria-modal="true" style="position:absolute;left:0;right:0;bottom:0;background:#fff;border-radius:32px 32px 0 0;padding:10px 20px 34px;display:flex;flex-direction:column;gap:18px;max-height:90%;overflow-y:auto;animation:frito-sheet .38s cubic-bezier(.2,.8,.2,1) both">
     <div style="display:flex;justify-content:center"><div style="width:40px;height:4px;border-radius:2px;background:#E5E7EB"></div></div>
     <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px">
       <div style="display:flex;flex-direction:column;gap:8px">

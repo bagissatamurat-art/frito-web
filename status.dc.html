@@ -3,6 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<link rel="stylesheet" href="./frito.css">
+<script src="./frito.js"></script>
 <script src="./support.js"></script>
 </head>
 <body>
@@ -11,10 +13,6 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-html,body{max-width:100%;overflow-x:clip;overscroll-behavior-x:none;-webkit-text-size-adjust:100%}
-.sc-placeholder,.sc-interp.sc-missing{border:0!important;background:transparent!important}
-.sc-placeholder::before,.sc-interp.sc-missing::before{display:none!important}
-*{-webkit-tap-highlight-color:transparent}
 body{margin:0;background:#F7F7F9;}
 a{color:#614BE2;text-decoration:none}a:hover{color:#4A36C4}
 *{box-sizing:border-box}
@@ -269,6 +267,9 @@ const liveBar = React.createElement('span', { style: { position: 'absolute', ins
 const pulseDot = React.createElement('span', { style: { width: 10, height: 10, borderRadius: '50%', background: '#614BE2', animation: 'frito-pulse 1.4s ease-out infinite' } });
 
 class Component extends DCLogic {
+  // сценарий можно задать в адресе: status.dc.html?mode=pickup&stage=done&issue=delayed&demo=1
+  q = new URLSearchParams(location.search);
+  qp(k) { return this.q.get(k) || this.props[k]; }
   state = { w: 1200, stageOv: null, issueOv: null, stars: 0, tags: {}, comment: '', rated: false, confirmCancel: false, itemsOpen: null };
   componentDidMount() {
     this.onResize = () => this.setState({ w: window.innerWidth }); this.onResize();
@@ -280,14 +281,14 @@ class Component extends DCLogic {
   componentDidUpdate() { this.syncDemo(); }
   componentWillUnmount() { window.removeEventListener('resize', this.onResize); window.removeEventListener('keydown', this.onKey); clearInterval(this._demo); }
   syncDemo() {
-    const on = !!this.props.demo;
+    const on = !!this.props.demo || this.q.get('demo') === '1';
     if (on && !this._demo) this._demo = setInterval(() => this.setState(s => ({ stageOv: ((s.stageOv ?? this.baseStage()) + 1) % 5, rated: false, stars: 0, tags: {}, comment: '' })), 3500);
     if (!on && this._demo) { clearInterval(this._demo); this._demo = null; this.setState({ stageOv: null }); }
   }
-  baseStage() { return Math.max(0, KEYS.indexOf(this.props.stage || 'cooking')); }
+  baseStage() { return Math.max(0, KEYS.indexOf(this.qp('stage') || 'cooking')); }
   renderVals() {
-    const p = this.props, s = this.state, mode = p.mode === 'pickup' ? 'pickup' : 'delivery', pick = mode === 'pickup';
-    const issue = s.issueOv || p.issue || 'none';
+    const p = this.props, s = this.state, mode = this.qp('mode') === 'pickup' ? 'pickup' : 'delivery', pick = mode === 'pickup';
+    const issue = s.issueOv || this.qp('issue') || 'none';
     let cur = s.stageOv ?? this.baseStage();
     if (issue === 'paymentFailed') cur = 1;
     if (issue === 'cancelled') cur = Math.min(cur, 1);

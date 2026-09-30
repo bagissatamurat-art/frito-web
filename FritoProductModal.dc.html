@@ -10,10 +10,10 @@
 <div style="position:relative;width:100%;height:100%;font-family:Inter,system-ui,sans-serif;color:#111827">
 <sc-if value="{{ isCenter }}" hint-placeholder-val="{{ true }}">
   <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:40px">
-    <div onClick="{{ close }}" style="position:absolute;inset:0;background:rgba(17,24,39,.45)"></div>
-    <div role="dialog" aria-modal="true" aria-label="{{ name }}" style="position:relative;width:100%;max-width:1040px;height:100%;max-height:720px;background:#fff;border-radius:32px;overflow:hidden;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);box-shadow:0 40px 100px -30px rgba(0,0,0,.4)">
+    <div onClick="{{ close }}" style="position:absolute;inset:0;background:rgba(17,24,39,.45);animation:frito-fade .22s ease-out both"></div>
+    <div role="dialog" aria-modal="true" aria-label="{{ name }}" style="position:relative;width:100%;max-width:1040px;height:100%;max-height:720px;background:#fff;border-radius:32px;overflow:hidden;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);box-shadow:0 40px 100px -30px rgba(0,0,0,.4);animation:frito-pop .3s cubic-bezier(.2,.8,.2,1) both">
       <div style="background:#F3F4F6;min-height:0;display:flex;align-items:center;justify-content:center">
-        <sc-if value="{{ hasImg }}" hint-placeholder-val="{{ true }}"><img src="{{ img }}" alt="{{ name }}" style="width:100%;height:100%;object-fit:cover;display:block"></sc-if>
+        <sc-if value="{{ hasImg }}" hint-placeholder-val="{{ true }}"><img data-skel src="{{ img }}" alt="{{ name }}" style="width:100%;height:100%;object-fit:cover;display:block"></sc-if>
         <sc-if value="{{ noImg }}" hint-placeholder-val="{{ false }}"><span style="font-family:ui-monospace,monospace;font-size:12px;color:#9CA3AF">фото товара</span></sc-if>
       </div>
       <div style="display:flex;flex-direction:column;min-height:0;position:relative">
@@ -54,11 +54,11 @@
 </sc-if>
 
 <sc-if value="{{ isSheet }}" hint-placeholder-val="{{ false }}">
-  <div onClick="{{ close }}" style="position:absolute;inset:0;background:rgba(17,24,39,.45)"></div>
-  <div role="dialog" aria-modal="true" aria-label="{{ name }}" style="position:absolute;left:0;right:0;bottom:0;top:48px;background:#fff;border-radius:32px 32px 0 0;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 -20px 60px -20px rgba(17,24,39,.35)">
+  <div onClick="{{ close }}" style="position:absolute;inset:0;background:rgba(17,24,39,.45);animation:frito-fade .22s ease-out both"></div>
+  <div role="dialog" aria-modal="true" aria-label="{{ name }}" style="position:absolute;left:0;right:0;bottom:0;top:48px;background:#fff;border-radius:32px 32px 0 0;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 -20px 60px -20px rgba(17,24,39,.35);animation:frito-sheet .38s cubic-bezier(.2,.8,.2,1) both">
     <div ref="{{ bodyRef }}" style="position:relative;flex:1;min-height:0;overflow-y:auto">
       <div style="position:relative;aspect-ratio:4/3;background:#F3F4F6;display:flex;align-items:center;justify-content:center">
-        <sc-if value="{{ hasImg }}" hint-placeholder-val="{{ true }}"><img src="{{ img }}" alt="{{ name }}" style="width:100%;height:100%;object-fit:cover;display:block"></sc-if>
+        <sc-if value="{{ hasImg }}" hint-placeholder-val="{{ true }}"><img data-skel src="{{ img }}" alt="{{ name }}" style="width:100%;height:100%;object-fit:cover;display:block"></sc-if>
         <sc-if value="{{ noImg }}" hint-placeholder-val="{{ false }}"><span style="font-family:ui-monospace,monospace;font-size:11px;color:#9CA3AF">фото товара</span></sc-if>
         <div style="position:absolute;top:10px;left:50%;margin-left:-20px;width:40px;height:4px;border-radius:2px;background:rgba(17,24,39,.25)"></div>
       </div>

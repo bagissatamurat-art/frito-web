@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<title>Заказ оформлен — Frito</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./frito.css">
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#F7F7F9;font-family:Inter,system-ui,sans-serif;color:#111827}
+a{color:inherit;text-decoration:none}
+header{display:flex;align-items:center;justify-content:space-between;padding:16px clamp(16px,4vw,32px);background:#fff;border-bottom:1px solid #ECECF1}
+header img{height:30px;display:block}
+.back{display:flex;align-items:center;height:40px;padding:0 16px;border-radius:999px;background:#F3F4F6;font-size:14px;font-weight:600}
+main{max-width:560px;margin:0 auto;padding:clamp(24px,5vw,48px) 16px calc(40px + env(safe-area-inset-bottom));display:flex;flex-direction:column;gap:24px}
+.hero{display:flex;flex-direction:column;align-items:center;text-align:center;gap:10px;animation:frito-rise .4s cubic-bezier(.2,.8,.2,1) both}
+.check{width:72px;height:72px;border-radius:50%;background:#614BE2;display:flex;align-items:center;justify-content:center;box-shadow:0 12px 30px -8px rgba(97,75,226,.55);animation:frito-pop .5s .1s cubic-bezier(.2,.8,.2,1) both}
+h1{margin:6px 0 0;font-size:clamp(28px,6vw,34px);font-weight:800;letter-spacing:-.03em}
+.sub{margin:0;font-size:15px;line-height:1.5;color:#6B7280;max-width:400px}
+.demo{display:inline-flex;align-items:center;gap:6px;background:#FEF3C7;color:#92400E;border-radius:999px;padding:5px 12px;font-size:12px;font-weight:700}
+.seg{display:grid;grid-template-columns:1fr 1fr;gap:4px;background:#ECECF1;border-radius:999px;padding:4px}
+.seg button{height:44px;border:0;border-radius:999px;background:transparent;font:inherit;font-size:15px;font-weight:600;color:#6B7280;cursor:pointer;transition:background .2s,color .2s,box-shadow .2s}
+.seg button[aria-pressed=true]{background:#fff;color:#111827;box-shadow:0 1px 3px rgba(17,24,39,.12)}
+.card{background:#fff;border-radius:24px;padding:8px;display:flex;flex-direction:column;gap:2px}
+.label{font-size:13px;font-weight:700;color:#6B7280;letter-spacing:.04em;padding:0 8px 6px}
+.row{display:flex;align-items:center;gap:14px;padding:12px;border-radius:16px;transition:background .15s,transform .15s}
+.row:hover{background:#F7F7F9}
+.row:active{transform:scale(.99)}
+.num{width:36px;height:36px;border-radius:50%;background:#EFEDFC;color:#614BE2;font-size:14px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.dot{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.dot i{width:10px;height:10px;border-radius:50%;display:block}
+.txt{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.txt b{font-size:16px;font-weight:700}
+.txt span{font-size:13px;color:#6B7280;line-height:1.35}
+.chev{color:#C4C4CF;flex-shrink:0}
+.auto{display:flex;align-items:center;justify-content:center;gap:8px;height:52px;border-radius:999px;border:1.5px solid #614BE2;color:#614BE2;font-size:15px;font-weight:700;transition:background .15s}
+.auto:hover{background:#F5F3FF}
+.list{animation:frito-fade .25s ease-out both}
+</style>
+</head>
+<body>
+<header>
+  <a href="menu.dc.html" aria-label="Frito — на главную"><img src="https://frito.kz/brand.svg" alt="FRITO"></a>
+  <a class="back" href="menu.dc.html">В меню</a>
+</header>
+<main>
+  <section class="hero">
+    <span class="check"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span>
+    <h1>Заказ оформлен</h1>
+    <p class="sub">Выберите, какой экран статуса заказа показать.</p>
+    <span class="demo">Демо-режим</span>
+  </section>
+
+  <div class="seg" role="group" aria-label="Способ получения">
+    <button type="button" data-mode="delivery" aria-pressed="true">Доставка</button>
+    <button type="button" data-mode="pickup" aria-pressed="false">Самовывоз</button>
+  </div>
+
+  <section class="card">
+    <div class="label" style="padding-top:10px">ЭТАПЫ ЗАКАЗА</div>
+    <div class="list" id="stages"></div>
+  </section>
+
+  <section class="card">
+    <div class="label" style="padding-top:10px">ОСОБЫЕ СЛУЧАИ</div>
+    <div class="list" id="issues"></div>
+  </section>
+
+  <a class="auto" id="auto" href="status.dc.html?demo=1">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13l10-6.5z"/></svg>
+    Показать все этапы по очереди
+  </a>
+</main>
+
+<script>
+const STAGES = {
+  delivery: [
+    ['accepted', 'Принят', 'Заказ у нас, проверяем оплату'],
+    ['paid', 'Оплачен', 'Kaspi подтвердил оплату'],
+    ['cooking', 'Готовим', 'Повара жарят курочку'],
+    ['onway', 'Курьер в пути', 'Везём в термосумке'],
+    ['done', 'Доставлен', 'Приятного аппетита + оценка заказа'],
+  ],
+  pickup: [
+    ['accepted', 'Принят', 'Заказ у нас, проверяем оплату'],
+    ['paid', 'Оплачен', 'Kaspi подтвердил оплату'],
+    ['cooking', 'Готовим', 'Повара жарят курочку'],
+    ['onway', 'Готов к выдаче', 'Держим горячим, ждём вас'],
+    ['done', 'Выдан', 'Приятного аппетита + оценка заказа'],
+  ],
+};
+const ISSUES = [
+  ['delayed', 'cooking', 'Задерживается', 'Заказ готовится дольше обычного', '#F59E0B', '#FEF3C7'],
+  ['paymentFailed', 'paid', 'Оплата не прошла', 'Предложим повторить оплату', '#EF4444', '#FEE2E2'],
+  ['cancelled', 'accepted', 'Заказ отменён', 'Экран отмены и возврата', '#6B7280', '#F3F4F6'],
+];
+const chev = '<svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>';
+const url = q => 'status.dc.html?' + new URLSearchParams(q);
+let mode = new URLSearchParams(location.search).get('mode') === 'pickup' ? 'pickup' : 'delivery';
+
+function render() {
+  document.querySelectorAll('.seg button').forEach(b => b.setAttribute('aria-pressed', b.dataset.mode === mode));
+  const st = document.getElementById('stages'), is = document.getElementById('issues');
+  st.innerHTML = STAGES[mode].map(([stage, t, d], i) =>
+    `<a class="row" href="${url({ mode, stage })}"><span class="num">${i + 1}</span><span class="txt"><b>${t}</b><span>${d}</span></span>${chev}</a>`).join('');
+  is.innerHTML = ISSUES.map(([issue, stage, t, d, c, bg]) =>
+    `<a class="row" href="${url({ mode, stage, issue })}"><span class="dot" style="background:${bg}"><i style="background:${c}"></i></span><span class="txt"><b>${t}</b><span>${d}</span></span>${chev}</a>`).join('');
+  document.getElementById('auto').href = url({ mode, demo: 1 });
+  // перезапуск анимации появления списка
+  [st, is].forEach(el => { el.style.animation = 'none'; el.offsetHeight; el.style.animation = ''; });
+}
+document.querySelectorAll('.seg button').forEach(b => b.addEventListener('click', () => { mode = b.dataset.mode; render(); }));
+render();
+</script>
+</body>
+</html>
