@@ -279,32 +279,40 @@ input:focus-visible,textarea:focus-visible{outline:none}
   <!-- SIDE MENU desktop -->
   <sc-if value="{{ menuD }}" hint-placeholder-val="{{ false }}">
     <div onClick="{{ closeMenu }}" style="position:absolute;inset:0;background:rgba(17,24,39,.45);z-index:30"></div>
-    <aside style="position:absolute;top:0;right:0;bottom:0;width:400px;background:#fff;z-index:31;display:flex;flex-direction:column;box-shadow:-30px 0 80px -30px rgba(17,24,39,.35)">
+    <aside style="position:absolute;top:0;right:0;bottom:0;width:420px;background:#fff;z-index:31;display:flex;flex-direction:column;box-shadow:-30px 0 80px -30px rgba(17,24,39,.35)">
       <div style="display:flex;align-items:center;justify-content:space-between;padding:22px 28px 8px">
         <h2 style="margin:0;font-size:22px;font-weight:700">Меню</h2>
         <button onClick="{{ closeMenu }}" style="border:0;background:#F3F4F6;border-radius:50%;width:44px;height:44px;display:flex;align-items:center;justify-content:center;line-height:1;padding:0;font:inherit;font-size:20px;color:#111827;cursor:pointer"><span aria-hidden="true" style="position:relative;width:16px;height:16px;display:block"><span style="position:absolute;left:0;top:50%;width:100%;height:2px;margin-top:-1px;background:currentColor;border-radius:1px;transform:rotate(45deg)"></span><span style="position:absolute;left:0;top:50%;width:100%;height:2px;margin-top:-1px;background:currentColor;border-radius:1px;transform:rotate(-45deg)"></span></span></button>
       </div>
-      <div style="flex:1;overflow-y:auto;overflow-x:hidden;overscroll-behavior-x:none;padding:12px 28px 28px;display:flex;flex-direction:column;gap:20px">
-        <div style="background:#614BE2;border-radius:22px;padding:20px;display:flex;align-items:center;gap:14px;color:#fff">
-          <span style="width:48px;height:48px;border-radius:50%;background:rgba(255,255,255,.18);position:relative;overflow:hidden;display:block;flex-shrink:0"><span style="position:absolute;left:50%;top:10px;width:15px;height:15px;margin-left:-7.5px;border-radius:50%;background:#fff"></span><span style="position:absolute;left:50%;top:30px;width:30px;height:30px;margin-left:-15px;border-radius:50%;background:#fff"></span></span>
-          <div style="display:flex;flex-direction:column;gap:3px;flex:1"><div style="font-size:17px;font-weight:700">Войти по номеру</div><div style="font-size:13px;opacity:.85">История заказов, адреса и промокоды</div></div>
-          <span style="font-size:22px">›</span>
+      <div style="flex:1;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;padding:8px 28px 28px;display:flex;flex-direction:column;gap:18px">
+        <button type="button" onClick="{{ menuMethodD }}" style="flex-shrink:0;display:flex;align-items:center;gap:12px;width:100%;padding:14px 14px 14px 12px;border:1px solid #ECECF1;border-radius:18px;background:#fff;font:inherit;text-align:left;cursor:pointer;color:#111827" style-hover="border-color:#B7ACF3">
+          <span style="width:40px;height:40px;border-radius:50%;background:#EFEDFC;color:#614BE2;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.1-7-11.5a7 7 0 0 1 14 0C19 14.9 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg></span>
+          <span style="flex:1;min-width:0;display:flex;flex-direction:column;gap:2px"><span style="font-size:12px;color:#6B7280;font-weight:500">{{ menuMethodCaption }}</span><span style="font-size:15px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ menuMethodValue }}</span></span>
+          <span style="font-size:13px;font-weight:600;color:#614BE2;flex-shrink:0">{{ menuMethodAction }}</span>
+        </button>
+        <div style="flex-shrink:0;position:relative;overflow:hidden;background:#614BE2;border-radius:20px;padding:18px 18px 16px;color:#fff;display:flex;flex-direction:column;gap:6px">
+          <span aria-hidden="true" style="position:absolute;right:-18px;top:-26px;width:96px;height:120px;background:rgba(255,255,255,.1);clip-path:polygon(45% 0,100% 0,60% 45%,85% 45%,20% 100%,40% 55%,10% 55%)"></span>
+          <span style="display:flex;align-items:center;gap:8px"><span style="font-size:22px;font-weight:800;letter-spacing:-.01em">NEW10</span><span style="background:#fff;color:#614BE2;border-radius:8px;padding:2px 8px;font-size:13px;font-weight:800">−10%</span></span>
+          <span style="font-size:13px;line-height:1.4;opacity:.9">Скидка на все заказы в первый месяц работы сайта. Промокод уже применён в корзине.</span>
         </div>
-        <div style="display:flex;flex-direction:column">
-          <sc-for list="{{ menuItems }}" as="mi" hint-placeholder-count="5">
-            <a href="{{ mi.href }}" style="display:flex;align-items:center;justify-content:space-between;padding:16px 4px;border-bottom:1px solid #F1F1F4;font-size:17px;font-weight:600;color:#111827"><span>{{ mi.label }}</span><span style="font-size:13px;font-weight:500;color:#6B7280">{{ mi.hint }}</span></a>
-          </sc-for>
-        </div>
-        <div style="display:flex;flex-direction:column;gap:10px">
-          <div style="font-size:13px;font-weight:700;color:#6B7280;letter-spacing:.04em">РЕСТОРАНЫ</div>
+        <nav style="flex-shrink:0;display:flex;flex-direction:column;gap:2px">
+          <a role="button" onClick="{{ closeMenu }}" style="display:flex;align-items:center;gap:14px;padding:13px 4px;color:#111827;border-radius:14px;cursor:pointer" style-hover="background:#F7F7F9"><span style="width:40px;height:40px;border-radius:12px;background:#F3F1FE;color:#614BE2;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11h16M5 11a7 7 0 0 1 14 0M3 15h18M6 15l1 4h10l1-4"/></svg></span><span style="flex:1;min-width:0;font-size:16px;font-weight:600">Меню</span><span style="color:#C4C4CF;display:flex"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></span></a>
+          <a href="vacancies.dc.html" style="display:flex;align-items:center;gap:14px;padding:13px 4px;color:#111827;border-radius:14px;cursor:pointer" style-hover="background:#F7F7F9"><span style="width:40px;height:40px;border-radius:12px;background:#F3F1FE;color:#614BE2;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7" width="18" height="13" rx="2.5"/><path d="M9 7V5.5A1.5 1.5 0 0 1 10.5 4h3A1.5 1.5 0 0 1 15 5.5V7M3 12.5h18"/></svg></span><span style="flex:1;min-width:0;font-size:16px;font-weight:600">Вакансии</span><span style="background:#DCFCE7;color:#15803D;border-radius:999px;padding:4px 10px;font-size:12px;font-weight:700;flex-shrink:0">Мы нанимаем</span><span style="color:#C4C4CF;display:flex"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></span></a>
+        </nav>
+        <div style="flex-shrink:0;display:flex;flex-direction:column;gap:4px">
+          <div style="display:flex;align-items:center;gap:10px;padding:0 4px 6px"><span style="color:#614BE2;display:flex"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10v10h16V10M3 10l2-6h14l2 6M3 10h18M10 20v-5h4v5"/></svg></span><span style="font-size:13px;font-weight:700;color:#6B7280;letter-spacing:.04em">РЕСТОРАНЫ</span></div>
           <sc-for list="{{ stores }}" as="st" hint-placeholder-count="5">
-            <div style="display:flex;align-items:center;gap:10px;padding:10px 0"><img src="assets/ic-pin-p.svg" alt="" style="width:16px;height:16px;object-fit:contain"><span style="flex:1;font-size:15px;font-weight:600">{{ st.name }}</span><span style="font-size:13px;color:#6B7280">{{ st.hours }}</span></div>
+            <button type="button" onClick="{{ st.menuPickD }}" style="display:flex;align-items:center;gap:10px;width:100%;padding:11px 12px;border:0;border-radius:12px;background:#F7F7F9;font:inherit;text-align:left;cursor:pointer;color:#111827" style-hover="background:#EFEDFC"><span style="flex:1;font-size:15px;font-weight:600">{{ st.name }}</span><span style="font-size:13px;color:#6B7280;font-variant-numeric:tabular-nums">{{ st.hours }}</span></button>
           </sc-for>
         </div>
-        <div style="background:#F3F4F6;border-radius:18px;padding:16px 18px;display:flex;flex-direction:column;gap:6px">
-          <a href="tel:+77009380000" style="font-size:17px;font-weight:700;color:#111827">+7 700 938 0000</a>
-          <a href="mailto:info@frito.kz" style="font-size:14px;color:#6B7280">info@frito.kz</a>
-          <div style="display:flex;gap:8px;margin-top:8px"><a href="https://www.instagram.com/frito.kz/" style="background:#fff;border-radius:999px;padding:8px 14px;font-size:13px;font-weight:600">Instagram</a><a href="https://www.tiktok.com/@frito.kz" style="background:#fff;border-radius:999px;padding:8px 14px;font-size:13px;font-weight:600">TikTok</a><a href="https://wa.me/77009380000" style="background:#fff;border-radius:999px;padding:8px 14px;font-size:13px;font-weight:600">WhatsApp</a></div>
+        <div style="flex-shrink:0;margin-top:auto;display:flex;flex-direction:column;gap:10px;padding-top:4px">
+          <a href="tel:+77009380000" style="display:flex;align-items:center;gap:12px;padding:14px 16px;border-radius:18px;background:#111827;color:#fff"><span style="display:flex"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h3.5l1.8 4.5-2.3 1.4a11 11 0 0 0 6.1 6.1l1.4-2.3L20 15.5V19a1.5 1.5 0 0 1-1.6 1.5A16.5 16.5 0 0 1 3.5 5.6 1.5 1.5 0 0 1 5 4z"/></svg></span><span style="flex:1;display:flex;flex-direction:column;gap:1px"><span style="font-size:17px;font-weight:700;letter-spacing:-.01em">+7 700 938 0000</span><span style="font-size:12px;opacity:.7">Позвонить · ежедневно</span></span></a>
+          <div style="display:flex;gap:8px">
+            <a href="https://wa.me/77009380000" target="_blank" rel="noopener" aria-label="WhatsApp" style="flex:1;min-width:0;height:64px;border-radius:16px;background:#25D366;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-size:12px;font-weight:600;transition:transform .15s" style-hover="transform:translateY(-1px)"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.2a8.8 8.8 0 0 0-7.6 13.3L3.2 20.8l4.4-1.2A8.8 8.8 0 1 0 12 3.2z"/><path d="M9.2 8.3c-.4 0-.9.5-.9 1.3 0 2.6 3.4 6 6 6 .8 0 1.3-.5 1.3-.9v-.9l-1.8-.8-.9.9c-1.1-.5-2.1-1.5-2.6-2.6l.9-.9-.8-1.8z" fill="currentColor" stroke="none"/></svg><span>WhatsApp</span></a>
+            <a href="https://www.instagram.com/frito.kz/" target="_blank" rel="noopener" aria-label="Instagram" style="flex:1;min-width:0;height:64px;border-radius:16px;background:linear-gradient(45deg,#F9CE34 0%,#EE2A7B 50%,#6228D7 100%);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-size:12px;font-weight:600;transition:transform .15s" style-hover="transform:translateY(-1px)"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1.1" fill="currentColor" stroke="none"/></svg><span>Instagram</span></a>
+            <a href="https://www.tiktok.com/@frito.kz" target="_blank" rel="noopener" aria-label="TikTok" style="flex:1;min-width:0;height:64px;border-radius:16px;background:#111827;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-size:12px;font-weight:600;transition:transform .15s" style-hover="transform:translateY(-1px)"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.6 3h-3.3v12.2a2.9 2.9 0 1 1-2.1-2.8V9a6.3 6.3 0 1 0 5.4 6.2V9.1a7.6 7.6 0 0 0 4.4 1.4V7.2a4.4 4.4 0 0 1-4.4-4.2z"/></svg><span>TikTok</span></a>
+          </div>
+          <a href="mailto:info@frito.kz" style="align-self:center;font-size:13px;color:#6B7280;padding:4px">info@frito.kz</a>
         </div>
       </div>
     </aside>
@@ -568,32 +576,40 @@ input:focus-visible,textarea:focus-visible{outline:none}
   <!-- SIDE MENU mobile -->
   <sc-if value="{{ menuM }}" hint-placeholder-val="{{ false }}">
     <div onClick="{{ closeMenu }}" style="position:absolute;inset:0;background:rgba(17,24,39,.45);z-index:30"></div>
-    <aside style="position:absolute;top:0;right:0;bottom:0;width:320px;background:#fff;z-index:31;display:flex;flex-direction:column;border-radius:44px 0 0 44px;box-shadow:-30px 0 80px -30px rgba(17,24,39,.35)">
+    <aside style="position:absolute;top:0;right:0;bottom:0;width:min(360px,88vw);background:#fff;z-index:31;display:flex;flex-direction:column;border-radius:28px 0 0 28px;padding-top:env(safe-area-inset-top);box-shadow:-30px 0 80px -30px rgba(17,24,39,.35)">
       <div style="display:flex;align-items:center;justify-content:space-between;padding:16px 20px 8px 24px">
         <h2 style="margin:0;font-size:20px;font-weight:700">Меню</h2>
         <button onClick="{{ closeMenu }}" style="border:0;background:#F3F4F6;border-radius:50%;width:40px;height:40px;display:flex;align-items:center;justify-content:center;line-height:1;padding:0;font:inherit;font-size:20px;color:#111827;cursor:pointer"><span aria-hidden="true" style="position:relative;width:14px;height:14px;display:block"><span style="position:absolute;left:0;top:50%;width:100%;height:2px;margin-top:-1px;background:currentColor;border-radius:1px;transform:rotate(45deg)"></span><span style="position:absolute;left:0;top:50%;width:100%;height:2px;margin-top:-1px;background:currentColor;border-radius:1px;transform:rotate(-45deg)"></span></span></button>
       </div>
-      <div style="flex:1;overflow-y:auto;overflow-x:hidden;overscroll-behavior-x:none;padding:8px 20px 32px 24px;display:flex;flex-direction:column;gap:18px">
-        <div style="background:#614BE2;border-radius:20px;padding:16px;display:flex;align-items:center;gap:12px;color:#fff">
-          <span style="width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.18);position:relative;overflow:hidden;display:block;flex-shrink:0"><span style="position:absolute;left:50%;top:8px;width:13px;height:13px;margin-left:-6.5px;border-radius:50%;background:#fff"></span><span style="position:absolute;left:50%;top:25px;width:26px;height:26px;margin-left:-13px;border-radius:50%;background:#fff"></span></span>
-          <div style="display:flex;flex-direction:column;gap:2px;flex:1"><div style="font-size:15px;font-weight:700">Войти по номеру</div><div style="font-size:12px;opacity:.85">Заказы, адреса, промокоды</div></div>
-          <span style="font-size:20px">›</span>
+      <div style="flex:1;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;padding:8px 20px calc(24px + env(safe-area-inset-bottom)) 20px;display:flex;flex-direction:column;gap:18px">
+        <button type="button" onClick="{{ menuMethodM }}" style="flex-shrink:0;display:flex;align-items:center;gap:12px;width:100%;padding:14px 14px 14px 12px;border:1px solid #ECECF1;border-radius:18px;background:#fff;font:inherit;text-align:left;cursor:pointer;color:#111827" style-hover="border-color:#B7ACF3">
+          <span style="width:40px;height:40px;border-radius:50%;background:#EFEDFC;color:#614BE2;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.1-7-11.5a7 7 0 0 1 14 0C19 14.9 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg></span>
+          <span style="flex:1;min-width:0;display:flex;flex-direction:column;gap:2px"><span style="font-size:12px;color:#6B7280;font-weight:500">{{ menuMethodCaption }}</span><span style="font-size:15px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ menuMethodValue }}</span></span>
+          <span style="font-size:13px;font-weight:600;color:#614BE2;flex-shrink:0">{{ menuMethodAction }}</span>
+        </button>
+        <div style="flex-shrink:0;position:relative;overflow:hidden;background:#614BE2;border-radius:20px;padding:18px 18px 16px;color:#fff;display:flex;flex-direction:column;gap:6px">
+          <span aria-hidden="true" style="position:absolute;right:-18px;top:-26px;width:96px;height:120px;background:rgba(255,255,255,.1);clip-path:polygon(45% 0,100% 0,60% 45%,85% 45%,20% 100%,40% 55%,10% 55%)"></span>
+          <span style="display:flex;align-items:center;gap:8px"><span style="font-size:22px;font-weight:800;letter-spacing:-.01em">NEW10</span><span style="background:#fff;color:#614BE2;border-radius:8px;padding:2px 8px;font-size:13px;font-weight:800">−10%</span></span>
+          <span style="font-size:13px;line-height:1.4;opacity:.9">Скидка на все заказы в первый месяц работы сайта. Промокод уже применён в корзине.</span>
         </div>
-        <div style="display:flex;flex-direction:column">
-          <sc-for list="{{ menuItems }}" as="mi" hint-placeholder-count="5">
-            <a href="{{ mi.href }}" style="display:flex;align-items:center;justify-content:space-between;padding:14px 2px;border-bottom:1px solid #F1F1F4;font-size:16px;font-weight:600;color:#111827"><span>{{ mi.label }}</span><span style="font-size:12px;font-weight:500;color:#6B7280">{{ mi.hint }}</span></a>
-          </sc-for>
-        </div>
-        <div style="display:flex;flex-direction:column;gap:6px">
-          <div style="font-size:12px;font-weight:700;color:#6B7280;letter-spacing:.04em">РЕСТОРАНЫ</div>
+        <nav style="flex-shrink:0;display:flex;flex-direction:column;gap:2px">
+          <a role="button" onClick="{{ closeMenu }}" style="display:flex;align-items:center;gap:14px;padding:13px 4px;color:#111827;border-radius:14px;cursor:pointer" style-hover="background:#F7F7F9"><span style="width:40px;height:40px;border-radius:12px;background:#F3F1FE;color:#614BE2;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11h16M5 11a7 7 0 0 1 14 0M3 15h18M6 15l1 4h10l1-4"/></svg></span><span style="flex:1;min-width:0;font-size:16px;font-weight:600">Меню</span><span style="color:#C4C4CF;display:flex"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></span></a>
+          <a href="vacancies.dc.html" style="display:flex;align-items:center;gap:14px;padding:13px 4px;color:#111827;border-radius:14px;cursor:pointer" style-hover="background:#F7F7F9"><span style="width:40px;height:40px;border-radius:12px;background:#F3F1FE;color:#614BE2;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7" width="18" height="13" rx="2.5"/><path d="M9 7V5.5A1.5 1.5 0 0 1 10.5 4h3A1.5 1.5 0 0 1 15 5.5V7M3 12.5h18"/></svg></span><span style="flex:1;min-width:0;font-size:16px;font-weight:600">Вакансии</span><span style="background:#DCFCE7;color:#15803D;border-radius:999px;padding:4px 10px;font-size:12px;font-weight:700;flex-shrink:0">Мы нанимаем</span><span style="color:#C4C4CF;display:flex"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></span></a>
+        </nav>
+        <div style="flex-shrink:0;display:flex;flex-direction:column;gap:4px">
+          <div style="display:flex;align-items:center;gap:10px;padding:0 4px 6px"><span style="color:#614BE2;display:flex"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10v10h16V10M3 10l2-6h14l2 6M3 10h18M10 20v-5h4v5"/></svg></span><span style="font-size:13px;font-weight:700;color:#6B7280;letter-spacing:.04em">РЕСТОРАНЫ</span></div>
           <sc-for list="{{ stores }}" as="st" hint-placeholder-count="5">
-            <div style="display:flex;align-items:center;gap:8px;padding:8px 0"><img src="assets/ic-pin-p.svg" alt="" style="width:14px;height:14px;object-fit:contain"><span style="flex:1;font-size:14px;font-weight:600">{{ st.name }}</span><span style="font-size:12px;color:#6B7280">{{ st.hours }}</span></div>
+            <button type="button" onClick="{{ st.menuPickM }}" style="display:flex;align-items:center;gap:10px;width:100%;padding:11px 12px;border:0;border-radius:12px;background:#F7F7F9;font:inherit;text-align:left;cursor:pointer;color:#111827" style-hover="background:#EFEDFC"><span style="flex:1;font-size:15px;font-weight:600">{{ st.name }}</span><span style="font-size:13px;color:#6B7280;font-variant-numeric:tabular-nums">{{ st.hours }}</span></button>
           </sc-for>
         </div>
-        <div style="background:#F3F4F6;border-radius:16px;padding:14px 16px;display:flex;flex-direction:column;gap:4px">
-          <a href="tel:+77009380000" style="font-size:16px;font-weight:700;color:#111827">+7 700 938 0000</a>
-          <a href="mailto:info@frito.kz" style="font-size:13px;color:#6B7280">info@frito.kz</a>
-          <div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap"><a href="https://www.instagram.com/frito.kz/" style="background:#fff;border-radius:999px;padding:7px 12px;font-size:12px;font-weight:600">Instagram</a><a href="https://www.tiktok.com/@frito.kz" style="background:#fff;border-radius:999px;padding:7px 12px;font-size:12px;font-weight:600">TikTok</a><a href="https://wa.me/77009380000" style="background:#fff;border-radius:999px;padding:7px 12px;font-size:12px;font-weight:600">WhatsApp</a></div>
+        <div style="flex-shrink:0;margin-top:auto;display:flex;flex-direction:column;gap:10px;padding-top:4px">
+          <a href="tel:+77009380000" style="display:flex;align-items:center;gap:12px;padding:14px 16px;border-radius:18px;background:#111827;color:#fff"><span style="display:flex"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h3.5l1.8 4.5-2.3 1.4a11 11 0 0 0 6.1 6.1l1.4-2.3L20 15.5V19a1.5 1.5 0 0 1-1.6 1.5A16.5 16.5 0 0 1 3.5 5.6 1.5 1.5 0 0 1 5 4z"/></svg></span><span style="flex:1;display:flex;flex-direction:column;gap:1px"><span style="font-size:17px;font-weight:700;letter-spacing:-.01em">+7 700 938 0000</span><span style="font-size:12px;opacity:.7">Позвонить · ежедневно</span></span></a>
+          <div style="display:flex;gap:8px">
+            <a href="https://wa.me/77009380000" target="_blank" rel="noopener" aria-label="WhatsApp" style="flex:1;min-width:0;height:64px;border-radius:16px;background:#25D366;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-size:12px;font-weight:600;transition:transform .15s" style-hover="transform:translateY(-1px)"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.2a8.8 8.8 0 0 0-7.6 13.3L3.2 20.8l4.4-1.2A8.8 8.8 0 1 0 12 3.2z"/><path d="M9.2 8.3c-.4 0-.9.5-.9 1.3 0 2.6 3.4 6 6 6 .8 0 1.3-.5 1.3-.9v-.9l-1.8-.8-.9.9c-1.1-.5-2.1-1.5-2.6-2.6l.9-.9-.8-1.8z" fill="currentColor" stroke="none"/></svg><span>WhatsApp</span></a>
+            <a href="https://www.instagram.com/frito.kz/" target="_blank" rel="noopener" aria-label="Instagram" style="flex:1;min-width:0;height:64px;border-radius:16px;background:linear-gradient(45deg,#F9CE34 0%,#EE2A7B 50%,#6228D7 100%);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-size:12px;font-weight:600;transition:transform .15s" style-hover="transform:translateY(-1px)"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1.1" fill="currentColor" stroke="none"/></svg><span>Instagram</span></a>
+            <a href="https://www.tiktok.com/@frito.kz" target="_blank" rel="noopener" aria-label="TikTok" style="flex:1;min-width:0;height:64px;border-radius:16px;background:#111827;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-size:12px;font-weight:600;transition:transform .15s" style-hover="transform:translateY(-1px)"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.6 3h-3.3v12.2a2.9 2.9 0 1 1-2.1-2.8V9a6.3 6.3 0 1 0 5.4 6.2V9.1a7.6 7.6 0 0 0 4.4 1.4V7.2a4.4 4.4 0 0 1-4.4-4.2z"/></svg><span>TikTok</span></a>
+          </div>
+          <a href="mailto:info@frito.kz" style="align-self:center;font-size:13px;color:#6B7280;padding:4px">info@frito.kz</a>
         </div>
       </div>
     </aside>
@@ -847,7 +863,8 @@ class Component extends DCLogic {
     const removeSold = arr => () => arr.forEach(l => l.remove());
     const canCheckoutD = avail(dCart), canCheckoutM = avail(s.cart);
 
-    const stores = STORES.map(st => ({ ...st, pick: () => this.finishMethod('pickup', st.name) }));
+    const menuPick = t => () => this.setState({ menu: null, modal: 'method', modalTarget: t, pendingId: null, addrMode: 'pickup' });
+    const stores = STORES.map(st => ({ ...st, pick: () => this.finishMethod('pickup', st.name), menuPickD: menuPick('d'), menuPickM: menuPick('m') }));
     const maxFooter = p.footerStoresMax ?? 8;
     const footerStores = stores.slice(0, maxFooter), moreStores = Math.max(0, stores.length - maxFooter);
     const modalOpen = !!s.modal;
@@ -857,10 +874,11 @@ class Component extends DCLogic {
       onDScroll: () => this.track('d', this.dScrollRef, 'activeD'), onMScroll: () => this.track('m', this.mScrollRef, 'activeM'),
       menuD: s.menu === 'd', menuM: s.menu === 'm',
       openMenuD: () => this.setState({ menu: 'd' }), openMenuM: () => this.setState({ menu: 'm' }), closeMenu: () => this.setState({ menu: null }),
-      menuItems: [
-        { label: 'Мои заказы', hint: '', href: '#' }, { label: 'Мои адреса', hint: s.address || '', href: '#' }, { label: 'Промокоды', hint: 'NEW10 −10%', href: '#' },
-        { label: 'Вакансии', hint: 'Работа в Frito', href: 'vacancies.dc.html' }, { label: 'Франшиза', hint: '', href: '#' }, { label: 'Поставщикам', hint: '', href: '#' }, { label: 'Предложить помещение', hint: '', href: '#' }, { label: 'Правовая информация', hint: '', href: '#' },
-      ],
+      menuMethodD: () => this.setState({ menu: null, modal: 'method', modalTarget: 'd', pendingId: null, addrMode: s.mode || 'delivery' }),
+      menuMethodM: () => this.setState({ menu: null, modal: 'method', modalTarget: 'm', pendingId: null, addrMode: s.mode || 'delivery' }),
+      menuMethodCaption: !hasMethod ? 'Как получить заказ' : isDelivery ? 'Доставка' : 'Самовывоз',
+      menuMethodValue: !hasMethod ? 'Адрес или ресторан' : s.address,
+      menuMethodAction: hasMethod ? 'Изменить' : 'Выбрать',
       logoOk: !s.logoBroken, logoBroken: s.logoBroken, logoFail: () => this.setState({ logoBroken: true }),
       // method
       noMethod: !hasMethod, hasMethod, isDelivery, modeLabel, address: s.address || '',
