@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
 <link rel="stylesheet" href="./frito.css">
 <script src="./frito.js"></script>
+<link rel="modulepreload" href="./frito-data.js">
 <script src="./support.js"></script>
 </head>
 <body>
@@ -72,7 +73,7 @@ input:focus-visible,textarea:focus-visible{outline:none}
             <h2 style="margin:0 0 18px;font-size:24px;font-weight:700;letter-spacing:-.01em">{{ cat.name }}</h2>
             <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px">
               <sc-for list="{{ cat.items }}" as="p" hint-placeholder-count="3">
-                <article style="background:#fff;border:1px solid #ECECF1;border-radius:24px;padding:14px;display:flex;flex-direction:column;gap:10px;transition:box-shadow .2s" style-hover="box-shadow:0 12px 32px -14px rgba(17,24,39,.2)">
+                <article data-reveal style="background:#fff;border:1px solid #ECECF1;border-radius:24px;padding:14px;display:flex;flex-direction:column;gap:10px;transition:box-shadow .2s" style-hover="box-shadow:0 12px 32px -14px rgba(17,24,39,.2)">
                   <div onClick="{{ p.open }}" style="aspect-ratio:1/1;border-radius:18px;background:#F3F4F6;overflow:hidden;display:flex;align-items:center;justify-content:center;position:relative;cursor:pointer">
                     <sc-if value="{{ p.hasImg }}" hint-placeholder-val="{{ true }}"><img data-skel src="{{ p.img }}" alt="{{ p.name }}" style="width:100%;height:100%;object-fit:cover;display:block;filter:{{ p.imgFilter }}"></sc-if>
                     <sc-if value="{{ p.noImg }}" hint-placeholder-val="{{ false }}"><span style="font-family:ui-monospace,monospace;font-size:11px;color:#9CA3AF">фото товара</span></sc-if>
@@ -276,8 +277,8 @@ input:focus-visible,textarea:focus-visible{outline:none}
 
   <!-- SIDE MENU desktop -->
   <sc-if value="{{ menuD }}" hint-placeholder-val="{{ false }}">
-    <div onClick="{{ closeMenu }}" style="position:absolute;inset:0;background:rgba(17,24,39,.45);z-index:30;animation:frito-fade .22s ease-out both"></div>
-    <aside style="position:absolute;top:0;right:0;bottom:0;width:420px;background:#fff;z-index:31;display:flex;flex-direction:column;box-shadow:-30px 0 80px -30px rgba(17,24,39,.35);animation:frito-slide-l .34s cubic-bezier(.2,.8,.2,1) both">
+    <div onClick="{{ closeMenu }}" style="position:absolute;inset:0;background:rgba(17,24,39,.45);z-index:30;animation:{{ menuBdAnim }}"></div>
+    <aside style="position:absolute;top:0;right:0;bottom:0;width:420px;background:#fff;z-index:31;display:flex;flex-direction:column;box-shadow:-30px 0 80px -30px rgba(17,24,39,.35);animation:{{ menuAsideAnim }}">
       <div style="display:flex;align-items:center;justify-content:space-between;padding:22px 28px 8px">
         <h2 style="margin:0;font-size:22px;font-weight:700">Меню</h2>
         <button onClick="{{ closeMenu }}" style="border:0;background:#F3F4F6;border-radius:50%;width:44px;height:44px;display:flex;align-items:center;justify-content:center;line-height:1;padding:0;font:inherit;font-size:20px;color:#111827;cursor:pointer"><span aria-hidden="true" style="position:relative;width:16px;height:16px;display:block"><span style="position:absolute;left:0;top:50%;width:100%;height:2px;margin-top:-1px;background:currentColor;border-radius:1px;transform:rotate(45deg)"></span><span style="position:absolute;left:0;top:50%;width:100%;height:2px;margin-top:-1px;background:currentColor;border-radius:1px;transform:rotate(-45deg)"></span></span></button>
@@ -318,11 +319,11 @@ input:focus-visible,textarea:focus-visible{outline:none}
 
   <!-- MODAL: способ получения -->
   <sc-if value="{{ modalD }}" hint-placeholder-val="{{ false }}">
-    <dc-import name="FritoAddressModal" layout="center" start="{{ addrStart }}" mode="{{ addrStart }}" on-close="{{ closeModal }}" on-confirm="{{ confirmAddr }}" style="position:absolute;inset:0;z-index:20" hint-size="100%,100%"></dc-import>
+    <div style="position:absolute;inset:0;z-index:20;animation:{{ modalOutAnim }}"><dc-import name="FritoAddressModal" layout="center" start="{{ addrStart }}" mode="{{ addrStart }}" on-close="{{ closeModal }}" on-confirm="{{ confirmAddr }}" style="position:absolute;inset:0" hint-size="100%,100%"></dc-import></div>
   </sc-if>
   <!-- MODAL: товар -->
   <sc-if value="{{ pmD }}" hint-placeholder-val="{{ false }}">
-    <dc-import name="FritoProductModal" layout="center" product="{{ pmProduct }}" qty="{{ pmQty }}" mode="{{ pmMode }}" on-close="{{ closePm }}" on-add="{{ pmAdd }}" style="position:absolute;inset:0;z-index:25" hint-size="100%,100%"></dc-import>
+    <div style="position:absolute;inset:0;z-index:25;animation:{{ pmOutAnim }}"><dc-import name="FritoProductModal" layout="center" product="{{ pmProduct }}" qty="{{ pmQty }}" mode="{{ pmMode }}" on-close="{{ closePm }}" on-add="{{ pmAdd }}" style="position:absolute;inset:0" hint-size="100%,100%"></dc-import></div>
   </sc-if>
 </section>
 </div></sc-if>
@@ -372,7 +373,7 @@ input:focus-visible,textarea:focus-visible{outline:none}
           <h2 style="margin:0 0 14px 4px;font-size:22px;font-weight:700">{{ cat.name }}</h2>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
             <sc-for list="{{ cat.items }}" as="p" hint-placeholder-count="2">
-              <article style="background:#fff;border:1px solid #ECECF1;border-radius:20px;padding:8px 8px 12px;display:flex;flex-direction:column;gap:8px">
+              <article data-reveal style="background:#fff;border:1px solid #ECECF1;border-radius:20px;padding:8px 8px 12px;display:flex;flex-direction:column;gap:8px">
                 <div onClick="{{ p.open }}" style="aspect-ratio:1/1;border-radius:14px;background:#F3F4F6;overflow:hidden;display:flex;align-items:center;justify-content:center;position:relative;cursor:pointer">
                   <sc-if value="{{ p.hasImg }}" hint-placeholder-val="{{ true }}"><img data-skel src="{{ p.img }}" alt="{{ p.name }}" style="width:100%;height:100%;object-fit:cover;display:block;filter:{{ p.imgFilter }}"></sc-if>
                   <sc-if value="{{ p.noImg }}" hint-placeholder-val="{{ false }}"><span style="font-family:ui-monospace,monospace;font-size:10px;color:#9CA3AF">фото</span></sc-if>
@@ -450,8 +451,8 @@ input:focus-visible,textarea:focus-visible{outline:none}
 
   <!-- bottom sheet cart -->
   <sc-if value="{{ mobileOpen }}" hint-placeholder-val="{{ false }}">
-    <div onClick="{{ closeMobile }}" style="position:absolute;inset:0;background:rgba(17,24,39,.45);z-index:6;animation:frito-fade .22s ease-out both"></div>
-    <div style="position:absolute;left:0;right:0;bottom:0;z-index:7;background:{{ mSheetHeadBg }};border-radius:32px 32px 0 0;max-height:88%;display:flex;flex-direction:column;box-shadow:0 -20px 60px -20px rgba(17,24,39,.35);overflow:hidden;animation:frito-sheet .38s cubic-bezier(.2,.8,.2,1) both">
+    <div onClick="{{ closeMobile }}" style="position:absolute;inset:0;background:rgba(17,24,39,.45);z-index:6;animation:{{ cartBdAnim }}"></div>
+    <div style="position:absolute;left:0;right:0;bottom:0;z-index:7;background:{{ mSheetHeadBg }};border-radius:32px 32px 0 0;max-height:88%;display:flex;flex-direction:column;box-shadow:0 -20px 60px -20px rgba(17,24,39,.35);overflow:hidden;animation:{{ cartSheetAnim }}">
       <div style="display:flex;justify-content:center;padding:10px 0 0"><div style="width:40px;height:4px;border-radius:2px;background:#E5E7EB"></div></div>
       <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 16px 12px 20px;background:{{ mSheetHeadBg }};border-radius:32px 32px 0 0">
         <h2 style="margin:0;font-size:20px;font-weight:700">{{ mHeadline }}</h2>
@@ -573,8 +574,8 @@ input:focus-visible,textarea:focus-visible{outline:none}
 
   <!-- SIDE MENU mobile -->
   <sc-if value="{{ menuM }}" hint-placeholder-val="{{ false }}">
-    <div onClick="{{ closeMenu }}" style="position:absolute;inset:0;background:rgba(17,24,39,.45);z-index:30;animation:frito-fade .22s ease-out both"></div>
-    <aside style="position:absolute;top:0;right:0;bottom:0;width:min(360px,88vw);background:#fff;z-index:31;display:flex;flex-direction:column;border-radius:28px 0 0 28px;padding-top:env(safe-area-inset-top);box-shadow:-30px 0 80px -30px rgba(17,24,39,.35);animation:frito-slide-l .34s cubic-bezier(.2,.8,.2,1) both">
+    <div onClick="{{ closeMenu }}" style="position:absolute;inset:0;background:rgba(17,24,39,.45);z-index:30;animation:{{ menuBdAnim }}"></div>
+    <aside style="position:absolute;top:0;right:0;bottom:0;width:min(360px,88vw);background:#fff;z-index:31;display:flex;flex-direction:column;border-radius:28px 0 0 28px;padding-top:env(safe-area-inset-top);box-shadow:-30px 0 80px -30px rgba(17,24,39,.35);animation:{{ menuAsideAnim }}">
       <div style="display:flex;align-items:center;justify-content:space-between;padding:16px 20px 8px 24px">
         <h2 style="margin:0;font-size:20px;font-weight:700">Меню</h2>
         <button onClick="{{ closeMenu }}" style="border:0;background:#F3F4F6;border-radius:50%;width:40px;height:40px;display:flex;align-items:center;justify-content:center;line-height:1;padding:0;font:inherit;font-size:20px;color:#111827;cursor:pointer"><span aria-hidden="true" style="position:relative;width:14px;height:14px;display:block"><span style="position:absolute;left:0;top:50%;width:100%;height:2px;margin-top:-1px;background:currentColor;border-radius:1px;transform:rotate(45deg)"></span><span style="position:absolute;left:0;top:50%;width:100%;height:2px;margin-top:-1px;background:currentColor;border-radius:1px;transform:rotate(-45deg)"></span></span></button>
@@ -615,18 +616,18 @@ input:focus-visible,textarea:focus-visible{outline:none}
 
   <!-- MODAL: способ получения -->
   <sc-if value="{{ modalM }}" hint-placeholder-val="{{ false }}">
-    <dc-import name="FritoAddressModal" layout="sheet" start="{{ addrStart }}" mode="{{ addrStart }}" on-close="{{ closeModal }}" on-confirm="{{ confirmAddr }}" style="position:absolute;inset:0;z-index:20" hint-size="100%,100%"></dc-import>
+    <div style="position:absolute;inset:0;z-index:20;animation:{{ modalOutAnim }}"><dc-import name="FritoAddressModal" layout="sheet" start="{{ addrStart }}" mode="{{ addrStart }}" on-close="{{ closeModal }}" on-confirm="{{ confirmAddr }}" style="position:absolute;inset:0" hint-size="100%,100%"></dc-import></div>
   </sc-if>
   <!-- MODAL: товар -->
   <sc-if value="{{ pmM }}" hint-placeholder-val="{{ false }}">
-    <dc-import name="FritoProductModal" layout="sheet" product="{{ pmProduct }}" qty="{{ pmQty }}" mode="{{ pmMode }}" on-close="{{ closePm }}" on-add="{{ pmAdd }}" style="position:absolute;inset:0;z-index:25" hint-size="100%,100%"></dc-import>
+    <div style="position:absolute;inset:0;z-index:25;animation:{{ pmOutAnim }}"><dc-import name="FritoProductModal" layout="sheet" product="{{ pmProduct }}" qty="{{ pmQty }}" mode="{{ pmMode }}" on-close="{{ closePm }}" on-add="{{ pmAdd }}" style="position:absolute;inset:0" hint-size="100%,100%"></dc-import></div>
   </sc-if>
 </section>
 </div></sc-if>
 
 <!-- STORIES viewer -->
 <sc-if value="{{ storyOpen }}" hint-placeholder-val="{{ false }}">
-<div role="dialog" aria-modal="true" aria-label="{{ storyAlt }}" style="position:fixed;inset:0;z-index:100;background:rgba(10,8,30,.92);display:flex;align-items:center;justify-content:center;font-family:Inter,system-ui,sans-serif;animation:frito-fade .22s ease-out both">
+<div role="dialog" aria-modal="true" aria-label="{{ storyAlt }}" style="position:fixed;inset:0;z-index:100;background:rgba(10,8,30,.92);display:flex;align-items:center;justify-content:center;font-family:Inter,system-ui,sans-serif;animation:{{ storyBdAnim }}">
   <div onClick="{{ closeStory }}" style="position:absolute;inset:0"></div>
   <div style="position:relative;height:{{ storyH }};aspect-ratio:9/16;max-width:100vw;border-radius:{{ storyRadius }};overflow:hidden;background:#5F4BE2;box-shadow:0 20px 60px rgba(0,0,0,.4);animation:frito-pop .3s cubic-bezier(.2,.8,.2,1) both">
     <img src="{{ storyImg }}" alt="{{ storyAlt }}" draggable="false" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;user-select:none;-webkit-user-select:none">
@@ -719,6 +720,8 @@ const kindOf = id => id === 'strips-combo' ? 'stripsCombo' : /-box$/.test(id) ? 
 const tgt = e => { const el = e && e.currentTarget; return el && el.closest && el.closest('[data-screen-label="Mobile"]') ? 'm' : 'd'; };
 
 const STORY_MS = 5000;
+const OUT_MS = 200;
+const EASE = 'cubic-bezier(.2,.8,.2,1)';
 const STORIES = [
   // имена файлов перепутаны в исходниках: story-stores.png — переписка WhatsApp, story-whatsapp.png — рестораны
   { img: 'assets/story-stores.png', alt: 'Заказ через WhatsApp', cta: 'Написать в WhatsApp', href: 'https://wa.me/77009380000' },
@@ -805,7 +808,13 @@ class Component extends DCLogic {
     window.addEventListener('keydown', this._storyKey);
   }
   stopStory() { clearTimeout(this._storyT); if (this._storyKey) window.removeEventListener('keydown', this._storyKey); this._storyKey = null; }
-  closeStory() { this.stopStory(); this.setState({ story: null }); }
+  closeStory() { this.stopStory(); this.animateOut('story', () => this.setState({ story: null })); }
+  // плавное закрытие: сначала играет анимация ухода (out), потом элемент убирается
+  animateOut(key, fn) {
+    if (this._outT) return;
+    this.setState({ out: key });
+    this._outT = setTimeout(() => { this._outT = null; fn(); this.setState({ out: null }); }, OUT_MS);
+  }
   nextStory() { const i = this.state.story; if (i == null) return; if (i >= STORIES.length - 1) return this.closeStory(); this.openStory(i + 1, this.state.storyTarget); }
   prevStory() { const i = this.state.story; if (i == null) return; this.openStory(Math.max(0, i - 1), this.state.storyTarget); }
   renderVals() { const isDesktop = (this.state.vw ?? window.innerWidth) >= 1024; return { ...this._rv(), ...this._storyVals(isDesktop), isDesktop, isMobile: !isDesktop }; }
@@ -815,7 +824,7 @@ class Component extends DCLogic {
     const open = {};
     STORIES.forEach((_, k) => { open['openStoryD' + k] = () => this.openStory(k, 'd'); open['openStoryM' + k] = () => this.openStory(k, 'm'); });
     return {
-      ...open, storyOpen: !!st, storyImg: st ? st.img : '', storyAlt: st ? st.alt : '', storyCta: st ? st.cta : '',
+      ...open, storyBdAnim: this.state.out === 'story' ? `frito-fade-out ${OUT_MS}ms ease-in both` : 'frito-fade .22s ease-out both', storyOpen: !!st, storyImg: st ? st.img : '', storyAlt: st ? st.alt : '', storyCta: st ? st.cta : '',
       storyIsLink: !!(st && st.href), storyIsBtn: !!(st && !st.href), storyHref: st && st.href ? st.href : '#', storyAction: act,
       storyH: isDesktop ? 'min(88vh, 760px)' : 'min(100dvh, 177.78vw)', storyRadius: isDesktop ? '24px' : '0',
       storyBars: STORIES.map((_, k) => ({ w: i != null && k < i ? '100%' : '0', anim: k === i ? `story-fill ${STORY_MS}ms linear forwards` : 'none' })),
@@ -871,7 +880,7 @@ class Component extends DCLogic {
       cats, stores, footerStores, storeCount: stores.length, moreStores, hasMoreStores: moreStores > 0, dScrollRef: this.dScrollRef, mScrollRef: this.mScrollRef,
       onDScroll: () => this.track('d', this.dScrollRef, 'activeD'), onMScroll: () => this.track('m', this.mScrollRef, 'activeM'),
       menuD: s.menu === 'd', menuM: s.menu === 'm',
-      openMenuD: () => this.setState({ menu: 'd' }), openMenuM: () => this.setState({ menu: 'm' }), closeMenu: () => this.setState({ menu: null }),
+      openMenuD: () => this.setState({ menu: 'd' }), openMenuM: () => this.setState({ menu: 'm' }), closeMenu: () => this.animateOut('menu', () => this.setState({ menu: null })),
       menuMethodD: () => this.setState({ menu: null, modal: 'method', modalTarget: 'd', pendingId: null, addrMode: s.mode || 'delivery' }),
       menuMethodM: () => this.setState({ menu: null, modal: 'method', modalTarget: 'm', pendingId: null, addrMode: s.mode || 'delivery' }),
       menuMethodCaption: !hasMethod ? 'Как получить заказ' : isDelivery ? 'Доставка' : 'Самовывоз',
@@ -889,17 +898,17 @@ class Component extends DCLogic {
       pickDeliveryM: () => this.setState({ modal: 'method', modalTarget: 'm', pendingId: null, addrMode: 'delivery' }),
       pickPickupM: () => this.setState({ modal: 'method', modalTarget: 'm', pendingId: null, addrMode: 'pickup' }),
       addrStart: s.addrMode || s.mode || 'delivery',
-      confirmAddr: r => this.finishMethod(r.mode, r.address),
+      confirmAddr: r => this.animateOut('modal', () => this.finishMethod(r.mode, r.address)),
       modalD: modalOpen && s.modalTarget === 'd', modalM: modalOpen && s.modalTarget === 'm',
       methodPending: !!s.pendingId,
       chooseMethod: m => m === 'delivery' ? this.finishMethod('delivery', DEFAULT_ADDR) : this.finishMethod('pickup', STORES[0].name),
       pmD: !!s.pm && s.pmTarget === 'd', pmM: !!s.pm && s.pmTarget === 'm',
       pmProduct: s.pm ? { ...BY_ID[s.pm], kind: kindOf(s.pm), sel: s.pmEdit ? s.sels[s.pm] : undefined } : null,
       pmQty: s.pm && s.pmEdit ? (s.cart[s.pm] || 1) : 1, pmMode: s.pmEdit ? 'edit' : 'add',
-      closePm: () => this.setState({ pm: null }), pmAdd: r => this.addConfigured(r),
+      closePm: () => this.animateOut('pm', () => this.setState({ pm: null })), pmAdd: r => this.animateOut('pm', () => this.addConfigured(r)),
       modalTitle: 'Выберите способ получения заказа',
       modalSub: s.pendingId ? 'Товар добавится в корзину сразу после выбора' : 'Адрес или ресторан можно будет уточнить дальше',
-      closeModal: () => this.setState({ modal: null, addrMode: null, pendingId: null, pendingQty: null }), stop: e => e.stopPropagation(),
+      closeModal: () => this.animateOut('modal', () => this.setState({ modal: null, addrMode: null, pendingId: null, pendingQty: null })), stop: e => e.stopPropagation(),
       chooseDelivery: () => this.finishMethod('delivery', DEFAULT_ADDR), choosePickup: () => this.finishMethod('pickup', STORES[0].name),
       setDelivery: () => this.finishMethod('delivery', isDelivery && s.address ? s.address : DEFAULT_ADDR),
       setPickup: () => this.finishMethod('pickup', s.mode === 'pickup' && s.address ? s.address : STORES[0].name),
@@ -936,7 +945,13 @@ class Component extends DCLogic {
       mSheetHeadBg: hasItems ? '#F7F7F9' : '#fff',
       lines, mHeadline: hasItems ? plural(count) + ' на ' + fmt(M.sub) : 'Корзина пуста',
       mobileOpen: s.mobileOpen, mClosed: !s.mobileOpen,
-      openMobile: () => this.setState({ mobileOpen: true }), closeMobile: () => this.setState({ mobileOpen: false }),
+      openMobile: () => this.setState({ mobileOpen: true }), closeMobile: () => this.animateOut('cart', () => this.setState({ mobileOpen: false })),
+      pmOutAnim: s.out === 'pm' ? `frito-out ${OUT_MS}ms ease-in both` : 'none',
+      modalOutAnim: s.out === 'modal' ? `frito-out ${OUT_MS}ms ease-in both` : 'none',
+      menuBdAnim: s.out === 'menu' ? `frito-fade-out ${OUT_MS}ms ease-in both` : 'frito-fade .22s ease-out both',
+      menuAsideAnim: s.out === 'menu' ? `frito-slide-out-r ${OUT_MS}ms ease-in both` : `frito-slide-l .34s ${EASE} both`,
+      cartBdAnim: s.out === 'cart' ? `frito-fade-out ${OUT_MS}ms ease-in both` : 'frito-fade .22s ease-out both',
+      cartSheetAnim: s.out === 'cart' ? `frito-sheet-out ${OUT_MS}ms ease-in both` : `frito-sheet .38s ${EASE} both`,
       pillLabel: hasItems ? (avail(s.cart) ? fmt(M.total) : 'Корзина') : 'Корзина',
     };
   }

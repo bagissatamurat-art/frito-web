@@ -22,3 +22,26 @@ img[data-skel].is-loaded{opacity:1}
 @keyframes frito-slide-l{from{transform:translateX(100%)}to{transform:none}}
 
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+
+/* Скелетон-блок */
+.frito-skel{display:block;background:linear-gradient(90deg,#F1F1F4 25%,#E8E8EE 37%,#F1F1F4 63%);background-size:400% 100%;border-radius:14px;animation:frito-shimmer 1.4s ease infinite}
+
+/* Уход элементов (плавное закрытие) */
+@keyframes frito-out{to{opacity:0}}
+@keyframes frito-fade-out{to{opacity:0}}
+@keyframes frito-slide-out-r{to{transform:translateX(100%)}}
+@keyframes frito-sheet-out{to{transform:translateY(100%)}}
+
+/* Плавный переход между страницами (Chrome, Safari 18.2+) */
+@view-transition{navigation:auto}
+::view-transition-old(root){animation:frito-fade-out .18s ease-in both}
+::view-transition-new(root){animation:frito-fade .28s ease-out both}
+
+/* Отклик на нажатие */
+button,[role=button]{transition:transform .14s ease,background-color .2s,border-color .2s,color .2s,box-shadow .2s,opacity .2s}
+button:active:not(:disabled),[role=button]:active{transform:scale(.97)}
+
+/* Карточки появляются при прокрутке (класс frito-reveal ставит frito.js) */
+html.frito-reveal [data-reveal]:not(.is-in){opacity:0}
+html.frito-reveal [data-reveal].is-in{animation:frito-rise .45s cubic-bezier(.2,.8,.2,1) both;animation-delay:var(--d,0ms)}
+@media (hover:hover){[data-reveal] img[data-skel]{transition:opacity .4s ease,transform .5s cubic-bezier(.2,.8,.2,1)}[data-reveal]:hover img[data-skel]{transform:scale(1.04)}}
