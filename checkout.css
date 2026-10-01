@@ -60,10 +60,6 @@
 .co-m__back{width:40px;height:40px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;color:var(--ink);font-size:22px;line-height:1;padding-bottom:2px}
 .co-m__title{font-size:17px;font-weight:700}
 .co-m__scroll{flex:1;overflow-y:auto;overflow-x:hidden;overscroll-behavior-x:none;padding:4px 16px 24px;display:flex;flex-direction:column;gap:12px}
-.co-m-addr{display:flex;align-items:center;gap:12px}
-.co-m-addr__body{display:flex;flex-direction:column;gap:2px;flex:1;min-width:0}
-.co-m-addr__caption{font-size:11px;color:var(--ink-2)}
-.co-m-addr__line{font-size:14px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .co-m-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .co-m-slots{display:flex;gap:8px;overflow-x:auto;overflow-y:hidden;overscroll-behavior-x:contain;margin:0 -16px;padding:0 16px}
 .co-m-link{font-size:13px;font-weight:600}
@@ -73,10 +69,19 @@
 .co-m__foot{padding:12px 16px 26px;border-top:1px solid var(--border);background:#fff;display:flex;flex-direction:column;gap:8px}
 .co-m__foot-row{display:flex;align-items:center;justify-content:space-between;padding:0 4px}
 .co-m-cta__right{display:flex;align-items:center;gap:12px}
-.co-m-addr__change{flex-shrink:0}
 .co-modal-layer{position:absolute;inset:0;z-index:40}
 .co-order__toggle{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;padding:0;border:0;background:transparent;color:var(--ink);font:inherit;text-align:left;cursor:pointer}
 .co-order__meta{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--ink-2);white-space:nowrap}
 .co-order__chev{color:var(--ink-3);transition:transform .2s var(--ease)}
 .co-order__toggle.is-open .co-order__chev{transform:rotate(180deg)}
 .co-order__body{display:flex;flex-direction:column;gap:12px;animation:frito-fade .25s ease-out both}
+.co-m-addr{display:flex;align-items:center;gap:12px;width:100%;padding:10px 10px 10px 10px;margin:-2px 0;border:0;border-radius:var(--r-md);background:var(--surface-1);color:var(--ink);font:inherit;text-align:left;cursor:pointer}
+.co-m-addr:active{background:var(--primary-50)}
+.co-m-addr__body{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.co-m-addr__caption{font-size:11px;color:var(--ink-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.co-m-addr__line{font-size:14px;font-weight:700;line-height:1.3;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;overflow-wrap:anywhere}
+.co-m-addr__chev{flex-shrink:0;color:var(--ink-3)}
+/* «Ваш заказ»: отдельная плашка-переключатель с запасом до промокода */
+.co-order__toggle{min-height:48px;padding:0 12px 0 14px;margin-bottom:4px;border-radius:var(--r-md);background:var(--surface-1)}
+.co-order__toggle:active{background:var(--primary-50)}
+.co-order__toggle.is-open{margin-bottom:0}
