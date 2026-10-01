@@ -35,8 +35,7 @@ input:focus-visible,textarea:focus-visible{outline:none}
     <sc-if value="{{ logoOk }}" hint-placeholder-val="{{ true }}"><img src="https://frito.kz/brand.svg" alt="FRITO" onError="{{ logoFail }}" class="f-logo"></sc-if>
     <sc-if value="{{ logoBroken }}" hint-placeholder-val="{{ false }}"><div class="mn-wordmark"><span class="mn-wordmark__bolt"></span>FRITO</div></sc-if>
     <!-- delivery method: segmented + address -->
-    <dc-import name="FritoSegment" mode="{{ segMode }}" on-change="{{ pickModeD }}" icons="{{ true }}" height="{{ 40 }}" style="margin-left:24px;width:280px;flex-shrink:0" hint-size="280px,48px"></dc-import>
-    <dc-import name="FritoAddressPill" filled="{{ hasMethod }}" caption="{{ addrCaption }}" value="{{ address }}" on-click="{{ openMethodD }}" hint-size="280px,48px"></dc-import>
+    <div class="mn-d__method"><dc-import name="FritoMethodBar" layout="inline" mode="{{ segMode }}" address="{{ address }}" eta="{{ etaLabel }}" on-mode="{{ pickModeD }}" on-open="{{ openMethodD }}" hint-size="600px,48px"></dc-import></div>
     <div class="mn-d__header-right">
       <button onClick="{{ openMenuD }}" aria-label="Меню" class="mn-burger">
         <span class="mn-burger__line"></span><span class="mn-burger__line"></span><span class="mn-burger__line"></span>
@@ -49,7 +48,7 @@ input:focus-visible,textarea:focus-visible{outline:none}
     <div ref="{{ dScrollRef }}" onScroll="{{ onDScroll }}" class="mn-d__scroll">
       <div class="mn-d__top">
         <!-- текущий заказ (если клиент вошёл и заказ ещё в работе) -->
-        <sc-if value="{{ hasLive }}" hint-placeholder-val="{{ false }}"><div class="mn-live"><dc-import name="FritoOrderProgress" tone="brand" caption="{{ live.caption }}" title="{{ live.title }}" eta="{{ live.eta }}" eta-unit="{{ live.etaUnit }}" steps="{{ live.steps }}" thumbs="{{ live.thumbs }}" addr="{{ live.addr }}" cta="Отследить" on-open="{{ live.open }}" hint-size="100%,200px"></dc-import></div></sc-if>
+        <sc-if value="{{ hasLive }}" hint-placeholder-val="{{ false }}"><div class="mn-live"><dc-import name="FritoOrderProgress" tone="brand" caption="{{ live.caption }}" title="{{ live.title }}" eta="{{ live.eta }}" eta-unit="{{ live.etaUnit }}" eta-label="{{ live.etaLabel }}" eta-note="{{ live.etaNote }}" steps="{{ live.steps }}" thumbs="{{ live.thumbs }}" addr="{{ live.addr }}" cta="Отследить" on-open="{{ live.open }}" hint-size="100%,200px"></dc-import></div></sc-if>
         <div class="mn-stories">
           <img role="button" tabIndex="0" onClick="{{ openStoryD0 }}" src="assets/story-stores.png" alt="Заказ через WhatsApp" class="mn-story">
           <img role="button" tabIndex="0" onClick="{{ openStoryD1 }}" src="assets/story-new10.png" alt="NEW10 −10% в первый месяц работы сайта" class="mn-story">
@@ -188,10 +187,9 @@ input:focus-visible,textarea:focus-visible{outline:none}
         </div>
       </header>
       <div class="mn-m__method">
-        <dc-import name="FritoSegment" mode="{{ segMode }}" on-change="{{ pickModeM }}" icons="{{ true }}" height="{{ 44 }}" hint-size="100%,52px"></dc-import>
-        <dc-import name="FritoAddressPill" filled="{{ hasMethod }}" caption="{{ addrCaptionM }}" value="{{ address }}" compact="{{ true }}" on-click="{{ openMethodM }}" hint-size="100%,48px"></dc-import>
+        <dc-import name="FritoMethodBar" layout="stack" mode="{{ segMode }}" address="{{ address }}" eta="{{ etaLabel }}" on-mode="{{ pickModeM }}" on-open="{{ openMethodM }}" hint-size="100%,112px"></dc-import>
       </div>
-      <sc-if value="{{ hasLive }}" hint-placeholder-val="{{ false }}"><div class="mn-m-live"><dc-import name="FritoOrderProgress" tone="brand" caption="{{ live.caption }}" title="{{ live.title }}" eta="{{ live.eta }}" eta-unit="{{ live.etaUnit }}" steps="{{ live.steps }}" thumbs="{{ live.thumbs }}" addr="{{ live.addr }}" cta="Отследить" on-open="{{ live.open }}" hint-size="100%,200px"></dc-import></div></sc-if>
+      <sc-if value="{{ hasLive }}" hint-placeholder-val="{{ false }}"><div class="mn-m-live"><dc-import name="FritoOrderProgress" tone="brand" caption="{{ live.caption }}" title="{{ live.title }}" eta="{{ live.eta }}" eta-unit="{{ live.etaUnit }}" eta-label="{{ live.etaLabel }}" eta-note="{{ live.etaNote }}" steps="{{ live.steps }}" thumbs="{{ live.thumbs }}" addr="{{ live.addr }}" cta="Отследить" on-open="{{ live.open }}" hint-size="100%,200px"></dc-import></div></sc-if>
       <div class="mn-m-stories">
         <img role="button" tabIndex="0" onClick="{{ openStoryM0 }}" src="assets/story-stores.png" alt="Заказ через WhatsApp" class="mn-m-story">
         <img role="button" tabIndex="0" onClick="{{ openStoryM1 }}" src="assets/story-new10.png" alt="NEW10 −10% в первый месяц работы сайта" class="mn-m-story">
@@ -430,7 +428,7 @@ class Component extends DCLogic {
   dScrollRef = React.createRef();
   mScrollRef = React.createRef();
 
-  componentDidMount() { window.addEventListener('resize', this._vwH);
+  componentDidMount() { window.addEventListener('resize', this._vwH); this._liveT = setInterval(() => { if (window.FritoOrder && FritoOrder.active()) this.setState({ liveTick: Date.now() }); }, 30000);
     if (this.props.startWithMethod) this.setState({ mode: 'delivery', address: DEFAULT_ADDR });
     else { try { const m = JSON.parse(localStorage.getItem('frito_method') || 'null'); if (m && m.mode && m.address) this.setState({ mode: m.mode, address: m.address }); } catch (e) {} }
     // повтор заказа из личного кабинета

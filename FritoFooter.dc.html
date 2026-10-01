@@ -12,32 +12,34 @@
     <div class="f-footer__brand">
       <sc-if value="{{ logoOk }}" hint-placeholder-val="{{ true }}"><img class="f-footer__logo" src="https://frito.kz/brand.svg" alt="FRITO" onError="{{ logoFail }}"></sc-if>
       <sc-if value="{{ logoBroken }}" hint-placeholder-val="{{ false }}"><div class="f-footer__wordmark">FRITO</div></sc-if>
-      <p class="f-footer__about">Хрустящая курочка, бургеры и стрипсы. Доставка по Астане за 35–45 минут и самовывоз из пяти ресторанов.</p>
+      <p class="f-footer__about">Хрустящая курочка, бургеры и стрипсы. Доставка за 35–45 минут и самовывоз из ресторанов Frito.</p>
     </div>
     <div class="f-footer__contact">
+      <span class="f-footer__label">Связаться с нами</span>
       <a class="f-footer__phone" href="https://wa.me/77009380000" target="_blank" rel="noopener">+7 700 938 0000</a>
       <span class="f-footer__hours">WhatsApp · ежедневно 11:30 – 02:00</span>
       <div class="f-footer__socials">
-        <a class="f-footer__social f-footer__social--primary" href="https://wa.me/77009380000" aria-label="WhatsApp"><img src="assets/ic-whatsapp-w.svg" alt="" style="width:20px;height:20px"></a>
-        <a class="f-footer__social" href="https://www.instagram.com/frito.kz/" aria-label="Instagram"><img src="assets/ic-instagram-w.svg" alt="" style="width:20px;height:20px"></a>
-        <a class="f-footer__social" href="https://www.tiktok.com/@frito.kz" aria-label="TikTok"><img src="assets/ic-tiktok-w.svg" alt="" style="width:32px;height:32px"></a>
+        <a class="f-footer__social" href="https://wa.me/77009380000" aria-label="WhatsApp" target="_blank" rel="noopener"><img src="assets/ic-whatsapp-w.svg" alt="" style="width:20px;height:20px"></a>
+        <a class="f-footer__social" href="https://www.instagram.com/frito.kz/" aria-label="Instagram" target="_blank" rel="noopener"><img src="assets/ic-instagram-w.svg" alt="" style="width:20px;height:20px"></a>
+        <a class="f-footer__social" href="https://www.tiktok.com/@frito.kz" aria-label="TikTok" target="_blank" rel="noopener"><img src="assets/ic-tiktok-w.svg" alt="" style="width:32px;height:32px"></a>
+      </div>
+    </div>
+    <!-- приложение: кнопки магазинов; на десктопе — один QR на умную ссылку (откроет нужный магазин) -->
+    <div class="f-footer__app">
+      <div class="f-footer__app-text">
+        <span class="f-footer__label">Приложение Frito</span>
+        <span class="f-footer__app-title">Заказывайте в пару касаний</span>
+        <div class="f-footer__stores-btns">
+          <a class="f-store" href="{{ appStore }}" target="_blank" rel="noopener"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.4 12.6c0-2.5 2-3.7 2.1-3.8-1.2-1.7-3-1.9-3.6-2-1.5-.2-3 .9-3.8.9-.8 0-2-.9-3.3-.9-1.7 0-3.3 1-4.2 2.5-1.8 3.1-.5 7.7 1.3 10.2.9 1.2 1.9 2.6 3.2 2.6 1.3-.1 1.8-.8 3.3-.8s2 .8 3.3.8c1.4 0 2.3-1.3 3.1-2.5 1-1.4 1.4-2.8 1.4-2.9-.1 0-2.8-1-2.8-4.1zM14 5.3c.7-.9 1.2-2 1-3.2-1 .1-2.3.7-3 1.6-.7.8-1.3 2-1.1 3.1 1.2.1 2.3-.6 3.1-1.5z"/></svg><span class="f-store__text"><span class="f-store__small">Загрузите в</span><span class="f-store__big">App Store</span></span></a>
+          <a class="f-store" href="{{ googlePlay }}" target="_blank" rel="noopener"><svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path fill="#34A853" d="M3.6 2.3 13.4 12l-9.8 9.7c-.4-.2-.6-.6-.6-1.1V3.4c0-.5.2-.9.6-1.1z"/><path fill="#FBBC04" d="m16.9 15.5-3.5-3.5 3.5-3.5 4 2.3c1.1.6 1.1 1.8 0 2.4z"/><path fill="#4285F4" d="M16.9 8.5 13.4 12 3.6 2.3c.3-.2.8-.2 1.2 0z"/><path fill="#EA4335" d="M16.9 15.5 4.8 22c-.4.2-.9.2-1.2-.3l9.8-9.7z"/></svg><span class="f-store__text"><span class="f-store__small">Доступно в</span><span class="f-store__big">Google Play</span></span></a>
+        </div>
+      </div>
+      <div class="f-footer__qr" aria-label="QR-код для скачивания приложения">
+        <img src="assets/qr-app.svg" alt="QR-код: скачать приложение Frito" class="f-footer__qr-img">
+        <span class="f-footer__qr-text">Наведите камеру — откроем App Store или Google Play</span>
       </div>
     </div>
   </div>
-  <sc-if value="{{ showStores }}" hint-placeholder-val="{{ true }}">
-  <div class="f-footer__stores">
-    <div class="f-footer__stores-head">
-      <span class="f-footer__overline">РЕСТОРАНЫ · {{ storeCount }}</span>
-      <a class="f-footer__maplink" href="#">Все адреса на карте →</a>
-    </div>
-    <div class="f-footer__pills">
-      <sc-for list="{{ shown }}" as="st" hint-placeholder-count="5">
-        <a class="f-footer__pill" href="#"><img class="f-footer__pin" src="assets/ic-pin-p.svg" alt=""><span class="f-footer__pill-name">{{ st.name }}</span><span class="f-footer__pill-hours">{{ st.hours }}</span></a>
-      </sc-for>
-      <sc-if value="{{ hasMore }}" hint-placeholder-val="{{ false }}"><a class="f-footer__pill f-footer__pill--more" href="#">ещё {{ more }}</a></sc-if>
-    </div>
-  </div>
-  </sc-if>
   <div class="f-footer__bottom">
     <nav class="f-footer__nav">
       <sc-for list="{{ links }}" as="l" hint-placeholder-count="6"><a class="f-footer__link" href="{{ l.href }}">{{ l.label }}</a></sc-for>
@@ -52,17 +54,12 @@ const LINKS = [
   { label: 'Вакансии', href: 'vacancies.dc.html' }, { label: 'Доставка и оплата', href: '#' }, { label: 'Оферта', href: '#' }, { label: 'Конфиденциальность', href: '#' },
 ];
 class Component extends DCLogic {
-  state = { logoBroken: false, stores: [] };
-  async componentDidMount() {
-    if (this.props.stores) return;
-    try { const m = await import('./frito-data.js'); this.setState({ stores: m.STORES }); } catch (e) {}
-  }
+  state = { logoBroken: false };
   renderVals() {
     const p = this.props, s = this.state;
-    const stores = p.stores || s.stores, max = p.storesMax ?? 8;
-    const shown = stores.slice(0, max), more = Math.max(0, stores.length - max);
     return {
-      shown, more, hasMore: more > 0, storeCount: stores.length, showStores: p.showStores !== false && stores.length > 0,
+      // ссылки на магазины — заменить на реальные, когда приложение опубликуют
+      appStore: p.appStore || 'https://apps.apple.com/kz/app/frito', googlePlay: p.googlePlay || 'https://play.google.com/store/apps/details?id=kz.frito',
       links: LINKS, logoOk: !s.logoBroken, logoBroken: s.logoBroken, logoFail: () => this.setState({ logoBroken: true }),
     };
   }

@@ -11,6 +11,7 @@
 <!-- Прогресс заказа: этап крупно + время, шкала этапов, фото/адрес/кнопка. tone: brand (фиолетовая .f-brand-card) | light (белая панель).
      etaLabel (+ etaNote) — режим «крупно время»: подпись, большое число, примечание; title становится строкой этапа. onCta — кнопка действия внизу (напр. «Повторить заказ»), иначе cta — подпись-ссылка при onOpen. Используется: текущий заказ на главной и в кабинете, шапка страницы заказа. Стили — .f-progress* -->
 <div class="{{ rootCls }}" role="{{ role }}" tabIndex="{{ tab }}" onClick="{{ open }}" onKeyDown="{{ key }}" aria-label="{{ aria }}">
+  <sc-if value="{{ brand }}" hint-placeholder-val="{{ true }}"><span class="f-progress__shine" aria-hidden="true"></span></sc-if>
   <!-- герой: крупно время до доставки / готовности (etaLabel задан) -->
   <sc-if value="{{ hasHero }}" hint-placeholder-val="{{ false }}">
     <div class="f-progress__hero">
@@ -51,6 +52,7 @@ class Component extends DCLogic {
     const p = this.props, steps = p.steps || DEMO_STEPS, link = !!p.onOpen, brand = (p.tone || 'brand') === 'brand';
     const thumbs = p.thumbs || [];
     return {
+      brand,
       rootCls: 'f-comp f-progress ' + (brand ? 'f-brand-card f-progress--brand' : 'f-panel f-progress--light') + (p.size === 'lg' ? ' f-progress--lg' : '') + (link ? ' is-link' : ''),
       role: link ? 'link' : 'group', tab: link ? 0 : -1, aria: link ? 'Открыть заказ: ' + (p.title || '') : (p.title || ''),
       open: () => link && p.onOpen(), key: e => { if (link && e.key === 'Enter') p.onOpen(); },

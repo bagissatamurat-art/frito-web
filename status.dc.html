@@ -114,7 +114,6 @@ button{outline:none}
           <sc-if value="{{ canCancel }}" hint-placeholder-val="{{ false }}">
             <button type="button" onClick="{{ askCancel }}" class="st-cancel-btn">Отменить заказ</button>
           </sc-if>
-          <sc-if value="{{ cancelHint }}" hint-placeholder-val="{{ false }}"><span class="st-cancel-note">Отменить можно только до начала готовки</span></sc-if>
         </section>
 
         <section data-screen-label="Состав" class="st-card-sm">
@@ -132,7 +131,6 @@ button{outline:none}
                 </div>
               </sc-for>
             </div>
-            <a href="#" class="st-link">Скачать чек (PDF)</a>
           </sc-if>
         </section>
 
@@ -201,8 +199,6 @@ const ITEMS = [
 ];
 const readJSON = k => { try { return JSON.parse(localStorage.getItem(k)); } catch (e) { return null; } };
 const money = n => String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ' ') + ' тг';
-const liveBar = React.createElement('span', { style: { position: 'absolute', inset: 0, borderRadius: 'inherit', background: 'linear-gradient(90deg,#614BE2 0%,#A89BF3 50%,#614BE2 100%)', backgroundSize: '200% 100%', animation: 'frito-flow 1.6s linear infinite' } });
-const pulseDot = React.createElement('span', { style: { width: 10, height: 10, borderRadius: '50%', background: 'var(--primary)', animation: 'frito-pulse 1.4s ease-out infinite' } });
 
 class Component extends DCLogic {
   // сценарий можно задать в адресе: status.dc.html?mode=pickup&stage=done&issue=delayed&demo=1
@@ -255,22 +251,6 @@ class Component extends DCLogic {
       else { heroPre = 'Заказ'; heroBig = 'Выдан'; heroSub = 'В 14:41 · приятного аппетита!'; }
     }
     const list = STEPS[mode];
-    const segs = list.map((_, i) => ({ bg: !normal ? (issue === 'paymentFailed' && i === 1 ? '#FCA5A5' : 'var(--surface-3)') : i < cur || done ? 'var(--primary)' : i === cur ? '#E4E0FA' : 'var(--border)', live: normal && i === cur && !done ? liveBar : null }));
-    let steps = list.map((st, i) => {
-      const isDone = normal ? i < cur || done : i < cur;
-      const isCur = normal && i === cur && !done;
-      const failed = issue === 'paymentFailed' && i === 1;
-      return {
-        t: failed ? 'Оплата не прошла' : st.t, d: failed ? 'Платёж отклонён — оплатите снова, чтобы мы начали готовить.' : st.d,
-        timeLabel: isDone || isCur || failed ? st.time : '',
-        dotBg: failed ? '#DC2626' : isDone ? 'var(--primary)' : '#fff', dotBorder: failed ? '#DC2626' : isDone || isCur ? 'var(--primary)' : 'var(--surface-3)',
-        check: isDone && !failed, cross: failed, pulse: isCur ? pulseDot : null,
-        weight: isCur || failed ? 700 : 600, color: failed ? '#B91C1C' : isDone || isCur ? 'var(--ink)' : 'var(--ink-3)',
-        showDesc: isCur || failed || (done && i === 4), lineColor: i < cur || done ? 'var(--primary)' : 'var(--surface-3)', hasLine: true,
-      };
-    });
-    if (issue === 'cancelled') steps = steps.slice(0, cur + 1).concat([{ t: 'Отменён', d: 'Вы отменили заказ. Деньги вернутся в течение 1–3 рабочих дней.', timeLabel: '14:14', dotBg: 'var(--ink-2)', dotBorder: 'var(--ink-2)', check: false, cross: true, pulse: null, weight: 700, color: 'var(--ink)', showDesc: true, lineColor: 'var(--surface-3)', hasLine: false }]);
-    steps[steps.length - 1].hasLine = false;
     // прогресс для FritoOrderProgress (5 этапов со временем)
     const SHORT = { 'Курьер в пути': 'В пути', 'Готов к выдаче': 'Готов' };
     const TITLES = pick ? ['Заказ принят', 'Оплата прошла', 'Готовим ваш заказ', 'Готов! Назовите номер на кассе', 'Заказ выдан'] : ['Заказ принят', 'Оплата прошла', 'Готовим ваш заказ', 'Курьер уже в пути', 'Заказ доставлен'];
@@ -294,13 +274,12 @@ class Component extends DCLogic {
       modeLabel: pick ? 'Самовывоз' : 'Доставка',
       prog, placedAt, notNormal: !normal, heroCard: !normal || (normal && pick && cur < 4),
       isNormal: normal, isPayFail: issue === 'paymentFailed', isCancelled: issue === 'cancelled', isDone: done,
-      heroPre, heroBig, heroSub, segs, curTitle: done ? (pick ? 'Спасибо, что выбрали Frito!' : 'Спасибо, что выбрали Frito!') : list[cur].t, curDesc: done ? 'Будем рады видеть вас снова.' : list[cur].d,
+      heroPre, heroBig, heroSub, curTitle: done ? (pick ? 'Спасибо, что выбрали Frito!' : 'Спасибо, что выбрали Frito!') : list[cur].t, curDesc: done ? 'Будем рады видеть вас снова.' : list[cur].d,
       showDelay: false, showPickupCode: normal && pick && cur === 3, showHeroRoutes: normal && pick && cur < 4,
       showRating: done,
       rateNo: this.view ? this.view.no : '',
       rateTitle: pick ? 'Как вам заказ?' : 'Как вам заказ и доставка?',
-      steps,
-      canCancel: normal && cur <= 1, cancelHint: normal && cur >= 2 && cur < 4,
+      canCancel: normal && cur <= 1,
       askCancel: () => this.setState({ confirmCancel: true }), closeCancel: () => this.setState({ confirmCancel: false }),
       doCancel: () => this.setState({ confirmCancel: false, issueOv: 'cancelled' }),
       confirmCancel: s.confirmCancel, cAlign: mobile ? 'flex-end' : 'center', cPad: mobile ? '0' : '24px', cRadius: mobile ? '28px 28px 0 0' : '28px',

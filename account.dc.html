@@ -51,7 +51,7 @@ button{outline:none}
             <span class="ac-me__meta">{{ meMeta }}</span>
             <span class="ac-me__edit">Изменить профиль</span>
           </button>
-          <sc-if value="{{ hasActive }}" hint-placeholder-val="{{ false }}"><div class="ac-hub-only"><dc-import name="FritoOrderProgress" tone="brand" caption="{{ live.caption }}" title="{{ live.title }}" eta="{{ live.eta }}" eta-unit="{{ live.etaUnit }}" steps="{{ live.steps }}" thumbs="{{ live.thumbs }}" addr="{{ live.addr }}" cta="Отследить" on-open="{{ live.open }}" hint-size="100%,200px"></dc-import></div></sc-if>
+          <sc-if value="{{ hasActive }}" hint-placeholder-val="{{ false }}"><div class="ac-hub-only"><dc-import name="FritoOrderProgress" tone="brand" caption="{{ live.caption }}" title="{{ live.title }}" eta="{{ live.eta }}" eta-unit="{{ live.etaUnit }}" eta-label="{{ live.etaLabel }}" eta-note="{{ live.etaNote }}" steps="{{ live.steps }}" thumbs="{{ live.thumbs }}" addr="{{ live.addr }}" cta="Отследить" on-open="{{ live.open }}" hint-size="100%,200px"></dc-import></div></sc-if>
           <nav class="f-panel ac-menu" aria-label="Разделы кабинета">
             <sc-for list="{{ sections }}" as="t" hint-placeholder-count="3">
               <button type="button" class="{{ t.cls }}" onClick="{{ t.pick }}" aria-current="{{ t.on }}">
@@ -73,7 +73,7 @@ button{outline:none}
 
           <!-- ЗАКАЗЫ -->
           <sc-if value="{{ tabOrders }}" hint-placeholder-val="{{ true }}">
-            <sc-if value="{{ hasActive }}" hint-placeholder-val="{{ false }}"><dc-import name="FritoOrderProgress" tone="brand" caption="{{ live.caption }}" title="{{ live.title }}" eta="{{ live.eta }}" eta-unit="{{ live.etaUnit }}" steps="{{ live.steps }}" thumbs="{{ live.thumbs }}" addr="{{ live.addr }}" cta="Отследить" on-open="{{ live.open }}" hint-size="100%,200px"></dc-import></sc-if>
+            <sc-if value="{{ hasActive }}" hint-placeholder-val="{{ false }}"><dc-import name="FritoOrderProgress" tone="brand" caption="{{ live.caption }}" title="{{ live.title }}" eta="{{ live.eta }}" eta-unit="{{ live.etaUnit }}" eta-label="{{ live.etaLabel }}" eta-note="{{ live.etaNote }}" steps="{{ live.steps }}" thumbs="{{ live.thumbs }}" addr="{{ live.addr }}" cta="Отследить" on-open="{{ live.open }}" hint-size="100%,200px"></dc-import></sc-if>
             <sc-if value="{{ hasActive }}" hint-placeholder-val="{{ false }}"><span class="ac-sublabel">Прошлые заказы</span></sc-if>
             <sc-if value="{{ noOrders }}" hint-placeholder-val="{{ false }}">
               <div class="f-panel ac-empty"><span class="ac-empty__title">Заказов пока нет</span><span class="ac-empty__text">Первый заказ появится здесь — его можно будет повторить в один клик.</span><a class="f-btn f-btn--primary f-btn--md" href="menu.dc.html">Перейти в меню</a></div>

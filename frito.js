@@ -58,8 +58,11 @@ window.FritoOrder = (() => {
   const live = (o, img = () => '') => {
     const f = FLOW[o.mode === 'pickup' ? 'pickup' : 'delivery'], m = (Date.now() - o.at) / MIN, i = m < 5 ? 0 : m < 20 ? 1 : 2;
     const ready = o.mode === 'pickup' && i === 2;
+    const hm = t => { const d = new Date(t); return String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0'); };
     return { caption: 'Заказ №' + o.no + ' · ' + (o.mode === 'pickup' ? 'самовывоз' : 'доставка'), title: f.titles[i], stageKey: f.keys[i],
-      eta: ready ? '' : '~' + Math.max(1, Math.round(f.total - m)), etaUnit: ready ? 'Ждём вас' : 'мин',
+      etaLabel: ready ? 'Готов! Назовите номер на кассе' : o.mode === 'pickup' ? 'Будет готов через' : 'Привезём через',
+      etaNote: ready ? 'Держим горячим' : 'примерно к ' + hm(o.at + f.total * MIN),
+      eta: ready ? '№' + o.no : String(Math.max(1, Math.round(f.total - m))), etaUnit: ready ? '' : 'мин',
       steps: f.steps.map((label, j) => ({ label, state: j < i ? 'done' : j === i ? 'cur' : 'todo' })),
       thumbs: (o.items || []).slice(0, 3).map(([id]) => img(id)).filter(Boolean), addr: o.address || '' };
   };

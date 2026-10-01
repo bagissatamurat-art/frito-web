@@ -392,33 +392,20 @@ img.f-option__icon{object-fit:contain}
 .f-sheet .f-cta__sep{height:20px}
 
 /* футер */
-.f-footer{display:flex;flex-direction:column;gap:32px;padding:clamp(28px,4vw,40px) clamp(22px,4vw,40px) 28px;background:var(--dark);border-radius:28px;color:#fff;font-family:var(--font)}
+.f-footer{display:flex;flex-direction:column;gap:32px;padding:clamp(28px,4vw,40px) clamp(22px,4vw,40px) 28px;background:var(--dark);border-radius:var(--r-2xl);color:#fff;font-family:var(--font)}
 .f-footer a{text-decoration:none}
 .f-footer__top{display:flex;align-items:flex-start;justify-content:space-between;gap:32px;flex-wrap:wrap}
 .f-footer__brand{display:flex;flex-direction:column;gap:14px;max-width:360px}
 .f-footer__logo{display:block;height:34px;width:max-content;filter:brightness(0) invert(1)}
 .f-footer__wordmark{font-size:32px;font-weight:800;letter-spacing:-.03em;line-height:1}
 .f-footer__about{margin:0;font-size:13px;line-height:1.5;color:rgba(255,255,255,.6)}
-.f-footer__contact{display:flex;flex-direction:column;gap:10px}
+.f-footer__contact{display:flex;flex-direction:column;gap:8px}
+.f-footer__label{font-size:13px;font-weight:600;color:rgba(255,255,255,.55)}
 .f-footer__phone,.f-footer__phone:hover{font-size:22px;font-weight:700;letter-spacing:-.01em;color:#fff}
 .f-footer__hours{font-size:13px;color:rgba(255,255,255,.55)}
 .f-footer__socials{display:flex;gap:8px;margin-top:4px}
 .f-footer__social{display:flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.1)}
 .f-footer__social:hover{background:rgba(255,255,255,.18)}
-.f-footer__social--primary{background:var(--primary)}
-.f-footer__social--primary:hover{background:var(--primary-hover)}
-.f-footer__stores{display:flex;flex-direction:column;gap:12px}
-.f-footer__stores-head{display:flex;align-items:center;justify-content:space-between;gap:12px}
-.f-footer__overline{font-size:13px;font-weight:700;letter-spacing:.04em;color:rgba(255,255,255,.55)}
-.f-footer__maplink{font-size:13px;font-weight:600;color:var(--primary-light)}
-.f-footer__maplink:hover{color:#fff}
-.f-footer__pills{display:flex;gap:8px;flex-wrap:wrap}
-.f-footer__pill,.f-footer__pill:hover{display:flex;align-items:center;gap:8px;padding:8px 14px 8px 10px;border-radius:var(--r-pill);background:rgba(255,255,255,.06);color:#fff}
-.f-footer__pill:hover{background:rgba(255,255,255,.12)}
-.f-footer__pill--more,.f-footer__pill--more:hover{gap:0;padding:8px 14px;background:rgba(168,153,255,.15);color:var(--primary-light);font-size:13px;font-weight:600}
-.f-footer__pin{width:14px;height:14px;filter:brightness(0) invert(1);opacity:.7}
-.f-footer__pill-name{font-size:13px;font-weight:600;white-space:nowrap}
-.f-footer__pill-hours{font-size:12px;color:rgba(255,255,255,.5);white-space:nowrap}
 .f-footer__bottom{display:flex;align-items:center;justify-content:space-between;gap:16px 24px;flex-wrap:wrap;padding-top:22px;border-top:1px solid rgba(255,255,255,.1)}
 .f-footer__nav{display:flex;gap:12px 24px;flex-wrap:wrap}
 .f-footer__link{font-size:13px;font-weight:500;color:rgba(255,255,255,.75)}
@@ -916,3 +903,56 @@ img.f-option__icon{object-fit:contain}
 .f-progress--brand .f-progress__hero-label,.f-progress--brand .f-progress__hero-note{color:var(--primary-200)}
 .f-progress--light .f-progress__hero-label,.f-progress--light .f-progress__hero-note{color:var(--ink-2)}
 .f-progress--light .f-progress__hero-num{color:var(--primary)}
+/* размеры «крупного времени» в компактной карточке (главная, кабинет) */
+.f-progress:not(.f-progress--lg) .f-progress__hero-num{font-size:48px}
+.f-progress:not(.f-progress--lg) .f-progress__hero-unit{font-size:20px}
+.f-progress:not(.f-progress--lg) .f-progress__hero-label{font-size:14px}
+.f-progress:not(.f-progress--lg) .f-progress__hero-note{margin-top:4px;font-size:13px}
+.f-progress:not(.f-progress--lg) .f-progress__hero .f-progress__caption{margin-bottom:4px}
+
+/* анимации: число появляется, по текущему участку шкалы бежит поток, молнии дрейфуют, по карточке проходит блик */
+.f-progress__hero-value{animation:f-progress-in .6s var(--ease) both}
+.f-progress__hero-note,.f-progress__stage{animation:frito-fade .5s .15s ease-out both}
+@keyframes f-progress-in{from{opacity:0;transform:translateY(12px) scale(.96)}to{opacity:1;transform:none}}
+.f-progress--brand .f-progress__step.is-cur::before{background:linear-gradient(90deg,rgba(255,255,255,.35) 0%,#fff 50%,rgba(255,255,255,.35) 100%);background-size:200% 100%;animation:f-progress-flow 1.4s linear infinite}
+.f-progress--light .f-progress__step.is-cur::before{background:linear-gradient(90deg,var(--primary-200) 0%,var(--primary) 50%,var(--primary-200) 100%);background-size:200% 100%;animation:f-progress-flow 1.4s linear infinite}
+@keyframes f-progress-flow{from{background-position:200% 0}to{background-position:0 0}}
+.f-progress--brand::before{animation:f-bolt-drift 9s ease-in-out infinite alternate}
+.f-progress--brand::after{animation:f-bolt-drift2 11s ease-in-out infinite alternate}
+@keyframes f-bolt-drift{from{transform:translate(0,0) rotate(0)}to{transform:translate(-14px,10px) rotate(-6deg)}}
+@keyframes f-bolt-drift2{from{transform:rotate(18deg) translate(0,0)}to{transform:rotate(26deg) translate(10px,-8px)}}
+.f-progress__shine{position:absolute;inset:0;z-index:-1;pointer-events:none;background:linear-gradient(105deg,transparent 35%,rgba(255,255,255,.14) 50%,transparent 65%);background-size:250% 100%;animation:f-progress-shine 6s ease-in-out infinite}
+@keyframes f-progress-shine{0%,60%{background-position:150% 0}100%{background-position:-60% 0}}
+@media (prefers-reduced-motion:reduce){
+  .f-progress__hero-value,.f-progress__hero-note,.f-progress__stage,.f-progress--brand::before,.f-progress--brand::after,.f-progress__shine,.f-progress__step.is-cur::before,.f-progress .is-cur .f-progress__dot{animation:none}
+}
+
+/* Способ получения на главной (FritoMethodBar) */
+.f-method{font-family:var(--font)}
+.f-method--stack{display:flex;flex-direction:column;gap:4px;padding:6px;border-radius:var(--r-lg);background:var(--surface-0);box-shadow:inset 0 0 0 1px var(--border)}
+.f-method--stack .f-method__addr{background:transparent;padding:8px 10px 8px 8px}
+.f-method--stack .f-method__addr:hover{background:var(--surface-1)}
+.f-method--stack .f-addr-btn--empty{background:var(--primary-50);box-shadow:none}
+.f-method--inline{display:flex;align-items:center;gap:8px}
+.f-method--inline .f-method__seg{flex:0 0 220px}
+.f-method--inline .f-method__addr{flex:1;min-width:0;max-width:380px;height:var(--h-md);padding:4px 12px 4px 4px;border-radius:var(--r-pill)}
+.f-method--inline .f-addr-btn__icon{width:36px;height:36px}
+.f-method--inline .f-addr-btn__icon img{width:18px;height:18px}
+.f-method--inline .f-addr-btn__body{gap:0}
+.f-method--inline .f-addr-btn__caption{font-size:11px}
+.f-method--inline .f-addr-btn__line{font-size:14px;-webkit-line-clamp:1}
+.f-method--inline .f-addr-btn--empty{box-shadow:none}
+/* футер: блок приложения */
+.f-footer__app{display:flex;align-items:center;gap:24px}
+.f-footer__app-text{display:flex;flex-direction:column;gap:8px}
+.f-footer__app-title{font-size:18px;font-weight:700}
+.f-footer__stores-btns{display:flex;gap:8px;flex-wrap:wrap;margin-top:4px}
+.f-store,.f-store:hover{display:flex;align-items:center;gap:10px;height:var(--h-lg);padding:0 18px 0 14px;border-radius:var(--r-md-plus);background:#000;color:#fff;box-shadow:inset 0 0 0 1px rgba(255,255,255,.22);transition:background-color .15s}
+.f-store:hover{background:#111}
+.f-store__text{display:flex;flex-direction:column;line-height:1.1}
+.f-store__small{font-size:10px;font-weight:500;opacity:.8}
+.f-store__big{font-size:16px;font-weight:700;letter-spacing:-.01em}
+.f-footer__qr{display:flex;flex-direction:column;align-items:center;gap:8px;width:140px;flex-shrink:0}
+.f-footer__qr-img{display:block;width:120px;height:120px;padding:10px;border-radius:var(--r-md-plus);background:#fff;image-rendering:pixelated}
+.f-footer__qr-text{font-size:11px;line-height:1.35;text-align:center;color:rgba(255,255,255,.55)}
+@media (max-width:1023px){ .f-footer__qr{display:none} }
