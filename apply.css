@@ -22,3 +22,5 @@
 .ap-done__text{margin:0;font-size:15px;color:var(--ink-2);line-height:1.5;max-width:380px;text-wrap:pretty}
 .ap-done__btn{margin-top:8px;height:48px;padding:0 24px;border:0;border-radius:999px;background:var(--surface-1);color:var(--ink);font:inherit;font-size:14px;font-weight:600;cursor:pointer}
 .ap-done__btn:hover{background:var(--border)}
+.ap-start__btn{flex:1;min-width:0;height:48px;padding:0 8px;border:1px solid transparent;border-radius:14px;background:var(--surface-1);color:var(--ink);font:inherit;font-size:14px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;cursor:pointer;transition:all .15s}
+.ap-start__btn.is-on{border-color:var(--primary);background:var(--primary-50);font-weight:700}

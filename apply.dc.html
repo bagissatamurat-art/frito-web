@@ -149,7 +149,7 @@ select:focus-visible{outline:none}
             <span class="ap-start__label">Могу начать работу<span aria-hidden="true" class="f-field__req">*</span></span>
             <div role="radiogroup" class="ap-start__row">
               <sc-for list="{{ starts }}" as="st" hint-placeholder-count="3">
-                <button type="button" role="radio" aria-checked="{{ st.on }}" onClick="{{ st.pick }}" style="flex:1;min-width:0;height:48px;padding:0 8px;border-radius:14px;border:1px solid {{ st.border }};background:{{ st.bg }};font:inherit;font-size:15px;font-weight:{{ st.weight }};color:var(--ink);cursor:pointer;white-space:nowrap;transition:all .15s">{{ st.label }}</button>
+                <button type="button" role="radio" aria-checked="{{ st.on }}" onClick="{{ st.pick }}" class="{{ st.cls }}">{{ st.label }}</button>
               </sc-for>
             </div>
             <sc-if value="{{ startDateOn }}" hint-placeholder-val="{{ false }}">
@@ -166,11 +166,7 @@ select:focus-visible{outline:none}
           <h2 class="ap-q-title">Откуда вы о нас узнали?<span aria-hidden="true" class="ap-req">*</span></h2>
           <div role="radiogroup" class="ap-radios">
             <sc-for list="{{ sources }}" as="s" hint-placeholder-count="6">
-              <label style="display:flex;align-items:center;gap:12px;min-height:48px;padding:0 14px;border-radius:14px;background:{{ s.bg }};border:1px solid {{ s.border }};cursor:pointer;transition:all .15s" style-hover="border-color:#B7ACF3">
-                <input type="radio" name="source" value="{{ s.id }}" checked="{{ s.on }}" onChange="{{ s.pick }}" class="f-sr-input">
-                <span aria-hidden="true" style="width:20px;height:20px;border-radius:50%;flex-shrink:0;border:2px solid {{ s.ring }};display:flex;align-items:center;justify-content:center;transition:all .15s"><span style="width:10px;height:10px;border-radius:50%;background:var(--primary);transform:scale({{ s.dot }});transition:transform .15s"></span></span>
-                <span style="font-size:15px;font-weight:{{ s.weight }}">{{ s.label }}</span>
-              </label>
+              <dc-import name="FritoOption" type="radio" label="{{ s.label }}" selected="{{ s.on }}" on-toggle="{{ s.pick }}" hint-size="100%,56px"></dc-import>
             </sc-for>
             <sc-if value="{{ otherOn }}" hint-placeholder-val="{{ false }}">
               <div class="ap-other">
@@ -185,10 +181,10 @@ select:focus-visible{outline:none}
         <section class="ap-submit">
           <label class="ap-agree">
             <input type="checkbox" checked="{{ f.agree }}" onChange="{{ toggleAgree }}" class="f-sr-input">
-            <span aria-hidden="true" style="width:22px;height:22px;border-radius:7px;flex-shrink:0;margin-top:1px;border:2px solid {{ agreeRing }};background:{{ agreeBg }};display:flex;align-items:center;justify-content:center;transition:all .15s"><span style="width:10px;height:6px;border-left:2px solid #fff;border-bottom:2px solid #fff;transform:rotate(-45deg) translate(1px,-1px);opacity:{{ agreeCheck }}"></span></span>
+            <span aria-hidden="true" class="{{ agreeCls }}"><span class="f-check__tick"></span></span>
             <span class="ap-agree__text">Соглашаюсь с <a href="#">условиями оферты</a> и даю согласие на <a href="#">обработку персональных данных</a><span aria-hidden="true" class="f-field__req">*</span></span>
           </label>
-          <button type="submit" disabled="{{ sending }}" style="height:56px;border:0;border-radius:999px;background:{{ ctaBg }};color:#fff;font:inherit;font-size:16px;font-weight:700;cursor:{{ ctaCursor }};transition:background .15s;display:flex;align-items:center;justify-content:center" style-hover="background:{{ ctaHover }}">{{ ctaText }}</button>
+          <button type="submit" disabled="{{ sending }}" class="{{ ctaCls }}">{{ ctaText }}</button>
           <sc-if value="{{ ctaHint }}" hint-placeholder-val="{{ false }}"><span class="ap-cta-hint">{{ ctaHint }}</span></sc-if>
         </section>
       </form>
@@ -235,7 +231,7 @@ const dobError = v => {
 const CITIZENS = ['Казахстан', 'Россия', 'Кыргызстан', 'Узбекистан', 'Таджикистан', 'Другое'];
 const MILITARY = ['Состою на воинском учёте', 'Не состою на учёте', 'Не военнообязанный(ая)'];
 const EMPLOYMENT = ['Не работаю', 'Работаю', 'Учусь', 'Учусь и работаю'];
-const STARTS = [['today', 'Сегодня'], ['tomorrow', 'Завтра'], ['date', 'Выбрать дату']];
+const STARTS = [['today', 'Сегодня'], ['tomorrow', 'Завтра'], ['date', 'Своя дата']];
 const isoDate = d => d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
 const EMPTY = { name: '', dob: '', citizen: '', citizenOther: '', address: '', military: '', phone: '', phone2: '', email: '', city: '', branch: '', vacancy: '', employment: '', start: '', startDate: '', source: '', other: '', agree: false };
 class Component extends DCLogic {
@@ -286,17 +282,17 @@ class Component extends DCLogic {
       setAddress: v => this.set('address', v), setMilitary: ev => this.set('military', ev.target.value),
       setPhone2: v => this.set('phone2', v), setEmail: v => this.set('email', v.trim()),
       setEmployment: ev => this.set('employment', ev.target.value), setStartDate: ev => this.set('startDate', ev.target.value),
-      starts: STARTS.map(([id, label]) => { const on = f.start === id; return { id, label, on, pick: () => this.set('start', id), bg: on ? 'var(--primary-50)' : 'var(--surface-1)', border: on ? 'var(--primary)' : 'transparent', weight: on ? 700 : 500 }; }),
+      starts: STARTS.map(([id, label]) => { const on = f.start === id; return { id, label, on, pick: () => this.set('start', id), cls: 'ap-start__btn' + (on ? ' is-on' : '') }; }),
       startDateOn: f.start === 'date', today: isoDate(new Date()),
       setName: v => this.set('name', v), setDob: v => this.set('dob', fmtDob(v)), setPhone: v => this.set('phone', v),
       setCity: ev => this.setState(st => ({ f: { ...st.f, city: ev.target.value, branch: '' } })),
       setBranch: ev => this.set('branch', ev.target.value), setVacancy: ev => this.set('vacancy', ev.target.value),
       setOther: v => this.set('other', v), toggleAgree: () => this.set('agree', !f.agree),
-      sources: SOURCES.map(([id, label]) => { const on = f.source === id; return { id, label, on, pick: () => this.set('source', id), bg: on ? 'var(--primary-50)' : 'var(--surface-1)', border: on ? 'var(--primary)' : 'transparent', ring: on ? 'var(--primary)' : 'var(--neutral-300)', dot: on ? 1 : 0, weight: on ? 700 : 500 }; }),
+      sources: SOURCES.map(([id, label]) => { const on = f.source === id; return { id, label, on, pick: () => this.set('source', id) }; }),
       otherOn: f.source === 'other',
-      agreeRing: f.agree ? 'var(--primary)' : 'var(--neutral-300)', agreeBg: f.agree ? 'var(--primary)' : '#fff', agreeCheck: f.agree ? 1 : 0,
+      agreeCls: 'f-check' + (f.agree ? ' is-on' : ''),
       sending: s.sending, ctaText: s.sending ? 'Отправляем…' : 'Отправить анкету',
-      ctaBg: canSend ? 'var(--primary)' : '#C9C4E8', ctaHover: canSend ? 'var(--primary-hover)' : '#C9C4E8', ctaCursor: canSend ? 'pointer' : 'default',
+      ctaCls: 'f-btn f-btn--primary f-btn--block' + (canSend ? '' : ' is-disabled'),
       ctaHint: canSend ? '' : (!f.agree && valid ? 'Отметьте согласие с офертой, чтобы отправить' : s.tried ? 'Заполните отмеченные поля' : ''),
       submit: ev => {
         ev.preventDefault();
