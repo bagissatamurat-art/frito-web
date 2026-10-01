@@ -78,7 +78,7 @@ html,body{max-width:100%;overflow-x:clip;overscroll-behavior-x:none;-webkit-text
 .f-dialog{position:relative;width:100%;max-width:560px;background:var(--surface-0);border-radius:var(--r-2xl);padding:36px 40px 32px;display:flex;flex-direction:column;gap:20px;box-shadow:var(--shadow-modal);animation:frito-pop .3s var(--ease) both}
 .f-sheet{position:absolute;left:0;right:0;bottom:0;background:var(--surface-0);border-radius:var(--r-2xl) var(--r-2xl) 0 0;padding:10px 20px calc(24px + env(safe-area-inset-bottom));display:flex;flex-direction:column;gap:18px;max-height:92%;overflow-y:auto;box-shadow:var(--shadow-sheet);animation:frito-sheet .38s var(--ease) both}
 /* над экранной клавиатурой: --kb ставит frito.js */
-.f-sheet{bottom:var(--kb,0px);max-height:calc(92% - var(--kb,0px));transition:bottom .25s var(--ease),max-height .25s var(--ease)}
+.f-sheet{bottom:var(--kb,0px);max-height:min(calc(92% - var(--kb,0px)),calc(var(--vvh,100vh) - 12px));transition:bottom .2s var(--ease)}
 .f-grabber{align-self:center;flex-shrink:0;width:40px;height:4px;border-radius:2px;background:var(--surface-3)}
 .f-modal__head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px}
 .f-modal__titles{display:flex;flex-direction:column;gap:10px;min-width:0}
@@ -123,6 +123,7 @@ html,body{max-width:100%;overflow-x:clip;overscroll-behavior-x:none;-webkit-text
 .f-otp.is-done .f-otp__cell{border-color:#86EFAC;background:#F0FDF4;color:#15803D;box-shadow:0 1px 2px rgba(22,163,74,.12)}
 @keyframes f-otp-pop{0%{transform:scale(.88)}60%{transform:scale(1.06)}100%{transform:none}}
 @keyframes f-caret{50%{opacity:0}}
+.f-kb-keep{position:absolute;top:0;left:0;width:1px;height:1px;padding:0;border:0;opacity:0;font-size:16px;pointer-events:none;caret-color:transparent}
 .f-otp__input{position:absolute;inset:0;width:100%;height:100%;opacity:0;border:0;font-size:16px}
 .f-row{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
 .f-wait{display:flex;align-items:center;gap:10px;font-size:14px;color:var(--ink-2)}

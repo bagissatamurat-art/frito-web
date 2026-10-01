@@ -20,18 +20,25 @@ if ('IntersectionObserver' in window && !matchMedia('(prefers-reduced-motion: re
 
 // Высота экранной клавиатуры (iOS/Android) → CSS-переменная --kb. Шторки (.f-sheet) поднимаются над клавиатурой.
 if (window.visualViewport) {
-  const vv = window.visualViewport;
+  // iOS Safari: клавиатура перекрывает страницу, а window.innerHeight уменьшается вместе с ней,
+  // поэтому считаем от нижнего края контейнера шторки (раскладочный вьюпорт) до низа видимой области.
+  const vv = window.visualViewport, root = document.documentElement;
+  let raf = 0;
   const update = () => {
-    const kb = Math.max(0, Math.round(window.innerHeight - vv.height - vv.offsetTop));
-    const was = document.documentElement.style.getPropertyValue('--kb');
-    document.documentElement.style.setProperty('--kb', (kb > 80 ? kb : 0) + 'px');
-    // клавиатура только что открылась — после подъёма шторки держим поле ввода в видимой зоне
-    if (kb > 80 && (!was || was === '0px')) setTimeout(() => {
-      const el = document.activeElement;
-      if (el && el.closest && el.closest('.f-sheet')) el.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
-    }, 280);
+    raf = 0;
+    const open = root.clientHeight - vv.height > 120;
+    const a = document.activeElement;
+    const sheet = open && ((a && a.closest && a.closest('.f-sheet')) || document.querySelector('.f-sheet'));
+    const box = sheet && sheet.offsetParent;
+    const bottom = box ? box.getBoundingClientRect().bottom : root.clientHeight;
+    const kb = open ? Math.max(0, Math.round(bottom - vv.offsetTop - vv.height)) : 0;
+    root.style.setProperty('--kb', kb + 'px');
+    root.style.setProperty('--vvh', open ? Math.round(vv.height) + 'px' : '');
   };
-  vv.addEventListener('resize', update);
-  vv.addEventListener('scroll', update);
+  const later = () => { if (!raf) raf = requestAnimationFrame(update); };
+  vv.addEventListener('resize', later);
+  vv.addEventListener('scroll', later);
+  // программный фокус (шаг кода) — iOS двигает вьюпорт с задержкой, перепроверяем
+  ['focusin', 'focusout'].forEach(e => document.addEventListener(e, () => [50, 300, 600].forEach(t => setTimeout(later, t))));
   update();
 }

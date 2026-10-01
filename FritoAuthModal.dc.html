@@ -14,6 +14,7 @@
   <div class="f-modal__center">
     <div class="f-overlay" onClick="{{ close }}"></div>
     <div class="f-dialog" role="dialog" aria-modal="true" aria-label="Вход">
+    <input class="f-kb-keep" ref="{{ keepRef }}" type="text" inputMode="numeric" tabIndex="{{ -1 }}" aria-hidden="true">
     <div class="f-modal__head">
       <div class="f-modal__titles">
         <sc-if value="{{ notCode }}" hint-placeholder-val="{{ true }}"><h2 class="f-modal__title">{{ title }}</h2><p class="f-modal__sub">{{ sub }}</p></sc-if>
@@ -74,6 +75,7 @@
 <sc-if value="{{ isSheet }}" hint-placeholder-val="{{ false }}">
   <div class="f-overlay" onClick="{{ close }}"></div>
   <div class="f-sheet" role="dialog" aria-modal="true" aria-label="Вход">
+    <input class="f-kb-keep" ref="{{ keepRef }}" type="text" inputMode="numeric" tabIndex="{{ -1 }}" aria-hidden="true">
     <div class="f-grabber"></div>
     <div class="f-modal__head">
       <div class="f-modal__titles">
@@ -140,13 +142,16 @@ const RESEND = 60;
 class Component extends DCLogic {
   state = { step: 'choose', chan: 'whatsapp', phone: '', tried: false, sending: false, code: '', codeFocus: false, t: 0 };
   codeRef = React.createRef();
+  // невидимое поле-«держатель»: фокус на нём в момент нажатия не даёт iOS закрыть клавиатуру между шагами
+  keepRef = React.createRef();
+  keep() { const k = this.keepRef.current; k && k.focus({ preventScroll: true }); }
   componentDidMount() {
     this.onKey = e => { if (e.key === 'Escape' && this.props.onClose) this.props.onClose(); };
     window.addEventListener('keydown', this.onKey);
   }
   componentWillUnmount() { window.removeEventListener('keydown', this.onKey); clearInterval(this._t); clearTimeout(this._d); clearTimeout(this._s); }
-  toPhone(chan) { this.setState({ step: 'phone', chan }); setTimeout(() => { const i = document.querySelector('[role=dialog] input[type=tel]'); i && i.focus(); }, 80); }
-  focusCode() { setTimeout(() => this.codeRef.current && this.codeRef.current.focus(), 60); }
+  toPhone(chan) { this.keep(); this.setState({ step: 'phone', chan }); setTimeout(() => { const i = document.querySelector('[role=dialog] input[type=tel]'); i && i.focus({ preventScroll: true }); }, 60); }
+  focusCode() { this.keep(); setTimeout(() => this.codeRef.current && this.codeRef.current.focus({ preventScroll: true }), 30); }
   startTimer() {
     clearInterval(this._t); this.setState({ t: RESEND });
     this._t = setInterval(() => this.setState(s => { if (s.t <= 1) clearInterval(this._t); return { t: Math.max(0, s.t - 1) }; }), 1000);
@@ -168,7 +173,7 @@ class Component extends DCLogic {
       isPhone: s.step === 'phone', isCode: s.step === 'code', notCode: s.step === 'phone' || s.step === 'choose', isOk: s.step === 'ok',
       showDots: s.step !== 'ok', dot1: 'f-dots__dot' + (s.step === 'choose' ? ' is-on' : ''), dot2: 'f-dots__dot' + (s.step === 'phone' ? ' is-on' : ''), dot3: 'f-dots__dot' + (s.step === 'code' ? ' is-on' : ''),
       close: () => p.onClose && p.onClose(), guest: () => p.onGuest && p.onGuest(),
-      toPhone: () => { clearInterval(this._t); this.setState({ step: 'phone', code: '' }); },
+      toPhone: () => { clearInterval(this._t); this.setState({ code: '' }); this.toPhone(s.chan); },
       phone: s.phone, setPhone: v => this.setState({ phone: v }), phoneErr: s.tried && !full,
       sending: s.sending, ctaText: s.sending ? '' : 'Продолжить',
       ctaClass: 'f-btn f-btn--primary f-btn--block' + (full && !s.sending ? '' : ' is-disabled'),
@@ -176,10 +181,11 @@ class Component extends DCLogic {
         e.preventDefault();
         if (s.sending) return;
         if (!full) return this.setState({ tried: true });
+        this.keep();
         this.setState({ sending: true });
         this._s = setTimeout(() => { this.setState({ sending: false, step: 'code', code: '' }); this.startTimer(); this.focusCode(); }, 700);
       },
-      codeRef: this.codeRef, code: s.code,
+      codeRef: this.codeRef, keepRef: this.keepRef, code: s.code,
       cells: [0, 1, 2, 3].map(i => { const ch = s.code[i], cur = s.codeFocus && s.code.length < 4 && i === s.code.length; return { ch: ch || ' ', cls: 'f-otp__cell' + (ch ? ' is-filled' : ' is-empty') + (cur ? ' is-current' : '') }; }),
       otpCls: 'f-otp f-otp--center' + (s.code.length === 4 ? ' is-done' : ''),
       setCode: e => { const v = e.target.value.replace(/\D/g, '').slice(0, 4); this.setState({ code: v }); if (v.length === 4) { e.target.blur(); setTimeout(() => this.done(), 400); } },
