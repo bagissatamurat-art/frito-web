@@ -30,7 +30,7 @@
           <textarea value="{{ comment }}" onChange="{{ setComment }}" maxLength="500" rows="3" placeholder="{{ commentPh }}" class="f-rate__area"></textarea>
           <span class="f-rate__count">{{ commentCount }}</span>
         </label>
-        <button type="button" class="f-btn f-btn--on-brand f-rate__send" onClick="{{ send }}">Отправить оценку</button>
+        <button type="button" class="{{ sendCls }}" onClick="{{ send }}">Отправить оценку</button>
       </div>
     </sc-if>
   </sc-if>
@@ -52,9 +52,10 @@ class Component extends DCLogic {
   renderVals() {
     const p = this.props, s = this.state, good = s.stars >= 4, pool = good ? TAGS_GOOD : TAGS_BAD;
     return {
-      rootCls: 'f-comp f-brand-card f-rate' + (p.compact ? ' f-rate--compact' : ''),
+      rootCls: 'f-comp f-rate ' + (p.tone === 'light' ? 'f-panel f-rate--light' : 'f-brand-card') + (p.compact ? ' f-rate--compact' : ''),
       closable: !!p.closable, close: () => p.onClose && p.onClose(),
       title: p.title || 'Как вам заказ?', sub: p.sub || 'Оценка займёт 10 секунд и поможет нам готовить ещё вкуснее',
+      sendCls: 'f-btn f-rate__send ' + (p.tone === 'light' ? 'f-btn--primary' : 'f-btn--on-brand'),
       notRated: !s.rated, rated: s.rated, hasStars: s.stars > 0,
       stars: [1, 2, 3, 4, 5].map(n => ({ on: n <= s.stars, label: n + ' из 5', cls: 'f-rate__star' + (n <= s.stars ? ' is-on' : ''), pick: () => this.setState({ stars: n, tags: {} }) })),
       tagsTitle: good ? 'Что понравилось?' : 'Что пошло не так?',

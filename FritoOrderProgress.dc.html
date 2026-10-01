@@ -67,6 +67,7 @@
     <div class="f-progress__foot">
       <span class="f-progress__thumbs"><sc-for list="{{ thumbs }}" as="th" hint-placeholder-count="3"><span class="f-progress__mini"><img data-skel loading="lazy" decoding="async" src="{{ th }}" alt="" class="f-cover-img"></span></sc-for></span>
       <span class="f-progress__addr">{{ addr }}</span>
+      <sc-if value="{{ hasBtn2 }}" hint-placeholder-val="{{ false }}"><button type="button" class="{{ btn2Cls }}" onClick="{{ cta2Click }}">{{ cta2 }}</button></sc-if>
       <sc-if value="{{ hasBtn }}" hint-placeholder-val="{{ false }}"><button type="button" class="{{ btnCls }}" onClick="{{ ctaClick }}">{{ cta }}</button></sc-if>
       <sc-if value="{{ hasCta }}" hint-placeholder-val="{{ true }}"><span class="{{ ctaCls }}">{{ cta }}<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></span></sc-if>
     </div>
@@ -82,7 +83,7 @@ class Component extends DCLogic {
     const thumbs = p.thumbs || [];
     return {
       brand,
-      rootCls: 'f-comp f-progress ' + (brand ? 'f-brand-card f-progress--brand' : 'f-panel f-progress--light') + (p.size === 'lg' ? ' f-progress--lg' : p.size === 'sm' ? ' f-progress--sm' : '') + (link ? ' is-link' : ''),
+      rootCls: 'f-comp f-progress ' + (brand ? 'f-brand-card f-progress--brand' : 'f-panel f-progress--light') + (p.size === 'lg' ? ' f-progress--lg' : p.size === 'sm' ? ' f-progress--sm' : '') + (p.alert ? ' is-alert' : '') + (link ? ' is-link' : ''),
       role: link ? 'link' : 'group', tab: link ? 0 : -1, aria: link ? 'Открыть заказ: ' + (p.title || '') : (p.title || ''),
       open: () => link && p.onOpen(), key: e => { if (link && e.key === 'Enter') p.onOpen(); },
       caption: p.caption || '', title: p.title || '', sub: p.sub || '', hasSub: !!p.sub,
@@ -93,8 +94,9 @@ class Component extends DCLogic {
       hasHero: !!p.etaLabel, noHero: !p.etaLabel, etaLabel: p.etaLabel || '', etaNote: p.etaNote || '', hasNote: !!p.etaNote,
       n: steps.length,
       steps: steps.map(st => ({ label: st.label, time: st.time || '', hasTime: !!st.time, cls: 'f-progress__step is-' + (st.state || 'todo'), barCls: 'f-progress__seg is-' + (st.state || 'todo') })),
-      thumbs, addr: p.addr || '', hasFoot: !!(thumbs.length || p.addr || p.cta), cta: p.cta || '', hasCta: !!p.cta && !p.onCta, hasBtn: !!p.cta && !!p.onCta,
-      btnCls: 'f-btn f-btn--sm f-progress__btn ' + (brand ? 'f-btn--on-brand' : 'f-btn--primary'), ctaClick: e => { if (e && e.stopPropagation) e.stopPropagation(); p.onCta && p.onCta(); },
+      thumbs, addr: p.addr || '', hasFoot: !!(thumbs.length || p.addr || p.cta || p.cta2), cta: p.cta || '', hasCta: !!p.cta && !p.onCta, hasBtn: !!p.cta && !!p.onCta,
+      btnCls: 'f-btn f-btn--sm f-progress__btn ' + (brand ? 'f-btn--on-brand' : p.alert === 'pay' ? 'f-progress__btn--kaspi' : 'f-btn--primary'),
+      cta2: p.cta2 || '', hasBtn2: !!p.cta2 && !!p.onCta2, btn2Cls: 'f-btn f-btn--sm f-btn--secondary f-progress__btn2', cta2Click: e => { if (e && e.stopPropagation) e.stopPropagation(); p.onCta2 && p.onCta2(); }, ctaClick: e => { if (e && e.stopPropagation) e.stopPropagation(); p.onCta && p.onCta(); },
       ctaCls: 'f-btn f-btn--xs f-progress__cta ' + (brand ? 'f-btn--on-brand' : 'f-btn--tonal'),
     };
   }

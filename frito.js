@@ -14,8 +14,12 @@ document.addEventListener('error', e => { if (e.target.tagName === 'IMG') e.targ
   const scan = () => document.querySelectorAll('img[data-src]:not([data-lazy-w])').forEach(watch);
   new MutationObserver(ms => { for (const m of ms) if (m.type === 'attributes' && m.target.hasAttribute('src')) load(m.target); scan(); })
     .observe(document.documentElement, { childList: true, subtree: true, attributes: true, attributeFilter: ['data-src'] });
-  // запас на случай, если узел появился до наблюдателя
+  // страховка: рантайм иногда вставляет узлы пачкой до срабатывания наблюдателя — досканируем первые секунды и при показе вкладки
   document.addEventListener('DOMContentLoaded', scan);
+  window.addEventListener('load', scan);
+  let n = 0; const tick = () => { scan(); if (++n < 20) setTimeout(tick, 250); }; tick();
+  document.addEventListener('visibilitychange', scan);
+  document.addEventListener('click', () => setTimeout(scan, 50), true);
 })();
 
 // Появление карточек [data-reveal] при прокрутке, с небольшой задержкой между соседями
