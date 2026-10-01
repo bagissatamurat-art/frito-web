@@ -106,29 +106,20 @@
       <!-- delivery -->
       <sc-if value="{{ showDeliv }}" hint-placeholder-val="{{ true }}">
         <div class="f-am__stack">
-          <button type="button" onClick="{{ startSearch }}" class="{{ addrBtnCls }}" style-hover="border-color:#B7ACF3">
+          <button type="button" onClick="{{ startSearch }}" class="{{ addrBtnCls }}" aria-label="Изменить адрес">
             <span class="f-am__addr-icon"><img src="assets/ic-pin-p.svg" alt="" class="f-am__addr-pin"></span>
             <span class="f-am__lines">
-              <span style="font-size:16px;font-weight:700;color:{{ addrColor }};white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ addrLine }}</span>
-              <span class="f-am__line-sub">{{ addrSub }}</span>
+              <span class="{{ addrLineCls }}">{{ addrLine }}</span>
+              <span class="{{ addrSubCls }}">{{ addrSubText }}</span>
             </span>
-            <span class="f-am__addr-action">Изменить</span>
+            <span class="f-am__addr-chev" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></span>
           </button>
-          <sc-if value="{{ houseWarn }}" hint-placeholder-val="{{ false }}"><div class="f-am__warn">Уточните номер дома — нажмите на адрес</div></sc-if>
         </div>
-        <div class="f-am__quotes">
-          <div class="f-am__quote">
-            <span class="f-am__quote-k">ПРИВЕЗЁМ ЗА</span>
-            <sc-if value="{{ quoteKnown }}" hint-placeholder-val="{{ true }}"><span class="f-am__quote-v">{{ etaLabel }}</span></sc-if>
-            <sc-if value="{{ quoteUnknown }}" hint-placeholder-val="{{ false }}"><span class="frito-skel f-am__quote-skel"></span></sc-if>
-            <span class="f-am__quote-sub">{{ etaSub }}</span>
-          </div>
-          <div class="f-am__quote">
-            <span class="f-am__quote-k">ДОСТАВКА</span>
-            <sc-if value="{{ quoteKnown }}" hint-placeholder-val="{{ true }}"><span class="f-am__quote-v">{{ feeLabel }}</span></sc-if>
-            <sc-if value="{{ quoteUnknown }}" hint-placeholder-val="{{ false }}"><span class="frito-skel f-am__quote-skel"></span></sc-if>
-            <span class="f-am__quote-sub">{{ feeSub }}</span>
-          </div>
+        <!-- время и стоимость: одна полоса фиксированной высоты, скелетон того же размера — карта не прыгает -->
+        <div class="f-am__info" aria-live="polite">
+          <span class="f-am__info-cell"><span class="f-am__info-ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg></span><span class="f-am__info-text"><span class="f-am__info-k">Доставим за</span><sc-if value="{{ quoteKnown }}" hint-placeholder-val="{{ true }}"><span class="f-am__info-v">{{ etaLabel }}</span></sc-if><sc-if value="{{ quoteUnknown }}" hint-placeholder-val="{{ false }}"><span class="frito-skel f-am__info-skel"></span></sc-if></span></span>
+          <span class="f-am__info-sep" aria-hidden="true"></span>
+          <span class="f-am__info-cell"><span class="f-am__info-ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="6.5" width="17" height="12" rx="2.5"/><path d="M3.5 10.5h17M7.5 15h3"/></svg></span><span class="f-am__info-text"><span class="f-am__info-k">Доставка</span><sc-if value="{{ quoteKnown }}" hint-placeholder-val="{{ true }}"><span class="{{ feeCls }}">{{ feeLabel }}</span></sc-if><sc-if value="{{ quoteUnknown }}" hint-placeholder-val="{{ false }}"><span class="frito-skel f-am__info-skel"></span></sc-if></span></span>
         </div>
       </sc-if>
 
@@ -577,13 +568,13 @@ class Component extends DCLogic {
       cityNameCur: cityName(s.city), sLoading: s.sLoading && hasQ && !s.sugg.length, noResults: hasQ && s.sDone && !s.sugg.length,
       stopSearch: () => this.setState({ searching: false }), startSearch: () => this.startSearch(s.addr && s.addr !== 'Точка на карте' ? s.addr : ''), startSearchEmpty: () => this.startSearch(''),
       showDeliv: deliv && !srch && !out, showOut: out && !srch, showPickup: pick && !srch,
-      addrLine: s.loading || s.moving ? 'Определяем адрес…' : s.addr || 'Точка на карте', addrColor: busy ? 'var(--ink-3)' : 'var(--ink)',
-      addrSub: busy ? 'Двигайте карту — пин укажет точку' : s.sub || 'Астана',
+      addrLine: s.loading || s.moving ? 'Определяем адрес…' : s.addr || 'Точка на карте',
       houseWarn: !busy && !!s.addr && !s.house, addrBtnCls: 'f-am__addr' + (!busy && s.addr && !s.house ? ' is-warn' : ''),
+      addrLineCls: 'f-am__line-main' + (busy ? ' is-busy' : ''), addrSubCls: 'f-am__line-sub' + (!busy && s.addr && !s.house ? ' is-warn' : ''),
+      addrSubText: busy ? 'Двигайте карту — пин укажет точку' : s.addr && !s.house ? 'Уточните номер дома — нажмите на адрес' : (s.sub || 'Астана'),
+      feeCls: 'f-am__info-v' + (fee ? '' : ' is-free'),
       feeLabel: fee ? money(fee) : 'Бесплатно', quoteKnown: known, quoteUnknown: !known,
       etaLabel: q.etaMin + '–' + q.etaMax + ' мин',
-      etaSub: known ? '~15 мин готовим, ~' + q.travel + ' мин в пути' : busy ? 'Считаем по адресу…' : !s.house && s.addr ? 'Укажите номер дома' : 'Зависит от адреса',
-      feeSub: known ? 'Бесплатно от ' + money(freeFrom) : 'Зависит от расстояния',
       outSub: 'Ближайший Frito — ' + near.name + ', ' + nearDist + ' отсюда. Заберите заказ сами — будет готов через 15 минут.', nearName: near.name,
       toPickup: () => this.setMode('pickup'),
       cityIn: (CITIES.find(c => c.id === s.city) || CITIES[0]).inName, cityMenuCls: 'f-am__city-menu' + (sheet ? ' f-am__city-menu--sheet' : ''), cityOpen: s.cityOpen, toggleCity: () => this.setState({ cityOpen: !s.cityOpen }),
