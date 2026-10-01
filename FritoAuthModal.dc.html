@@ -8,33 +8,29 @@
 </head>
 <body>
 <x-dc>
-<!-- Собрано из токенов и классов frito.css (.f-modal, .f-dialog, .f-sheet, .f-option, .f-btn, .f-otp) -->
+<!-- Вход: телефон → код из мессенджера → «Готово». Классы — frito.css (.f-modal, .f-sheet, .f-otp, .f-btn, .f-auth-*) -->
 <div class="f-modal">
 <sc-if value="{{ isCenter }}" hint-placeholder-val="{{ true }}">
   <div class="f-modal__center">
     <div class="f-overlay" onClick="{{ close }}"></div>
     <div class="f-dialog" role="dialog" aria-modal="true" aria-label="Вход">
     <div class="f-modal__head">
-      <div class="f-modal__titles"><h2 class="f-modal__title">{{ title }}</h2><p class="f-modal__sub">{{ sub }}</p></div>
+      <div class="f-modal__titles">
+        <sc-if value="{{ notCode }}" hint-placeholder-val="{{ true }}"><h2 class="f-modal__title">{{ title }}</h2><p class="f-modal__sub">{{ sub }}</p></sc-if>
+        <sc-if value="{{ isCode }}" hint-placeholder-val="{{ false }}">
+          <h2 class="f-modal__title">Введите код из <span class="f-auth-wa">WhatsApp</span> или <span class="f-auth-tg">Telegram</span></h2>
+          <p class="f-modal__sub">на номер <span class="f-auth-phone">{{ phone }}</span> <button type="button" class="f-auth-link" onClick="{{ toPhone }}">Изменить</button></p>
+        </sc-if>
+      </div>
       <div class="f-modal__close"><dc-import name="FritoCloseButton" on-click="{{ close }}" style="width:100%;height:100%" hint-size="48px,48px"></dc-import></div>
     </div>
 
-    <sc-if value="{{ isChoose }}" hint-placeholder-val="{{ true }}">
-      <div class="f-step">
-        <div class="f-options">
-          <button type="button" class="f-option" onClick="{{ toPhone }}"><span class="f-option__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.2a8.8 8.8 0 0 0-7.6 13.3L3.2 20.8l4.4-1.2A8.8 8.8 0 1 0 12 3.2z"/><path d="M9.2 8.3c-.4 0-.9.5-.9 1.3 0 2.6 3.4 6 6 6 .8 0 1.3-.5 1.3-.9v-.9l-1.8-.8-.9.9c-1.1-.5-2.1-1.5-2.6-2.6l.9-.9-.8-1.8z" fill="currentColor" stroke="none"/></svg></span><span class="f-option__title">WhatsApp</span><span class="f-option__desc">Пришлём код в сообщении</span></button>
-          <button type="button" class="f-option" onClick="{{ toTg }}"><span class="f-option__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 4.5L3.5 11l5.2 1.9 2 5.6 2.9-3.3 4.4 3.3z"/><path d="M8.7 12.9l7.8-5.4-5.8 7"/></svg></span><span class="f-option__title">Telegram</span><span class="f-option__desc">Подтвердите вход в боте Frito</span></button>
-        </div>
-        <button type="button" class="f-btn f-btn--ghost f-btn--quiet" onClick="{{ guest }}" style="align-self:center">Продолжить без входа</button>
-      </div>
-    </sc-if>
-
-    <sc-if value="{{ isPhone }}" hint-placeholder-val="{{ false }}">
+    <sc-if value="{{ isPhone }}" hint-placeholder-val="{{ true }}">
       <form class="f-step" onSubmit="{{ sendCode }}" noValidate="{{ true }}">
         <dc-import name="FritoInput" label="Номер телефона" value="{{ phone }}" on-change="{{ setPhone }}" mask="phone" required="{{ true }}" clearable="{{ false }}" hint-size="100%,56px"></dc-import>
         <sc-if value="{{ phoneErr }}" hint-placeholder-val="{{ false }}"><span class="f-error">Введите номер полностью</span></sc-if>
-        <button type="submit" class="{{ ctaClass }}" disabled="{{ sending }}">{{ ctaText }}</button>
-        <button type="button" class="f-btn f-btn--ghost" onClick="{{ toChoose }}" style="align-self:center">Другой способ входа</button>
+        <button type="submit" class="{{ ctaClass }}" disabled="{{ sending }}"><sc-if value="{{ sending }}" hint-placeholder-val="{{ false }}"><span class="f-btn__spinner" aria-hidden="true"></span></sc-if>{{ ctaText }}</button>
+        <button type="button" class="f-btn f-btn--ghost f-btn--quiet" onClick="{{ guest }}" style="align-self:center">Продолжить без входа</button>
       </form>
     </sc-if>
 
@@ -42,25 +38,14 @@
       <div class="f-step">
         <label class="{{ otpCls }}">
           <sc-for list="{{ cells }}" as="c" hint-placeholder-count="4"><span class="{{ c.cls }}">{{ c.ch }}</span></sc-for>
-          <input class="f-otp__input" ref="{{ codeRef }}" value="{{ code }}" onChange="{{ setCode }}" onFocus="{{ codeFocus }}" onBlur="{{ codeBlur }}" type="text" inputMode="numeric" autoComplete="one-time-code" maxLength="{{ 4 }}" aria-label="Код из WhatsApp">
+          <input class="f-otp__input" ref="{{ codeRef }}" value="{{ code }}" onChange="{{ setCode }}" onFocus="{{ codeFocus }}" onBlur="{{ codeBlur }}" type="text" inputMode="numeric" autoComplete="one-time-code" maxLength="{{ 4 }}" aria-label="Код из сообщения">
         </label>
-        <div class="f-row">
-          <button type="button" class="f-btn f-btn--ghost" onClick="{{ resend }}" disabled="{{ resendOff }}" style="padding-left:0;color:{{ resendColor }}">{{ resendText }}</button>
-          <button type="button" class="f-btn f-btn--secondary f-btn--sm" onClick="{{ toPhone }}">Изменить номер</button>
-        </div>
+        <p class="f-auth-timer">{{ timerText }}</p>
+        <button type="button" class="{{ resendCls }}" onClick="{{ resend }}">Получить новый код</button>
       </div>
     </sc-if>
 
-    <sc-if value="{{ isTg }}" hint-placeholder-val="{{ false }}">
-      <div class="f-step">
-        <div class="f-steps"><sc-for list="{{ tgSteps }}" as="st" hint-placeholder-count="3"><div class="f-steps__item"><span class="f-steps__num">{{ st.n }}</span><span>{{ st.t }}</span></div></sc-for></div>
-        <a class="f-btn f-btn--primary f-btn--block" href="{{ botUrl }}" target="_blank" rel="noopener" onClick="{{ tgOpened }}"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 4.5L3.5 11l5.2 1.9 2 5.6 2.9-3.3 4.4 3.3z"/><path d="M8.7 12.9l7.8-5.4-5.8 7"/></svg>Открыть Telegram</a>
-        <sc-if value="{{ tgWaiting }}" hint-placeholder-val="{{ false }}"><div class="f-wait"><span class="f-spinner"></span>Ждём подтверждения в боте…</div></sc-if>
-        <span class="f-badge f-badge--warn">Демо: бот не подключён</span>
-        <button type="button" class="f-btn f-btn--tonal f-btn--md" onClick="{{ tgDone }}">Я подтвердил в боте</button>
-        <button type="button" class="f-btn f-btn--ghost" onClick="{{ toChoose }}" style="align-self:center">Другой способ входа</button>
-      </div>
-    </sc-if>
+    <sc-if value="{{ showDots }}" hint-placeholder-val="{{ true }}"><div class="f-dots" aria-hidden="true"><i class="{{ dot1 }}"></i><i class="{{ dot2 }}"></i></div></sc-if>
 
     <sc-if value="{{ isOk }}" hint-placeholder-val="{{ false }}">
       <div class="f-step f-auth-ok">
@@ -69,9 +54,8 @@
           <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path class="f-auth-ok__tick" d="M5 12.5l4.5 4.5L19 7.5"/></svg>
         </span>
         <span class="f-auth-ok__title">Готово, вы вошли</span>
-        <span class="f-auth-ok__who">{{ okWho }}</span>
+        <span class="f-auth-ok__who">{{ phone }}</span>
         <span class="f-auth-ok__go"><span class="f-auth-ok__bar"><span></span></span>Переходим к оформлению</span>
-        
       </div>
     </sc-if>
     </div>
@@ -82,26 +66,22 @@
   <div class="f-sheet" role="dialog" aria-modal="true" aria-label="Вход">
     <div class="f-grabber"></div>
     <div class="f-modal__head">
-      <div class="f-modal__titles"><h2 class="f-modal__title">{{ title }}</h2><p class="f-modal__sub">{{ sub }}</p></div>
+      <div class="f-modal__titles">
+        <sc-if value="{{ notCode }}" hint-placeholder-val="{{ true }}"><h2 class="f-modal__title">{{ title }}</h2><p class="f-modal__sub">{{ sub }}</p></sc-if>
+        <sc-if value="{{ isCode }}" hint-placeholder-val="{{ false }}">
+          <h2 class="f-modal__title">Введите код из <span class="f-auth-wa">WhatsApp</span> или <span class="f-auth-tg">Telegram</span></h2>
+          <p class="f-modal__sub">на номер <span class="f-auth-phone">{{ phone }}</span> <button type="button" class="f-auth-link" onClick="{{ toPhone }}">Изменить</button></p>
+        </sc-if>
+      </div>
       <div class="f-modal__close"><dc-import name="FritoCloseButton" on-click="{{ close }}" style="width:100%;height:100%" hint-size="40px,40px"></dc-import></div>
     </div>
 
-    <sc-if value="{{ isChoose }}" hint-placeholder-val="{{ true }}">
-      <div class="f-step">
-        <div class="f-options">
-          <button type="button" class="f-option" onClick="{{ toPhone }}"><span class="f-option__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.2a8.8 8.8 0 0 0-7.6 13.3L3.2 20.8l4.4-1.2A8.8 8.8 0 1 0 12 3.2z"/><path d="M9.2 8.3c-.4 0-.9.5-.9 1.3 0 2.6 3.4 6 6 6 .8 0 1.3-.5 1.3-.9v-.9l-1.8-.8-.9.9c-1.1-.5-2.1-1.5-2.6-2.6l.9-.9-.8-1.8z" fill="currentColor" stroke="none"/></svg></span><span class="f-option__title">WhatsApp</span><span class="f-option__desc">Пришлём код в сообщении</span></button>
-          <button type="button" class="f-option" onClick="{{ toTg }}"><span class="f-option__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 4.5L3.5 11l5.2 1.9 2 5.6 2.9-3.3 4.4 3.3z"/><path d="M8.7 12.9l7.8-5.4-5.8 7"/></svg></span><span class="f-option__title">Telegram</span><span class="f-option__desc">Подтвердите вход в боте Frito</span></button>
-        </div>
-        <button type="button" class="f-btn f-btn--ghost f-btn--quiet" onClick="{{ guest }}" style="align-self:center">Продолжить без входа</button>
-      </div>
-    </sc-if>
-
-    <sc-if value="{{ isPhone }}" hint-placeholder-val="{{ false }}">
+    <sc-if value="{{ isPhone }}" hint-placeholder-val="{{ true }}">
       <form class="f-step" onSubmit="{{ sendCode }}" noValidate="{{ true }}">
         <dc-import name="FritoInput" label="Номер телефона" value="{{ phone }}" on-change="{{ setPhone }}" mask="phone" required="{{ true }}" clearable="{{ false }}" hint-size="100%,56px"></dc-import>
         <sc-if value="{{ phoneErr }}" hint-placeholder-val="{{ false }}"><span class="f-error">Введите номер полностью</span></sc-if>
-        <button type="submit" class="{{ ctaClass }}" disabled="{{ sending }}">{{ ctaText }}</button>
-        <button type="button" class="f-btn f-btn--ghost" onClick="{{ toChoose }}" style="align-self:center">Другой способ входа</button>
+        <button type="submit" class="{{ ctaClass }}" disabled="{{ sending }}"><sc-if value="{{ sending }}" hint-placeholder-val="{{ false }}"><span class="f-btn__spinner" aria-hidden="true"></span></sc-if>{{ ctaText }}</button>
+        <button type="button" class="f-btn f-btn--ghost f-btn--quiet" onClick="{{ guest }}" style="align-self:center">Продолжить без входа</button>
       </form>
     </sc-if>
 
@@ -109,25 +89,14 @@
       <div class="f-step">
         <label class="{{ otpCls }}">
           <sc-for list="{{ cells }}" as="c" hint-placeholder-count="4"><span class="{{ c.cls }}">{{ c.ch }}</span></sc-for>
-          <input class="f-otp__input" ref="{{ codeRef }}" value="{{ code }}" onChange="{{ setCode }}" onFocus="{{ codeFocus }}" onBlur="{{ codeBlur }}" type="text" inputMode="numeric" autoComplete="one-time-code" maxLength="{{ 4 }}" aria-label="Код из WhatsApp">
+          <input class="f-otp__input" ref="{{ codeRef }}" value="{{ code }}" onChange="{{ setCode }}" onFocus="{{ codeFocus }}" onBlur="{{ codeBlur }}" type="text" inputMode="numeric" autoComplete="one-time-code" maxLength="{{ 4 }}" aria-label="Код из сообщения">
         </label>
-        <div class="f-row">
-          <button type="button" class="f-btn f-btn--ghost" onClick="{{ resend }}" disabled="{{ resendOff }}" style="padding-left:0;color:{{ resendColor }}">{{ resendText }}</button>
-          <button type="button" class="f-btn f-btn--secondary f-btn--sm" onClick="{{ toPhone }}">Изменить номер</button>
-        </div>
+        <p class="f-auth-timer">{{ timerText }}</p>
+        <button type="button" class="{{ resendCls }}" onClick="{{ resend }}">Получить новый код</button>
       </div>
     </sc-if>
 
-    <sc-if value="{{ isTg }}" hint-placeholder-val="{{ false }}">
-      <div class="f-step">
-        <div class="f-steps"><sc-for list="{{ tgSteps }}" as="st" hint-placeholder-count="3"><div class="f-steps__item"><span class="f-steps__num">{{ st.n }}</span><span>{{ st.t }}</span></div></sc-for></div>
-        <a class="f-btn f-btn--primary f-btn--block" href="{{ botUrl }}" target="_blank" rel="noopener" onClick="{{ tgOpened }}"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 4.5L3.5 11l5.2 1.9 2 5.6 2.9-3.3 4.4 3.3z"/><path d="M8.7 12.9l7.8-5.4-5.8 7"/></svg>Открыть Telegram</a>
-        <sc-if value="{{ tgWaiting }}" hint-placeholder-val="{{ false }}"><div class="f-wait"><span class="f-spinner"></span>Ждём подтверждения в боте…</div></sc-if>
-        <span class="f-badge f-badge--warn">Демо: бот не подключён</span>
-        <button type="button" class="f-btn f-btn--tonal f-btn--md" onClick="{{ tgDone }}">Я подтвердил в боте</button>
-        <button type="button" class="f-btn f-btn--ghost" onClick="{{ toChoose }}" style="align-self:center">Другой способ входа</button>
-      </div>
-    </sc-if>
+    <sc-if value="{{ showDots }}" hint-placeholder-val="{{ true }}"><div class="f-dots" aria-hidden="true"><i class="{{ dot1 }}"></i><i class="{{ dot2 }}"></i></div></sc-if>
 
     <sc-if value="{{ isOk }}" hint-placeholder-val="{{ false }}">
       <div class="f-step f-auth-ok">
@@ -136,70 +105,63 @@
           <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path class="f-auth-ok__tick" d="M5 12.5l4.5 4.5L19 7.5"/></svg>
         </span>
         <span class="f-auth-ok__title">Готово, вы вошли</span>
-        <span class="f-auth-ok__who">{{ okWho }}</span>
+        <span class="f-auth-ok__who">{{ phone }}</span>
         <span class="f-auth-ok__go"><span class="f-auth-ok__bar"><span></span></span>Переходим к оформлению</span>
-        
       </div>
     </sc-if>
   </div>
 </sc-if>
 </div>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;: {&quot;width&quot;: 800, &quot;height&quot;: 620}, &quot;layout&quot;: {&quot;editor&quot;: &quot;enum&quot;, &quot;default&quot;: &quot;center&quot;, &quot;options&quot;: [&quot;center&quot;, &quot;sheet&quot;], &quot;tsType&quot;: &quot;&#x27;center&#x27; | &#x27;sheet&#x27;&quot;}, &quot;botUrl&quot;: {&quot;editor&quot;: &quot;text&quot;, &quot;default&quot;: &quot;https://t.me/frito_kz_bot?start=login&quot;, &quot;tsType&quot;: &quot;string&quot;}, &quot;onClose&quot;: {&quot;editor&quot;: null, &quot;default&quot;: null, &quot;tsType&quot;: &quot;() =&gt; void&quot;}, &quot;onGuest&quot;: {&quot;editor&quot;: null, &quot;default&quot;: null, &quot;tsType&quot;: &quot;() =&gt; void&quot;}, &quot;onDone&quot;: {&quot;editor&quot;: null, &quot;default&quot;: null, &quot;tsType&quot;: &quot;(user: { via: &#x27;whatsapp&#x27; | &#x27;telegram&#x27;, phone: string | null }) =&gt; void&quot;}}">
-// Вход перед оформлением: код в WhatsApp или подтверждение в Telegram-боте. Прототип — без сервера.
-const TG_STEPS = ['Откройте бота Frito в Telegram', 'Нажмите «Старт» и поделитесь номером телефона', 'Вернитесь сюда — войдём автоматически'];
-const TITLES = {
-  choose: ['Войдите, чтобы оформить заказ', 'Без паролей: пришлём статус заказа и запомним адрес'],
-  phone: ['Вход по коду из WhatsApp', 'Отправим 4 цифры в сообщении'],
-  code: ['Введите код', ''],
-  tg: ['Вход через Telegram', 'Займёт пару секунд'],
-  ok: ['', ''],
-};
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;: {&quot;width&quot;: 800, &quot;height&quot;: 620}, &quot;layout&quot;: {&quot;editor&quot;: &quot;enum&quot;, &quot;default&quot;: &quot;center&quot;, &quot;options&quot;: [&quot;center&quot;, &quot;sheet&quot;], &quot;tsType&quot;: &quot;&#x27;center&#x27; | &#x27;sheet&#x27;&quot;}, &quot;onClose&quot;: {&quot;editor&quot;: null, &quot;default&quot;: null, &quot;tsType&quot;: &quot;() =&gt; void&quot;}, &quot;onGuest&quot;: {&quot;editor&quot;: null, &quot;default&quot;: null, &quot;tsType&quot;: &quot;() =&gt; void&quot;}, &quot;onDone&quot;: {&quot;editor&quot;: null, &quot;default&quot;: null, &quot;tsType&quot;: &quot;(user: { via: &#x27;messenger&#x27;, phone: string }) =&gt; void&quot;}}">
+// Вход перед оформлением, как в крупных сервисах доставки: телефон → 4 цифры из мессенджера (WhatsApp или Telegram).
+// Прототип без сервера: код не отправляется, подходит любой.
+const RESEND = 60;
 class Component extends DCLogic {
-  state = { step: 'choose', phone: '', tried: false, sending: false, code: '', codeFocus: false, t: 0, tgWaiting: false };
+  state = { step: 'phone', phone: '', tried: false, sending: false, code: '', codeFocus: false, t: 0 };
   codeRef = React.createRef();
   componentDidMount() {
     this.onKey = e => { if (e.key === 'Escape' && this.props.onClose) this.props.onClose(); };
     window.addEventListener('keydown', this.onKey);
   }
+  componentWillUnmount() { window.removeEventListener('keydown', this.onKey); clearInterval(this._t); clearTimeout(this._d); clearTimeout(this._s); }
   focusCode() { setTimeout(() => this.codeRef.current && this.codeRef.current.focus(), 60); }
-  componentWillUnmount() { window.removeEventListener('keydown', this.onKey); clearInterval(this._t); clearTimeout(this._d); }
   startTimer() {
-    clearInterval(this._t); this.setState({ t: 59 });
+    clearInterval(this._t); this.setState({ t: RESEND });
     this._t = setInterval(() => this.setState(s => { if (s.t <= 1) clearInterval(this._t); return { t: Math.max(0, s.t - 1) }; }), 1000);
   }
-  done(via) {
-    const user = { via, phone: via === 'whatsapp' ? this.state.phone : null };
-    this.setState({ step: 'ok', via });
-    this._d = setTimeout(() => this.props.onDone && this.props.onDone(user), 1500);
+  done() {
+    this.setState({ step: 'ok' });
+    this._d = setTimeout(() => this.props.onDone && this.props.onDone({ via: 'messenger', phone: this.state.phone }), 1500);
   }
   renderVals() {
     const p = this.props, s = this.state, sheet = p.layout === 'sheet';
-    const full = s.phone.replace(/\D/g, '').length >= 11, [title, sub] = TITLES[s.step];
+    const full = s.phone.replace(/\D/g, '').length >= 11;
     return {
-      isCenter: !sheet, isSheet: sheet, title, sub: s.step === 'code' ? 'Отправили 4 цифры в WhatsApp на ' + s.phone : sub,
-      isChoose: s.step === 'choose', isPhone: s.step === 'phone', isCode: s.step === 'code', isTg: s.step === 'tg', isOk: s.step === 'ok',
+      isCenter: !sheet, isSheet: sheet,
+      title: 'Укажите телефон', sub: 'Пришлём код в WhatsApp или Telegram — так вы войдёте и сможете оформить заказ',
+      isPhone: s.step === 'phone', isCode: s.step === 'code', notCode: s.step === 'phone', isOk: s.step === 'ok',
+      showDots: s.step !== 'ok', dot1: 'f-dots__dot' + (s.step === 'phone' ? ' is-on' : ''), dot2: 'f-dots__dot' + (s.step === 'code' ? ' is-on' : ''),
       close: () => p.onClose && p.onClose(), guest: () => p.onGuest && p.onGuest(),
-      toChoose: () => this.setState({ step: 'choose', tgWaiting: false }), toPhone: () => this.setState({ step: 'phone', code: '' }), toTg: () => this.setState({ step: 'tg' }),
+      toPhone: () => { clearInterval(this._t); this.setState({ step: 'phone', code: '' }); },
       phone: s.phone, setPhone: v => this.setState({ phone: v }), phoneErr: s.tried && !full,
-      sending: s.sending, ctaText: s.sending ? 'Отправляем код…' : 'Получить код',
-      ctaClass: 'f-btn f-btn--primary f-btn--block' + (full ? '' : ' is-disabled'),
+      sending: s.sending, ctaText: s.sending ? '' : 'Продолжить',
+      ctaClass: 'f-btn f-btn--primary f-btn--block' + (full && !s.sending ? '' : ' is-disabled'),
       sendCode: e => {
         e.preventDefault();
+        if (s.sending) return;
         if (!full) return this.setState({ tried: true });
         this.setState({ sending: true });
-        setTimeout(() => { this.setState({ sending: false, step: 'code', code: '' }); this.startTimer(); this.focusCode(); }, 600);
+        this._s = setTimeout(() => { this.setState({ sending: false, step: 'code', code: '' }); this.startTimer(); this.focusCode(); }, 700);
       },
       codeRef: this.codeRef, code: s.code,
       cells: [0, 1, 2, 3].map(i => { const ch = s.code[i], cur = s.codeFocus && s.code.length < 4 && i === s.code.length; return { ch: ch || ' ', cls: 'f-otp__cell' + (ch ? ' is-filled' : ' is-empty') + (cur ? ' is-current' : '') }; }),
-      otpCls: 'f-otp' + (s.code.length === 4 ? ' is-done' : ''),
-      okWho: s.via === 'telegram' ? 'через Telegram' : (s.phone ? s.phone + ' · через WhatsApp' : 'через WhatsApp'),
-      setCode: e => { const v = e.target.value.replace(/\D/g, '').slice(0, 4); this.setState({ code: v }); if (v.length === 4) { e.target.blur(); setTimeout(() => this.done('whatsapp'), 400); } },
+      otpCls: 'f-otp f-otp--center' + (s.code.length === 4 ? ' is-done' : ''),
+      setCode: e => { const v = e.target.value.replace(/\D/g, '').slice(0, 4); this.setState({ code: v }); if (v.length === 4) { e.target.blur(); setTimeout(() => this.done(), 400); } },
       codeFocus: () => this.setState({ codeFocus: true }), codeBlur: () => this.setState({ codeFocus: false }),
-      resendOff: s.t > 0, resendText: s.t > 0 ? 'Отправить ещё раз через 0:' + String(s.t).padStart(2, '0') : 'Отправить код ещё раз',
-      resendColor: s.t > 0 ? 'var(--ink-3)' : 'var(--primary)', resend: () => { this.startTimer(); this.focusCode(); },
-      tgSteps: TG_STEPS.map((t, i) => ({ n: i + 1, t })), botUrl: p.botUrl || 'https://t.me/frito_kz_bot?start=login',
-      tgWaiting: s.tgWaiting, tgOpened: () => this.setState({ tgWaiting: true }), tgDone: () => this.done('telegram'),
+      timerText: s.t > 0 ? 'Если код не пришёл, запросите новый через ' + s.t + ' сек' : 'Не пришёл код? Запросите новый',
+      resendCls: 'f-btn f-btn--primary f-btn--block' + (s.t > 0 ? ' is-disabled' : ''),
+      resend: () => { if (s.t > 0) return; this.setState({ code: '' }); this.startTimer(); this.focusCode(); },
     };
   }
 }

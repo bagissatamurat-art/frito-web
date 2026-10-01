@@ -727,3 +727,17 @@ img.f-option__icon{object-fit:contain}
 @keyframes f-tick{to{stroke-dashoffset:0}}
 @keyframes f-spark{0%{opacity:1;transform:rotate(var(--a)) translateY(0) scale(.6)}100%{opacity:0;transform:rotate(var(--a)) translateY(-70px) scale(1)}}
 @keyframes f-progress{to{width:100%}}
+
+/* Вход: цвета мессенджеров, ссылка «Изменить», код по центру, таймер, точки шагов, спиннер в кнопке */
+.f-auth-wa{color:#1DAA55}
+.f-auth-tg{color:#229ED9}
+.f-auth-link{padding:0;border:0;background:none;color:var(--primary);font:inherit;font-weight:600;cursor:pointer}
+.f-otp--center{grid-template-columns:repeat(4,60px);justify-content:center;gap:10px;margin:4px 0}
+.f-sheet .f-otp--center{grid-template-columns:repeat(4,56px)}
+.f-auth-timer{margin:0;font-size:13px;color:var(--ink-3);text-align:center}
+.f-dots{display:flex;justify-content:center;gap:6px;padding-top:2px}
+.f-dots__dot{width:6px;height:6px;border-radius:50%;background:var(--surface-3);transition:background .2s,width .2s}
+.f-dots__dot.is-on{width:18px;border-radius:3px;background:var(--primary)}
+.f-btn__spinner{width:20px;height:20px;border-radius:50%;border:2.5px solid rgba(255,255,255,.45);border-top-color:#fff;animation:frito-spin .8s linear infinite}
+.f-btn.is-disabled .f-btn__spinner{border-color:rgba(97,75,226,.25);border-top-color:var(--primary)}
+.f-auth-phone,.f-auth-link{white-space:nowrap}
