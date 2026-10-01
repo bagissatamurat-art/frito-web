@@ -559,7 +559,7 @@ class Component extends DCLogic {
       cityIn: (CITIES.find(c => c.id === s.city) || CITIES[0]).inName, cityMenuCls: 'f-am__city-menu' + (sheet ? ' f-am__city-menu--sheet' : ''), cityOpen: s.cityOpen, toggleCity: () => this.setState({ cityOpen: !s.cityOpen }),
       cities: CITIES.map(c => { const n = STORES.filter(x => x.city === c.id).length; return { name: c.name, sel: c.id === s.city, cls: 'f-am__city-opt' + (c.id === s.city ? ' is-on' : ''), count: n + ' ' + (n % 10 === 1 && n % 100 !== 11 ? 'ресторан' : n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 10 || n % 100 >= 20) ? 'ресторана' : 'ресторанов'),
         pick: () => { const first = this.cityStores(c.id, this._dc || this._ref)[0].i; this.setState({ city: c.id, cityOpen: false, store: first }, () => { this.fitStores(true); setTimeout(() => this.scrollCar(first), 50); }); } }; }),
-      stores, pickCaption: sheet ? (stores.length ? (stores.findIndex(x => x.idx === s.store) + 1) + ' из ' + stores.length + ' · листайте' : '') : 'расстояние от ' + (this._dc ? 'точки доставки' : 'вас'), distCaption: 'расстояние от ' + (this._dc ? 'точки доставки' : 'вас'),
+      stores, pickCaption: sheet ? (stores.length ? (stores.findIndex(x => x.idx === s.store) + 1) + ' из ' + stores.length + ' · листайте' : '') : 'расстояние от ' + (this.cityRef(s.city, ref) !== ref ? 'центра города' : this._dc ? 'точки доставки' : 'вас'), distCaption: 'расстояние от ' + (this.cityRef(s.city, ref) !== ref ? 'центра города' : this._dc ? 'точки доставки' : 'вас'),
       ctaDisabled: !ok, ctaCls: 'f-btn f-btn--primary f-btn--block' + (ok ? '' : ' is-disabled'),
       ctaLabel: busy ? 'Определяем адрес…' : !s.house ? 'Укажите номер дома' : 'Доставить сюда',
       confirm: () => this.confirm(),
