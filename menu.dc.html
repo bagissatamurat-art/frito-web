@@ -246,21 +246,7 @@ input:focus-visible,textarea:focus-visible{outline:none}
           </div>
           <!-- promo -->
           <div class="mn-panel-12">
-            <sc-if value="{{ hasPromo }}" hint-placeholder-val="{{ true }}">
-              <div class="mn-promo">
-                <div class="mn-promo__left"><span class="mn-promo__code">{{ promoCode }}</span><span class="mn-promo__text">{{ promoDesc }}</span></div>
-                <button onClick="{{ removePromo }}" aria-label="Убрать промокод" class="mn-icon-btn"><span aria-hidden="true" class="mn-x12"><span class="mn-xl1"></span><span class="mn-xl2"></span></span></button>
-              </div>
-            </sc-if>
-            <sc-if value="{{ noPromo }}" hint-placeholder-val="{{ false }}">
-              <div class="mn-stack-6">
-                <div class="mn-row-8">
-                  <div class="mn-promo__field"><input value="{{ promoDraft }}" onChange="{{ setPromoDraft }}" onKeyDown="{{ promoKey }}" onFocus="{{ promoFocus }}" onBlur="{{ promoBlur }}" placeholder="Промокод" style="width:100%;border:2px solid {{ promoBorder }};background:{{ promoBg }};border-radius:999px;height:44px;padding:0 44px 0 16px;font:inherit;font-size:14px;color:var(--ink);text-transform:uppercase;transition:all .15s" style-focus="border-color:var(--primary);background:#fff"><sc-if value="{{ promoHasDraft }}" hint-placeholder-val="{{ false }}"><button type="button" onMouseDown="{{ preventBlur }}" onClick="{{ clearPromoDraft }}" aria-label="Очистить" class="mn-promo__clear"><span aria-hidden="true" class="mn-x10"><span class="mn-xl1"></span><span class="mn-xl2"></span></span></button></sc-if></div>
-                  <button onClick="{{ applyPromo }}" class="mn-promo__apply">Применить</button>
-                </div>
-                <sc-if value="{{ promoHasError }}" hint-placeholder-val="{{ false }}"><div class="mn-promo__err">{{ promoError }}</div></sc-if>
-              </div>
-            </sc-if>
+            <dc-import name="FritoPromoField" code="{{ promoCode }}" desc="{{ promoDesc }}" subtotal="{{ liveSub }}" on-apply="{{ setPromo }}" on-remove="{{ removePromo }}" hint-size="100%,44px"></dc-import>
             <sc-if value="{{ isDelivery }}" hint-placeholder-val="{{ true }}">
               <dc-import name="FritoDeliveryBar" subtotal="{{ liveSub }}" free-from="{{ freeFrom }}" hint-size="100%,60px"></dc-import>
             </sc-if>
@@ -554,21 +540,7 @@ input:focus-visible,textarea:focus-visible{outline:none}
             </sc-if>
           </div>
           <div class="mn-m-panel">
-            <sc-if value="{{ hasPromo }}" hint-placeholder-val="{{ true }}">
-              <div class="mn-m-promo">
-                <div class="mn-m-promo__left"><span class="mn-m-promo__code">{{ promoCode }}</span><span class="mn-m-promo__text">{{ promoDesc }}</span></div>
-                <button onClick="{{ removePromo }}" aria-label="Убрать промокод" class="mn-icon-btn"><span aria-hidden="true" class="mn-x12"><span class="mn-xl1"></span><span class="mn-xl2"></span></span></button>
-              </div>
-            </sc-if>
-            <sc-if value="{{ noPromo }}" hint-placeholder-val="{{ false }}">
-              <div class="mn-stack-6">
-                <div class="mn-row-8">
-                  <div class="mn-promo__field"><input value="{{ promoDraft }}" onChange="{{ setPromoDraft }}" onKeyDown="{{ promoKey }}" onFocus="{{ promoFocus }}" onBlur="{{ promoBlur }}" placeholder="Промокод" style="width:100%;border:2px solid {{ promoBorder }};background:{{ promoBg }};border-radius:999px;height:44px;padding:0 40px 0 14px;font:inherit;font-size:14px;color:var(--ink);text-transform:uppercase;transition:all .15s" style-focus="border-color:var(--primary);background:#fff"><sc-if value="{{ promoHasDraft }}" hint-placeholder-val="{{ false }}"><button type="button" onMouseDown="{{ preventBlur }}" onClick="{{ clearPromoDraft }}" aria-label="Очистить" class="mn-m-promo__clear"><span aria-hidden="true" class="mn-x10"><span class="mn-xl1"></span><span class="mn-xl2"></span></span></button></sc-if></div>
-                  <button onClick="{{ applyPromo }}" class="mn-m-promo__apply">Применить</button>
-                </div>
-                <sc-if value="{{ promoHasError }}" hint-placeholder-val="{{ false }}"><div class="mn-m-promo__err">{{ promoError }}</div></sc-if>
-              </div>
-            </sc-if>
+            <dc-import name="FritoPromoField" code="{{ promoCode }}" desc="{{ promoDesc }}" subtotal="{{ liveSub }}" compact="{{ true }}" on-apply="{{ setPromo }}" on-remove="{{ removePromo }}" hint-size="100%,44px"></dc-import>
             <sc-if value="{{ isDelivery }}" hint-placeholder-val="{{ true }}">
               <dc-import name="FritoDeliveryBar" subtotal="{{ liveSub }}" free-from="{{ freeFrom }}" compact="{{ true }}" hint-size="100%,56px"></dc-import>
             </sc-if>
@@ -750,7 +722,7 @@ const STORIES = [
   { img: 'assets/story-whatsapp.png', alt: 'Рестораны и часы работы', cta: 'Выбрать ресторан', action: 'pickup' },
 ];
 class Component extends DCLogic {
-  state = { cart: {}, mobileOpen: false, mode: null, address: null, door: false, modal: null, modalTarget: null, pendingId: null, menu: null, agree: true, addrDraft: '', activeD: 0, activeM: 0, logoBroken: false, promo: 'NEW10', promoDraft: '', promoError: null, hidden: {}, pm: null, pmTarget: 'd', pmEdit: false, mods: {}, extra: {}, sels: {}, pendingQty: null };
+  state = { cart: {}, mobileOpen: false, mode: null, address: null, door: false, modal: null, modalTarget: null, pendingId: null, menu: null, agree: true, addrDraft: '', activeD: 0, activeM: 0, logoBroken: false, promo: 'NEW10',  hidden: {}, pm: null, pmTarget: 'd', pmEdit: false, mods: {}, extra: {}, sels: {}, pendingQty: null };
   dScrollRef = React.createRef();
   mScrollRef = React.createRef();
 
@@ -762,15 +734,6 @@ class Component extends DCLogic {
     if (prev.startWithMethod !== this.props.startWithMethod) {
       this.setState(this.props.startWithMethod ? { mode: 'delivery', address: DEFAULT_ADDR } : { mode: null, address: null });
     }
-  }
-  // Демо-валидация промокода: NEW10 — ok, OLD20 — истёк, BIG15 — от 10 000 тг., остальное — не найден
-  applyPromo() {
-    const c = this.state.promoDraft.trim().toUpperCase(); if (!c) return;
-    const sub = Object.keys(this.state.cart).reduce((a, id) => a + BY_ID[id].price * this.state.cart[id], 0);
-    if (c === 'NEW10') return this.setState({ promo: c, promoDraft: '', promoError: null });
-    if (c === 'OLD20') return this.setState({ promoError: 'Срок действия промокода истёк' });
-    if (c === 'BIG15') return sub >= 10000 ? this.setState({ promo: c, promoDraft: '', promoError: null }) : this.setState({ promoError: 'Промокод действует для заказов от 10 000 тг.' });
-    this.setState({ promoError: 'Промокод не найден — проверьте написание' });
   }
   removeLine(id, qty) { this.setState(s => ({ hidden: { ...s.hidden, [id]: true } })); this.setQty(id, -qty); }
   setQty(id, d) {
@@ -960,12 +923,7 @@ class Component extends DCLogic {
       progressColor: live.remain === 0 ? 'var(--success)' : 'var(--primary)',
       upsell: UPSELL.filter(u => !dCart[u[0]]).map(u => ({ img: BY_ID[u[0]].img, short: u[1], priceLabel: fmt(BY_ID[u[0]].price), add: () => this.tryAdd(u[0], 'd'), addM: () => this.tryAdd(u[0], 'm') })),
       clear: () => this.setState({ cart: {} }),
-      hasPromo: !!s.promo, noPromo: !s.promo, promoCode: s.promo || '', promoDesc: '−10% на первый заказ', promoDraft: s.promoDraft,
-      promoHasError: !!s.promoError, promoError: s.promoError || '', promoBorder: s.promoError ? 'var(--danger)' : 'transparent', promoBg: s.promoError ? '#FEF2F2' : 'var(--surface-2)',
-      promoHasDraft: s.promoDraft !== '' && s.promoFocus, promoFocus: () => this.setState({ promoFocus: true }), promoBlur: () => this.setState({ promoFocus: false }), clearPromoDraft: () => this.setState({ promoDraft: '', promoError: null }), preventBlur: e => e.preventDefault(),
-      setPromoDraft: e => this.setState({ promoDraft: e.target.value, promoError: null }),
-      promoKey: e => { if (e.key === 'Enter') this.applyPromo(); },
-      applyPromo: () => this.applyPromo(),
+      promoCode: s.promo || '', promoDesc: '−10% на первый заказ', setPromo: c => this.setState({ promo: c }),
       removePromo: () => this.setState({ promo: null }),
       agree: s.agree, toggleAgree: () => this.setState({ agree: !s.agree }),
       agreeBg: s.agree ? 'var(--primary)' : '#fff', agreeBorder: s.agree ? 'var(--primary)' : 'var(--neutral-300)', agreeCheck: s.agree ? 1 : 0,

@@ -149,21 +149,7 @@ input,textarea,button{outline:none}
         </div>
 
         <div class="co-panel-12">
-          <sc-if value="{{ hasPromo }}" hint-placeholder-val="{{ true }}">
-            <div class="co-promo">
-              <div class="co-promo__left"><span class="co-promo__code">{{ promoCode }}</span><span class="co-promo__text">{{ promoDesc }}</span></div>
-              <button onClick="{{ removePromo }}" aria-label="Убрать промокод" class="co-icon-btn"><span aria-hidden="true" class="co-x12"><span class="co-xl1"></span><span class="co-xl2"></span></span></button>
-            </div>
-          </sc-if>
-          <sc-if value="{{ noPromo }}" hint-placeholder-val="{{ false }}">
-            <div class="co-stack-6">
-              <div class="co-row-8">
-                <div class="co-promo__field"><input value="{{ promoDraft }}" onChange="{{ setPromoDraft }}" onKeyDown="{{ promoKey }}" onFocus="{{ promoFocus }}" onBlur="{{ promoBlur }}" placeholder="Промокод" style="width:100%;border:2px solid {{ promoBorder }};background:{{ promoBg }};border-radius:999px;height:44px;padding:0 44px 0 16px;font:inherit;font-size:14px;color:var(--ink);text-transform:uppercase;transition:all .15s" style-focus="border-color:var(--primary);background:#fff"><sc-if value="{{ promoHasDraft }}" hint-placeholder-val="{{ false }}"><button type="button" onMouseDown="{{ preventBlur }}" onClick="{{ clearPromoDraft }}" aria-label="Очистить" class="co-promo__clear"><span aria-hidden="true" class="co-x10"><span class="co-xl1"></span><span class="co-xl2"></span></span></button></sc-if></div>
-                <button onClick="{{ applyPromo }}" class="co-promo__apply">Применить</button>
-              </div>
-              <sc-if value="{{ promoHasError }}" hint-placeholder-val="{{ false }}"><div class="co-promo__err">{{ promoError }}</div></sc-if>
-            </div>
-          </sc-if>
+          <dc-import name="FritoPromoField" code="{{ promoCode }}" desc="{{ promoDesc }}" subtotal="{{ subtotal }}" on-apply="{{ setPromo }}" on-remove="{{ removePromo }}" hint-size="100%,44px"></dc-import>
           <sc-if value="{{ isDelivery }}" hint-placeholder-val="{{ true }}"><dc-import name="FritoDeliveryBar" subtotal="{{ subtotal }}" free-from="{{ freeFrom }}" hint-size="100%,60px"></dc-import></sc-if>
           <div class="co-totals-wrap"><dc-import name="FritoTotals" subtotal="{{ subtotal }}" fee="{{ fee }}" discount="{{ discount }}" fee-title="{{ feeTitle }}" total-title="К оплате" hint-size="100%,140px"></dc-import></div>
           <sc-if value="{{ isKaspi }}" hint-placeholder-val="{{ true }}"><button aria-label="Оплатить с Kaspi.kz" onClick="{{ payGo }}" disabled="{{ payDisabled }}" style="width:100%;border:0;cursor:{{ payCursor }};background:transparent;padding:0;margin-top:4px;display:block;line-height:0;opacity:{{ payOpacity }};filter:{{ payFilter }}" style-hover="opacity:.92"><img src="assets/btn-kaspi-pay.svg" alt="Оплатить с Kaspi.kz" class="co-kaspi-img"></button></sc-if>
@@ -264,21 +250,7 @@ input,textarea,button{outline:none}
           </div>
         </sc-for>
       </div>
-      <sc-if value="{{ hasPromo }}" hint-placeholder-val="{{ true }}">
-        <div class="co-m-promo">
-          <div class="co-m-promo__left"><span class="co-m-promo__code">{{ promoCode }}</span><span class="co-m-promo__text">{{ promoDesc }}</span></div>
-          <button onClick="{{ removePromo }}" aria-label="Убрать промокод" class="co-icon-btn"><span aria-hidden="true" class="co-x12"><span class="co-xl1"></span><span class="co-xl2"></span></span></button>
-        </div>
-      </sc-if>
-      <sc-if value="{{ noPromo }}" hint-placeholder-val="{{ false }}">
-        <div class="co-stack-6">
-          <div class="co-row-8">
-            <div class="co-promo__field"><input value="{{ promoDraft }}" onChange="{{ setPromoDraft }}" onKeyDown="{{ promoKey }}" onFocus="{{ promoFocus }}" onBlur="{{ promoBlur }}" placeholder="Промокод" style="width:100%;border:2px solid {{ promoBorder }};background:{{ promoBg }};border-radius:999px;height:44px;padding:0 40px 0 14px;font:inherit;font-size:14px;color:var(--ink);text-transform:uppercase;transition:all .15s" style-focus="border-color:var(--primary);background:#fff"><sc-if value="{{ promoHasDraft }}" hint-placeholder-val="{{ false }}"><button type="button" onMouseDown="{{ preventBlur }}" onClick="{{ clearPromoDraft }}" aria-label="Очистить" class="co-m-promo__clear"><span aria-hidden="true" class="co-x10"><span class="co-xl1"></span><span class="co-xl2"></span></span></button></sc-if></div>
-            <button onClick="{{ applyPromo }}" class="co-m-promo__apply">Применить</button>
-          </div>
-          <sc-if value="{{ promoHasError }}" hint-placeholder-val="{{ false }}"><div class="co-m-promo__err">{{ promoError }}</div></sc-if>
-        </div>
-      </sc-if>
+      <dc-import name="FritoPromoField" code="{{ promoCode }}" desc="{{ promoDesc }}" subtotal="{{ subtotal }}" compact="{{ true }}" on-apply="{{ setPromo }}" on-remove="{{ removePromo }}" hint-size="100%,44px"></dc-import>
       <sc-if value="{{ isDelivery }}" hint-placeholder-val="{{ true }}"><dc-import name="FritoDeliveryBar" subtotal="{{ subtotal }}" free-from="{{ freeFrom }}" compact="{{ true }}" hint-size="100%,56px"></dc-import></sc-if>
       <div class="co-m-totals"><dc-import name="FritoTotals" subtotal="{{ subtotal }}" fee="{{ fee }}" discount="{{ discount }}" fee-title="{{ feeTitle }}" total-title="К оплате" compact="{{ true }}" hint-size="100%,120px"></dc-import></div>
     </div>
@@ -305,16 +277,9 @@ let D = null; // frito-data.js
 
 class Component extends DCLogic {
   state = { mode: 'delivery', modeTouched: false, door: false, when: 'asap', slot: 1, pay: 'kaspi', promo: null, promoTouched: false, ready: false,
-    entrance: '3', floor: '5', flat: '157', intercom: '', phone: '+7 708 261 63 92', name: '', comment: '', kaspiPhone: '+7 708 261 63 92', change: '', promoDraft: '', promoError: null, hidden: {} };
+    entrance: '3', floor: '5', flat: '157', intercom: '', phone: '+7 708 261 63 92', name: '', comment: '', kaspiPhone: '+7 708 261 63 92', change: '', hidden: {} };
   componentDidMount() { window.addEventListener('resize', this._vwH); import('./frito-data.js').then(m => { D = m; this.setState({ ready: true }); }); }
   set(k) { return v => this.setState({ [k]: v }); }
-  applyPromo(subtotal) {
-    const c = this.state.promoDraft.trim().toUpperCase(); if (!c) return;
-    if (c === 'NEW10') return this.setState({ promo: c, promoDraft: '', promoTouched: true, promoError: null });
-    if (c === 'OLD20') return this.setState({ promoError: 'Срок действия промокода истёк' });
-    if (c === 'BIG15') return subtotal >= 10000 ? this.setState({ promo: c, promoDraft: '', promoTouched: true, promoError: null }) : this.setState({ promoError: 'Промокод действует для заказов от 10 000 тг.' });
-    this.setState({ promoError: 'Промокод не найден — проверьте написание' });
-  }
   _vwH = () => this.setState({ vw: window.innerWidth });
   componentWillUnmount() { window.removeEventListener('resize', this._vwH); }
   renderVals() { const isDesktop = (this.state.vw ?? window.innerWidth) >= 1024; const v = this._rv(); return v.loading ? { loading: true, isDesktop: false, isMobile: false } : { ...v, loading: false, isDesktop, isMobile: !isDesktop }; }
@@ -345,12 +310,8 @@ class Component extends DCLogic {
       methodIcon: isDelivery ? 'assets/ic-delivery-p.svg' : 'assets/ic-pickup-p.svg',
       addrCaption: isDelivery ? 'Доставка · из ресторана ' + D.STORES[0].name : 'Самовывоз · ресторан',
       addrLine: isDelivery ? 'Астана, ' + D.DEFAULT_ADDR : D.STORES[0].name + ' · ' + D.STORES[0].hours,
-      entrance: s.entrance, floor: s.floor, flat: s.flat, intercom: s.intercom, phone: s.phone, name: s.name, comment: s.comment, kaspiPhone: s.kaspiPhone, change: s.change, promoDraft: s.promoDraft,
+      entrance: s.entrance, floor: s.floor, flat: s.flat, intercom: s.intercom, phone: s.phone, name: s.name, comment: s.comment, kaspiPhone: s.kaspiPhone, change: s.change,
       setEntrance: this.set('entrance'), setFloor: this.set('floor'), setFlat: this.set('flat'), setIntercom: this.set('intercom'), setPhone: this.set('phone'), setName: this.set('name'), setComment: this.set('comment'), setKaspiPhone: this.set('kaspiPhone'), setChange: this.set('change'),
-      setPromoDraft: e => this.setState({ promoDraft: e.target.value, promoError: null }),
-      promoKey: e => { if (e.key === 'Enter') this.applyPromo(subtotal); },
-      promoHasError: !!s.promoError, promoError: s.promoError || '', promoBorder: s.promoError ? 'var(--danger)' : 'transparent', promoBg: s.promoError ? '#FEF2F2' : 'var(--surface-2)',
-      promoHasDraft: s.promoDraft !== '' && s.promoFocus, promoFocus: () => this.setState({ promoFocus: true }), promoBlur: () => this.setState({ promoFocus: false }), clearPromoDraft: () => this.setState({ promoDraft: '', promoError: null }), preventBlur: e => e.preventDefault(),
       door: s.door, setDoor: v => this.setState({ door: v }),
       timeTitle: isDelivery ? 'Время доставки' : 'Время готовности',
       asapHint: isDelivery ? '~45 мин · готовка 25 + дорога 20' : '~25 мин',
@@ -365,9 +326,8 @@ class Component extends DCLogic {
       removeSold: () => this.setState(st => ({ hidden: { ...st.hidden, ...Object.fromEntries(soldLines.map(l => [l.id, true])) } })),
       payDisabled: hasSold || LINES.length === 0, payGo: () => { location.href = 'order-status.html?mode=' + mode; }, payCursor: hasSold ? 'not-allowed' : 'pointer',
       payBg: hasSold ? 'var(--surface-3)' : 'var(--primary)', payColor: hasSold ? 'var(--ink-3)' : '#fff', payOpacity: hasSold ? .5 : 1, payFilter: hasSold ? 'grayscale(1)' : 'none',
-      hasPromo, noPromo: !hasPromo, promoCode: promo, promoDesc: '−' + pct + '% на первый заказ',
+      promoCode: promo || '', setPromo: c => this.setState({ promo: c, promoTouched: true }), promoDesc: '−' + pct + '% на первый заказ',
       removePromo: () => this.setState({ promo: null, promoTouched: true }),
-      applyPromo: () => this.applyPromo(subtotal),
       subtotal, fee, discount, freeFrom, feeTitle: isDelivery ? 'Доставка' : 'Самовывоз', totalLabel: fmt(total),
     };
   }

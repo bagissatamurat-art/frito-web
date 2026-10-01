@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="./frito.css">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<!-- Поле промокода: применённый код или ввод с проверкой. Стили — .f-promocode* в frito.css -->
+<div class="{{ cls }}">
+  <sc-if value="{{ hasCode }}" hint-placeholder-val="{{ true }}">
+    <div class="f-promocode__applied">
+      <div class="f-promocode__left"><span class="f-promocode__code">{{ code }}</span><span class="f-promocode__desc">{{ desc }}</span></div>
+      <button type="button" class="f-promocode__remove" onClick="{{ remove }}" aria-label="Убрать промокод"><span class="f-x f-x--12" aria-hidden="true"><span></span><span></span></span></button>
+    </div>
+  </sc-if>
+  <sc-if value="{{ noCode }}" hint-placeholder-val="{{ false }}">
+    <div class="f-promocode__form">
+      <div class="f-promocode__row">
+        <div class="f-promocode__field"><input class="{{ inputCls }}" value="{{ draft }}" onChange="{{ setDraft }}" onKeyDown="{{ onKey }}" onFocus="{{ focus }}" onBlur="{{ blur }}" placeholder="Промокод" aria-invalid="{{ hasError }}"><sc-if value="{{ showClear }}" hint-placeholder-val="{{ false }}"><button type="button" class="f-promocode__clear" onMouseDown="{{ preventBlur }}" onClick="{{ clear }}" aria-label="Очистить"><span class="f-x" aria-hidden="true"><span></span><span></span></span></button></sc-if></div>
+        <button type="button" class="f-promocode__apply" onClick="{{ apply }}">Применить</button>
+      </div>
+      <sc-if value="{{ hasError }}" hint-placeholder-val="{{ false }}"><div class="f-promocode__err" role="alert">{{ error }}</div></sc-if>
+    </div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;: {&quot;width&quot;: 420, &quot;height&quot;: 120}, &quot;code&quot;: {&quot;editor&quot;: &quot;text&quot;, &quot;default&quot;: &quot;&quot;, &quot;tsType&quot;: &quot;string&quot;}, &quot;desc&quot;: {&quot;editor&quot;: &quot;text&quot;, &quot;default&quot;: &quot;−10% на первый заказ&quot;, &quot;tsType&quot;: &quot;string&quot;}, &quot;subtotal&quot;: {&quot;editor&quot;: &quot;int&quot;, &quot;default&quot;: 0, &quot;tsType&quot;: &quot;number&quot;}, &quot;compact&quot;: {&quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: false, &quot;tsType&quot;: &quot;boolean&quot;}, &quot;onApply&quot;: {&quot;editor&quot;: null, &quot;default&quot;: null, &quot;tsType&quot;: &quot;(code: string) =&gt; void&quot;}, &quot;onRemove&quot;: {&quot;editor&quot;: null, &quot;default&quot;: null, &quot;tsType&quot;: &quot;() =&gt; void&quot;}}">
+// Демо-проверка: NEW10 — применяется, OLD20 — истёк, BIG15 — от 10 000 тг., остальное — не найден
+const check = (code, subtotal) => {
+  if (code === 'NEW10') return null;
+  if (code === 'OLD20') return 'Срок действия промокода истёк';
+  if (code === 'BIG15') return subtotal >= 10000 ? null : 'Промокод действует для заказов от 10 000 тг.';
+  return 'Промокод не найден — проверьте написание';
+};
+class Component extends DCLogic {
+  state = { draft: '', error: null, focus: false };
+  apply() {
+    const c = this.state.draft.trim().toUpperCase(); if (!c) return;
+    const err = check(c, this.props.subtotal || 0);
+    if (err) return this.setState({ error: err });
+    this.setState({ draft: '', error: null });
+    this.props.onApply && this.props.onApply(c);
+  }
+  renderVals() {
+    const p = this.props, s = this.state, code = p.code || '';
+    return {
+      cls: 'f-contents f-promocode' + (p.compact ? ' f-promocode--compact' : ''),
+      hasCode: !!code, noCode: !code, code, desc: p.desc ?? '−10% на первый заказ',
+      remove: () => p.onRemove && p.onRemove(),
+      draft: s.draft, hasError: !!s.error, error: s.error || '',
+      inputCls: 'f-promocode__input' + (s.error ? ' is-error' : ''),
+      showClear: s.draft !== '' && s.focus,
+      setDraft: e => this.setState({ draft: e.target.value, error: null }),
+      onKey: e => { if (e.key === 'Enter') this.apply(); },
+      focus: () => this.setState({ focus: true }), blur: () => this.setState({ focus: false }),
+      clear: () => this.setState({ draft: '', error: null }), preventBlur: e => e.preventDefault(),
+      apply: () => this.apply(),
+    };
+  }
+}
+</script>
+</body>
+</html>
