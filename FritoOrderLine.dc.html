@@ -10,7 +10,7 @@
 <x-dc>
 <!-- Строка заказа на оформлении: фото, название, количество, сумма. Стили — .f-orderline* -->
 <div class="{{ cls }}">
-  <div class="f-orderline__img"><img data-skel src="{{ img }}" alt="" style="width:100%;height:100%;object-fit:cover;display:block;filter:{{ imgFilter }}"></div>
+  <div class="f-orderline__img"><img data-skel loading="lazy" decoding="async" src="{{ img }}" alt="" style="width:100%;height:100%;object-fit:cover;display:block;filter:{{ imgFilter }}"></div>
   <div class="f-orderline__body"><span class="f-orderline__name" style="color:{{ nameColor }}">{{ name }}</span><sc-if value="{{ hasMods }}" hint-placeholder-val="{{ true }}"><span class="f-orderline__mods">{{ mods }}</span></sc-if><sc-if value="{{ soldOut }}" hint-placeholder-val="{{ false }}"><span class="f-orderline__sold"><span class="f-dot-danger"></span>Разобрали</span></sc-if><span class="f-orderline__qty">{{ qtyLabel }}</span></div>
   <sc-if value="{{ ok }}" hint-placeholder-val="{{ true }}"><span class="f-orderline__price">{{ total }}</span></sc-if>
   <sc-if value="{{ soldOut }}" hint-placeholder-val="{{ false }}"><span class="f-orderline__price f-orderline__price--off">{{ total }}</span></sc-if>

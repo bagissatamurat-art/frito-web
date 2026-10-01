@@ -2,6 +2,22 @@
 document.addEventListener('load', e => { if (e.target.tagName === 'IMG') e.target.classList.add('is-loaded'); }, true);
 document.addEventListener('error', e => { if (e.target.tagName === 'IMG') e.target.classList.add('is-loaded'); }, true);
 
+// Ленивые картинки меню: <img data-src>. Наблюдаем относительно ближайшего скролл-контейнера с запасом ~1 экран,
+// чтобы не тянуть всё меню сразу (встроенный loading=lazy берёт 1250–2500px и грузит почти всё).
+(() => {
+  if (!('IntersectionObserver' in window)) return;
+  const roots = new Map();
+  const load = img => { const u = img.getAttribute('data-src'); if (u && u.indexOf('{{') < 0 && img.getAttribute('src') !== u) img.setAttribute('src', u); };
+  const scrollRoot = el => { for (let p = el.parentElement; p && p !== document.body; p = p.parentElement) { const o = getComputedStyle(p).overflowY; if ((o === 'auto' || o === 'scroll') && p.scrollHeight > p.clientHeight) return p; } return null; };
+  const observer = root => { if (!roots.has(root)) roots.set(root, new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { load(e.target); roots.get(root).unobserve(e.target); } }), { root, rootMargin: '900px 0px' })); return roots.get(root); };
+  const watch = img => { if (img.hasAttribute('data-lazy-w')) return; img.setAttribute('data-lazy-w', ''); observer(scrollRoot(img)).observe(img); };
+  const scan = () => document.querySelectorAll('img[data-src]:not([data-lazy-w])').forEach(watch);
+  new MutationObserver(ms => { for (const m of ms) if (m.type === 'attributes' && m.target.hasAttribute('src')) load(m.target); scan(); })
+    .observe(document.documentElement, { childList: true, subtree: true, attributes: true, attributeFilter: ['data-src'] });
+  // запас на случай, если узел появился до наблюдателя
+  document.addEventListener('DOMContentLoaded', scan);
+})();
+
 // Появление карточек [data-reveal] при прокрутке, с небольшой задержкой между соседями
 if ('IntersectionObserver' in window && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
   document.documentElement.classList.add('frito-reveal');

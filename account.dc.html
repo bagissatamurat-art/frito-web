@@ -4,6 +4,18 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
 <title>Личный кабинет — Frito</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru" crossorigin>
+<link rel="preconnect" href="https://frito.kz">
+<!-- компоненты первого экрана: грузим параллельно, без цепочки -->
+<link rel="preload" href="FritoCloseButton.dc.html" as="fetch" crossorigin="anonymous">
+<link rel="preload" href="FritoHeader.dc.html" as="fetch" crossorigin="anonymous">
+<link rel="preload" href="FritoInput.dc.html" as="fetch" crossorigin="anonymous">
+<link rel="preload" href="FritoOrderProgress.dc.html" as="fetch" crossorigin="anonymous">
+<link rel="preload" href="FritoRating.dc.html" as="fetch" crossorigin="anonymous">
+<link rel="preload" href="FritoToggle.dc.html" as="fetch" crossorigin="anonymous">
 <link rel="stylesheet" href="./frito.css">
 <link rel="stylesheet" href="./account.css">
 <script src="./frito.js"></script>
@@ -13,8 +25,6 @@
 <body>
 <x-dc>
 <helmet>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 body{margin:0;background:var(--surface-1)}
 a{color:var(--primary);text-decoration:none}
@@ -55,7 +65,7 @@ button{outline:none}
           <nav class="f-panel ac-menu" aria-label="Разделы кабинета">
             <sc-for list="{{ sections }}" as="t" hint-placeholder-count="3">
               <button type="button" class="{{ t.cls }}" onClick="{{ t.pick }}" aria-current="{{ t.on }}">
-                <span class="f-icon f-icon--square"><img src="{{ t.icon }}" alt="" class="ac-row__ic"></span>
+                <span class="f-icon f-icon--square"><img data-src="{{ t.icon }}" alt="" class="ac-row__ic"></span>
                 <span class="ac-row__text"><span class="ac-row__label">{{ t.label }}</span><span class="{{ t.metaCls }}">{{ t.meta }}</span></span>
                 <span class="ac-row__chev"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></span>
               </button>
@@ -84,9 +94,9 @@ button{outline:none}
                   <span class="ac-order__titles"><span class="ac-order__no">Заказ №{{ o.no }}</span><span class="ac-order__date">{{ o.date }}</span></span>
                   <span class="ac-order__status"><span class="{{ o.badgeCls }}">{{ o.status }}</span><span class="ac-row__chev"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></span></span>
                 </div>
-                <div class="ac-order__where"><img src="{{ o.icon }}" alt="" class="ac-order__where-ic"><span>{{ o.where }}</span></div>
+                <div class="ac-order__where"><img data-src="{{ o.icon }}" alt="" class="ac-order__where-ic"><span>{{ o.where }}</span></div>
                 <div class="ac-order__thumbs">
-                  <sc-for list="{{ o.thumbs }}" as="th" hint-placeholder-count="3"><span class="ac-thumb"><img data-skel src="{{ th.img }}" alt="" class="f-cover-img"><sc-if value="{{ th.multi }}" hint-placeholder-val="{{ false }}"><span class="ac-thumb__qty">×{{ th.qty }}</span></sc-if></span></sc-for>
+                  <sc-for list="{{ o.thumbs }}" as="th" hint-placeholder-count="3"><span class="ac-thumb"><img data-skel loading="lazy" decoding="async" data-src="{{ th.img }}" alt="" class="f-cover-img"><sc-if value="{{ th.multi }}" hint-placeholder-val="{{ false }}"><span class="ac-thumb__qty">×{{ th.qty }}</span></sc-if></span></sc-for>
                   <sc-if value="{{ o.hasMore }}" hint-placeholder-val="{{ false }}"><span class="ac-thumb ac-thumb--more">+{{ o.more }}</span></sc-if>
                 </div>
                 <sc-if value="{{ o.canRate }}" hint-placeholder-val="{{ false }}">
@@ -132,7 +142,7 @@ button{outline:none}
             </sc-if>
             <sc-for list="{{ addrs }}" as="a" hint-placeholder-count="2">
               <div class="f-panel ac-addr">
-                <span class="f-icon"><img src="{{ a.icon }}" alt="" class="ac-addr__ic"></span>
+                <span class="f-icon"><img data-src="{{ a.icon }}" alt="" class="ac-addr__ic"></span>
                 <span class="ac-addr__body">
                   <span class="ac-addr__top"><button type="button" class="ac-addr__label" onClick="{{ a.cycle }}" title="Сменить подпись">{{ a.label }}</button><sc-if value="{{ a.def }}" hint-placeholder-val="{{ false }}"><span class="f-badge f-badge--success">Основной</span></sc-if></span>
                   <span class="ac-addr__line">{{ a.line }}</span>

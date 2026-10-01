@@ -3,6 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru" crossorigin>
+<link rel="preconnect" href="https://frito.kz">
+<!-- компоненты первого экрана: грузим параллельно, без цепочки -->
+<link rel="preload" href="FritoFooter.dc.html" as="fetch" crossorigin="anonymous">
+<link rel="preload" href="FritoHeader.dc.html" as="fetch" crossorigin="anonymous">
 <link rel="stylesheet" href="./frito.css">
 <link rel="stylesheet" href="./vacancies.css">
 <script src="./frito.js"></script>
@@ -12,8 +20,6 @@
 <body>
 <x-dc>
 <helmet>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 body{margin:0;background:var(--surface-1)}
 a{color:var(--primary);text-decoration:none}a:hover{color:var(--primary-dark)}

@@ -65,7 +65,7 @@
   </div>
   <sc-if value="{{ hasFoot }}" hint-placeholder-val="{{ true }}">
     <div class="f-progress__foot">
-      <span class="f-progress__thumbs"><sc-for list="{{ thumbs }}" as="th" hint-placeholder-count="3"><span class="f-progress__mini"><img data-skel src="{{ th }}" alt="" class="f-cover-img"></span></sc-for></span>
+      <span class="f-progress__thumbs"><sc-for list="{{ thumbs }}" as="th" hint-placeholder-count="3"><span class="f-progress__mini"><img data-skel loading="lazy" decoding="async" src="{{ th }}" alt="" class="f-cover-img"></span></sc-for></span>
       <span class="f-progress__addr">{{ addr }}</span>
       <sc-if value="{{ hasBtn }}" hint-placeholder-val="{{ false }}"><button type="button" class="{{ btnCls }}" onClick="{{ ctaClick }}">{{ cta }}</button></sc-if>
       <sc-if value="{{ hasCta }}" hint-placeholder-val="{{ true }}"><span class="{{ ctaCls }}">{{ cta }}<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></span></sc-if>

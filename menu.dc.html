@@ -3,6 +3,27 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru" crossorigin>
+<link rel="preconnect" href="https://frito.kz">
+<!-- компоненты первого экрана: грузим параллельно, без цепочки -->
+<link rel="preload" href="FritoCartLine.dc.html" as="fetch" crossorigin="anonymous">
+<link rel="preload" href="FritoCloseButton.dc.html" as="fetch" crossorigin="anonymous">
+<link rel="preload" href="FritoDeliveryBar.dc.html" as="fetch" crossorigin="anonymous">
+<link rel="preload" href="FritoDrawer.dc.html" as="fetch" crossorigin="anonymous">
+<link rel="preload" href="FritoFooter.dc.html" as="fetch" crossorigin="anonymous">
+<link rel="preload" href="FritoHeader.dc.html" as="fetch" crossorigin="anonymous">
+<link rel="preload" href="FritoMethodBar.dc.html" as="fetch" crossorigin="anonymous">
+<link rel="preload" href="FritoOrderProgress.dc.html" as="fetch" crossorigin="anonymous">
+<link rel="preload" href="FritoProductCard.dc.html" as="fetch" crossorigin="anonymous">
+<link rel="preload" href="FritoPromoField.dc.html" as="fetch" crossorigin="anonymous">
+<link rel="preload" href="FritoSegment.dc.html" as="fetch" crossorigin="anonymous">
+<link rel="preload" href="FritoSoldAlert.dc.html" as="fetch" crossorigin="anonymous">
+<link rel="preload" href="FritoStepper.dc.html" as="fetch" crossorigin="anonymous">
+<link rel="preload" href="FritoTotals.dc.html" as="fetch" crossorigin="anonymous">
+<link rel="preload" href="FritoUpsellTile.dc.html" as="fetch" crossorigin="anonymous">
 <link rel="stylesheet" href="./frito.css">
 <link rel="stylesheet" href="./menu.css">
 <script src="./frito.js"></script>
@@ -12,8 +33,6 @@
 <body>
 <x-dc>
 <helmet>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 @keyframes story-fill{from{width:0}to{width:100%}}
 body{margin:0;background:#E9E8F0;}
@@ -90,7 +109,7 @@ input:focus-visible,textarea:focus-visible{outline:none}
           <!-- адрес / ресторан: как на оформлении, нажатие открывает выбор -->
           <div class="f-panel">
             <button type="button" class="{{ dAddrCls }}" onClick="{{ openMethodD }}" aria-label="Изменить способ получения">
-              <span class="f-addr-btn__icon"><img src="{{ methodIcon }}" alt=""></span>
+              <span class="f-addr-btn__icon"><img data-src="{{ methodIcon }}" alt=""></span>
               <span class="f-addr-btn__body">
                 <span class="f-addr-btn__caption">{{ mAddrCaption }}</span>
                 <span class="f-addr-btn__line">{{ mAddrLine }}</span>
@@ -235,7 +254,7 @@ input:focus-visible,textarea:focus-visible{outline:none}
         <div class="mn-m-cart__body">
           <div class="f-panel f-panel--compact">
             <button type="button" class="{{ mAddrCls }}" onClick="{{ openMethodM }}" aria-label="Изменить способ получения">
-              <span class="f-addr-btn__icon"><img src="{{ methodIcon }}" alt=""></span>
+              <span class="f-addr-btn__icon"><img data-src="{{ methodIcon }}" alt=""></span>
               <span class="f-addr-btn__body">
                 <span class="f-addr-btn__caption">{{ mAddrCaption }}</span>
                 <span class="f-addr-btn__line">{{ mAddrLine }}</span>
@@ -306,7 +325,7 @@ input:focus-visible,textarea:focus-visible{outline:none}
 <div role="dialog" aria-modal="true" aria-label="{{ storyAlt }}" style="position:fixed;inset:0;z-index:100;background:rgba(10,8,30,.92);display:flex;align-items:center;justify-content:center;font-family:var(--font);animation:{{ storyBdAnim }}">
   <div onClick="{{ closeStory }}" class="mn-story-view__backdrop"></div>
   <div style="position:relative;height:{{ storyH }};aspect-ratio:9/16;max-width:100vw;border-radius:{{ storyRadius }};overflow:hidden;background:var(--primary);box-shadow:0 20px 60px rgba(0,0,0,.4);animation:frito-pop .3s var(--ease) both">
-    <img src="{{ storyImg }}" alt="{{ storyAlt }}" draggable="false" class="mn-story-view__img">
+    <img data-src="{{ storyImg }}" alt="{{ storyAlt }}" draggable="false" class="mn-story-view__img">
     <div class="mn-story-view__shade"></div>
     <div class="mn-story-view__bars">
       <sc-for list="{{ storyBars }}" as="b" hint-placeholder-count="3">
@@ -325,7 +344,7 @@ input:focus-visible,textarea:focus-visible{outline:none}
 </sc-if>
 
 <!-- «Добавили в корзину» -->
-<sc-if value="{{ addedOn }}" hint-placeholder-val="{{ false }}"><div class="f-added" role="status"><span class="f-added__img"><img src="{{ addedImg }}" alt="" class="f-cover-img"></span><span class="f-added__text">{{ addedText }}</span></div></sc-if>
+<sc-if value="{{ addedOn }}" hint-placeholder-val="{{ false }}"><div class="f-added" role="status"><span class="f-added__img"><img data-src="{{ addedImg }}" alt="" class="f-cover-img"></span><span class="f-added__text">{{ addedText }}</span></div></sc-if>
 </div>
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props="{&quot;startWithMethod&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Сценарий&quot;},&quot;desktopState&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;auto&quot;,&quot;options&quot;:[&quot;auto&quot;,&quot;filled&quot;],&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Сценарий&quot;},&quot;soldOut&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;none&quot;,&quot;options&quot;:[&quot;none&quot;,&quot;fritos-combo&quot;,&quot;salsa-box&quot;,&quot;crispy&quot;,&quot;cola&quot;],&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Сценарий&quot;},&quot;footerStoresMax&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:8,&quot;min&quot;:1,&quot;max&quot;:30,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Футер&quot;},&quot;freeDeliveryFrom&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:8000,&quot;min&quot;:0,&quot;max&quot;:20000,&quot;step&quot;:500,&quot;unit&quot;:&quot;тг&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Доставка&quot;},&quot;deliveryFee&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:1000,&quot;min&quot;:0,&quot;max&quot;:3000,&quot;step&quot;:50,&quot;unit&quot;:&quot;тг&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Доставка&quot;}}">
@@ -474,6 +493,8 @@ class Component extends DCLogic {
     if (!btn) return;
     nav.scrollTo({ left: btn.offsetLeft - (nav.clientWidth - btn.offsetWidth) / 2, behavior: 'smooth' });
   }
+  // прокрутка: пересчёт активной категории не чаще одного раза за кадр
+  rafTrack(prefix, ref, key) { if (this._rt) return; this._rt = requestAnimationFrame(() => { this._rt = 0; this.track(prefix, ref, key); }); }
   track(prefix, ref, key) {
     const c = ref.current; if (!c) return;
     const nav = c.querySelector('[data-cat-nav]'), top = c.scrollTop + (nav ? nav.offsetHeight : 0) + 24;
@@ -561,7 +582,7 @@ class Component extends DCLogic {
 
     return {
       cats, dScrollRef: this.dScrollRef, mScrollRef: this.mScrollRef,
-      onDScroll: () => this.track('d', this.dScrollRef, 'activeD'), onMScroll: () => this.track('m', this.mScrollRef, 'activeM'),
+      onDScroll: () => this.rafTrack('d', this.dScrollRef, 'activeD'), onMScroll: () => this.rafTrack('m', this.mScrollRef, 'activeM'),
       menuD: s.menu === 'd', menuM: s.menu === 'm',
       openMenuD: () => this.setState({ menu: 'd' }), openMenuM: () => this.setState({ menu: 'm' }), closeMenu: () => this.animateOut('menu', () => this.setState({ menu: null })),
       authD: s.auth === 'd', authM: s.auth === 'm',

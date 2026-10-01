@@ -10,7 +10,7 @@
 <x-dc>
 <!-- Плитка допродажи «Добавить к заказу?»: фото с плюсом, название (цена — если передана). Стили — .f-upsell* -->
 <button type="button" class="{{ cls }}" onClick="{{ add }}" aria-label="{{ label }}">
-  <span class="f-upsell__img"><img data-skel src="{{ img }}" alt="" class="f-cover-img"><span class="f-upsell__plus"><span aria-hidden="true" class="f-plus"><span></span><span></span></span></span></span>
+  <span class="f-upsell__img"><img data-skel loading="lazy" decoding="async" src="{{ img }}" alt="" class="f-cover-img"><span class="f-upsell__plus"><span aria-hidden="true" class="f-plus"><span></span><span></span></span></span></span>
   <span class="f-upsell__text"><span class="f-upsell__name">{{ name }}</span><sc-if value="{{ hasPrice }}" hint-placeholder-val="{{ false }}"><span class="f-upsell__price">{{ price }}</span></sc-if></span>
 </button>
 </x-dc>

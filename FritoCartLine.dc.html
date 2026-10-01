@@ -10,7 +10,7 @@
 <x-dc>
 <!-- Строка корзины: фото, название, модификаторы, цена и счётчик (или «Разобрали»). Стили — .f-cartline* -->
 <div class="{{ cls }}">
-  <div class="f-cartline__img"><sc-if value="{{ hasImg }}" hint-placeholder-val="{{ true }}"><img data-skel src="{{ img }}" alt="" style="width:100%;height:100%;object-fit:cover;display:block;filter:{{ imgFilter }}"></sc-if></div>
+  <div class="f-cartline__img"><sc-if value="{{ hasImg }}" hint-placeholder-val="{{ true }}"><img data-skel loading="lazy" decoding="async" src="{{ img }}" alt="" style="width:100%;height:100%;object-fit:cover;display:block;filter:{{ imgFilter }}"></sc-if></div>
   <div class="f-cartline__main">
     <div class="f-cartline__info">
       <div class="f-cartline__top">

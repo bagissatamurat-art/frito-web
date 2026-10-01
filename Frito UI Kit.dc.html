@@ -3,6 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="./frito.css">
+<script src="./frito.js"></script>
 <script src="./support.js"></script>
 </head>
 <body>
@@ -317,11 +319,63 @@ input,textarea,button{outline:none}
 
 <!-- HEADER / FOOTER -->
 <section style="background:#fff;border-radius:24px;padding:28px 32px;display:flex;flex-direction:column;gap:16px">
-  <div><h2 style="margin:0 0 4px;font-size:20px;font-weight:700">Header · Footer</h2><p style="margin:0;font-size:13px;color:#6B7280">FritoHeader — 72px, лого + опционально заголовок и pill «назад» (props: title, backLabel, backHref). FritoFooter — dark r28, рестораны из data.js (props: stores, storesMax, showStores). Подключать через dc-import, не копировать.</p></div>
-  <div style="border:1px solid #ECECF1;border-radius:20px;overflow:hidden"><dc-import name="FritoHeader" title="Анкета кандидата" hint-size="100%,72px"></dc-import></div>
-  <span style="font-size:12px;color:#9CA3AF;font-family:ui-monospace,monospace">header · title + back</span>
+  <div><h2 style="margin:0 0 4px;font-size:20px;font-weight:700">Шапка · FritoHeader</h2><p style="margin:0;font-size:13px;color:#6B7280;line-height:1.5">Одна шапка на весь сайт: 60px (mobile) / 76px (desktop), лого фиксированного размера (109×34 / 96×30 — без прыжков при загрузке). Вложенное содержимое dc-import попадает в центр (на главной — FritoMethodBar). Props: backLabel, backHref, title, onMenu (кнопка меню).</p></div>
+  <div style="border:1px solid #ECECF1;border-radius:20px;overflow:hidden"><dc-import name="FritoHeader" back-label="В меню" hint-size="100%,76px"></dc-import></div>
+  <span style="font-size:12px;color:#9CA3AF;font-family:ui-monospace,monospace">header · backLabel</span>
+  <div style="border:1px solid #ECECF1;border-radius:20px;overflow:hidden"><dc-import name="FritoHeader" on-menu="{{ noop }}" hint-size="100%,76px"><div style="flex:0 1 620px;min-width:0"><dc-import name="FritoMethodBar" layout="inline" mode="delivery" address="ул. Алматы, 4" hint-size="600px,48px"></dc-import></div></dc-import></div>
+  <span style="font-size:12px;color:#9CA3AF;font-family:ui-monospace,monospace">header · slot (FritoMethodBar inline) + onMenu — главная, desktop</span>
+</section>
+
+<section style="background:#fff;border-radius:24px;padding:28px 32px;display:flex;flex-direction:column;gap:16px">
+  <div><h2 style="margin:0 0 4px;font-size:20px;font-weight:700">Способ получения · FritoMethodBar</h2><p style="margin:0;font-size:13px;color:#6B7280;line-height:1.5">Переключатель «Доставка / Самовывоз» (segment · без иконок · 36) + строка адреса .f-addr-btn. layout: stack (mobile, карточка) | inline (шапка desktop). Пустое состояние — подсвеченная строка «Укажите адрес доставки».</p></div>
+  <div style="display:grid;grid-template-columns:repeat(2,minmax(0,360px));gap:16px">
+    <dc-import name="FritoMethodBar" layout="stack" mode="delivery" address="" hint-size="100%,112px"></dc-import>
+    <dc-import name="FritoMethodBar" layout="stack" mode="delivery" address="ул. Алматы, 4" eta="35–45 мин" hint-size="100%,112px"></dc-import>
+  </div>
+  <span style="font-size:12px;color:#9CA3AF;font-family:ui-monospace,monospace">method · stack · empty / filled</span>
+</section>
+
+<section style="background:#fff;border-radius:24px;padding:28px 32px;display:flex;flex-direction:column;gap:16px">
+  <div><h2 style="margin:0 0 4px;font-size:20px;font-weight:700">Прогресс заказа · FritoOrderProgress</h2><p style="margin:0;font-size:13px;color:#6B7280;line-height:1.5">Одна карточка для главной, кабинета и страницы заказа. size: sm (строка — главная и кабинет) | md | lg (страница заказа). tone: brand (фиолетовая .f-brand-card с молниями) | light. pct + etaLabel — кольцо-таймер; onOpen — вся карточка ссылка; cta+onCta — кнопка действия. Анимации: поток по текущему участку, пульс точки, блик, дрейф молний (отключаются при prefers-reduced-motion).</p></div>
+  <div style="max-width:640px"><dc-import name="FritoOrderProgress" tone="brand" size="sm" caption="Заказ №4821 · доставка" title="Готовим ваш заказ" eta="32" eta-unit="мин" steps="{{ kitSteps4 }}" cta="Отследить" on-open="{{ noop }}" hint-size="100%,88px"></dc-import></div>
+  <span style="font-size:12px;color:#9CA3AF;font-family:ui-monospace,monospace">progress · sm · brand — главная, кабинет</span>
+  <div style="max-width:640px"><dc-import name="FritoOrderProgress" size="lg" tone="light" pct="{{ 0.38 }}" caption="Заказ №4821 · доставка · 14:12" title="Готовим ваш заказ" eta="28" eta-unit="мин" eta-label="Привезём через" eta-note="примерно к 14:57" steps="{{ kitSteps5 }}" hint-size="100%,260px"></dc-import></div>
+  <span style="font-size:12px;color:#9CA3AF;font-family:ui-monospace,monospace">progress · lg · light · ring — страница заказа, активный</span>
+  <div style="max-width:640px"><dc-import name="FritoOrderProgress" size="lg" tone="light" caption="Заказ №4793 · доставка · 14:12" title="Заказ доставлен" sub="В 14:57 · приятного аппетита!" steps="{{ kitSteps5done }}" cta="Повторить заказ" on-cta="{{ noop }}" hint-size="100%,220px"></dc-import></div>
+  <span style="font-size:12px;color:#9CA3AF;font-family:ui-monospace,monospace">progress · lg · light · done + cta</span>
+</section>
+
+<section style="background:#fff;border-radius:24px;padding:28px 32px;display:flex;flex-direction:column;gap:16px">
+  <div><h2 style="margin:0 0 4px;font-size:20px;font-weight:700">Оценка · FritoRating</h2><p style="margin:0;font-size:13px;color:#6B7280;line-height:1.5">Звёзды → готовые теги (4–5: «Что понравилось?», 1–3: «Что пошло не так?») → отзыв до 500 символов → «Спасибо». Хранит оценку по orderNo (общая для кабинета и страницы заказа). closable — для окна в кабинете.</p></div>
+  <div style="max-width:560px"><dc-import name="FritoRating" title="Как вам заказ?" hint-size="100%,240px"></dc-import></div>
+  <span style="font-size:12px;color:#9CA3AF;font-family:ui-monospace,monospace">rating · brand-card</span>
+</section>
+
+<section style="background:#fff;border-radius:24px;padding:28px 32px;display:flex;flex-direction:column;gap:16px">
+  <div><h2 style="margin:0 0 4px;font-size:20px;font-weight:700">Список товаров · FritoPickList</h2><p style="margin:0;font-size:13px;color:#6B7280;line-height:1.5">«Добавить к заказу?» в корзине: плитка-категория открывает список с «+», после добавления — степпер. layout: center (desktop) | sheet (mobile).</p></div>
+  <div style="position:relative;height:620px;border:1px solid #ECECF1;border-radius:20px;overflow:hidden"><dc-import name="FritoPickList" layout="center" title="Соусы" items="{{ kitPick }}" style="position:absolute;inset:0" hint-size="100%,100%"></dc-import></div>
+  <span style="font-size:12px;color:#9CA3AF;font-family:ui-monospace,monospace">picklist · center</span>
+</section>
+
+<section style="background:#fff;border-radius:24px;padding:28px 32px;display:flex;flex-direction:column;gap:16px">
+  <div><h2 style="margin:0 0 4px;font-size:20px;font-weight:700">Боковое меню · FritoDrawer</h2><p style="margin:0;font-size:13px;color:#6B7280;line-height:1.5">Аккаунт (вход / «Личный кабинет»), способ получения (.f-addr-btn), разделы, «Связаться с нами» (WhatsApp, Instagram, TikTok — без звонков).</p></div>
+  <div style="display:flex;gap:16px;flex-wrap:wrap"><div style="position:relative;width:360px;height:720px;display:flex;flex-direction:column;border:1px solid #ECECF1;border-radius:20px;overflow:hidden"><dc-import name="FritoDrawer" compact="{{ true }}" mode="delivery" address="ул. Алматы, 4" eta="35–45 мин" hint-size="100%,100%"></dc-import></div>
+  <div style="position:relative;width:360px;height:720px;display:flex;flex-direction:column;border:1px solid #ECECF1;border-radius:20px;overflow:hidden"><dc-import name="FritoDrawer" compact="{{ true }}" user="{{ kitUser }}" mode="" hint-size="100%,100%"></dc-import></div></div>
+  <span style="font-size:12px;color:#9CA3AF;font-family:ui-monospace,monospace">drawer · гость / вошёл</span>
+</section>
+
+<section style="background:#fff;border-radius:24px;padding:28px 32px;display:flex;flex-direction:column;gap:16px">
+  <div><h2 style="margin:0 0 4px;font-size:20px;font-weight:700">Фирменная карточка · CTA · чипы</h2><p style="margin:0;font-size:13px;color:#6B7280;line-height:1.5">.f-brand-card — фиолетовый фон с молниями (промо, текущий заказ, оценка). .f-btn--on-brand — белая кнопка на бренде. .f-cta (lg 56 / --xl 60) — CTA с суммой, .is-disabled. .f-catchip — чип категории (44 / --sm 40), .is-on.</p></div>
+  <div class="f-brand-card" style="padding:24px;max-width:420px;display:flex;flex-direction:column;gap:12px"><span style="font-size:20px;font-weight:800">NEW10 · −10%</span><span style="color:var(--primary-200);font-size:14px">Скидка на первый заказ</span><button type="button" class="f-btn f-btn--on-brand f-btn--sm" style="align-self:flex-start">Применить</button></div>
+  <div style="display:flex;gap:12px;flex-wrap:wrap;max-width:720px"><div style="width:340px"><button type="button" class="f-cta"><span>Перейти к оформлению</span><span class="f-cta__right"><span class="f-cta__sep"></span><span class="f-cta__sum">9 470 тг.</span></span></button></div><div style="width:340px"><button type="button" class="f-cta is-disabled"><span>Перейти к оформлению</span><span class="f-cta__right"><span class="f-cta__sep"></span><span class="f-cta__sum">0 тг.</span></span></button></div></div>
+  <div style="display:flex;gap:8px;flex-wrap:wrap"><button type="button" class="f-catchip is-on">Боксы</button><button type="button" class="f-catchip">Комбо</button><button type="button" class="f-catchip">Бургеры</button><button type="button" class="f-catchip f-catchip--sm is-on">Боксы</button><button type="button" class="f-catchip f-catchip--sm">Комбо</button></div>
+  <span style="font-size:12px;color:#9CA3AF;font-family:ui-monospace,monospace">brand-card · cta · catchip</span>
+</section>
+
+<section style="background:#fff;border-radius:24px;padding:28px 32px;display:flex;flex-direction:column;gap:16px">
+  <div><h2 style="margin:0 0 4px;font-size:20px;font-weight:700">Футер · FritoFooter</h2><p style="margin:0;font-size:13px;color:#6B7280;line-height:1.5">Тёмная карточка r32: бренд и WhatsApp | «Компания», «Покупателям» | приложение (QR — только desktop, кнопки App Store / Google Play). Раскладка по ширине самого футера (container queries).</p></div>
   <dc-import name="FritoFooter" hint-size="100%,400px"></dc-import>
-  <span style="font-size:12px;color:#9CA3AF;font-family:ui-monospace,monospace">footer · stores 8 max → «ещё N»</span>
+  <span style="font-size:12px;color:#9CA3AF;font-family:ui-monospace,monospace">footer</span>
 </section>
 
 <!-- ICONS -->
@@ -343,6 +397,12 @@ class Component extends DCLogic {
   renderVals() {
     const s = this.state;
     return {
+      noop: () => {},
+      kitSteps4: [{ label: 'Принят', state: 'done' }, { label: 'Готовим', state: 'cur' }, { label: 'В пути', state: 'todo' }, { label: 'Доставлен', state: 'todo' }],
+      kitSteps5: [{ label: 'Принят', state: 'done' }, { label: 'Оплачен', state: 'done' }, { label: 'Готовим', state: 'cur' }, { label: 'В пути', state: 'todo' }, { label: 'Доставлен', state: 'todo' }],
+      kitSteps5done: [['Принят', '14:12'], ['Оплачен', '14:12'], ['Готовим', '14:17'], ['В пути', '14:32'], ['Доставлен', '14:57']].map(([label, time]) => ({ label, time, state: 'done' })),
+      kitPick: [{ id: 'a', name: 'Соус Frito 50 мл', desc: 'Авторский кисло-сладкий', priceLabel: '250 тг.', img: '', qty: 1, add: () => {}, dec: () => {} }, { id: 'b', name: 'Соус сырный', desc: 'Кремовая текстура', priceLabel: '200 тг.', img: '', qty: 0, add: () => {}, dec: () => {} }],
+      kitUser: { via: 'whatsapp', phone: '+7 (701) 234-56-78' },
       nullMode: null,
       colors: [
         { name: 'primary', hex: '#614BE2', use: 'CTA, активные состояния, ссылки' },

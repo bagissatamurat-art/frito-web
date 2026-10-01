@@ -3,6 +3,21 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru" crossorigin>
+<link rel="preconnect" href="https://frito.kz">
+<!-- компоненты первого экрана: грузим параллельно, без цепочки -->
+<link rel="preload" href="FritoDeliveryBar.dc.html" as="fetch" crossorigin="anonymous">
+<link rel="preload" href="FritoHeader.dc.html" as="fetch" crossorigin="anonymous">
+<link rel="preload" href="FritoInput.dc.html" as="fetch" crossorigin="anonymous">
+<link rel="preload" href="FritoOptionCard.dc.html" as="fetch" crossorigin="anonymous">
+<link rel="preload" href="FritoOrderLine.dc.html" as="fetch" crossorigin="anonymous">
+<link rel="preload" href="FritoPromoField.dc.html" as="fetch" crossorigin="anonymous">
+<link rel="preload" href="FritoSoldAlert.dc.html" as="fetch" crossorigin="anonymous">
+<link rel="preload" href="FritoToggle.dc.html" as="fetch" crossorigin="anonymous">
+<link rel="preload" href="FritoTotals.dc.html" as="fetch" crossorigin="anonymous">
 <link rel="stylesheet" href="./frito.css">
 <link rel="stylesheet" href="./checkout.css">
 <script src="./frito.js"></script>
@@ -12,8 +27,6 @@
 <body>
 <x-dc>
 <helmet>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 body{margin:0;background:#E9E8F0;}
 a{color:var(--primary);text-decoration:none}a:hover{color:var(--primary-dark)}
@@ -56,7 +69,7 @@ input,textarea,button{outline:none}
 
         <div class="f-panel f-panel--gap-16">
           <div class="co-addr">
-            <span class="co-icon-circle"><img src="{{ methodIcon }}" alt="" class="co-icon-20"></span>
+            <span class="co-icon-circle"><img data-src="{{ methodIcon }}" alt="" class="co-icon-20"></span>
             <div class="co-addr__body">
               <div class="co-addr__caption">{{ addrCaption }}</div>
               <div class="co-addr__line">{{ addrLine }}</div>
@@ -162,7 +175,7 @@ input,textarea,button{outline:none}
     <h1 class="co-m__h1">Оформление заказа</h1>
     <div class="f-panel f-panel--compact">
       <button type="button" class="f-addr-btn" onClick="{{ openAddrM }}" aria-label="Изменить адрес">
-        <span class="f-addr-btn__icon"><img src="{{ methodIcon }}" alt=""></span>
+        <span class="f-addr-btn__icon"><img data-src="{{ methodIcon }}" alt=""></span>
         <span class="f-addr-btn__body">
           <span class="f-addr-btn__caption">{{ addrCaption }}</span>
           <span class="f-addr-btn__line">{{ addrLine }}</span>

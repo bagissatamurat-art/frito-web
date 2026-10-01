@@ -21,7 +21,7 @@
       <div class="f-modal__body f-pick__body">
         <sc-for list="{{ rows }}" as="r" hint-placeholder-count="4">
           <div class="f-pick__row">
-            <span class="f-pick__img"><sc-if value="{{ r.hasImg }}" hint-placeholder-val="{{ true }}"><img data-skel src="{{ r.img }}" alt="" class="f-cover-img"></sc-if></span>
+            <span class="f-pick__img"><sc-if value="{{ r.hasImg }}" hint-placeholder-val="{{ true }}"><img data-skel loading="lazy" decoding="async" src="{{ r.img }}" alt="" class="f-cover-img"></sc-if></span>
             <span class="f-pick__info"><span class="f-pick__name">{{ r.name }}</span><span class="f-pick__desc">{{ r.desc }}</span><span class="f-pick__price">{{ r.price }}</span></span>
             <sc-if value="{{ r.none }}" hint-placeholder-val="{{ true }}"><button type="button" class="f-pick__add" onClick="{{ r.add }}" aria-label="{{ r.addLabel }}"><span aria-hidden="true" class="f-plus"><span></span><span></span></span></button></sc-if>
             <sc-if value="{{ r.some }}" hint-placeholder-val="{{ false }}"><span class="f-pick__stepper"><dc-import name="FritoStepper" qty="{{ r.qty }}" size="{{ 40 }}" on-inc="{{ r.add }}" on-dec="{{ r.dec }}" hint-size="112px,40px"></dc-import></span></sc-if>
@@ -43,7 +43,7 @@
     <div class="f-modal__body f-pick__body">
       <sc-for list="{{ rows }}" as="r" hint-placeholder-count="4">
         <div class="f-pick__row">
-          <span class="f-pick__img"><sc-if value="{{ r.hasImg }}" hint-placeholder-val="{{ true }}"><img data-skel src="{{ r.img }}" alt="" class="f-cover-img"></sc-if></span>
+          <span class="f-pick__img"><sc-if value="{{ r.hasImg }}" hint-placeholder-val="{{ true }}"><img data-skel loading="lazy" decoding="async" src="{{ r.img }}" alt="" class="f-cover-img"></sc-if></span>
           <span class="f-pick__info"><span class="f-pick__name">{{ r.name }}</span><span class="f-pick__desc">{{ r.desc }}</span><span class="f-pick__price">{{ r.price }}</span></span>
           <sc-if value="{{ r.none }}" hint-placeholder-val="{{ true }}"><button type="button" class="f-pick__add" onClick="{{ r.add }}" aria-label="{{ r.addLabel }}"><span aria-hidden="true" class="f-plus"><span></span><span></span></span></button></sc-if>
           <sc-if value="{{ r.some }}" hint-placeholder-val="{{ false }}"><span class="f-pick__stepper"><dc-import name="FritoStepper" qty="{{ r.qty }}" size="{{ 40 }}" on-inc="{{ r.add }}" on-dec="{{ r.dec }}" hint-size="112px,40px"></dc-import></span></sc-if>

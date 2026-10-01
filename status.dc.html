@@ -3,6 +3,17 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru" crossorigin>
+<link rel="preconnect" href="https://frito.kz">
+<!-- компоненты первого экрана: грузим параллельно, без цепочки -->
+<link rel="preload" href="FritoCloseButton.dc.html" as="fetch" crossorigin="anonymous">
+<link rel="preload" href="FritoFooter.dc.html" as="fetch" crossorigin="anonymous">
+<link rel="preload" href="FritoHeader.dc.html" as="fetch" crossorigin="anonymous">
+<link rel="preload" href="FritoOrderProgress.dc.html" as="fetch" crossorigin="anonymous">
+<link rel="preload" href="FritoRating.dc.html" as="fetch" crossorigin="anonymous">
 <link rel="stylesheet" href="./frito.css">
 <link rel="stylesheet" href="./status.css">
 <script src="./frito.js"></script>
@@ -11,8 +22,6 @@
 <body>
 <x-dc>
 <helmet>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 body{margin:0;background:var(--surface-1);}
 a{color:var(--primary);text-decoration:none}a:hover{color:var(--primary-dark)}
@@ -69,7 +78,7 @@ button{outline:none}
               <span class="st-routes__label">Как добраться до ресторана</span>
               <div class="st-routes">
               <sc-for list="{{ routes }}" as="r" hint-placeholder-count="3">
-                <a href="{{ r.href }}" target="_blank" rel="noopener" class="st-route"><span class="st-route__logo"><img src="{{ r.logo }}" alt="" class="f-cover-img"></span><span class="st-route__body"><span class="st-route__name">{{ r.name }}</span><span class="st-route__hint">маршрут</span></span></a>
+                <a href="{{ r.href }}" target="_blank" rel="noopener" class="st-route"><span class="st-route__logo"><img data-src="{{ r.logo }}" alt="" class="f-cover-img"></span><span class="st-route__body"><span class="st-route__name">{{ r.name }}</span><span class="st-route__hint">маршрут</span></span></a>
               </sc-for>
             </div>
             </div>
@@ -125,7 +134,7 @@ button{outline:none}
             <div class="st-items__list">
               <sc-for list="{{ items }}" as="it" hint-placeholder-count="3">
                 <div class="st-item">
-                  <img src="{{ it.img }}" alt="" class="st-item__img">
+                  <img loading="lazy" decoding="async" data-src="{{ it.img }}" alt="" class="st-item__img">
                   <div class="st-item__body"><span class="st-strong-15">{{ it.name }}</span><span class="st-item__mods">{{ it.mods }}</span></div>
                   <div class="st-item__right"><span class="st-item__price">{{ it.priceLabel }}</span><span class="st-item__qty">× {{ it.qty }}</span></div>
                 </div>
@@ -136,13 +145,13 @@ button{outline:none}
 
         <section class="st-card-sm">
           <div class="st-info">
-            <span class="st-info__icon"><img src="{{ placeIcon }}" alt="" class="st-icon-22"></span>
+            <span class="st-info__icon"><img data-src="{{ placeIcon }}" alt="" class="st-icon-22"></span>
             <div class="st-info__body"><span class="st-muted-13">{{ placeCaption }}</span><span class="st-bold-15">{{ placeLine }}</span><span class="st-muted-13">{{ placeSub }}</span></div>
           </div>
           <sc-if value="{{ showRoutes }}" hint-placeholder-val="{{ false }}">
             <div class="st-routes">
               <sc-for list="{{ routes }}" as="r" hint-placeholder-count="3">
-                <a href="{{ r.href }}" target="_blank" rel="noopener" class="st-route"><span class="st-route__logo"><img src="{{ r.logo }}" alt="" class="f-cover-img"></span><span class="st-route__body"><span class="st-route__name">{{ r.name }}</span><span class="st-route__hint">маршрут</span></span></a>
+                <a href="{{ r.href }}" target="_blank" rel="noopener" class="st-route"><span class="st-route__logo"><img data-src="{{ r.logo }}" alt="" class="f-cover-img"></span><span class="st-route__body"><span class="st-route__name">{{ r.name }}</span><span class="st-route__hint">маршрут</span></span></a>
               </sc-for>
             </div>
           </sc-if>

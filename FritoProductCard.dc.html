@@ -11,7 +11,7 @@
 <!-- Карточка товара в меню. ПК: цена и «В корзину» отдельно; компактная: цена на кнопке. Стили — .f-pcard* -->
 <article data-reveal class="{{ cls }}">
   <div class="f-pcard__media" onClick="{{ open }}">
-    <sc-if value="{{ hasImg }}" hint-placeholder-val="{{ true }}"><img data-skel src="{{ img }}" alt="{{ name }}" style="width:100%;height:100%;object-fit:cover;display:block;filter:{{ imgFilter }}"></sc-if>
+    <sc-if value="{{ hasImg }}" hint-placeholder-val="{{ true }}"><img data-skel decoding="async" data-src="{{ img }}" alt="{{ name }}" style="width:100%;height:100%;object-fit:cover;display:block;filter:{{ imgFilter }}"></sc-if>
     <sc-if value="{{ noImg }}" hint-placeholder-val="{{ false }}"><span class="f-pcard__noimg">{{ noImgText }}</span></sc-if>
     <sc-if value="{{ soldOut }}" hint-placeholder-val="{{ false }}"><span class="f-pcard__badge">Разобрали</span></sc-if>
   </div>
