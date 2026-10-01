@@ -625,3 +625,27 @@ img.f-option__icon{object-fit:contain}
 .f-pcard--compact .f-pcard__add:hover{background:var(--primary-100);color:var(--primary)}
 .f-pcard--compact .f-pcard__add:active{background:var(--primary);color:#fff}
 .f-pcard--compact .f-pcard__soldout{width:100%;font-size:14px;cursor:auto}
+
+/* Адресная «пилюля» */
+.f-addr{display:flex;align-items:center;gap:8px;height:48px;padding:0 16px 0 6px;border:1px solid var(--border);border-radius:var(--r-pill);background:#fff;color:var(--ink);font:inherit;text-align:left;cursor:pointer}
+.f-addr:hover{border-color:#B7ACF3}
+.f-addr--empty{gap:10px;border:1px dashed #B7ACF3;background:var(--primary-50);color:var(--primary);font-size:13px;font-weight:600;white-space:nowrap;transition:all .15s}
+.f-addr--empty:hover{background:var(--primary-100);border-color:var(--primary)}
+.f-addr__icon{flex-shrink:0;display:flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:var(--primary-100)}
+.f-addr__icon--white{background:#fff}
+.f-addr__pin{width:16px;height:16px;object-fit:contain}
+.f-addr__chev{font-size:18px;line-height:1;margin-left:2px}
+.f-addr__text{display:flex;flex-direction:column;line-height:1.15}
+.f-addr__caption{font-size:11px;font-weight:500;color:var(--ink-2)}
+.f-addr__value{font-size:14px;font-weight:700}
+.f-addr__change{margin-left:8px;font-size:13px;font-weight:600;color:var(--primary)}
+.f-addr--compact{gap:10px;padding:0 14px 0 6px}
+.f-addr--compact.f-addr--empty{width:100%;text-align:left;white-space:normal;transition:none}
+.f-addr--compact.f-addr--empty:hover{background:var(--primary-50);border-color:#B7ACF3}
+.f-addr--compact.f-addr--empty:active{background:var(--primary-100)}
+.f-addr--compact .f-addr__label{flex:1}
+.f-addr--compact .f-addr__chev{margin-left:0}
+.f-addr--compact .f-addr__text{flex:1;min-width:0}
+.f-addr--compact .f-addr__caption,.f-addr--compact .f-addr__value{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.f-addr--compact .f-addr__change{flex-shrink:0;margin-left:0}
+.f-addr--compact:not(.f-addr--empty):hover{border-color:var(--border)}

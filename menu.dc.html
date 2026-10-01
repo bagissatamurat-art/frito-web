@@ -36,16 +36,7 @@ input:focus-visible,textarea:focus-visible{outline:none}
     <sc-if value="{{ logoBroken }}" hint-placeholder-val="{{ false }}"><div class="mn-wordmark"><span class="mn-wordmark__bolt"></span>FRITO</div></sc-if>
     <!-- delivery method: segmented + address -->
     <dc-import name="FritoSegment" mode="{{ segMode }}" on-change="{{ pickModeD }}" icons="{{ true }}" height="{{ 40 }}" style="margin-left:24px;width:280px;flex-shrink:0" hint-size="280px,48px"></dc-import>
-    <sc-if value="{{ noMethod }}" hint-placeholder-val="{{ true }}">
-      <button onClick="{{ openMethodD }}" class="mn-pill-empty"><span class="mn-pill__icon-white"><img src="assets/ic-pin-p.svg" alt="" class="mn-icon-16"></span>Укажите адрес доставки<span aria-hidden="true" class="mn-pill__chev">›</span></button>
-    </sc-if>
-    <sc-if value="{{ hasMethod }}" hint-placeholder-val="{{ false }}">
-      <button onClick="{{ openMethodD }}" class="mn-pill">
-        <span class="mn-icon-circle-36"><img src="assets/ic-pin-p.svg" alt="" class="mn-icon-16"></span>
-        <span class="mn-pill__text"><span class="mn-pill__caption">{{ addrCaption }}</span><span class="mn-pill__value">{{ address }}</span></span>
-        <span class="mn-pill__change">Изменить</span>
-      </button>
-    </sc-if>
+    <dc-import name="FritoAddressPill" filled="{{ hasMethod }}" caption="{{ addrCaption }}" value="{{ address }}" on-click="{{ openMethodD }}" hint-size="280px,48px"></dc-import>
     <div class="mn-d__header-right">
       <button onClick="{{ openMenuD }}" aria-label="Меню" class="mn-burger">
         <span class="mn-burger__line"></span><span class="mn-burger__line"></span><span class="mn-burger__line"></span>
@@ -284,16 +275,7 @@ input:focus-visible,textarea:focus-visible{outline:none}
       </header>
       <div class="mn-m__method">
         <dc-import name="FritoSegment" mode="{{ segMode }}" on-change="{{ pickModeM }}" icons="{{ true }}" height="{{ 44 }}" hint-size="100%,52px"></dc-import>
-        <sc-if value="{{ noMethod }}" hint-placeholder-val="{{ true }}">
-          <button onClick="{{ openMethodM }}" class="mn-m-pill-empty" style-active="background:var(--primary-100)"><span class="mn-pill__icon-white"><img src="assets/ic-pin-p.svg" alt="" class="mn-icon-16"></span><span class="mn-grow">Укажите адрес доставки</span><span aria-hidden="true" class="mn-m-pill__chev">›</span></button>
-        </sc-if>
-        <sc-if value="{{ hasMethod }}" hint-placeholder-val="{{ false }}">
-          <button onClick="{{ openMethodM }}" class="mn-m-pill">
-            <span class="mn-icon-circle-36"><img src="assets/ic-pin-p.svg" alt="" class="mn-icon-16"></span>
-            <span class="mn-m-pill__text"><span class="mn-m-pill__caption">{{ addrCaption }} · {{ etaLabel }}</span><span class="mn-m-pill__value">{{ address }}</span></span>
-            <span class="mn-m-pill__change">Изменить</span>
-          </button>
-        </sc-if>
+        <dc-import name="FritoAddressPill" filled="{{ hasMethod }}" caption="{{ addrCaptionM }}" value="{{ address }}" compact="{{ true }}" on-click="{{ openMethodM }}" hint-size="100%,48px"></dc-import>
       </div>
       <div class="mn-m-stories">
         <img role="button" tabIndex="0" onClick="{{ openStoryM0 }}" src="assets/story-stores.png" alt="Заказ через WhatsApp" class="mn-m-story">
@@ -798,6 +780,7 @@ class Component extends DCLogic {
       setPickup: () => this.finishMethod('pickup', s.mode === 'pickup' && s.address ? s.address : STORES[0].name),
       segMode: s.mode || 'delivery', pickMode: m => m === 'delivery' ? this.finishMethod('delivery', isDelivery && s.address ? s.address : DEFAULT_ADDR) : this.finishMethod('pickup', s.mode === 'pickup' && s.address ? s.address : STORES[0].name),
       addrCaption: isDelivery ? 'Адрес доставки' : 'Ресторан',
+      addrCaptionM: (isDelivery ? 'Адрес доставки' : 'Ресторан') + ' · ' + (isDelivery ? (s.quote?.eta || '35–45 мин') : 'готово за 15 мин'),
       etaLabel: isDelivery ? (s.quote?.eta || '35–45 мин') : 'готово за 15 мин',
       door: s.door, setDoor: v => this.setState({ door: v }),
       liveSub: live.sub, liveDel: live.del, liveDisc: live.disc, freeFrom,
