@@ -30,12 +30,23 @@
       <div class="f-step">
         <div class="f-options">
           <button type="button" class="f-option f-option--wa" onClick="{{ pickWa }}"><span class="f-option__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.2a8.8 8.8 0 0 0-7.6 13.3L3.2 20.8l4.4-1.2A8.8 8.8 0 1 0 12 3.2z"/><path d="M9.2 8.3c-.4 0-.9.5-.9 1.3 0 2.6 3.4 6 6 6 .8 0 1.3-.5 1.3-.9v-.9l-1.8-.8-.9.9c-1.1-.5-2.1-1.5-2.6-2.6l.9-.9-.8-1.8z" fill="currentColor" stroke="none"/></svg></span><span class="f-option__title">WhatsApp</span><span class="f-option__desc">Пришлём код в сообщении</span></button>
-          <button type="button" class="f-option f-option--tg" onClick="{{ pickTg }}"><span class="f-option__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 4.5L3.5 11l5.2 1.9 2 5.6 2.9-3.3 4.4 3.3z"/><path d="M8.7 12.9l7.8-5.4-5.8 7"/></svg></span><span class="f-option__title">Telegram</span><span class="f-option__desc">Пришлём код в Telegram</span></button>
+          <button type="button" class="f-option f-option--tg" onClick="{{ pickTg }}"><span class="f-option__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 4.5L3.5 11l5.2 1.9 2 5.6 2.9-3.3 4.4 3.3z"/><path d="M8.7 12.9l7.8-5.4-5.8 7"/></svg></span><span class="f-option__title">Telegram</span><span class="f-option__desc">Через бота, без кода</span></button>
         </div>
         <sc-if value="{{ showGuest }}" hint-placeholder-val="{{ true }}"><button type="button" class="f-btn f-btn--ghost f-btn--quiet" onClick="{{ guest }}" style="align-self:center">Продолжить без входа</button></sc-if>
       </div>
     </sc-if>
 
+    <sc-if value="{{ isTg }}" hint-placeholder-val="{{ false }}">
+      <div class="f-step f-tg">
+        <div class="f-tg__row">
+          <div class="f-tg__qr"><img src="assets/qr-tg-login.svg" alt="QR-код: открыть бота Frito в Telegram"></div>
+          <ol class="f-steps f-tg__steps"><li class="f-steps__item"><span class="f-steps__num">1</span><span>Наведите камеру телефона на QR-код</span></li><li class="f-steps__item"><span class="f-steps__num">2</span><span>В боте нажмите «Поделиться номером»</span></li><li class="f-steps__item"><span class="f-steps__num">3</span><span>Вход завершится здесь автоматически</span></li></ol>
+        </div>
+        <div class="f-tg__wait" role="status"><span class="f-tg__spin" aria-hidden="true"></span>{{ tgWaitText }}</div>
+        <a class="f-btn f-btn--tg f-btn--block" href="{{ botLink }}" target="_blank" rel="noopener" onClick="{{ tgOpen }}"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.4 4.6 2.9 11.7c-1.3.5-1.3 1.2-.2 1.6l4.7 1.5 1.8 5.6c.2.6.4.8.9.8.4 0 .6-.2.9-.5l2.3-2.2 4.7 3.5c.9.5 1.5.2 1.7-.8l3.1-14.6c.3-1.3-.5-1.9-1.4-1.5zM9.6 14.4l8.9-5.6c.4-.3.8-.1.5.2l-7.6 6.9-.3 3.2z"/></svg>Открыть Telegram на компьютере</a>
+        <button type="button" class="f-btn f-btn--ghost" onClick="{{ tgByCode }}" style="align-self:center">Войти по коду</button>
+      </div>
+    </sc-if>
     <sc-if value="{{ isPhone }}" hint-placeholder-val="{{ false }}">
       <form class="f-step" onSubmit="{{ sendCode }}" noValidate="{{ true }}">
         <dc-import name="FritoInput" label="Номер телефона" value="{{ phone }}" on-change="{{ setPhone }}" mask="phone" required="{{ true }}" error="{{ phoneErr }}" clearable="{{ false }}" hint-size="100%,56px"></dc-import>
@@ -92,12 +103,20 @@
       <div class="f-step">
         <div class="f-options">
           <button type="button" class="f-option f-option--wa" onClick="{{ pickWa }}"><span class="f-option__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.2a8.8 8.8 0 0 0-7.6 13.3L3.2 20.8l4.4-1.2A8.8 8.8 0 1 0 12 3.2z"/><path d="M9.2 8.3c-.4 0-.9.5-.9 1.3 0 2.6 3.4 6 6 6 .8 0 1.3-.5 1.3-.9v-.9l-1.8-.8-.9.9c-1.1-.5-2.1-1.5-2.6-2.6l.9-.9-.8-1.8z" fill="currentColor" stroke="none"/></svg></span><span class="f-option__title">WhatsApp</span><span class="f-option__desc">Пришлём код в сообщении</span></button>
-          <button type="button" class="f-option f-option--tg" onClick="{{ pickTg }}"><span class="f-option__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 4.5L3.5 11l5.2 1.9 2 5.6 2.9-3.3 4.4 3.3z"/><path d="M8.7 12.9l7.8-5.4-5.8 7"/></svg></span><span class="f-option__title">Telegram</span><span class="f-option__desc">Пришлём код в Telegram</span></button>
+          <button type="button" class="f-option f-option--tg" onClick="{{ pickTg }}"><span class="f-option__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 4.5L3.5 11l5.2 1.9 2 5.6 2.9-3.3 4.4 3.3z"/><path d="M8.7 12.9l7.8-5.4-5.8 7"/></svg></span><span class="f-option__title">Telegram</span><span class="f-option__desc">Через бота, без кода</span></button>
         </div>
         <sc-if value="{{ showGuest }}" hint-placeholder-val="{{ true }}"><button type="button" class="f-btn f-btn--ghost f-btn--quiet" onClick="{{ guest }}" style="align-self:center">Продолжить без входа</button></sc-if>
       </div>
     </sc-if>
 
+    <sc-if value="{{ isTg }}" hint-placeholder-val="{{ false }}">
+      <div class="f-step f-tg">
+        <ol class="f-steps f-tg__steps"><li class="f-steps__item"><span class="f-steps__num">1</span><span>Откройте бота Frito в Telegram</span></li><li class="f-steps__item"><span class="f-steps__num">2</span><span>Нажмите «Поделиться номером»</span></li><li class="f-steps__item"><span class="f-steps__num">3</span><span>Вернитесь сюда — войдём автоматически</span></li></ol>
+        <sc-if value="{{ tgWaiting }}" hint-placeholder-val="{{ false }}"><div class="f-tg__wait" role="status"><span class="f-tg__spin" aria-hidden="true"></span>{{ tgWaitText }}</div></sc-if>
+        <a class="f-btn f-btn--tg f-btn--block" href="{{ botLink }}" target="_blank" rel="noopener" onClick="{{ tgOpen }}"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.4 4.6 2.9 11.7c-1.3.5-1.3 1.2-.2 1.6l4.7 1.5 1.8 5.6c.2.6.4.8.9.8.4 0 .6-.2.9-.5l2.3-2.2 4.7 3.5c.9.5 1.5.2 1.7-.8l3.1-14.6c.3-1.3-.5-1.9-1.4-1.5zM9.6 14.4l8.9-5.6c.4-.3.8-.1.5.2l-7.6 6.9-.3 3.2z"/></svg>Открыть Telegram</a>
+        <button type="button" class="f-btn f-btn--ghost" onClick="{{ tgByCode }}" style="align-self:center">Войти по коду</button>
+      </div>
+    </sc-if>
     <sc-if value="{{ isPhone }}" hint-placeholder-val="{{ false }}">
       <form class="f-step" onSubmit="{{ sendCode }}" noValidate="{{ true }}">
         <dc-import name="FritoInput" label="Номер телефона" value="{{ phone }}" on-change="{{ setPhone }}" mask="phone" required="{{ true }}" error="{{ phoneErr }}" clearable="{{ false }}" hint-size="100%,56px"></dc-import>
@@ -139,6 +158,8 @@
 // Вход перед оформлением: мессенджер (WhatsApp / Telegram) → телефон → 4 цифры из выбранного мессенджера.
 // Прототип без сервера: код не отправляется. Демо: 0000 — неверный код, любой другой — верный.
 const RESEND = 60, TRIES = 3, WRONG = '0000';
+// Telegram: бот просит поделиться номером и сам подтверждает вход. Имя бота — заменить на реальное.
+const BOT = 'https://t.me/FritoKzBot?start=login', TG_DEMO_PHONE = '+7 (777) 123-45-67';
 class Component extends DCLogic {
   state = { step: 'choose', chan: 'whatsapp', phone: '', tried: false, sending: false, code: '', codeFocus: false, t: 0, check: '', left: TRIES, note: '' };
   codeRef = React.createRef();
@@ -148,8 +169,13 @@ class Component extends DCLogic {
   componentDidMount() {
     this.onKey = e => { if (e.key === 'Escape' && this.props.onClose) this.props.onClose(); };
     window.addEventListener('keydown', this.onKey);
+    this._vis = () => { if (document.visibilityState === 'visible' && this.state.step === 'tg' && this.state.tgWaiting) setTimeout(() => this.tgDone(), 900); };
+    document.addEventListener('visibilitychange', this._vis);
   }
-  componentWillUnmount() { window.removeEventListener('keydown', this.onKey); clearInterval(this._t); clearTimeout(this._d); clearTimeout(this._s); clearTimeout(this._v); }
+  // имитация ответа бота (до сервера): на десктопе — через ~10 с ожидания по QR, на телефоне — при возвращении из Telegram
+  tgStart(ms) { clearTimeout(this._tg); this.setState({ tgWaiting: true }); this._tg = setTimeout(() => this.tgDone(), ms); }
+  tgDone() { clearTimeout(this._tg); if (this.state.step !== 'tg') return; this.setState({ chan: 'telegram', phone: TG_DEMO_PHONE }, () => this.done()); }
+  componentWillUnmount() { clearTimeout(this._tg); document.removeEventListener('visibilitychange', this._vis); window.removeEventListener('keydown', this.onKey); clearInterval(this._t); clearTimeout(this._d); clearTimeout(this._s); clearTimeout(this._v); }
   // проверка кода: «проверяем» → неверно (тряска, минус попытка, поле очищается, клавиатура остаётся) или вход
   verify(v) {
     this.setState({ check: 'checking' });
@@ -176,14 +202,16 @@ class Component extends DCLogic {
     const full = s.phone.replace(/\D/g, '').length >= 11;
     return {
       isCenter: !sheet, isSheet: sheet,
-      title: s.step === 'choose' ? (login ? 'Вход в аккаунт' : 'Войдите, чтобы оформить заказ') : 'Укажите телефон',
+      title: s.step === 'choose' ? (login ? 'Вход в аккаунт' : 'Войдите, чтобы оформить заказ') : s.step === 'tg' ? 'Вход через Telegram' : 'Укажите телефон',
       showGuest: !login, okGo: login ? 'Возвращаем в меню' : 'Переходим к оформлению',
-      sub: s.step === 'choose' ? 'Куда прислать код для входа?' : 'Пришлём 4 цифры в ' + (s.chan === 'telegram' ? 'Telegram' : 'WhatsApp'),
-      isChoose: s.step === 'choose', pickWa: () => this.toPhone('whatsapp'), pickTg: () => this.toPhone('telegram'),
-      toChoose: () => this.setState({ step: 'choose' }),
+      sub: s.step === 'choose' ? 'Как удобнее войти?' : s.step === 'tg' ? 'Поделитесь номером в боте — войдём автоматически' : 'Пришлём 4 цифры в ' + (s.chan === 'telegram' ? 'Telegram' : 'WhatsApp'),
+      isChoose: s.step === 'choose', pickWa: () => this.toPhone('whatsapp'), pickTg: () => { this.setState({ step: 'tg', chan: 'telegram', tgWaiting: false }); if (!sheet) this.tgStart(10000); },
+      isTg: s.step === 'tg', botLink: BOT, tgWaiting: !!s.tgWaiting, tgWaitText: sheet ? 'Ждём, когда вы поделитесь номером…' : 'Ждём подтверждение в Telegram…',
+      tgOpen: () => this.tgStart(sheet ? 15000 : 6000), tgByCode: () => { clearTimeout(this._tg); this.setState({ tgWaiting: false }); this.toPhone('telegram'); },
+      toChoose: () => { clearTimeout(this._tg); this.setState({ step: 'choose', tgWaiting: false }); },
       chanName: s.chan === 'telegram' ? 'Telegram' : 'WhatsApp', chanCls: s.chan === 'telegram' ? 'f-auth-tg' : 'f-auth-wa',
-      isPhone: s.step === 'phone', isCode: s.step === 'code', notCode: s.step === 'phone' || s.step === 'choose', isOk: s.step === 'ok',
-      showDots: s.step !== 'ok', dot1: 'f-dots__dot' + (s.step === 'choose' ? ' is-on' : ''), dot2: 'f-dots__dot' + (s.step === 'phone' ? ' is-on' : ''), dot3: 'f-dots__dot' + (s.step === 'code' ? ' is-on' : ''),
+      isPhone: s.step === 'phone', isCode: s.step === 'code', notCode: s.step === 'phone' || s.step === 'choose' || s.step === 'tg', isOk: s.step === 'ok',
+      showDots: s.step !== 'ok', dot1: 'f-dots__dot' + (s.step === 'choose' ? ' is-on' : ''), dot2: 'f-dots__dot' + (s.step === 'phone' || s.step === 'tg' ? ' is-on' : ''), dot3: 'f-dots__dot' + (s.step === 'code' ? ' is-on' : ''),
       close: () => p.onClose && p.onClose(), guest: () => p.onGuest && p.onGuest(),
       toPhone: () => { clearInterval(this._t); clearTimeout(this._v); this.setState({ code: '', check: '', left: TRIES, note: '' }); this.toPhone(s.chan); },
       phone: s.phone, setPhone: v => this.setState({ phone: v }), phoneErr: s.tried && !full,
