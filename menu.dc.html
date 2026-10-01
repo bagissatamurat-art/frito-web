@@ -145,7 +145,6 @@ input:focus-visible,textarea:focus-visible{outline:none}
           </div>
           <!-- totals -->
           <div class="f-panel f-panel--plain"><dc-import name="FritoTotals" subtotal="{{ liveSub }}" fee="{{ liveDel }}" discount="{{ liveDisc }}" fee-title="{{ modeLabel }}" hint-size="100%,140px"></dc-import></div>
-          <p class="mn-legal">Контакты, комментарий и способ оплаты — на странице оформления.</p>
         </div>
         <div class="mn-cart__foot">
           <button onClick="{{ checkoutD }}" style="width:100%;border:0;cursor:{{ checkoutCursor }};font:inherit;background:{{ checkoutBg }};color:{{ checkoutColor }};border-radius:999px;height:60px;padding:0 28px;font-size:19px;font-weight:600;display:flex;align-items:center;justify-content:space-between;gap:16px;transition:background .15s"><span>Перейти к оформлению</span><span class="mn-cta__right"><span class="mn-cta__sep"></span><span class="mn-bold">{{ totalLabel }}</span></span></button>
@@ -330,7 +329,6 @@ input:focus-visible,textarea:focus-visible{outline:none}
             </sc-if>
           </div>
           <div class="f-panel f-panel--compact f-panel--plain"><dc-import name="FritoTotals" subtotal="{{ liveSub }}" fee="{{ liveDel }}" discount="{{ liveDisc }}" fee-title="{{ modeLabel }}" compact="{{ true }}" hint-size="100%,120px"></dc-import></div>
-          <p class="mn-legal">Контакты, комментарий и способ оплаты — на странице оформления.</p>
         </div>
         <div class="mn-m-cart__foot">
           <button onClick="{{ checkoutM }}" style="width:100%;border:0;cursor:{{ checkoutCursorM }};font:inherit;background:{{ checkoutBgM }};color:{{ checkoutColorM }};border-radius:999px;height:56px;padding:0 22px;display:flex;align-items:center;justify-content:space-between;gap:12px;font-size:16px;font-weight:600"><span>Перейти к оформлению</span><span class="mn-m-cta__right"><span class="mn-m-cta__sep"></span><span class="mn-bold">{{ totalLabel }}</span></span></button>

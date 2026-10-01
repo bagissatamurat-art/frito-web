@@ -78,4 +78,4 @@
 /* «Ваш заказ»: отдельная плашка-переключатель с запасом до промокода */
 .co-order__toggle{min-height:48px;padding:0 12px 0 14px;margin-bottom:4px;border-radius:var(--r-md);background:var(--surface-1)}
 .co-order__toggle:active{background:var(--primary-50)}
-.co-order__toggle.is-open{margin-bottom:0}
+.co-order__toggle.is-open,.co-order__toggle:last-child{margin-bottom:0}

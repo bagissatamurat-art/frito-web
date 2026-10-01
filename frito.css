@@ -561,6 +561,8 @@ img.f-option__icon{object-fit:contain}
 
 /* Строка корзины */
 .f-cartline{display:grid;grid-template-columns:104px minmax(0,1fr);gap:16px;padding:20px 0;border-bottom:1px solid var(--divider)}
+/* последняя строка в списке — без разделителя (строки обёрнуты в .sc-host) */
+.sc-host:last-child > .f-cartline,.f-cartline:last-child{border-bottom:0}
 .f-cartline__img{width:104px;height:104px;border-radius:18px;background:var(--surface-2);overflow:hidden}
 .f-cartline__main{display:flex;flex-direction:column;justify-content:space-between;gap:12px;min-width:0}
 .f-cartline__info{display:flex;flex-direction:column;gap:4px}
@@ -704,12 +706,12 @@ img.f-option__icon{object-fit:contain}
 .f-check.is-on .f-check__tick{opacity:1}
 
 /* Панель (Card) с заголовком: r20, p18/20, заголовок 15/700; компактная — для телефона */
-.f-panel{display:flex;flex-direction:column;gap:14px;padding:18px 20px;background:#fff;border-radius:var(--r-lg)}
+.f-panel{display:flex;flex-direction:column;gap:14px;padding:20px;background:#fff;border-radius:var(--r-lg)}
 .f-panel--gap-10{gap:10px}
 .f-panel--gap-12{gap:12px}
 .f-panel--gap-16{gap:16px}
 .f-panel--plain{display:block}
-.f-panel--compact{padding:14px 16px;border-radius:18px}
+.f-panel--compact{padding:16px;border-radius:18px}
 .f-panel__title{font-size:15px;font-weight:700}
 .f-panel--compact .f-panel__title{font-size:14px}
 .f-panel__title--mb{margin-bottom:2px}
