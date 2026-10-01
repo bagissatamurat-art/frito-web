@@ -32,7 +32,7 @@
           <button type="button" class="f-option f-option--wa" onClick="{{ pickWa }}"><span class="f-option__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.2a8.8 8.8 0 0 0-7.6 13.3L3.2 20.8l4.4-1.2A8.8 8.8 0 1 0 12 3.2z"/><path d="M9.2 8.3c-.4 0-.9.5-.9 1.3 0 2.6 3.4 6 6 6 .8 0 1.3-.5 1.3-.9v-.9l-1.8-.8-.9.9c-1.1-.5-2.1-1.5-2.6-2.6l.9-.9-.8-1.8z" fill="currentColor" stroke="none"/></svg></span><span class="f-option__title">WhatsApp</span><span class="f-option__desc">Пришлём код в сообщении</span></button>
           <button type="button" class="f-option f-option--tg" onClick="{{ pickTg }}"><span class="f-option__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 4.5L3.5 11l5.2 1.9 2 5.6 2.9-3.3 4.4 3.3z"/><path d="M8.7 12.9l7.8-5.4-5.8 7"/></svg></span><span class="f-option__title">Telegram</span><span class="f-option__desc">Пришлём код в Telegram</span></button>
         </div>
-        <button type="button" class="f-btn f-btn--ghost f-btn--quiet" onClick="{{ guest }}" style="align-self:center">Продолжить без входа</button>
+        <sc-if value="{{ showGuest }}" hint-placeholder-val="{{ true }}"><button type="button" class="f-btn f-btn--ghost f-btn--quiet" onClick="{{ guest }}" style="align-self:center">Продолжить без входа</button></sc-if>
       </div>
     </sc-if>
 
@@ -66,7 +66,7 @@
         </span>
         <span class="f-auth-ok__title">Готово, вы вошли</span>
         <span class="f-auth-ok__who">{{ phone }}</span>
-        <span class="f-auth-ok__go"><span class="f-auth-ok__bar"><span></span></span>Переходим к оформлению</span>
+        <span class="f-auth-ok__go"><span class="f-auth-ok__bar"><span></span></span>{{ okGo }}</span>
       </div>
     </sc-if>
     </div>
@@ -94,7 +94,7 @@
           <button type="button" class="f-option f-option--wa" onClick="{{ pickWa }}"><span class="f-option__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.2a8.8 8.8 0 0 0-7.6 13.3L3.2 20.8l4.4-1.2A8.8 8.8 0 1 0 12 3.2z"/><path d="M9.2 8.3c-.4 0-.9.5-.9 1.3 0 2.6 3.4 6 6 6 .8 0 1.3-.5 1.3-.9v-.9l-1.8-.8-.9.9c-1.1-.5-2.1-1.5-2.6-2.6l.9-.9-.8-1.8z" fill="currentColor" stroke="none"/></svg></span><span class="f-option__title">WhatsApp</span><span class="f-option__desc">Пришлём код в сообщении</span></button>
           <button type="button" class="f-option f-option--tg" onClick="{{ pickTg }}"><span class="f-option__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 4.5L3.5 11l5.2 1.9 2 5.6 2.9-3.3 4.4 3.3z"/><path d="M8.7 12.9l7.8-5.4-5.8 7"/></svg></span><span class="f-option__title">Telegram</span><span class="f-option__desc">Пришлём код в Telegram</span></button>
         </div>
-        <button type="button" class="f-btn f-btn--ghost f-btn--quiet" onClick="{{ guest }}" style="align-self:center">Продолжить без входа</button>
+        <sc-if value="{{ showGuest }}" hint-placeholder-val="{{ true }}"><button type="button" class="f-btn f-btn--ghost f-btn--quiet" onClick="{{ guest }}" style="align-self:center">Продолжить без входа</button></sc-if>
       </div>
     </sc-if>
 
@@ -128,7 +128,7 @@
         </span>
         <span class="f-auth-ok__title">Готово, вы вошли</span>
         <span class="f-auth-ok__who">{{ phone }}</span>
-        <span class="f-auth-ok__go"><span class="f-auth-ok__bar"><span></span></span>Переходим к оформлению</span>
+        <span class="f-auth-ok__go"><span class="f-auth-ok__bar"><span></span></span>{{ okGo }}</span>
       </div>
     </sc-if>
   </div>
@@ -172,11 +172,12 @@ class Component extends DCLogic {
     this._d = setTimeout(() => this.props.onDone && this.props.onDone({ via: this.state.chan, phone: this.state.phone }), 1500);
   }
   renderVals() {
-    const p = this.props, s = this.state, sheet = p.layout === 'sheet';
+    const p = this.props, s = this.state, sheet = p.layout === 'sheet', login = p.reason === 'login';
     const full = s.phone.replace(/\D/g, '').length >= 11;
     return {
       isCenter: !sheet, isSheet: sheet,
-      title: s.step === 'choose' ? 'Войдите, чтобы оформить заказ' : 'Укажите телефон',
+      title: s.step === 'choose' ? (login ? 'Вход в аккаунт' : 'Войдите, чтобы оформить заказ') : 'Укажите телефон',
+      showGuest: !login, okGo: login ? 'Возвращаем в меню' : 'Переходим к оформлению',
       sub: s.step === 'choose' ? 'Куда прислать код для входа?' : 'Пришлём 4 цифры в ' + (s.chan === 'telegram' ? 'Telegram' : 'WhatsApp'),
       isChoose: s.step === 'choose', pickWa: () => this.toPhone('whatsapp'), pickTg: () => this.toPhone('telegram'),
       toChoose: () => this.setState({ step: 'choose' }),

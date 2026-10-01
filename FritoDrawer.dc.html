@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="./frito.css">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<!-- Боковое меню: аккаунт (вход / телефон), способ получения (.f-addr-btn как в корзине и оформлении), разделы, контакты. Стили — .f-drawer* -->
+<div class="{{ rootCls }}">
+  <div class="f-drawer__head">
+    <h2 class="f-drawer__title">Меню</h2>
+    <div class="{{ closeCls }}"><dc-import name="FritoCloseButton" on-click="{{ close }}" style="width:100%;height:100%" hint-size="44px,44px"></dc-import></div>
+  </div>
+  <div class="f-drawer">
+    <!-- аккаунт -->
+    <sc-if value="{{ userIn }}" hint-placeholder-val="{{ false }}">
+      <div class="f-drawer__user">
+        <span class="f-icon f-icon--solid"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4.5 20a7.5 7.5 0 0 1 15 0"/></svg></span>
+        <span class="f-drawer__user-body"><span class="f-drawer__caption">{{ userVia }}</span><span class="f-drawer__value">{{ userPhone }}</span></span>
+        <button type="button" class="f-btn f-btn--ghost" onClick="{{ logout }}">Выйти</button>
+      </div>
+    </sc-if>
+    <sc-if value="{{ guest }}" hint-placeholder-val="{{ true }}">
+      <div class="f-drawer__login">
+        <span class="f-drawer__login-text"><span class="f-drawer__value">Войдите в аккаунт</span><span class="f-drawer__caption">Телефон подставится при оформлении, заказы сохранятся</span></span>
+        <button type="button" class="f-btn f-btn--primary f-btn--md f-btn--block" onClick="{{ login }}">Войти</button>
+      </div>
+    </sc-if>
+
+    <!-- способ получения -->
+    <section class="f-drawer__group">
+      <span class="f-drawer__label">Как получить заказ</span>
+      <button type="button" class="{{ addrCls }}" onClick="{{ method }}" aria-label="Изменить способ получения">
+        <span class="f-addr-btn__icon"><img src="{{ methodIcon }}" alt=""></span>
+        <span class="f-addr-btn__body"><span class="f-addr-btn__caption">{{ methodCaption }}</span><span class="f-addr-btn__line">{{ methodLine }}</span></span>
+        <svg class="f-addr-btn__chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
+      </button>
+    </section>
+
+    <!-- разделы -->
+    <nav class="f-nav" aria-label="Разделы">
+      <a class="f-nav__item" role="button" onClick="{{ close }}"><span class="f-icon f-icon--square"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11h16M5 11a7 7 0 0 1 14 0M3 15h18M6 15l1 4h10l1-4"/></svg></span><span class="f-nav__label">Меню</span><span class="f-nav__chev"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></span></a>
+      <a class="f-nav__item" href="vacancies.dc.html"><span class="f-icon f-icon--square"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7" width="18" height="13" rx="2.5"/><path d="M9 7V5.5A1.5 1.5 0 0 1 10.5 4h3A1.5 1.5 0 0 1 15 5.5V7M3 12.5h18"/></svg></span><span class="f-nav__label">Вакансии</span><span class="f-badge f-badge--success">Мы нанимаем</span><span class="f-nav__chev"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></span></a>
+    </nav>
+
+    <!-- контакты -->
+    <div class="f-contacts">
+      <a class="f-call" href="tel:+77009380000"><span class="f-call__icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h3.5l1.8 4.5-2.3 1.4a11 11 0 0 0 6.1 6.1l1.4-2.3L20 15.5V19a1.5 1.5 0 0 1-1.6 1.5A16.5 16.5 0 0 1 3.5 5.6 1.5 1.5 0 0 1 5 4z"/></svg></span><span class="f-call__body"><span class="f-call__num">+7 700 938 0000</span><span class="f-call__hint">Позвонить · ежедневно 11:30 – 02:00</span></span></a>
+      <div class="f-socials">
+        <a class="f-social f-social--wa" href="https://wa.me/77009380000" target="_blank" rel="noopener"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.2a8.8 8.8 0 0 0-7.6 13.3L3.2 20.8l4.4-1.2A8.8 8.8 0 1 0 12 3.2z"/><path d="M9.2 8.3c-.4 0-.9.5-.9 1.3 0 2.6 3.4 6 6 6 .8 0 1.3-.5 1.3-.9v-.9l-1.8-.8-.9.9c-1.1-.5-2.1-1.5-2.6-2.6l.9-.9-.8-1.8z" fill="currentColor" stroke="none"/></svg><span>WhatsApp</span></a>
+        <a class="f-social f-social--ig" href="https://www.instagram.com/frito.kz/" target="_blank" rel="noopener"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1.1" fill="currentColor" stroke="none"/></svg><span>Instagram</span></a>
+        <a class="f-social f-social--tt" href="https://www.tiktok.com/@frito.kz" target="_blank" rel="noopener"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.6 3h-3.3v12.2a2.9 2.9 0 1 1-2.1-2.8V9a6.3 6.3 0 1 0 5.4 6.2V9.1a7.6 7.6 0 0 0 4.4 1.4V7.2a4.4 4.4 0 0 1-4.4-4.2z"/></svg><span>TikTok</span></a>
+      </div>
+      <a class="f-mail" href="mailto:info@frito.kz">info@frito.kz</a>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:420,&quot;height&quot;:860},&quot;compact&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;},&quot;user&quot;:{&quot;editor&quot;:null,&quot;default&quot;:null,&quot;tsType&quot;:&quot;{ via, phone } | null&quot;},&quot;mode&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;delivery&quot;,&quot;options&quot;:[&quot;delivery&quot;,&quot;pickup&quot;,&quot;&quot;],&quot;tsType&quot;:&quot;string&quot;},&quot;address&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;ул. Алматы, 4&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;eta&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
+const VIA = { whatsapp: 'Вход через WhatsApp', telegram: 'Вход через Telegram' };
+class Component extends DCLogic {
+  renderVals() {
+    const p = this.props, u = p.user, has = !!p.mode, deliv = p.mode !== 'pickup';
+    return {
+      rootCls: 'f-comp f-drawer-root' + (p.compact ? ' f-drawer-root--compact' : ''),
+      closeCls: 'f-drawer__close',
+      close: () => p.onClose && p.onClose(),
+      userIn: !!u, guest: !u, userVia: u ? (VIA[u.via] || 'Аккаунт') : '', userPhone: u ? (u.phone || 'Аккаунт') : '',
+      login: () => p.onLogin && p.onLogin(), logout: () => p.onLogout && p.onLogout(),
+      addrCls: 'f-addr-btn' + (has ? '' : ' f-addr-btn--empty'),
+      methodIcon: has && !deliv ? 'assets/ic-pickup-p.svg' : 'assets/ic-delivery-p.svg',
+      methodCaption: !has ? 'Доставка или самовывоз' : deliv ? 'Доставка · ' + (p.eta || '35–45 мин') : 'Самовывоз · готово за 15 мин',
+      methodLine: has ? (p.address || '') : 'Укажите адрес доставки',
+      method: () => p.onMethod && p.onMethod(),
+    };
+  }
+}
+</script>
+</body>
+</html>
