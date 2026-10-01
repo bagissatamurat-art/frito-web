@@ -106,38 +106,39 @@
 .ac-caption{font-size:13px;color:var(--ink-2);text-align:right}
 .ac-sublabel{padding:8px 4px 0;font-size:13px;font-weight:600;color:var(--ink-2)}
 
-/* текущий заказ */
-.ac-live{gap:16px;color:var(--ink);text-decoration:none;box-shadow:inset 0 0 0 2px var(--primary-200);transition:box-shadow .15s}
-.ac-live:hover{color:var(--ink);box-shadow:inset 0 0 0 2px var(--primary),var(--shadow-card-hover)}
+/* текущий заказ — фирменная карточка (.f-brand-card) */
+.ac-live{display:flex;flex-direction:column;gap:18px;padding:20px;color:#fff;text-decoration:none;box-shadow:var(--shadow-fab);transition:transform .15s,box-shadow .15s}
+.ac-live:hover{color:#fff;transform:translateY(-1px)}
 .ac-live__top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
 .ac-live__titles{display:flex;flex-direction:column;gap:4px;min-width:0}
-.ac-live__no{font-size:12px;font-weight:600;color:var(--ink-2)}
-.ac-live__title{font-size:18px;font-weight:700;line-height:1.25}
-.ac-live__eta{flex-shrink:0;display:flex;align-items:baseline;gap:4px;padding:8px 12px;border-radius:var(--r-md);background:var(--primary-50);color:var(--primary)}
+.ac-live__no{font-size:12px;font-weight:600;color:var(--primary-200)}
+.ac-live__title{font-size:20px;font-weight:800;letter-spacing:-.01em;line-height:1.2}
+.ac-live__eta{flex-shrink:0;display:flex;align-items:baseline;gap:4px;padding:8px 12px;border-radius:var(--r-md);background:#fff;color:var(--primary)}
 .ac-live__eta-v{font-size:20px;font-weight:800;letter-spacing:-.01em}
 .ac-live__eta-u{font-size:13px;font-weight:600}
 .ac-steps{display:grid;grid-template-columns:repeat(4,1fr)}
 .ac-step{position:relative;display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center}
-.ac-step::before{content:'';position:absolute;top:6px;right:50%;width:100%;height:2px;background:var(--surface-3)}
+.ac-step::before{content:'';position:absolute;top:6px;right:50%;width:100%;height:2px;background:rgba(255,255,255,.25)}
 .ac-step:first-child::before{display:none}
-.ac-step.is-done::before,.ac-step.is-cur::before{background:var(--primary)}
-.ac-step__dot{position:relative;z-index:1;display:block;width:14px;height:14px;border-radius:50%;background:var(--surface-3);box-shadow:0 0 0 3px var(--surface-0)}
-.ac-step.is-done .ac-step__dot{background:var(--primary)}
-.ac-step.is-cur .ac-step__dot{background:var(--primary);box-shadow:0 0 0 3px var(--surface-0),0 0 0 6px var(--primary-100);animation:ac-pulse 1.6s ease-out infinite}
-.ac-step__label{font-size:12px;font-weight:500;color:var(--ink-3)}
-.ac-step.is-done .ac-step__label{color:var(--ink-2)}
-.ac-step.is-cur .ac-step__label{color:var(--ink);font-weight:700}
-@keyframes ac-pulse{0%{box-shadow:0 0 0 3px var(--surface-0),0 0 0 3px rgba(97,75,226,.35)}100%{box-shadow:0 0 0 3px var(--surface-0),0 0 0 10px rgba(97,75,226,0)}}
-.ac-live__foot{display:flex;align-items:center;gap:10px;padding-top:12px;border-top:1px solid var(--divider)}
+.ac-step.is-done::before,.ac-step.is-cur::before{background:#fff}
+.ac-step__dot{position:relative;z-index:1;display:block;width:14px;height:14px;border-radius:50%;background:rgba(255,255,255,.3);box-shadow:0 0 0 3px var(--primary)}
+.ac-step.is-done .ac-step__dot{background:#fff}
+.ac-step.is-cur .ac-step__dot{background:#fff;animation:ac-pulse 1.6s ease-out infinite}
+.ac-step__label{font-size:12px;font-weight:500;color:rgba(255,255,255,.55)}
+.ac-step.is-done .ac-step__label{color:var(--primary-200)}
+.ac-step.is-cur .ac-step__label{color:#fff;font-weight:700}
+@keyframes ac-pulse{0%{box-shadow:0 0 0 3px var(--primary),0 0 0 3px rgba(255,255,255,.5)}100%{box-shadow:0 0 0 3px var(--primary),0 0 0 11px rgba(255,255,255,0)}}
+.ac-live__foot{display:flex;align-items:center;gap:10px;padding-top:14px;border-top:1px solid rgba(255,255,255,.18)}
 .ac-live__thumbs{display:flex}
-.ac-mini{width:32px;height:32px;border-radius:50%;background:var(--surface-2);overflow:hidden;box-shadow:0 0 0 2px var(--surface-0)}
+.ac-mini{width:32px;height:32px;border-radius:50%;background:#fff;overflow:hidden;box-shadow:0 0 0 2px var(--primary)}
 .ac-mini + .ac-mini{margin-left:-8px}
-.ac-live__addr{flex:1;min-width:0;font-size:13px;color:var(--ink-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.ac-live__go{flex-shrink:0;display:flex;align-items:center;gap:2px;font-size:14px;font-weight:700;color:var(--primary)}
+.ac-live__addr{flex:1;min-width:0;font-size:13px;color:var(--primary-200);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ac-live__go{flex-shrink:0;gap:2px;padding:0 10px 0 14px}
 
 /* оценка в карточке */
 .ac-rate{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 12px;border-radius:var(--r-md);background:var(--surface-1)}
-.ac-rate__label{font-size:13px;font-weight:600;color:var(--ink-2)}
+.ac-rate__label{display:flex;flex-direction:column;gap:2px;font-size:13px;font-weight:600;color:var(--ink-2)}
+.ac-rate__note{font-size:12px;font-weight:500;color:var(--ink-3)}
 .ac-stars{display:flex;gap:2px}
 .ac-star{display:flex;align-items:center;justify-content:center;width:32px;height:32px;padding:0;border:0;border-radius:50%;background:transparent;color:var(--neutral-300);cursor:pointer;transition:color .12s,transform .12s}
 .ac-star:hover:not(:disabled),.ac-stars:hover .ac-star:not(:disabled){color:#F5B301}
@@ -146,6 +147,10 @@
 .ac-star.is-on{color:#F5B301}
 .ac-star.is-done{cursor:default;width:24px}
 .ac-star.is-done svg{width:18px;height:18px}
+
+/* окно оценки */
+.ac-rate-layer{display:flex;align-items:center;justify-content:center;padding:24px}
+.ac-rate-box{position:relative;width:100%;max-width:560px;max-height:100%;overflow:auto;border-radius:var(--r-xl);box-shadow:var(--shadow-modal);animation:frito-pop .3s var(--ease) both}
 
 /* мобайл: хаб → раздел отдельным экраном */
 @media (max-width:767px){
@@ -159,7 +164,10 @@
   .ac-title{font-size:20px}
   .ac-caption{display:none}
   .ac-logout{display:flex}
-  .f-panel.ac-order,.f-panel.ac-addr,.f-panel.ac-form,.f-panel.ac-empty,.f-panel.ac-live{padding:16px}
+  .ac-rate-layer{align-items:flex-end;padding:0}
+  .ac-rate-box{max-width:none;max-height:92%;border-radius:var(--r-2xl) var(--r-2xl) 0 0;animation:frito-sheet .38s var(--ease) both}
+  .ac-rate-box .f-brand-card{border-radius:inherit;padding-bottom:calc(24px + env(safe-area-inset-bottom))}
+  .f-panel.ac-order,.f-panel.ac-addr,.f-panel.ac-form,.f-panel.ac-empty{padding:16px}
   .ac-addr{align-items:flex-start}
   .ac-addr__actions{flex-direction:column;align-items:flex-end}
   .ac-save .f-btn{width:100%}

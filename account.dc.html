@@ -51,7 +51,7 @@ button{outline:none}
             <span class="ac-me__meta">{{ meMeta }}</span>
             <span class="ac-me__edit">Изменить профиль</span>
           </button>
-          <sc-if value="{{ hasActive }}" hint-placeholder-val="{{ false }}"><div class="ac-hub-only"><a class="f-panel ac-live" href="{{ live.href }}" onClick="{{ live.open }}">
+          <sc-if value="{{ hasActive }}" hint-placeholder-val="{{ false }}"><div class="ac-hub-only"><a class="f-brand-card ac-live" href="{{ live.href }}" onClick="{{ live.open }}">
               <span class="ac-live__top">
                 <span class="ac-live__titles"><span class="ac-live__no">{{ live.caption }}</span><span class="ac-live__title">{{ live.title }}</span></span>
                 <span class="ac-live__eta"><span class="ac-live__eta-v">{{ live.eta }}</span><span class="ac-live__eta-u">{{ live.etaUnit }}</span></span>
@@ -62,7 +62,7 @@ button{outline:none}
               <span class="ac-live__foot">
                 <span class="ac-live__thumbs"><sc-for list="{{ live.thumbs }}" as="th" hint-placeholder-count="3"><span class="ac-mini"><img data-skel src="{{ th }}" alt="" class="f-cover-img"></span></sc-for></span>
                 <span class="ac-live__addr">{{ live.addr }}</span>
-                <span class="ac-live__go">Отследить<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></span>
+                <span class="f-btn f-btn--on-brand f-btn--xs ac-live__go">Отследить<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></span>
               </span>
             </a></div></sc-if>
           <nav class="f-panel ac-menu" aria-label="Разделы кабинета">
@@ -86,7 +86,7 @@ button{outline:none}
 
           <!-- ЗАКАЗЫ -->
           <sc-if value="{{ tabOrders }}" hint-placeholder-val="{{ true }}">
-            <sc-if value="{{ hasActive }}" hint-placeholder-val="{{ false }}"><a class="f-panel ac-live" href="{{ live.href }}" onClick="{{ live.open }}">
+            <sc-if value="{{ hasActive }}" hint-placeholder-val="{{ false }}"><a class="f-brand-card ac-live" href="{{ live.href }}" onClick="{{ live.open }}">
               <span class="ac-live__top">
                 <span class="ac-live__titles"><span class="ac-live__no">{{ live.caption }}</span><span class="ac-live__title">{{ live.title }}</span></span>
                 <span class="ac-live__eta"><span class="ac-live__eta-v">{{ live.eta }}</span><span class="ac-live__eta-u">{{ live.etaUnit }}</span></span>
@@ -97,7 +97,7 @@ button{outline:none}
               <span class="ac-live__foot">
                 <span class="ac-live__thumbs"><sc-for list="{{ live.thumbs }}" as="th" hint-placeholder-count="3"><span class="ac-mini"><img data-skel src="{{ th }}" alt="" class="f-cover-img"></span></sc-for></span>
                 <span class="ac-live__addr">{{ live.addr }}</span>
-                <span class="ac-live__go">Отследить<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></span>
+                <span class="f-btn f-btn--on-brand f-btn--xs ac-live__go">Отследить<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></span>
               </span>
             </a></sc-if>
             <sc-if value="{{ hasActive }}" hint-placeholder-val="{{ false }}"><span class="ac-sublabel">Прошлые заказы</span></sc-if>
@@ -117,7 +117,7 @@ button{outline:none}
                 </div>
                 <sc-if value="{{ o.canRate }}" hint-placeholder-val="{{ false }}">
                   <div class="ac-rate">
-                    <span class="ac-rate__label">{{ o.rateLabel }}</span>
+                    <span class="ac-rate__label">{{ o.rateLabel }}<sc-if value="{{ o.hasRateNote }}" hint-placeholder-val="{{ false }}"><span class="ac-rate__note">{{ o.rateNote }}</span></sc-if></span>
                     <span class="ac-stars" role="group" aria-label="Оценка заказа">
                       <sc-for list="{{ o.stars }}" as="st" hint-placeholder-count="5"><button type="button" class="{{ st.cls }}" onClick="{{ st.pick }}" aria-label="{{ st.aria }}" disabled="{{ st.off }}"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.9l-5.2 2.7 1-5.8-4.3-4.1 5.9-.9z"/></svg></button></sc-for>
                     </span>
@@ -181,6 +181,12 @@ button{outline:none}
   <sc-if value="{{ authOpen }}" hint-placeholder-val="{{ false }}">
     <div class="ac-layer"><dc-import name="FritoAuthModal" layout="{{ layout }}" reason="login" on-close="{{ closeAuth }}" on-done="{{ authDone }}" style="position:absolute;inset:0" hint-size="100%,100%"></dc-import></div>
   </sc-if>
+  <sc-if value="{{ rateOpen }}" hint-placeholder-val="{{ false }}">
+    <div class="ac-layer ac-rate-layer">
+      <div class="f-overlay" onClick="{{ closeRate }}"></div>
+      <div class="ac-rate-box"><dc-import name="FritoRating" order-no="{{ rateNo }}" stars="{{ rateStars }}" title="{{ rateTitle }}" sub="{{ rateSub }}" closable="{{ true }}" compact="{{ rateCompact }}" on-close="{{ closeRate }}" on-rated="{{ rated }}" hint-size="100%,420px"></dc-import></div>
+    </div>
+  </sc-if>
   <sc-if value="{{ addrOpen }}" hint-placeholder-val="{{ false }}">
     <div class="ac-layer"><dc-import name="FritoAddressModal" layout="{{ layout }}" start="delivery" mode="delivery" on-close="{{ closeAddr }}" on-confirm="{{ addrDone }}" style="position:absolute;inset:0" hint-size="100%,100%"></dc-import></div>
   </sc-if>
@@ -214,7 +220,7 @@ const stop = e => { if (e && e.stopPropagation) e.stopPropagation(); };
 class Component extends DCLogic {
   state = (() => { const h = (location.hash || '').slice(1), ok = ['orders', 'profile', 'addresses'].includes(h);
     return { ready: false, user: readJSON('frito_user'), tab: ok ? h : 'orders', sub: ok, toast: '', auth: false, addr: false, vw: window.innerWidth, draft: null,
-      addrs: readJSON('frito_addresses'), placed: readJSON('frito_orders') || [], ratings: readJSON('frito_ratings') || {}, tick: 0 }; })();
+      addrs: readJSON('frito_addresses'), rateFor: null, placed: readJSON('frito_orders') || [], ratings: readJSON('frito_ratings') || {}, tick: 0 }; })();
   componentDidMount() {
     import('./frito-data.js').then(m => { D = m; this.setState({ ready: true }); });
     this._rs = () => this.setState({ vw: window.innerWidth }); window.addEventListener('resize', this._rs);
@@ -240,8 +246,6 @@ class Component extends DCLogic {
     location.href = 'status.dc.html?' + new URLSearchParams(q);
   }
   total(o) { return o.total ?? o.items.filter(([id]) => D.BY_ID[id]).reduce((a, [id, q]) => a + D.BY_ID[id].price * q, 0) + (o.mode === 'delivery' ? 600 : 0); }
-  rate(no, n) { const ratings = { ...this.state.ratings, [no]: { stars: n, at: Date.now() } }; writeJSON('frito_ratings', ratings); this.setState({ ratings });
-    this.toast(n <= 3 ? 'Спасибо! Менеджер свяжется с вами' : 'Спасибо за оценку!'); }
   orderView(o) {
     const s = this.state, items = o.items.filter(([id]) => D.BY_ID[id]), r = s.ratings[o.no], cancelled = o.status === 'cancelled';
     return { no: o.no, date: dateLabel(o.at), status: cancelled ? 'Отменён' : o.mode === 'pickup' ? 'Выдан' : 'Доставлен',
@@ -250,7 +254,8 @@ class Component extends DCLogic {
       thumbs: items.slice(0, 4).map(([id, q]) => ({ img: D.BY_ID[id].img || '', qty: q, multi: q > 1 })), hasMore: items.length > 4, more: items.length - 4,
       total: D.fmt(this.total(o)),
       canRate: !cancelled, rateLabel: r ? 'Ваша оценка' : 'Оцените заказ',
-      stars: [1, 2, 3, 4, 5].map(n => ({ cls: 'ac-star' + (r && n <= r.stars ? ' is-on' : '') + (r ? ' is-done' : ''), off: !!r, aria: n + ' из 5', pick: e => { stop(e); if (!r) this.rate(o.no, n); } })),
+      stars: [1, 2, 3, 4, 5].map(n => ({ cls: 'ac-star' + (r && n <= r.stars ? ' is-on' : '') + (r ? ' is-done' : ''), off: !!r, aria: n + ' из 5', pick: e => { stop(e); if (!r) this.setState({ rateFor: { no: o.no, stars: n, mode: o.mode } }); } })),
+      rateNote: r && r.tags && r.tags.length ? r.tags.slice(0, 2).join(', ') : '', hasRateNote: !!(r && r.tags && r.tags.length),
       open: () => this.openOrder(o), key: e => { if (e.key === 'Enter') this.openOrder(o); },
       repeat: e => { stop(e); writeJSON('frito_repeat', { items: Object.fromEntries(items), at: Date.now() }); location.href = 'menu.dc.html'; } };
   }
@@ -311,6 +316,10 @@ class Component extends DCLogic {
       addrDone: r => { this.setState({ addr: false }); if (r.mode !== 'delivery') return this.toast('Для самовывоза адрес не нужен');
         if (addrs.some(x => x.line === r.address)) return this.toast('Этот адрес уже сохранён');
         this.setAddrs([...addrs, { id: Date.now(), label: addrs.length ? 'Другое' : 'Дом', line: r.address, city: r.city || 'Астана', def: !addrs.length }]); this.toast('Адрес добавлен'); },
+      rateOpen: !!s.rateFor, rateNo: s.rateFor ? s.rateFor.no : '', rateStars: s.rateFor ? s.rateFor.stars : 0, rateCompact: mob,
+      rateTitle: s.rateFor ? 'Заказ №' + s.rateFor.no + ' — как вам?' : '', rateSub: s.rateFor && s.rateFor.mode === 'pickup' ? 'Оцените блюда и обслуживание в ресторане' : 'Оцените блюда и доставку',
+      closeRate: () => this.setState({ rateFor: null, ratings: readJSON('frito_ratings') || {} }),
+      rated: () => { this.setState({ ratings: readJSON('frito_ratings') || {} }); clearTimeout(this._rt); this._rt = setTimeout(() => this.setState({ rateFor: null }), 1600); },
       hasToast: !!s.toast, toast: s.toast,
     };
   }

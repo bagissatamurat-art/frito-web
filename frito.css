@@ -804,3 +804,41 @@ img.f-option__icon{object-fit:contain}
 .f-pick__stepper{flex-shrink:0;width:112px;animation:frito-fade .2s ease-out both}
 .f-pick__add .f-plus{width:14px;height:14px}
 .f-nav__item .f-badge{align-self:center}
+
+/* Фирменная карточка: фиолетовый фон + молнии-паттерн (оценка, текущий заказ) */
+.f-brand-card{position:relative;overflow:hidden;isolation:isolate;background:var(--primary);color:#fff;border-radius:var(--r-xl)}
+.f-brand-card::before,.f-brand-card::after{content:'';position:absolute;z-index:-1;background:rgba(255,255,255,.08);clip-path:polygon(45% 0,100% 0,60% 45%,85% 45%,20% 100%,40% 55%,10% 55%);pointer-events:none}
+.f-brand-card::before{right:-30px;top:-40px;width:190px;height:240px}
+.f-brand-card::after{left:-24px;bottom:-60px;width:110px;height:140px;background:rgba(255,255,255,.05);transform:rotate(18deg)}
+.f-btn--on-brand{background:#fff;color:var(--primary)}
+.f-btn--on-brand:hover{background:var(--primary-50);color:var(--primary)}
+
+/* Оценка заказа (FritoRating) */
+.f-rate{display:flex;flex-direction:column;gap:20px;padding:clamp(20px,3.5vw,32px)}
+.f-rate__close{position:absolute;top:12px;right:12px;z-index:1}
+.f-rate__head{display:flex;flex-direction:column;gap:6px;padding-right:44px}
+.f-rate__title{margin:0;font-size:clamp(22px,3.4vw,28px);font-weight:800;letter-spacing:-.02em;line-height:1.15}
+.f-rate__sub{font-size:15px;line-height:1.45;color:var(--primary-200)}
+.f-rate__stars{display:flex;gap:clamp(6px,1.5vw,10px)}
+.f-rate__star{flex:0 1 60px;min-width:44px;aspect-ratio:1;display:flex;align-items:center;justify-content:center;padding:0;border:0;border-radius:var(--r-md-plus);background:rgba(255,255,255,.14);color:rgba(255,255,255,.55);cursor:pointer;transition:background-color .15s,color .15s,transform .15s}
+.f-rate__star svg{width:52%;height:52%}
+.f-rate__star:hover{transform:scale(1.06)}
+.f-rate__star.is-on{background:#fff;color:#F5B301}
+.f-rate__form{display:flex;flex-direction:column;gap:16px;animation:frito-fade .2s ease-out both}
+.f-rate__q{font-size:16px;font-weight:700}
+.f-rate__tags{display:flex;flex-wrap:wrap;gap:8px}
+.f-rate__tag{height:var(--h-sm);padding:0 16px;border:0;border-radius:var(--r-pill);background:rgba(255,255,255,.14);color:#fff;font:inherit;font-size:14px;font-weight:600;cursor:pointer;transition:background-color .15s,color .15s}
+.f-rate__tag:hover{background:rgba(255,255,255,.22)}
+.f-rate__tag.is-on{background:#fff;color:var(--primary)}
+.f-rate__field{display:flex;flex-direction:column;gap:6px}
+.f-rate__label{font-size:13px;font-weight:600;color:var(--primary-200)}
+.f-rate__area{width:100%;min-height:96px;resize:vertical;padding:12px 14px;border:0;border-radius:var(--r-md);background:#fff;color:var(--ink);font:inherit;font-size:15px;line-height:1.45;outline:none}
+.f-rate__count{align-self:flex-end;font-size:12px;color:var(--primary-200)}
+.f-rate__send{align-self:flex-start}
+.f-rate__done{display:flex;align-items:center;gap:14px}
+.f-rate__done-icon{flex-shrink:0;display:flex;align-items:center;justify-content:center;width:52px;height:52px;border-radius:50%;background:#fff;color:var(--primary)}
+.f-rate__done-text{display:flex;flex-direction:column;gap:2px}
+.f-rate__done-title{font-size:20px;font-weight:800}
+.f-rate__done-sub{font-size:14px;color:var(--primary-200)}
+.f-rate--compact .f-rate__send{align-self:stretch;width:100%}
+@media (max-width:767px){ .f-rate__send{align-self:stretch;width:100%} }

@@ -33,39 +33,7 @@ button{outline:none}
 
         <!-- RATING -->
         <sc-if value="{{ showRating }}" hint-placeholder-val="{{ false }}">
-          <section data-screen-label="Оценка" class="st-rate">
-            <span aria-hidden="true" class="st-rate__bolt"></span>
-            <sc-if value="{{ notRated }}" hint-placeholder-val="{{ true }}">
-              <div class="st-rate__head"><h2 class="st-rate__title">{{ rateTitle }}</h2><span class="st-rate__sub">Оценка займёт 10 секунд и поможет нам готовить ещё вкуснее</span></div>
-              <div class="st-rate__stars">
-                <sc-for list="{{ stars }}" as="st" hint-placeholder-count="5">
-                  <button type="button" onClick="{{ st.pick }}" aria-label="{{ st.label }}" style="flex:0 1 60px;aspect-ratio:1;min-width:44px;border:0;border-radius:18px;background:{{ st.bg }};cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0;transition:background .15s,transform .15s" style-hover="transform:scale(1.06)"><span style="width:52%;height:52%;background:{{ st.color }};clip-path:polygon(50% 0,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%)"></span></button>
-                </sc-for>
-              </div>
-              <sc-if value="{{ hasStars }}" hint-placeholder-val="{{ false }}">
-                <div class="st-rate__form">
-                  <span class="st-rate__q">{{ tagsTitle }}</span>
-                  <div class="st-rate__tags">
-                    <sc-for list="{{ tags }}" as="tg" hint-placeholder-count="4">
-                      <button type="button" onClick="{{ tg.toggle }}" style="height:40px;padding:0 16px;border:0;border-radius:999px;background:{{ tg.bg }};color:{{ tg.color }};font:inherit;font-size:14px;font-weight:600;cursor:pointer;transition:background .15s">{{ tg.label }}</button>
-                    </sc-for>
-                  </div>
-                  <label class="st-rate__field">
-                    <span class="st-rate__label">Комментарий</span>
-                    <textarea value="{{ comment }}" onChange="{{ setComment }}" maxLength="500" rows="3" placeholder="{{ commentPh }}" class="st-rate__area"></textarea>
-                    <span class="st-rate__count">{{ commentCount }}</span>
-                  </label>
-                  <button type="button" onClick="{{ sendRating }}" class="st-rate__send">Отправить оценку</button>
-                </div>
-              </sc-if>
-            </sc-if>
-            <sc-if value="{{ rated }}" hint-placeholder-val="{{ false }}">
-              <div class="st-rate__done">
-                <span class="st-rate__done-icon"><span class="st-rate__done-check"></span></span>
-                <div class="st-rate__done-text"><span class="st-rate__done-title">Спасибо за оценку!</span><span class="st-rate__done-sub">{{ ratedSub }}</span></div>
-              </div>
-            </sc-if>
-          </section>
+          <dc-import name="FritoRating" order-no="{{ rateNo }}" title="{{ rateTitle }}" hint-size="100%,240px"></dc-import>
         </sc-if>
 
         <!-- HERO -->
@@ -259,8 +227,6 @@ const ITEMS = [
 ];
 const readJSON = k => { try { return JSON.parse(localStorage.getItem(k)); } catch (e) { return null; } };
 const money = n => String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ' ') + ' тг';
-const TAGS_GOOD = ['Вкусно', 'Горячее', 'Быстро', 'Вежливый курьер', 'Аккуратно упаковано'];
-const TAGS_BAD = ['Остыло', 'Долго', 'Не всё привезли', 'Невкусно', 'Помялась упаковка'];
 const liveBar = React.createElement('span', { style: { position: 'absolute', inset: 0, borderRadius: 'inherit', background: 'linear-gradient(90deg,#614BE2 0%,#A89BF3 50%,#614BE2 100%)', backgroundSize: '200% 100%', animation: 'frito-flow 1.6s linear infinite' } });
 const pulseDot = React.createElement('span', { style: { width: 10, height: 10, borderRadius: '50%', background: 'var(--primary)', animation: 'frito-pulse 1.4s ease-out infinite' } });
 
@@ -270,8 +236,8 @@ class Component extends DCLogic {
   qp(k) { return this.q.get(k) || this.props[k]; }
   // заказ из личного кабинета: ?order=№ + данные в localStorage.frito_view; оценка хранится в frito_ratings
   view = (() => { const no = this.q.get('order'), v = readJSON('frito_view'); return no && v && v.no === no ? v : null; })();
-  state = (() => { const r = this.view && (readJSON('frito_ratings') || {})[this.view.no];
-    return { w: 1200, stageOv: null, issueOv: null, stars: r ? r.stars : 0, tags: {}, comment: '', rated: !!r, confirmCancel: false, itemsOpen: null }; })();
+  state = (() => {
+    return { w: 1200, stageOv: null, issueOv: null, confirmCancel: false, itemsOpen: null }; })();
   componentDidMount() {
     this.onResize = () => this.setState({ w: window.innerWidth }); this.onResize();
     window.addEventListener('resize', this.onResize);
@@ -283,7 +249,7 @@ class Component extends DCLogic {
   componentWillUnmount() { window.removeEventListener('resize', this.onResize); window.removeEventListener('keydown', this.onKey); clearInterval(this._demo); }
   syncDemo() {
     const on = !!this.props.demo || this.q.get('demo') === '1';
-    if (on && !this._demo) this._demo = setInterval(() => this.setState(s => ({ stageOv: ((s.stageOv ?? this.baseStage()) + 1) % 5, rated: false, stars: 0, tags: {}, comment: '' })), 3500);
+    if (on && !this._demo) this._demo = setInterval(() => this.setState(s => ({ stageOv: ((s.stageOv ?? this.baseStage()) + 1) % 5 })), 3500);
     if (!on && this._demo) { clearInterval(this._demo); this._demo = null; this.setState({ stageOv: null }); }
   }
   baseStage() { return Math.max(0, KEYS.indexOf(this.qp('stage') || 'cooking')); }
@@ -325,26 +291,19 @@ class Component extends DCLogic {
     });
     if (issue === 'cancelled') steps = steps.slice(0, cur + 1).concat([{ t: 'Отменён', d: 'Вы отменили заказ. Деньги вернутся в течение 1–3 рабочих дней.', timeLabel: '14:14', dotBg: 'var(--ink-2)', dotBorder: 'var(--ink-2)', check: false, cross: true, pulse: null, weight: 700, color: 'var(--ink)', showDesc: true, lineColor: 'var(--surface-3)', hasLine: false }]);
     steps[steps.length - 1].hasLine = false;
-    const good = s.stars >= 4, pool = good ? TAGS_GOOD : TAGS_BAD;
     const subtotal = LIST.reduce((a, it) => a + it.price * it.qty, 0), discount = v ? 0 : 947;
     const fee = v ? Math.max(0, (v.total || 0) - subtotal) : pick ? 0 : 1000, total = subtotal - discount + fee;
     const itemsOpen = s.itemsOpen ?? !mobile;
     const paid = issue !== 'paymentFailed';
     return {
-      headerTitle: 'Статус заказа', gridCols: mobile ? 'minmax(0,1fr)' : 'minmax(0,1.35fr) minmax(0,1fr)',
+      headerTitle: this.view && mobile ? '' : 'Статус заказа', gridCols: mobile ? 'minmax(0,1fr)' : 'minmax(0,1.35fr) minmax(0,1fr)',
       modeLabel: pick ? 'Самовывоз' : 'Доставка',
       isNormal: normal, isPayFail: issue === 'paymentFailed', isCancelled: issue === 'cancelled', isDone: done,
       heroPre, heroBig, heroSub, segs, curTitle: done ? (pick ? 'Спасибо, что выбрали Frito!' : 'Спасибо, что выбрали Frito!') : list[cur].t, curDesc: done ? 'Будем рады видеть вас снова.' : list[cur].d,
       showDelay: normal && delayed, showPickupCode: normal && pick && cur === 3, showHeroRoutes: normal && pick && cur < 4,
-      showRating: done, notRated: !s.rated, rated: s.rated, hasStars: s.stars > 0,
-      stars: [1, 2, 3, 4, 5].map(n => ({ label: n + ' из 5', pick: () => this.setState({ stars: n, tags: {} }), bg: n <= s.stars ? '#fff' : 'rgba(255,255,255,.14)', color: n <= s.stars ? '#F5B301' : 'rgba(255,255,255,.55)' })),
-      tagsTitle: good ? 'Что понравилось?' : 'Что пошло не так?',
-      tags: pool.map(t => { const on = !!s.tags[t]; return { label: t, toggle: () => this.setState(x => ({ tags: { ...x.tags, [t]: !on } })), bg: on ? '#fff' : 'rgba(255,255,255,.14)', color: on ? 'var(--primary)' : '#fff' }; }),
-      sendRating: () => { this.setState({ rated: true }); if (this.view) { const all = readJSON('frito_ratings') || {}; all[this.view.no] = { stars: s.stars, at: Date.now() }; try { localStorage.setItem('frito_ratings', JSON.stringify(all)); } catch (e) {} } },
+      showRating: done,
+      rateNo: this.view ? this.view.no : '',
       rateTitle: pick ? 'Как вам заказ?' : 'Как вам заказ и доставка?',
-      comment: s.comment, setComment: e => this.setState({ comment: e.target.value.slice(0, 500) }), commentCount: s.comment.length + ' / 500',
-      commentPh: good ? 'Что особенно понравилось? Можно похвалить повара или курьера' : 'Расскажите, что случилось — мы разберёмся и свяжемся с вами',
-      ratedSub: s.stars <= 3 ? 'Менеджер ресторана свяжется с вами в течение часа' : 'Передали команде ресторана',
       steps,
       canCancel: normal && cur <= 1, cancelHint: normal && cur >= 2 && cur < 4,
       askCancel: () => this.setState({ confirmCancel: true }), closeCancel: () => this.setState({ confirmCancel: false }),

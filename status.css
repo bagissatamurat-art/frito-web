@@ -1,27 +1,6 @@
 /* Стили страницы status.dc.html. Токены и общие компоненты — в frito.css */
 .st-main{flex:1;display:flex;justify-content:center;padding:clamp(16px,4vw,40px) clamp(12px,3vw,32px) 48px}
 .st-col{display:flex;flex-direction:column;gap:16px;min-width:0}
-.st-rate{position:relative;overflow:hidden;background:var(--primary);color:#fff;border-radius:28px;padding:clamp(22px,3.5vw,32px);display:flex;flex-direction:column;gap:18px}
-.st-rate__bolt{position:absolute;right:-30px;top:-40px;width:190px;height:240px;background:rgba(255,255,255,.08);clip-path:polygon(45% 0,100% 0,60% 45%,85% 45%,20% 100%,40% 55%,10% 55%);pointer-events:none}
-.st-rate__head{position:relative;display:flex;flex-direction:column;gap:6px}
-.st-rate__title{margin:0;font-size:clamp(24px,3.4vw,30px);font-weight:800;letter-spacing:-.02em;line-height:1.15}
-.st-rate__sub{font-size:15px;color:#E4E0FA;line-height:1.45}
-.st-rate__stars{position:relative;display:flex;gap:clamp(6px,1.5vw,10px)}
-.st-rate__form{position:relative;display:flex;flex-direction:column;gap:14px}
-.st-rate__q{font-size:16px;font-weight:700}
-.st-rate__tags{display:flex;gap:8px;flex-wrap:wrap}
-.st-rate__field{display:flex;flex-direction:column;gap:6px}
-.st-rate__label{font-size:14px;font-weight:600;color:#E4E0FA}
-.st-rate__area{width:100%;min-height:96px;resize:vertical;border:0;border-radius:16px;background:#fff;color:var(--ink);font:inherit;font-size:15px;line-height:1.45;padding:12px 14px;outline:none}
-.st-rate__count{align-self:flex-end;font-size:12px;color:#C9C1F7}
-.st-rate__send{align-self:flex-start;height:56px;padding:0 28px;border:0;border-radius:999px;background:#fff;color:var(--primary);font:inherit;font-size:16px;font-weight:700;cursor:pointer}
-.st-rate__send:hover{background:var(--primary-50)}
-.st-rate__done{position:relative;display:flex;align-items:center;gap:14px}
-.st-rate__done-icon{flex-shrink:0;width:52px;height:52px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center}
-.st-rate__done-check{width:18px;height:10px;border-left:3px solid var(--primary);border-bottom:3px solid var(--primary);transform:rotate(-45deg);margin-top:-4px}
-.st-rate__done-text{display:flex;flex-direction:column;gap:2px}
-.st-rate__done-title{font-size:20px;font-weight:800}
-.st-rate__done-sub{font-size:14px;color:#E4E0FA}
 .st-hero{background:#fff;border-radius:28px;padding:clamp(20px,3vw,32px);display:flex;flex-direction:column;gap:20px}
 .st-hero__meta{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 .st-hero__order{font-size:14px;font-weight:700}
