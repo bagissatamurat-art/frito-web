@@ -741,3 +741,5 @@ img.f-option__icon{object-fit:contain}
 .f-btn__spinner{width:20px;height:20px;border-radius:50%;border:2.5px solid rgba(255,255,255,.45);border-top-color:#fff;animation:frito-spin .8s linear infinite}
 .f-btn.is-disabled .f-btn__spinner{border-color:rgba(97,75,226,.25);border-top-color:var(--primary)}
 .f-auth-phone,.f-auth-link{white-space:nowrap}
+.f-option--wa .f-option__icon{color:#1DAA55}
+.f-option--tg .f-option__icon{color:#229ED9}

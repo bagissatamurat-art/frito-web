@@ -23,7 +23,13 @@ if (window.visualViewport) {
   const vv = window.visualViewport;
   const update = () => {
     const kb = Math.max(0, Math.round(window.innerHeight - vv.height - vv.offsetTop));
+    const was = document.documentElement.style.getPropertyValue('--kb');
     document.documentElement.style.setProperty('--kb', (kb > 80 ? kb : 0) + 'px');
+    // клавиатура только что открылась — после подъёма шторки держим поле ввода в видимой зоне
+    if (kb > 80 && (!was || was === '0px')) setTimeout(() => {
+      const el = document.activeElement;
+      if (el && el.closest && el.closest('.f-sheet')) el.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+    }, 280);
   };
   vv.addEventListener('resize', update);
   vv.addEventListener('scroll', update);
