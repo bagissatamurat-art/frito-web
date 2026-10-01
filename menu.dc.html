@@ -538,6 +538,7 @@ class Component extends DCLogic {
     this.setState({ modal: 'method', modalTarget: target, pendingId: id });
   }
   finishMethod(mode, address) {
+    try { localStorage.setItem('frito_method', JSON.stringify({ mode, address, hours: mode === 'pickup' ? (STORES.find(x => x.name === address) || {}).hours : undefined })); } catch (e) {}
     const pid = this.state.pendingId;
     this.setState(s => {
       const cart = { ...s.cart };

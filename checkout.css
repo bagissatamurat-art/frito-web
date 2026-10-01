@@ -74,3 +74,9 @@
 .co-m__foot-row{display:flex;align-items:center;justify-content:space-between;padding:0 4px}
 .co-m-cta__right{display:flex;align-items:center;gap:12px}
 .co-m-addr__change{flex-shrink:0}
+.co-modal-layer{position:absolute;inset:0;z-index:40}
+.co-order__toggle{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;padding:0;border:0;background:transparent;color:var(--ink);font:inherit;text-align:left;cursor:pointer}
+.co-order__meta{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--ink-2);white-space:nowrap}
+.co-order__chev{color:var(--ink-3);transition:transform .2s var(--ease)}
+.co-order__toggle.is-open .co-order__chev{transform:rotate(180deg)}
+.co-order__body{display:flex;flex-direction:column;gap:12px;animation:frito-fade .25s ease-out both}
