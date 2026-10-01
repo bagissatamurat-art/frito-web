@@ -38,7 +38,7 @@ button{outline:none}
 
         <!-- СТАТУС + ЭТАПЫ: одна карточка (FritoOrderProgress), как текущий заказ в кабинете и на главной -->
         <sc-if value="{{ isNormal }}" hint-placeholder-val="{{ true }}">
-          <dc-import name="FritoOrderProgress" size="lg" tone="{{ prog.tone }}" caption="{{ prog.caption }}" title="{{ prog.title }}" sub="{{ prog.sub }}" eta="{{ prog.eta }}" eta-unit="{{ prog.etaUnit }}" eta-label="{{ prog.etaLabel }}" eta-note="{{ prog.etaNote }}" steps="{{ prog.steps }}" addr="{{ prog.addr }}" thumbs="{{ prog.thumbs }}" cta="{{ prog.cta }}" on-cta="{{ prog.onCta }}" hint-size="100%,260px"></dc-import>
+          <dc-import name="FritoOrderProgress" size="lg" tone="{{ prog.tone }}" caption="{{ prog.caption }}" title="{{ prog.title }}" sub="{{ prog.sub }}" eta="{{ prog.eta }}" eta-unit="{{ prog.etaUnit }}" eta-label="{{ prog.etaLabel }}" eta-note="{{ prog.etaNote }}" pct="{{ prog.pct }}" steps="{{ prog.steps }}" addr="{{ prog.addr }}" thumbs="{{ prog.thumbs }}" cta="{{ prog.cta }}" on-cta="{{ prog.onCta }}" hint-size="100%,260px"></dc-import>
         </sc-if>
 
         <sc-if value="{{ heroCard }}" hint-placeholder-val="{{ false }}">
@@ -256,8 +256,9 @@ class Component extends DCLogic {
     const TITLES = pick ? ['Заказ принят', 'Оплата прошла', 'Готовим ваш заказ', 'Готов! Назовите номер на кассе', 'Заказ выдан'] : ['Заказ принят', 'Оплата прошла', 'Готовим ваш заказ', 'Курьер уже в пути', 'Заказ доставлен'];
     const place = pick ? 'Frito, Сыганак 11' : (v ? v.address : 'пр-кт Туран, 52/6');
     const ready = pick && cur === 3, hero = !done;
-    const prog = { tone: done ? 'light' : 'brand',
-      caption: 'Заказ №' + orderNo + ' · ' + (pick ? 'самовывоз' : 'доставка') + ' · оформлен в ' + placedAt,
+    const elapsed = at ? (Date.now() - at) / 6e4 : (pick ? [1, 2, 8, 20, 20] : [1, 2, 17, 33, 45])[cur];
+    const prog = { tone: 'light', pct: hero ? Math.min(1, elapsed / (T + (delayed ? 10 : 0))) : null,
+      caption: 'Заказ №' + orderNo + ' · ' + (pick ? 'самовывоз' : 'доставка') + ' · ' + placedAt,
       title: hero ? (delayed ? 'Задерживаемся — сейчас много заказов' : TITLES[cur]) : TITLES[cur], sub: done ? heroSub : '',
       etaLabel: !hero ? '' : ready ? 'Готов! Назовите номер на кассе' : pick ? 'Будет готов через' : 'Привезём через',
       eta: !hero ? '' : ready ? '№' + orderNo : String(eta), etaUnit: !hero ? '' : ready ? '' : 'мин',

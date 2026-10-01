@@ -9,7 +9,7 @@
 <body>
 <x-dc>
 <!-- Прогресс заказа: этап крупно + время, шкала этапов, фото/адрес/кнопка. tone: brand (фиолетовая .f-brand-card) | light (белая панель).
-     etaLabel (+ etaNote) — режим «крупно время»: подпись, большое число, примечание; title становится строкой этапа. onCta — кнопка действия внизу (напр. «Повторить заказ»), иначе cta — подпись-ссылка при onOpen. Используется: текущий заказ на главной и в кабинете, шапка страницы заказа. Стили — .f-progress* -->
+     pct (0–1) + etaLabel — кольцо-таймер (страница заказа); etaLabel (+ etaNote) без pct — режим «крупно время»: подпись, большое число, примечание; title становится строкой этапа. onCta — кнопка действия внизу (напр. «Повторить заказ»), иначе cta — подпись-ссылка при onOpen. Используется: текущий заказ на главной и в кабинете, шапка страницы заказа. Стили — .f-progress* -->
 <div class="{{ rootCls }}" role="{{ role }}" tabIndex="{{ tab }}" onClick="{{ open }}" onKeyDown="{{ key }}" aria-label="{{ aria }}">
   <sc-if value="{{ brand }}" hint-placeholder-val="{{ true }}"><span class="f-progress__shine" aria-hidden="true"></span></sc-if>
   <!-- sm — компактная строка для главной: время | этап + тонкая шкала | кнопка -->
@@ -25,6 +25,22 @@
   <sc-if value="{{ notSm }}" hint-placeholder-val="{{ true }}">
   <!-- герой: крупно время до доставки / готовности (etaLabel задан) -->
   <sc-if value="{{ hasHero }}" hint-placeholder-val="{{ false }}">
+    <sc-if value="{{ hasRing }}" hint-placeholder-val="{{ false }}">
+      <!-- кольцо-таймер: время внутри, заполнение = прошедшая доля -->
+      <div class="f-progress__ringrow">
+        <span class="f-progress__ring">
+          <svg viewBox="0 0 120 120" aria-hidden="true"><circle class="f-progress__ring-track" cx="60" cy="60" r="52"></circle><circle class="f-progress__ring-val" cx="60" cy="60" r="52" style="stroke-dashoffset:{{ ringOff }}"></circle></svg>
+          <span class="f-progress__ring-center"><span class="{{ ringNumCls }}">{{ eta }}</span><span class="f-progress__ring-unit">{{ etaUnit }}</span></span>
+        </span>
+        <span class="f-progress__ringtext">
+          <span class="f-progress__caption">{{ caption }}</span>
+          <span class="f-progress__hero-label">{{ etaLabel }}</span>
+          <span class="f-progress__ring-title">{{ title }}</span>
+          <sc-if value="{{ hasNote }}" hint-placeholder-val="{{ true }}"><span class="f-progress__hero-note">{{ etaNote }}</span></sc-if>
+        </span>
+      </div>
+    </sc-if>
+    <sc-if value="{{ noRing }}" hint-placeholder-val="{{ true }}">
     <div class="f-progress__hero">
       <span class="f-progress__caption">{{ caption }}</span>
       <span class="f-progress__hero-label">{{ etaLabel }}</span>
@@ -32,6 +48,7 @@
       <sc-if value="{{ hasNote }}" hint-placeholder-val="{{ true }}"><span class="f-progress__hero-note">{{ etaNote }}</span></sc-if>
     </div>
     <span class="f-progress__stage">{{ title }}</span>
+    </sc-if>
   </sc-if>
   <sc-if value="{{ noHero }}" hint-placeholder-val="{{ true }}">
   <div class="f-progress__top">
@@ -71,6 +88,8 @@ class Component extends DCLogic {
       caption: p.caption || '', title: p.title || '', sub: p.sub || '', hasSub: !!p.sub,
       eta: p.eta || '', etaUnit: p.etaUnit || '', hasEta: !!(p.eta || p.etaUnit),
       isSm: p.size === 'sm', notSm: p.size !== 'sm', smUnit: p.etaUnit || '', smCtaCls: 'f-progress__sm-cta' + (brand ? '' : ' is-light'),
+      hasRing: p.pct != null && !!p.etaLabel, noRing: !(p.pct != null && !!p.etaLabel),
+      ringOff: (2 * Math.PI * 52 * (1 - Math.min(1, Math.max(0.04, +p.pct || 0)))).toFixed(1), ringNumCls: 'f-progress__ring-num' + (/^\d+$/.test(p.eta || '') ? '' : ' is-text'),
       hasHero: !!p.etaLabel, noHero: !p.etaLabel, etaLabel: p.etaLabel || '', etaNote: p.etaNote || '', hasNote: !!p.etaNote,
       n: steps.length,
       steps: steps.map(st => ({ label: st.label, time: st.time || '', hasTime: !!st.time, cls: 'f-progress__step is-' + (st.state || 'todo'), barCls: 'f-progress__seg is-' + (st.state || 'todo') })),

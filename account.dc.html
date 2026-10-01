@@ -46,12 +46,12 @@ button{outline:none}
         <!-- хаб: профиль, текущий заказ (мобайл), разделы -->
         <aside class="ac-side">
           <button type="button" class="f-panel ac-me" onClick="{{ openProfile }}">
-            <span class="ac-me__avatar" aria-hidden="true">{{ initial }}</span>
+            <span class="ac-me__avatar" aria-hidden="true"><sc-if value="{{ hasName }}" hint-placeholder-val="{{ true }}">{{ initial }}</sc-if><sc-if value="{{ noName }}" hint-placeholder-val="{{ false }}"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4.5 20a7.5 7.5 0 0 1 15 0"/></svg></sc-if></span>
             <span class="ac-me__name">{{ displayName }}</span>
             <span class="ac-me__meta">{{ meMeta }}</span>
             <span class="ac-me__edit">Изменить профиль</span>
           </button>
-          <sc-if value="{{ hasActive }}" hint-placeholder-val="{{ false }}"><div class="ac-hub-only"><dc-import name="FritoOrderProgress" tone="brand" caption="{{ live.caption }}" title="{{ live.title }}" eta="{{ live.eta }}" eta-unit="{{ live.etaUnit }}" eta-label="{{ live.etaLabel }}" eta-note="{{ live.etaNote }}" steps="{{ live.steps }}" thumbs="{{ live.thumbs }}" addr="{{ live.addr }}" cta="Отследить" on-open="{{ live.open }}" hint-size="100%,200px"></dc-import></div></sc-if>
+          <sc-if value="{{ hasActive }}" hint-placeholder-val="{{ false }}"><div class="ac-hub-only"><dc-import name="FritoOrderProgress" tone="brand" size="sm" caption="{{ live.caption }}" title="{{ live.title }}" eta="{{ live.eta }}" eta-unit="{{ live.etaUnit }}" eta-label="{{ live.etaLabel }}" eta-note="{{ live.etaNote }}" steps="{{ live.steps }}" thumbs="{{ live.thumbs }}" addr="{{ live.addr }}" cta="Отследить" on-open="{{ live.open }}" hint-size="100%,88px"></dc-import></div></sc-if>
           <nav class="f-panel ac-menu" aria-label="Разделы кабинета">
             <sc-for list="{{ sections }}" as="t" hint-placeholder-count="3">
               <button type="button" class="{{ t.cls }}" onClick="{{ t.pick }}" aria-current="{{ t.on }}">
@@ -73,7 +73,7 @@ button{outline:none}
 
           <!-- ЗАКАЗЫ -->
           <sc-if value="{{ tabOrders }}" hint-placeholder-val="{{ true }}">
-            <sc-if value="{{ hasActive }}" hint-placeholder-val="{{ false }}"><dc-import name="FritoOrderProgress" tone="brand" caption="{{ live.caption }}" title="{{ live.title }}" eta="{{ live.eta }}" eta-unit="{{ live.etaUnit }}" eta-label="{{ live.etaLabel }}" eta-note="{{ live.etaNote }}" steps="{{ live.steps }}" thumbs="{{ live.thumbs }}" addr="{{ live.addr }}" cta="Отследить" on-open="{{ live.open }}" hint-size="100%,200px"></dc-import></sc-if>
+            <sc-if value="{{ hasActive }}" hint-placeholder-val="{{ false }}"><dc-import name="FritoOrderProgress" tone="brand" size="sm" caption="{{ live.caption }}" title="{{ live.title }}" eta="{{ live.eta }}" eta-unit="{{ live.etaUnit }}" eta-label="{{ live.etaLabel }}" eta-note="{{ live.etaNote }}" steps="{{ live.steps }}" thumbs="{{ live.thumbs }}" addr="{{ live.addr }}" cta="Отследить" on-open="{{ live.open }}" hint-size="100%,88px"></dc-import></sc-if>
             <sc-if value="{{ hasActive }}" hint-placeholder-val="{{ false }}"><span class="ac-sublabel">Прошлые заказы</span></sc-if>
             <sc-if value="{{ noOrders }}" hint-placeholder-val="{{ false }}">
               <div class="f-panel ac-empty"><span class="ac-empty__title">Заказов пока нет</span><span class="ac-empty__text">Первый заказ появится здесь — его можно будет повторить в один клик.</span><a class="f-btn f-btn--primary f-btn--md" href="menu.dc.html">Перейти в меню</a></div>
@@ -237,7 +237,7 @@ class Component extends DCLogic {
       loading: !ready, isGuest: ready && !u, isUser: ready && !!u,
       gridCls: 'ac-grid' + (s.sub ? ' is-sub' : ''),
       login: () => this.setState({ auth: true }),
-      initial: ((u && (u.name || '').trim()[0]) || '•').toUpperCase(), displayName: (u && u.name) || 'Как вас зовут?',
+      initial: ((u && (u.name || '').trim()[0]) || '•').toUpperCase(), displayName: (u && u.name) || 'Как вас зовут?', hasName: !!(u && u.name), noName: !(u && u.name),
       meMeta: u ? u.phone + ' · ' + via : '', openProfile: () => this.go('profile'),
       sections: [
         sec('orders', 'Мои заказы', 'assets/ic-delivery-p.svg', act ? live.title + ' · №' + act.no : past.length ? plural(past.length, ['заказ', 'заказа', 'заказов']) : 'Пока пусто', !!act),
