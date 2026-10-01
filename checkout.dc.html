@@ -272,19 +272,19 @@ const readJSON = k => { try { return JSON.parse(localStorage.getItem(k)); } catc
 class Component extends DCLogic {
   state = { mode: 'delivery', modeTouched: false, door: false, when: 'asap', slot: 1, pay: 'kaspi', promo: null, promoTouched: false, ready: false,
     entrance: '3', floor: '5', flat: '157', intercom: '', phone: '+7 708 261 63 92', name: '', comment: '', kaspiPhone: '+7 708 261 63 92', change: '', hidden: {},
-    recipient: null, orderOpen: false, addrModal: null, addr: null, store: null };
+    recipient: null, orderOpen: false, addrModal: null, addr: null, store: null, city: null, from: null };
   componentDidMount() {
     window.addEventListener('resize', this._vwH);
     import('./frito-data.js').then(m => { D = m; this.setState({ ready: true }); });
     // способ и адрес, выбранные на главной (menu.dc.html сохраняет их в localStorage.frito_method)
     const saved = readJSON('frito_method');
-    if (saved && saved.mode) this.setState({ mode: saved.mode, modeTouched: true, addr: saved.mode === 'delivery' ? saved.address : null, store: saved.mode === 'pickup' ? { name: saved.address, hours: saved.hours } : null });
+    if (saved && saved.mode) this.setState({ city: saved.city || null, from: saved.from || null, mode: saved.mode, modeTouched: true, addr: saved.mode === 'delivery' ? saved.address : null, store: saved.mode === 'pickup' ? { name: saved.address, hours: saved.hours } : null });
   }
   confirmAddr(r) {
     const pickup = r.mode === 'pickup';
-    this.setState(s => ({ addrModal: null, mode: r.mode, modeTouched: true, addr: pickup ? s.addr : r.address, store: pickup ? (r.store || { name: r.address }) : s.store,
+    this.setState(s => ({ addrModal: null, city: r.city || s.city, from: r.from || null, mode: r.mode, modeTouched: true, addr: pickup ? s.addr : r.address, store: pickup ? (r.store || { name: r.address }) : s.store,
       pay: !pickup && s.pay === 'cash' ? 'kaspi' : s.pay }));
-    try { localStorage.setItem('frito_method', JSON.stringify({ mode: r.mode, address: r.address, hours: r.store && r.store.hours })); } catch (e) {}
+    try { localStorage.setItem('frito_method', JSON.stringify({ mode: r.mode, address: r.address, hours: r.store && r.store.hours, city: r.city, from: r.from })); } catch (e) {}
   }
   set(k) { return v => this.setState({ [k]: v }); }
   _vwH = () => this.setState({ vw: window.innerWidth });
@@ -322,8 +322,8 @@ class Component extends DCLogic {
       addrD: s.addrModal === 'd', addrM: s.addrModal === 'm', openAddrD: () => this.setState({ addrModal: 'd' }), openAddrM: () => this.setState({ addrModal: 'm' }),
       closeAddr: () => this.setState({ addrModal: null }), confirmAddr: r => this.confirmAddr(r),
       methodIcon: isDelivery ? 'assets/ic-delivery-p.svg' : 'assets/ic-pickup-p.svg',
-      addrCaption: isDelivery ? 'Доставка · из ресторана ' + D.STORES[0].name : 'Самовывоз · ресторан',
-      addrLine: isDelivery ? 'Астана, ' + (s.addr || D.DEFAULT_ADDR) : (s.store ? s.store.name + (s.store.hours ? ' · ' + s.store.hours : '') : D.STORES[0].name + ' · ' + D.STORES[0].hours),
+      addrCaption: isDelivery ? 'Доставка · из ресторана ' + (s.from || D.STORES[0].name) : 'Самовывоз · ' + (s.city || 'Астана'),
+      addrLine: isDelivery ? (s.city || 'Астана') + ', ' + (s.addr || D.DEFAULT_ADDR) : (s.store ? s.store.name + (s.store.hours ? ' · ' + s.store.hours : '') : D.STORES[0].name + ' · ' + D.STORES[0].hours),
       entrance: s.entrance, floor: s.floor, flat: s.flat, intercom: s.intercom, phone: s.phone, name: s.name, comment: s.comment, kaspiPhone: s.kaspiTouched ? s.kaspiPhone : ((user && user.phone) || s.kaspiPhone), change: s.change,
       setEntrance: this.set('entrance'), setFloor: this.set('floor'), setFlat: this.set('flat'), setIntercom: this.set('intercom'), setPhone: this.set('phone'), setName: this.set('name'), setComment: this.set('comment'), setKaspiPhone: v => this.setState({ kaspiPhone: v, kaspiTouched: true }), setChange: this.set('change'),
       door: s.door, setDoor: v => this.setState({ door: v }),

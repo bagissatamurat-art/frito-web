@@ -515,8 +515,9 @@ class Component extends DCLogic {
     if (this.state.mode) return this.setQty(id, 1);
     this.setState({ modal: 'method', modalTarget: target, pendingId: id });
   }
-  finishMethod(mode, address) {
-    try { localStorage.setItem('frito_method', JSON.stringify({ mode, address, hours: mode === 'pickup' ? (STORES.find(x => x.name === address) || {}).hours : undefined })); } catch (e) {}
+  // extra: { city, from, hours } — город и ресторан-отправитель из окна выбора адреса (для оформления)
+  finishMethod(mode, address, extra = {}) {
+    try { localStorage.setItem('frito_method', JSON.stringify({ mode, address, hours: mode === 'pickup' ? (STORES.find(x => x.name === address) || {}).hours : undefined, ...extra })); } catch (e) {}
     const pid = this.state.pendingId;
     this.setState(s => {
       const cart = { ...s.cart };
@@ -664,7 +665,7 @@ class Component extends DCLogic {
       pickDeliveryM: () => this.setState({ modal: 'method', modalTarget: 'm', pendingId: null, addrMode: 'delivery' }),
       pickPickupM: () => this.setState({ modal: 'method', modalTarget: 'm', pendingId: null, addrMode: 'pickup' }),
       addrStart: s.addrMode || s.mode || 'delivery',
-      confirmAddr: r => this.animateOut('modal', () => { if (r.mode === 'delivery') this.setState({ quote: { fee: r.fee, eta: r.eta } }); this.finishMethod(r.mode, r.address); }),
+      confirmAddr: r => this.animateOut('modal', () => { if (r.mode === 'delivery') this.setState({ quote: { fee: r.fee, eta: r.eta } }); this.finishMethod(r.mode, r.address, { city: r.city, from: r.from, ...(r.store && r.store.hours ? { hours: r.store.hours } : {}) }); }),
       modalD: modalOpen && s.modalTarget === 'd', modalM: modalOpen && s.modalTarget === 'm',
       methodPending: !!s.pendingId,
       chooseMethod: m => m === 'delivery' ? this.finishMethod('delivery', DEFAULT_ADDR) : this.finishMethod('pickup', STORES[0].name),

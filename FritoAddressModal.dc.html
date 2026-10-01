@@ -77,8 +77,12 @@
           </label>
           <sc-if value="{{ isCenter }}" hint-placeholder-val="{{ false }}"><button type="button" onClick="{{ stopSearch }}" class="f-am__cancel">Отмена</button></sc-if>
         </div>
+        <div class="f-am__cities" role="group" aria-label="Город">
+          <sc-for list="{{ searchCities }}" as="c" hint-placeholder-count="5"><button type="button" class="{{ c.cls }}" onClick="{{ c.pick }}">{{ c.name }}</button></sc-for>
+        </div>
         <div class="f-am__results">
           <sc-if value="{{ showRecent }}" hint-placeholder-val="{{ false }}"><div class="f-am__results-label">НЕДАВНИЕ</div></sc-if>
+          <sc-if value="{{ searchHint }}" hint-placeholder-val="{{ false }}"><div class="f-am__msg">{{ searchHintText }}</div></sc-if>
           <sc-for list="{{ rows }}" as="r" hint-placeholder-count="3">
             <button type="button" onClick="{{ r.pick }}" style="display:flex;align-items:center;gap:12px;width:100%;border:0;background:{{ r.bg }};border-radius:14px;padding:10px 8px;cursor:pointer;font:inherit;color:var(--ink);text-align:left" style-hover="background:var(--surface-1)">
               <span class="f-am__result-icon">
@@ -221,7 +225,7 @@ const mbReverse = c => fetch(`https://api.mapbox.com/search/geocode/v6/reverse?l
   const street = a ? a.street_name : st ? st.name : p.properties.name, num = a ? a.address_number : '';
   return { line: num ? street + ', ' + num : street, house: !!num, sub: (p.properties.place_formatted || 'Астана').replace(/,\s*Казахстан$/, '') };
 });
-const mbForward = q => fetch(`https://api.mapbox.com/search/geocode/v6/forward?q=${encodeURIComponent(q)}&country=kz&proximity=71.43,51.13&limit=1&language=ru&access_token=${MAPBOX_TOKEN}`).then(r => r.json()).then(j => { const p = (j.features || [])[0]; return p ? { lat: p.geometry.coordinates[1], lng: p.geometry.coordinates[0] } : null; });
+const mbForward = (q, near = { lng: 71.43, lat: 51.13 }) => fetch(`https://api.mapbox.com/search/geocode/v6/forward?q=${encodeURIComponent(q)}&country=kz&proximity=${near.lng},${near.lat}&limit=1&language=ru&access_token=${MAPBOX_TOKEN}`).then(r => r.json()).then(j => { const p = (j.features || [])[0]; return p ? { lat: p.geometry.coordinates[1], lng: p.geometry.coordinates[0] } : null; });
 const BOLT = 'polygon(45% 0,100% 0,60% 45%,85% 45%,20% 100%,40% 55%,10% 55%)';
 // Координаты ресторанов приблизительные — заменить на точные из админки
 const STORES = [
@@ -258,9 +262,15 @@ const CITIES = [
   { id: 'aktobe', name: 'Актобе', inName: 'Актобе', lat: 50.2839, lng: 57.1670 },
 ];
 const OUT = { lat: 51.036, lng: 71.432 };
+// Зоны доставки: Астана — нарисованный полигон, остальные (демо) — круг вокруг центра города
+const ring = (c, r) => Array.from({ length: 16 }, (_, i) => { const a = i / 16 * 2 * Math.PI; return [c.lat + r / 111 * Math.sin(a), c.lng + r / (111 * Math.cos(c.lat * Math.PI / 180)) * Math.cos(a)]; });
+const ZONE_R = { almaty: 13, shymkent: 10, karaganda: 9, aktobe: 8 };
+const ZONES = CITIES.map(c => c.id === 'astana' ? ZONE : ring(c, ZONE_R[c.id] || 8));
+const inZones = (lat, lng) => ZONES.some(z => inPoly(lat, lng, z));
+const cityName = id => (CITIES.find(c => c.id === id) || CITIES[0]).name;
 const RECENT = [
-  { line: 'пр-кт Туран, 52/6', sub: 'Есильский р-н', lat: 51.1167, lng: 71.4150, house: true },
-  { line: 'ул. Кошкарбаева, 36', sub: 'Алматинский р-н', lat: 51.1419, lng: 71.4726, house: true },
+  { city: 'astana', line: 'пр-кт Туран, 52/6', sub: 'Есильский р-н', lat: 51.1167, lng: 71.4150, house: true },
+  { city: 'astana', line: 'ул. Кошкарбаева, 36', sub: 'Алматинский р-н', lat: 51.1419, lng: 71.4726, house: true },
 ];
 const DEMO = [...RECENT,
   { line: 'пр-кт Республики, 30', sub: 'Сарыарка р-н', lat: 51.1620, lng: 71.4270, house: true },
@@ -335,7 +345,7 @@ class Component extends DCLogic {
   state = (() => {
     const st = this.props.start || 'delivery', c = st === 'outOfZone' ? OUT : HOME;
     const home = c === HOME; if (home) this._last = HOME;
-    return { mode: st === 'pickup' ? 'pickup' : 'delivery', center: c, inZone: inPoly(c.lat, c.lng, ZONE), moving: false,
+    return { mode: st === 'pickup' ? 'pickup' : 'delivery', center: c, inZone: inZones(c.lat, c.lng), moving: false,
       ...(home ? { ...HOME_ADDR, loading: false } : { addr: null, sub: '', house: false, loading: true }),
       searching: false, q: '', sugg: [], sLoading: false, sDone: false, store: this.nearest(c), toast: '', mapFail: false, city: 'astana', cityOpen: false };
   })();
@@ -384,7 +394,7 @@ class Component extends DCLogic {
     const ac = el.querySelector('.mapboxgl-ctrl-top-left'); if (ac) ac.style.marginTop = this.props.layout === 'sheet' ? '84px' : '0';
     map.on('load', () => {
       map.getStyle().layers.forEach(l => { if (l.type === 'symbol' && l.layout && l.layout['text-field']) map.setLayoutProperty(l.id, 'text-field', ['coalesce', ['get', 'name_ru'], ['get', 'name']]); });
-      map.addSource('zone', { type: 'geojson', data: { type: 'Feature', geometry: { type: 'Polygon', coordinates: [[...ZONE, ZONE[0]].map(([la, ln]) => [ln, la])] } } });
+      map.addSource('zone', { type: 'geojson', data: { type: 'Feature', geometry: { type: 'MultiPolygon', coordinates: ZONES.map(z => [[...z, z[0]].map(([la, ln]) => [ln, la])]) } } });
       map.addLayer({ id: 'zone-fill', type: 'fill', source: 'zone', paint: { 'fill-color': '#614BE2', 'fill-opacity': .05 } });
       map.addLayer({ id: 'zone-line', type: 'line', source: 'zone', paint: { 'line-color': '#614BE2', 'line-opacity': .5, 'line-width': 2, 'line-dasharray': [3, 3] } });
       this._styled = true; this.syncLayers();
@@ -394,7 +404,7 @@ class Component extends DCLogic {
       e.addEventListener('click', ev => { ev.stopPropagation(); this.pickStore(i); });
       return { el: e, mk: new gl.Marker({ element: e, anchor: 'bottom' }).setLngLat([s.lng, s.lat]), on: false };
     });
-    map.on('movestart', e => { if (e.originalEvent) this._touched = true; if (!this.state.moving) this.setState({ moving: true }); });
+    map.on('movestart', e => { if (e.originalEvent) { this._touched = true; this._picked = null; } if (!this.state.moving) this.setState({ moving: true }); });
     map.on('moveend', () => this.onMoveEnd());
     this.ro = new ResizeObserver(() => map.resize()); this.ro.observe(el);
     this.syncLayers();
@@ -417,10 +427,12 @@ class Component extends DCLogic {
   }
   onMoveEnd() {
     const c = this.map.getCenter(), center = { lat: c.lat, lng: c.lng };
-    this.setState({ moving: false, center, inZone: inPoly(center.lat, center.lng, ZONE) });
+    this.setState({ moving: false, center, inZone: inZones(center.lat, center.lng), ...(this.state.mode === 'delivery' && !this.state.searching ? { city: STORES[this.nearest(center)].city } : {}) });
     if (this.state.mode !== 'delivery') return;
     const l = this._last;
     if (l && Math.abs(l.lat - center.lat) < 1e-4 && Math.abs(l.lng - center.lng) < 1e-4) return;
+    // адрес выбран из подсказок — карта могла чуть сместиться при перелёте/ресайзе, адрес не перезаписываем
+    if (this._picked && km(this._picked, center) < 0.15) return;
     this._last = center; this.reverse(center);
   }
   reverse(c) {
@@ -439,7 +451,7 @@ class Component extends DCLogic {
   }
   search(q) {
     const id = ++this._sq;
-    dadata('suggest/address', { query: q, count: 7, locations: [{ country_iso_code: 'KZ', city: 'Астана' }], restrict_value: true })
+    dadata('suggest/address', { query: q, count: 7, locations: [{ country_iso_code: 'KZ', city: cityName(this.state.city) }], restrict_value: true })
       .then(j => {
         if (id !== this._sq) return;
         const seen = new Set(), res = [];
@@ -453,11 +465,17 @@ class Component extends DCLogic {
     if (s.lat == null) {
       // DaData для KZ иногда без координат — добираем через Mapbox Geocoding
       this.setState({ searching: false, loading: true, addr: s.line });
-      return mbForward(s.value || s.line + ', Астана').then(c => c ? this.pickSugg({ ...s, ...c }) : this.setState({ loading: false, addr: s.line, sub: s.sub, house: s.house })).catch(() => this.setState({ loading: false }));
+      const cc = CITIES.find(c => c.id === this.state.city) || CITIES[0];
+      return mbForward(s.value || s.line + ', ' + cc.name, cc).then(c => c ? this.pickSugg({ ...s, ...c }) : this.setState({ loading: false, addr: s.line, sub: s.sub, house: s.house })).catch(() => this.setState({ loading: false }));
     }
-    this._last = { lat: s.lat, lng: s.lng };
-    this.setState({ searching: false, q: '', sugg: [], addr: s.line, sub: s.sub, house: s.house, loading: false, inZone: inPoly(s.lat, s.lng, ZONE) });
+    this._last = { lat: s.lat, lng: s.lng }; this._picked = this._last;
+    this.setState({ searching: false, q: '', sugg: [], addr: s.line, sub: s.sub, house: s.house, loading: false, inZone: inZones(s.lat, s.lng) });
     if (this.map) this.map.flyTo({ center: [s.lng, s.lat], zoom: 17, duration: 800 });
+  }
+  setSearchCity(id) {
+    this.setState({ city: id });
+    const q = this.state.q; if (q.trim()) { this.setState({ sLoading: true, sDone: false, sugg: [] }); setTimeout(() => this.search(q), 0); }
+    setTimeout(() => { const i = this.inputRef.current; i && i.focus(); }, 0);
   }
   startSearch(prefill) { this.setState({ searching: true }); this.setQ(prefill || ''); }
   setMode(m) {
@@ -490,7 +508,7 @@ class Component extends DCLogic {
     navigator.geolocation.getCurrentPosition(p => {
       if (auto && this._touched) return;
       const c = { lat: p.coords.latitude, lng: p.coords.longitude };
-      this._touched = true;
+      this._touched = true; this._picked = null;
       if (this.state.mode === 'pickup') this.pickStore(this.nearest(c));
       else if (this.map) this.map.flyTo({ center: [c.lng, c.lat], zoom: 17, duration: auto ? 1000 : 800 });
       else this._geo = c;
@@ -498,8 +516,8 @@ class Component extends DCLogic {
   }
   confirm() {
     const s = this.state, p = this.props; if (!p.onConfirm) return;
-    if (s.mode === 'pickup') { const st = STORES[s.store]; p.onConfirm({ mode: 'pickup', address: st.name, store: st }); }
-    else { const q = quote(km(s.center, STORES[this.nearest(s.center)])); p.onConfirm({ mode: 'delivery', address: s.addr, sub: s.sub, lat: s.center.lat, lng: s.center.lng, fee: q.fee, eta: q.etaMin + '–' + q.etaMax + ' мин' }); }
+    if (s.mode === 'pickup') { const st = STORES[s.store]; p.onConfirm({ mode: 'pickup', address: st.name, store: st, city: cityName(st.city) }); }
+    else { const from = STORES[this.nearest(s.center)], q = quote(km(s.center, from)); p.onConfirm({ mode: 'delivery', address: s.addr, sub: s.sub, city: cityName(from.city), from: from.name, lat: s.center.lat, lng: s.center.lng, fee: q.fee, eta: q.etaMin + '–' + q.etaMax + ' мин' }); }
   }
   renderVals() {
     const p = this.props, s = this.state, sheet = p.layout === 'sheet', center = !sheet;
@@ -518,7 +536,7 @@ class Component extends DCLogic {
         bg: sel ? '#F5F3FF' : '#fff', border: sel ? '#614BE2' : '#ECECF1', ring: sel ? '#614BE2' : '#D1D5DB', dot: sel ? '#614BE2' : 'transparent' };
     });
     const hasQ = !!s.q.trim();
-    const rows = (hasQ ? s.sugg.map(r => ({ ...r, recent: false, found: true })) : RECENT.map(r => ({ ...r, recent: true, found: false })))
+    const rows = (hasQ ? s.sugg.map(r => ({ ...r, recent: false, found: true })) : RECENT.filter(r => r.city === s.city).map(r => ({ ...r, recent: true, found: false })))
       .map(r => ({ ...r, parts: hasQ ? hl(r.line, s.q) : [{ t: r.line, w: 600, c: '#111827' }], bg: 'transparent', subLabel: r.house ? r.sub : (r.sub ? r.sub + ' · ' : '') + 'без номера дома', pick: () => this.pickSugg(r) }));
     const ok = !busy && s.house && !!s.addr;
     const bubbleOut = deliv && !s.inZone;
@@ -544,7 +562,8 @@ class Component extends DCLogic {
       close: () => p.onClose && p.onClose(), setMode: m => this.setMode(m),
       searching: srch, q: s.q, hasQ, onQ: e => this.setQ(e.target.value), clearQ: () => { this.setQ(''); this.inputRef.current && this.inputRef.current.focus(); },
       onQKey: e => { if (e.key === 'Enter' && s.sugg[0]) this.pickSugg(s.sugg[0]); },
-      rows, showRecent: !hasQ, sLoading: s.sLoading && hasQ && !s.sugg.length, noResults: hasQ && s.sDone && !s.sugg.length,
+      rows, showRecent: !hasQ && RECENT.some(r => r.city === s.city), searchHint: !hasQ && !RECENT.some(r => r.city === s.city), searchHintText: 'Начните вводить улицу — подскажем адреса в ' + (CITIES.find(c => c.id === s.city) || CITIES[0]).inName,
+      searchCities: CITIES.map(c => ({ name: c.name, cls: 'f-chip-btn' + (c.id === s.city ? ' is-on' : ''), pick: () => this.setSearchCity(c.id) })), sLoading: s.sLoading && hasQ && !s.sugg.length, noResults: hasQ && s.sDone && !s.sugg.length,
       stopSearch: () => this.setState({ searching: false }), startSearch: () => this.startSearch(s.addr && s.addr !== 'Точка на карте' ? s.addr : ''), startSearchEmpty: () => this.startSearch(''),
       showDeliv: deliv && !srch && !out, showOut: out && !srch, showPickup: pick && !srch,
       addrLine: s.loading || s.moving ? 'Определяем адрес…' : s.addr || 'Точка на карте', addrColor: busy ? '#9CA3AF' : '#111827',
