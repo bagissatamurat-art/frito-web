@@ -37,8 +37,8 @@ h1{margin:6px 0 0;font-size:clamp(28px,6vw,34px);font-weight:800;letter-spacing:
 </head>
 <body>
 <header class="f-header">
-  <a href="menu.dc.html" aria-label="Frito — на главную"><img class="f-logo" src="https://frito.kz/brand.svg" alt="FRITO"></a>
-  <a class="f-btn f-btn--secondary f-btn--sm" href="menu.dc.html">В меню</a>
+  <a class="f-header__brand" href="menu.dc.html" aria-label="Frito — на главную"><img class="f-logo" src="https://frito.kz/brand.svg" alt="FRITO" width="109" height="34"></a>
+  <div class="f-header__right"><a class="f-header__back" href="menu.dc.html"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg>В меню</a></div>
 </header>
 <main>
   <section class="hero">
@@ -87,9 +87,9 @@ const STAGES = {
   ],
 };
 const ISSUES = [
-  ['delayed', 'cooking', 'Задерживается', 'Заказ готовится дольше обычного', '#F59E0B', '#FEF3C7'],
-  ['paymentFailed', 'paid', 'Оплата не прошла', 'Предложим повторить оплату', '#EF4444', '#FEE2E2'],
-  ['cancelled', 'accepted', 'Заказ отменён', 'Экран отмены и возврата', '#6B7280', '#F3F4F6'],
+  ['delayed', 'cooking', 'Задерживается', 'Заказ готовится дольше обычного', 'var(--warn)', '#FEF3C7'],
+  ['paymentFailed', 'paid', 'Оплата не прошла', 'Предложим повторить оплату', 'var(--danger)', '#FEE2E2'],
+  ['cancelled', 'accepted', 'Заказ отменён', 'Экран отмены и возврата', 'var(--ink-2)', 'var(--surface-2)'],
 ];
 const chev = '<svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>';
 const url = q => 'status.dc.html?' + new URLSearchParams(q);

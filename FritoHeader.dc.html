@@ -7,14 +7,18 @@
 </head>
 <body>
 <x-dc>
-<header class="f-header">
-  <a href="menu.dc.html" style="display:flex;align-items:center">
-    <sc-if value="{{ logoOk }}" hint-placeholder-val="{{ true }}"><img src="https://frito.kz/brand.svg" alt="FRITO" onError="{{ logoFail }}" class="f-logo"></sc-if>
-    <sc-if value="{{ logoBroken }}" hint-placeholder-val="{{ false }}"><span style="display:flex;align-items:center;gap:8px;color:var(--primary);font-weight:800;font-size:26px;letter-spacing:-.02em"><span style="width:26px;height:30px;background:var(--primary);clip-path:polygon(45% 0,100% 0,60% 45%,85% 45%,20% 100%,40% 55%,10% 55%)"></span>FRITO</span></sc-if>
+<!-- Единая шапка сайта: логотип (фиксированный размер — без прыжков) | слот по центру (вложенное содержимое dc-import, напр. FritoMethodBar) | справа: заголовок, «назад», меню.
+     Стили — .f-header*. Используется на всех страницах. -->
+<header class="f-comp f-header">
+  <a class="f-header__brand" href="menu.dc.html" aria-label="Frito — на главную">
+    <sc-if value="{{ logoOk }}" hint-placeholder-val="{{ true }}"><img src="https://frito.kz/brand.svg" alt="FRITO" width="109" height="34" onError="{{ logoFail }}" class="f-logo"></sc-if>
+    <sc-if value="{{ logoBroken }}" hint-placeholder-val="{{ false }}"><span class="f-wordmark"><span class="f-wordmark__bolt"></span>FRITO</span></sc-if>
   </a>
-  <div style="display:flex;align-items:center;gap:8px;min-width:0">
-    <sc-if value="{{ hasTitle }}" hint-placeholder-val="{{ false }}"><span style="font-size:14px;font-weight:600;color:var(--ink-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ title }}</span></sc-if>
-    <sc-if value="{{ hasBack }}" hint-placeholder-val="{{ true }}"><a href="{{ backHref }}" style="display:flex;align-items:center;gap:8px;height:40px;padding:0 16px;border-radius:999px;background:var(--surface-1);font-size:14px;font-weight:600;color:var(--ink);white-space:nowrap" style-hover="background:var(--border);color:var(--ink)"><span aria-hidden="true" style="width:8px;height:8px;border-left:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(45deg);margin-left:2px"></span>{{ backLabel }}</a></sc-if>
+  <sc-if value="{{ hasSlot }}" hint-placeholder-val="{{ false }}"><div class="f-header__center">{{ slot }}</div></sc-if>
+  <div class="f-header__right">
+    <sc-if value="{{ hasTitle }}" hint-placeholder-val="{{ false }}"><span class="f-header__title">{{ title }}</span></sc-if>
+    <sc-if value="{{ hasBack }}" hint-placeholder-val="{{ true }}"><a class="f-header__back" href="{{ backHref }}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg>{{ backLabel }}</a></sc-if>
+    <sc-if value="{{ hasMenu }}" hint-placeholder-val="{{ false }}"><button type="button" class="f-header__menu" onClick="{{ menu }}" aria-label="Меню"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button></sc-if>
   </div>
 </header>
 </x-dc>
@@ -25,7 +29,9 @@ class Component extends DCLogic {
     const p = this.props, s = this.state;
     return {
       title: p.title ?? '', hasTitle: !!p.title,
-      hasBack: p.backLabel !== '', backLabel: p.backLabel ?? 'В меню', backHref: p.backHref ?? 'menu.dc.html',
+      hasBack: !!p.backLabel, backLabel: p.backLabel || '', backHref: p.backHref ?? 'menu.dc.html',
+      hasMenu: !!p.onMenu, menu: () => p.onMenu && p.onMenu(),
+      slot: p.children || null, hasSlot: !!p.children,
       logoOk: !s.logoBroken, logoBroken: s.logoBroken, logoFail: () => this.setState({ logoBroken: true }),
     };
   }

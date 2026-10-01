@@ -10,7 +10,7 @@
 .st-hero__stage-title{font-size:20px;font-weight:700}
 .st-hero__stage-text{font-size:15px;color:var(--ink-2);line-height:1.45;text-wrap:pretty}
 .st-delay{display:flex;gap:12px;align-items:flex-start;background:var(--warn-bg);border-radius:var(--r-md-plus);padding:14px 16px}
-.st-delay__icon{flex-shrink:0;width:28px;height:28px;border-radius:50%;background:#F59E0B;color:#fff;font-weight:800;font-size:15px;display:flex;align-items:center;justify-content:center}
+.st-delay__icon{flex-shrink:0;width:28px;height:28px;border-radius:50%;background:var(--warn);color:#fff;font-weight:800;font-size:15px;display:flex;align-items:center;justify-content:center}
 .st-delay__body{display:flex;flex-direction:column;gap:3px}
 .st-delay__title{font-size:15px;font-weight:700;color:var(--warn-ink)}
 .st-delay__text{font-size:14px;color:var(--warn-ink);line-height:1.45}

@@ -14,7 +14,7 @@
   --border:#ECECF1; --divider:#F1F1F4;
   --surface-0:#fff; --surface-1:#F7F7F9; --surface-2:#F3F4F6; --surface-3:#E5E7EB;
   --dark:#1B1740; --success:#16A34A; --whatsapp:#1DAA55; --telegram:#229ED9; --danger:#EF4444; --kaspi:#F14635; --neutral-300:#D1D5DB;
-  --warn-bg:#FEF3C7; --warn-ink:#92400E;
+  --warn:#F59E0B; --warn-bg:#FEF3C7; --warn-ink:#92400E;
   /* радиусы */
   --r-xs:6px; --r-sm:8px; --r-md-:12px; --r-md:14px; --r-md-plus:16px; --r-lg:20px; --r-xl:24px; --r-2xl:32px; --r-pill:999px;
   /* высоты контролов: xl 60 · lg 56 · md 44 · sm 40 · xs 36 */
@@ -42,8 +42,6 @@ html,body{max-width:100%;overflow-x:clip;overscroll-behavior-x:none;-webkit-text
 /* 3. Компоненты ----------------------------------------------------------- */
 
 /* Шапка и логотип */
-.f-header{display:flex;align-items:center;justify-content:space-between;gap:16px;height:var(--header-h);padding:0 var(--gutter);background:var(--surface-0);border-bottom:1px solid var(--border);font-family:var(--font)}
-.f-logo{height:var(--logo-h);width:auto;display:block}
 
 /* Кнопка: всегда pill. Вариант × размер */
 .f-btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;border:0;border-radius:var(--r-pill);font:inherit;font-weight:600;cursor:pointer;text-decoration:none;white-space:nowrap;
@@ -113,7 +111,7 @@ html,body{max-width:100%;overflow-x:clip;overscroll-behavior-x:none;-webkit-text
 .f-field.is-error{box-shadow:inset 0 0 0 2px var(--danger);background:#FEF2F2}
 .f-badge{align-self:flex-start;border-radius:var(--r-pill);padding:5px 12px;font-size:12px;font-weight:700}
 .f-badge--warn{background:var(--warn-bg);color:var(--warn-ink)}
-.f-badge--success{background:#DCFCE7;color:#15803D}
+.f-badge--success{background:#DCFCE7;color:var(--success)}
 .f-steps{display:flex;flex-direction:column;gap:12px;margin:0;padding:0;list-style:none}
 .f-steps__item{display:flex;gap:12px;align-items:flex-start;font-size:15px;line-height:1.45;color:#374151}
 .f-steps__num{flex-shrink:0;width:26px;height:26px;border-radius:50%;background:var(--primary-100);color:var(--primary);font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center}
@@ -182,13 +180,13 @@ html,body{max-width:100%;overflow-x:clip;overscroll-behavior-x:none;-webkit-text
 .sc-placeholder::before,.sc-interp.sc-missing::before{display:none!important}
 .frito-skel,
 .sc-placeholder:is([title=FritoInput],[title=FritoSegment],[title=FritoStepper],[title=FritoToggle],[title=FritoTotals],[title=FritoDeliveryBar],[title=FritoOption]){
-  background:linear-gradient(90deg,#F1F1F4 25%,#E8E8EE 37%,#F1F1F4 63%)!important;background-size:400% 100%!important;
+  background:linear-gradient(90deg,var(--divider) 25%,#E8E8EE 37%,var(--divider) 63%)!important;background-size:400% 100%!important;
   border-radius:var(--r-md);animation:frito-shimmer 1.4s ease infinite}
 .frito-skel{display:block}
 /* Картинки: фон переливается, картинка проявляется после загрузки (класс ставит frito.js) */
 img[data-skel]{opacity:0;transition:opacity .4s ease}
 img[data-skel].is-loaded{opacity:1}
-:has(> img[data-skel]:not(.is-loaded)){background-image:linear-gradient(90deg,#F1F1F4 25%,#E8E8EE 37%,#F1F1F4 63%)!important;background-size:400% 100%!important;animation:frito-shimmer 1.4s ease infinite}
+:has(> img[data-skel]:not(.is-loaded)){background-image:linear-gradient(90deg,var(--divider) 25%,#E8E8EE 37%,var(--divider) 63%)!important;background-size:400% 100%!important;animation:frito-shimmer 1.4s ease infinite}
 
 /* 5. Движение -------------------------------------------------------------- */
 @keyframes frito-shimmer{0%{background-position:100% 50%}100%{background-position:0 50%}}
@@ -324,11 +322,11 @@ img.f-option__icon{object-fit:contain}
 
 /* чипы и теги */
 .f-chips{display:flex;gap:6px;flex-wrap:wrap}
-.f-chip{font-size:12px;color:#4B5563;background:var(--surface-2);border-radius:var(--r-pill);padding:5px 10px}
+.f-chip{font-size:12px;color:var(--ink-2);background:var(--surface-2);border-radius:var(--r-pill);padding:5px 10px}
 .f-chip--primary{font-weight:600;color:var(--primary);background:var(--primary-100)}
 .f-tag{flex-shrink:0;border-radius:var(--r-pill)}
 .f-tag--req{font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:#B91C1C;background:#FEF2F2;padding:5px 10px}
-.f-tag--ok{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:#15803D;background:#F0FDF4;padding:4px 10px 4px 6px}
+.f-tag--ok{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:var(--success);background:#F0FDF4;padding:4px 10px 4px 6px}
 .f-tag__check{width:16px;height:16px;border-radius:50%;background:var(--success);color:#fff;font-size:10px;display:flex;align-items:center;justify-content:center}
 
 /* вакансия */
@@ -1018,3 +1016,36 @@ img.f-option__icon{object-fit:contain}
 .f-progress__ringtext .f-progress__hero-label{font-size:13px;font-weight:600;color:var(--primary)}
 .f-progress__ringtext .f-progress__hero-note{margin-top:2px}
 @media (prefers-reduced-motion:reduce){ .f-progress__ring-val,.f-progress--lg.f-progress--light::before,.f-progress__ring-num{animation:none} }
+
+/* Шапка (FritoHeader) — одна на весь сайт */
+.f-header{position:relative;z-index:5;display:flex;align-items:center;gap:16px;height:var(--header-h);padding:0 var(--gutter);background:var(--surface-0);border-bottom:1px solid var(--border);font-family:var(--font);flex-shrink:0}
+.f-header__brand{flex-shrink:0;display:flex;align-items:center;height:100%}
+.f-logo{display:block;height:var(--logo-h);width:auto;aspect-ratio:109/34}
+.f-wordmark{display:flex;align-items:center;gap:8px;height:var(--logo-h);color:var(--primary);font-size:calc(var(--logo-h) * .8);font-weight:800;letter-spacing:-.02em}
+.f-wordmark__bolt{width:calc(var(--logo-h) * .8);height:var(--logo-h);background:var(--primary);clip-path:polygon(45% 0,100% 0,60% 45%,85% 45%,20% 100%,40% 55%,10% 55%)}
+.f-header__center{flex:1;min-width:0;display:flex;align-items:center;margin-left:8px}
+.f-header__right{margin-left:auto;display:flex;align-items:center;gap:8px;min-width:0}
+.f-header__title{font-size:14px;font-weight:600;color:var(--ink-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.f-header__back,.f-header__back:hover{display:flex;align-items:center;gap:6px;height:var(--h-sm);padding:0 16px 0 12px;border-radius:var(--r-pill);background:var(--surface-2);color:var(--ink);font-size:14px;font-weight:600;white-space:nowrap;text-decoration:none;transition:background-color .15s}
+.f-header__back:hover{background:var(--surface-3)}
+.f-header__menu{display:flex;align-items:center;justify-content:center;width:var(--h-md);height:var(--h-md);margin-right:-10px;border:0;border-radius:50%;background:transparent;color:var(--ink);cursor:pointer;transition:background-color .15s}
+.f-header__menu:hover{background:var(--surface-2)}
+/* окно адреса: карточки ресторанов, строка адреса */
+.f-am__store{display:flex;flex-direction:column;gap:10px;width:100%;padding:14px 16px;border:2px solid var(--border);border-radius:var(--r-lg);background:var(--surface-0);color:var(--ink);font:inherit;text-align:left;cursor:pointer;transition:border-color .15s,background-color .15s}
+.f-am__store:hover{border-color:var(--primary-200)}
+.f-am__store.is-on{border-color:var(--primary);background:var(--primary-50)}
+.f-am__store--slide{flex:0 0 78%;width:auto;scroll-snap-align:start}
+.f-am__open{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:500;color:var(--ink-2)}
+.f-am__open.is-open{color:var(--success)}
+.f-am__open-dot{width:8px;height:8px;border-radius:50%;background:currentColor}
+.f-am__addr{display:flex;align-items:center;gap:12px;width:100%;min-height:64px;padding:10px 14px 10px 10px;border:2px solid transparent;border-radius:var(--r-md-plus);background:var(--surface-1);color:var(--ink);font:inherit;text-align:left;cursor:pointer;transition:border-color .15s,background-color .15s}
+.f-am__addr:hover{background:var(--primary-50)}
+.f-am__addr.is-warn{border-color:var(--warn)}
+/* CTA с суммой — состояния; чипы категорий (kit: chip tinted 44 / 40 mobile) */
+.f-cta{width:100%;font-size:16px;font-weight:600;cursor:pointer;transition:background-color .15s}
+.f-cta--xl{height:var(--h-xl);padding:0 28px;font-size:17px}
+.f-cta.is-disabled,.f-cta.is-disabled:hover{background:var(--surface-3);color:var(--ink-3);cursor:not-allowed}
+.f-catchip{flex-shrink:0;height:var(--h-md);padding:0 20px;border:0;border-radius:var(--r-pill);background:var(--surface-2);color:var(--ink);font:inherit;font-size:15px;font-weight:500;white-space:nowrap;cursor:pointer;transition:background-color .15s,color .15s}
+.f-catchip:hover{background:var(--surface-3)}
+.f-catchip.is-on{background:var(--primary-100);color:var(--primary)}
+.f-catchip--sm{height:var(--h-sm);padding:0 16px;font-size:14px}

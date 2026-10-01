@@ -13,8 +13,8 @@
 <div role="dialog" aria-modal="true" aria-label="{{ title }}" style="position:relative;pointer-events:auto;width:100%;height:100%;max-width:{{ dlgMaxW }};max-height:{{ dlgMaxH }};border-radius:{{ dlgRadius }};overflow:hidden;background:#fff;display:flex;flex-direction:{{ dlgDir }};box-shadow:var(--shadow-modal);animation:frito-rise .32s var(--ease) both">
 
   <!-- MAP -->
-  <div style="position:relative;flex:1 1 0;min-height:0;min-width:0;order:{{ mapOrder }};background:#EEF0F3;overflow:hidden">
-    <div ref="{{ mapRef }}" style="position:absolute;inset:0;z-index:0;background:#EEF0F3"></div>
+  <div style="position:relative;flex:1 1 0;min-height:0;min-width:0;order:{{ mapOrder }};background:var(--surface-2);overflow:hidden">
+    <div ref="{{ mapRef }}" style="position:absolute;inset:0;z-index:0;background:var(--surface-2)"></div>
     <sc-if value="{{ mapFail }}" hint-placeholder-val="{{ false }}"><div class="f-am__mapfail">Карта не загрузилась — введите адрес вручную</div></sc-if>
 
     <sc-if value="{{ showPin }}" hint-placeholder-val="{{ true }}">
@@ -106,7 +106,7 @@
       <!-- delivery -->
       <sc-if value="{{ showDeliv }}" hint-placeholder-val="{{ true }}">
         <div class="f-am__stack">
-          <button type="button" onClick="{{ startSearch }}" style="display:flex;align-items:center;gap:12px;width:100%;min-height:64px;border:2px solid {{ addrBorder }};background:var(--surface-1);border-radius:16px;padding:10px 14px 10px 10px;cursor:pointer;font:inherit;color:var(--ink);text-align:left;transition:border-color .15s" style-hover="border-color:#B7ACF3">
+          <button type="button" onClick="{{ startSearch }}" class="{{ addrBtnCls }}" style-hover="border-color:#B7ACF3">
             <span class="f-am__addr-icon"><img src="assets/ic-pin-p.svg" alt="" class="f-am__addr-pin"></span>
             <span class="f-am__lines">
               <span style="font-size:16px;font-weight:700;color:{{ addrColor }};white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ addrLine }}</span>
@@ -153,12 +153,12 @@
         <sc-if value="{{ isSheet }}" hint-placeholder-val="{{ false }}">
           <div ref="{{ carRef }}" onScroll="{{ onCarScroll }}" class="f-am__carousel">
             <sc-for list="{{ stores }}" as="s" hint-placeholder-count="2">
-              <button type="button" data-idx="{{ s.idx }}" onClick="{{ s.pick }}" style="flex:0 0 78%;scroll-snap-align:start;display:flex;flex-direction:column;gap:10px;border:2px solid {{ s.border }};background:{{ s.bg }};border-radius:20px;padding:14px 16px;cursor:pointer;font:inherit;color:var(--ink);text-align:left;transition:border-color .15s,background .15s">
+              <button type="button" data-idx="{{ s.idx }}" onClick="{{ s.pick }}" class="{{ s.cls }} f-am__store--slide">
                 <span class="f-am__store-row">
                   <span class="f-am__store-name">{{ s.name }}</span>
                   <span class="f-am__store-dist">{{ s.dist }}</span>
                 </span>
-                <span style="display:flex;align-items:center;gap:8px;font-size:13px;font-weight:500;color:{{ s.openColor }}"><span style="width:8px;height:8px;border-radius:50%;background:{{ s.openColor }}"></span>{{ s.openText }}</span>
+                <span class="{{ s.openCls }}"><span class="f-am__open-dot"></span>{{ s.openText }}</span>
               </button>
             </sc-for>
           </div>
@@ -166,12 +166,12 @@
         <sc-if value="{{ isCenter }}" hint-placeholder-val="{{ true }}">
         <div class="f-am__stack">
           <sc-for list="{{ stores }}" as="s" hint-placeholder-count="4">
-            <button type="button" onClick="{{ s.pick }}" style="display:flex;flex-direction:column;gap:10px;width:100%;border:2px solid {{ s.border }};background:{{ s.bg }};border-radius:20px;padding:14px 16px;cursor:pointer;font:inherit;color:var(--ink);text-align:left;transition:border-color .15s,background .15s" style-hover="border-color:#B7ACF3">
+            <button type="button" onClick="{{ s.pick }}" class="{{ s.cls }}" style-hover="border-color:#B7ACF3">
               <span class="f-am__store-row">
                 <span class="f-am__store-name">{{ s.name }}</span>
                 <span class="f-am__store-dist">{{ s.dist }}</span>
               </span>
-              <span style="display:flex;align-items:center;gap:8px;font-size:13px;font-weight:500;color:{{ s.openColor }}"><span style="width:8px;height:8px;border-radius:50%;background:{{ s.openColor }}"></span>{{ s.openText }}</span>
+              <span class="{{ s.openCls }}"><span class="f-am__open-dot"></span>{{ s.openText }}</span>
             </button>
           </sc-for>
         </div>
@@ -292,14 +292,14 @@ const fmtAddr = a => {
 // Подсветка совпадений: жирным — начало слов адреса, совпавшее с введёнными словами
 const hl = (line, q) => {
   const toks = String(q || '').toLowerCase().replace(/[.,]/g, ' ').split(/\s+/).filter(Boolean);
-  const out = [], push = (t, b) => { if (!t) return; const w = b ? 700 : 500, c = b ? '#111827' : '#4B5563'; const l = out[out.length - 1]; if (l && l.w === w) l.t += t; else out.push({ t, w, c }); };
+  const out = [], push = (t, b) => { if (!t) return; const w = b ? 700 : 500, c = b ? 'var(--ink)' : 'var(--ink-2)'; const l = out[out.length - 1]; if (l && l.w === w) l.t += t; else out.push({ t, w, c }); };
   String(line).split(/(\s+|,)/).forEach(seg => {
     const low = seg.toLowerCase(); let best = 0;
     toks.forEach(t => { if (low.startsWith(t) && t.length > best) best = t.length; });
     if (!best) toks.forEach(t => { if (t.startsWith(low) && low.length > 1 && low.length > best) best = low.length; });
     push(seg.slice(0, best), true); push(seg.slice(best), false);
   });
-  return out.length ? out : [{ t: line, w: 500, c: '#4B5563' }];
+  return out.length ? out : [{ t: line, w: 500, c: 'var(--ink-2)' }];
 };
 const norm = s => String(s || '').toLowerCase().replace(/[.,\-]/g, ' ').replace(/\s+/g, ' ').trim();
 const inPoly = (lat, lng, poly) => { let ins = false; for (let i = 0, j = poly.length - 1; i < poly.length; j = i++) { const [yi, xi] = poly[i], [yj, xj] = poly[j]; if ((yi > lat) !== (yj > lat) && lng < (xj - xi) * (lat - yi) / (yj - yi) + xi) ins = !ins; } return ins; };
@@ -330,11 +330,11 @@ const loadMapbox = () => {
 };
 // Метка ресторана: пилюля-«вывеска» с иконкой самовывоза и названием — не путается с круглым пином доставки
 const markerHtml = (sel, name) => {
-  const bg = sel ? '#614BE2' : '#fff', fg = sel ? '#fff' : '#111827', ic = sel ? 'assets/ic-pickup-w.svg' : 'assets/ic-pickup-p.svg';
+  const bg = sel ? 'var(--primary)' : '#fff', fg = sel ? '#fff' : 'var(--ink)', ic = sel ? 'assets/ic-pickup-w.svg' : 'assets/ic-pickup-p.svg';
   const pad = sel ? '8px 14px 8px 8px' : '5px', icS = sel ? 30 : 30, fs = 14;
   return `<div style="display:flex;flex-direction:column;align-items:center;filter:drop-shadow(0 4px 10px rgba(17,24,39,.22));transition:transform .15s">
     <div style="display:flex;align-items:center;gap:8px;background:${bg};color:${fg};border-radius:14px;padding:${pad};font-family:Inter,system-ui,sans-serif;font-size:${fs}px;font-weight:700;white-space:nowrap;line-height:1">
-      <span style="width:${icS}px;height:${icS}px;border-radius:9px;background:${sel ? 'rgba(255,255,255,.18)' : '#EFEDFC'};display:flex;align-items:center;justify-content:center"><img src="${ic}" alt="" style="width:${icS - 10}px;height:${icS - 10}px;display:block"></span>${sel ? name : ''}
+      <span style="width:${icS}px;height:${icS}px;border-radius:9px;background:${sel ? 'rgba(255,255,255,.18)' : 'var(--primary-100)'};display:flex;align-items:center;justify-content:center"><img src="${ic}" alt="" style="width:${icS - 10}px;height:${icS - 10}px;display:block"></span>${sel ? name : ''}
     </div>
     <div style="width:12px;height:7px;background:${bg};clip-path:polygon(0 0,100% 0,50% 100%);margin-top:-1px"></div>
   </div>`;
@@ -541,12 +541,12 @@ class Component extends DCLogic {
     const ref = this._dc || this._ref;
     const stores = this.cityStores(s.city, ref).map(({ st, i, d }) => {
       const o = openInfo(st.hours), sel = i === s.store;
-      return { idx: i, name: st.name, dist: kmLabel(d), openText: o.text, openColor: o.open ? '#15803D' : '#6B7280', pick: () => this.pickStore(i),
-        bg: sel ? '#F5F3FF' : '#fff', border: sel ? '#614BE2' : '#ECECF1', ring: sel ? '#614BE2' : '#D1D5DB', dot: sel ? '#614BE2' : 'transparent' };
+      return { idx: i, name: st.name, dist: kmLabel(d), openText: o.text, pick: () => this.pickStore(i),
+        cls: 'f-am__store' + (sel ? ' is-on' : ''), openCls: 'f-am__open' + (o.open ? ' is-open' : '') };
     });
     const hasQ = !!s.q.trim();
     const rows = (hasQ ? s.sugg.map(r => ({ ...r, recent: false, found: true })) : RECENT.filter(r => r.city === s.city).map(r => ({ ...r, recent: true, found: false })))
-      .map(r => ({ ...r, parts: hasQ ? hl(r.line, s.q) : [{ t: r.line, w: 600, c: '#111827' }], bg: 'transparent', subLabel: r.house ? r.sub : (r.sub ? r.sub + ' · ' : '') + 'без номера дома', pick: () => this.pickSugg(r) }));
+      .map(r => ({ ...r, parts: hasQ ? hl(r.line, s.q) : [{ t: r.line, w: 600, c: 'var(--ink)' }], bg: 'transparent', subLabel: r.house ? r.sub : (r.sub ? r.sub + ' · ' : '') + 'без номера дома', pick: () => this.pickSugg(r) }));
     const ok = !busy && s.house && !!s.addr;
     const bubbleOut = deliv && !s.inZone;
     return {
@@ -564,7 +564,7 @@ class Component extends DCLogic {
       showPin: deliv, pinLift: s.moving ? 'translateY(-12px)' : 'none', pinShadow: s.moving ? .6 : 1,
       pinBolt: !s.loading || s.moving, pinSpin: s.loading && !s.moving,
       bubbleOpacity: s.moving || !s.addr ? 0 : 1,
-      bubbleBg: bubbleOut ? '#111827' : '#fff', bubbleColor: bubbleOut ? '#fff' : '#111827', bubbleSubColor: bubbleOut ? '#D1D5DB' : '#6B7280',
+      bubbleBg: bubbleOut ? 'var(--ink)' : '#fff', bubbleColor: bubbleOut ? '#fff' : 'var(--ink)', bubbleSubColor: bubbleOut ? 'var(--neutral-300)' : 'var(--ink-2)',
       bubbleText: bubbleOut ? 'Сюда пока не доставляем' : s.loading ? 'Определяем адрес…' : s.addr || '',
       bubbleSub: bubbleOut ? 'Передвиньте карту в зону доставки' : !s.loading && !s.house ? 'Уточните номер дома' : known ? q.etaMin + '–' + q.etaMax + ' мин' : 'Двигайте карту, чтобы уточнить',
       hasBubbleSub: !s.loading || bubbleOut,
@@ -577,9 +577,9 @@ class Component extends DCLogic {
       cityNameCur: cityName(s.city), sLoading: s.sLoading && hasQ && !s.sugg.length, noResults: hasQ && s.sDone && !s.sugg.length,
       stopSearch: () => this.setState({ searching: false }), startSearch: () => this.startSearch(s.addr && s.addr !== 'Точка на карте' ? s.addr : ''), startSearchEmpty: () => this.startSearch(''),
       showDeliv: deliv && !srch && !out, showOut: out && !srch, showPickup: pick && !srch,
-      addrLine: s.loading || s.moving ? 'Определяем адрес…' : s.addr || 'Точка на карте', addrColor: busy ? '#9CA3AF' : '#111827',
+      addrLine: s.loading || s.moving ? 'Определяем адрес…' : s.addr || 'Точка на карте', addrColor: busy ? 'var(--ink-3)' : 'var(--ink)',
       addrSub: busy ? 'Двигайте карту — пин укажет точку' : s.sub || 'Астана',
-      houseWarn: !busy && !!s.addr && !s.house, addrBorder: !busy && s.addr && !s.house ? '#F59E0B' : 'transparent',
+      houseWarn: !busy && !!s.addr && !s.house, addrBtnCls: 'f-am__addr' + (!busy && s.addr && !s.house ? ' is-warn' : ''),
       feeLabel: fee ? money(fee) : 'Бесплатно', quoteKnown: known, quoteUnknown: !known,
       etaLabel: q.etaMin + '–' + q.etaMax + ' мин',
       etaSub: known ? '~15 мин готовим, ~' + q.travel + ' мин в пути' : busy ? 'Считаем по адресу…' : !s.house && s.addr ? 'Укажите номер дома' : 'Зависит от адреса',

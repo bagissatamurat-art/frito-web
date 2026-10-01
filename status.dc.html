@@ -14,8 +14,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-body{margin:0;background:#F7F7F9;}
-a{color:#614BE2;text-decoration:none}a:hover{color:#4A36C4}
+body{margin:0;background:var(--surface-1);}
+a{color:var(--primary);text-decoration:none}a:hover{color:var(--primary-dark)}
 *{box-sizing:border-box}
 button{outline:none}
 @keyframes frito-flow{from{background-position:200% 0}to{background-position:0 0}}
@@ -297,7 +297,7 @@ class Component extends DCLogic {
       ],
       placeIcon: pick ? 'assets/ic-pickup-p.svg' : 'assets/ic-pin-p.svg', placeCaption: pick ? 'Ресторан' : 'Адрес доставки',
       placeLine: pick ? 'Frito, Сыганак 11' : (v ? v.address : 'пр-кт Туран, 52/6'), placeSub: pick ? 'Ежедневно 11:30 – 02:00' : 'Астана · курьер позвонит у двери',
-      payStatus: issue === 'cancelled' ? 'Возврат' : paid ? 'Оплачено' : 'Не оплачено', payColor: issue === 'cancelled' ? '#4B5563' : paid ? '#15803D' : '#B91C1C', payBg: issue === 'cancelled' ? 'var(--surface-2)' : paid ? '#F0FDF4' : '#FEF2F2',
+      payStatus: issue === 'cancelled' ? 'Возврат' : paid ? 'Оплачено' : 'Не оплачено', payColor: issue === 'cancelled' ? 'var(--ink-2)' : paid ? 'var(--success)' : '#B91C1C', payBg: issue === 'cancelled' ? 'var(--surface-2)' : paid ? '#F0FDF4' : '#FEF2F2',
     };
   }
 }

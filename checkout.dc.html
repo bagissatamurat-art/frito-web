@@ -16,10 +16,10 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 body{margin:0;background:#E9E8F0;}
-a{color:#614BE2;text-decoration:none}a:hover{color:#4A36C4}
+a{color:var(--primary);text-decoration:none}a:hover{color:var(--primary-dark)}
 *{box-sizing:border-box}
 ::-webkit-scrollbar{width:0;height:0}
-input::placeholder,textarea::placeholder{color:#9CA3AF}
+input::placeholder,textarea::placeholder{color:var(--ink-3)}
 input,textarea,button{outline:none}
 </style>
 </helmet>
@@ -48,11 +48,7 @@ input,textarea,button{outline:none}
 <sc-if value="{{ isDesktop }}" hint-placeholder-val="{{ true }}"><div>
 
 <section data-screen-label="Desktop" class="co-d">
-  <header class="co-d__header">
-    <a href="menu.dc.html" class="co-d__back"><span class="co-d__back-arrow">‹</span>В меню</a>
-    <img src="https://frito.kz/brand.svg" alt="FRITO" class="f-logo co-d__logo">
-    <button class="co-d__burger"><span class="co-d__burger-line"></span><span class="co-d__burger-line"></span><span class="co-d__burger-line"></span></button>
-  </header>
+  <dc-import name="FritoHeader" back-label="В меню" hint-size="100%,76px"></dc-import>
   <div class="co-d__scroll">
     <div class="co-d__grid">
       <div class="co-d__left">
@@ -161,12 +157,9 @@ input,textarea,button{outline:none}
 <sc-if value="{{ isMobile }}" hint-placeholder-val="{{ false }}"><div>
 
 <section data-screen-label="Mobile" class="co-m">
-  <div class="co-m__header">
-    <a href="menu.dc.html" aria-label="Назад" class="co-m__back">‹</a>
-    <span class="co-m__title">Оформление</span>
-    <span class="co-sk__spacer"></span>
-  </div>
+  <dc-import name="FritoHeader" back-label="В меню" hint-size="100%,60px"></dc-import>
   <div class="co-m__scroll">
+    <h1 class="co-m__h1">Оформление заказа</h1>
     <div class="f-panel f-panel--compact">
       <button type="button" class="f-addr-btn" onClick="{{ openAddrM }}" aria-label="Изменить адрес">
         <span class="f-addr-btn__icon"><img src="{{ methodIcon }}" alt=""></span>

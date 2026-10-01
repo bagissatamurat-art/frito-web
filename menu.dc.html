@@ -17,10 +17,10 @@
 <style>
 @keyframes story-fill{from{width:0}to{width:100%}}
 body{margin:0;background:#E9E8F0;}
-a{color:#614BE2;text-decoration:none}a:hover{color:#4A36C4}
+a{color:var(--primary);text-decoration:none}a:hover{color:var(--primary-dark)}
 *{box-sizing:border-box}
 ::-webkit-scrollbar{width:0;height:0}
-input::placeholder,textarea::placeholder{color:#9CA3AF}
+input::placeholder,textarea::placeholder{color:var(--ink-3)}
 input,textarea,button{outline:none}
 input:focus-visible,textarea:focus-visible{outline:none}
 </style>
@@ -31,17 +31,7 @@ input:focus-visible,textarea:focus-visible{outline:none}
 <sc-if value="{{ isDesktop }}" hint-placeholder-val="{{ true }}"><div>
 
 <section data-screen-label="Desktop" class="mn-d">
-  <header class="mn-d__header">
-    <sc-if value="{{ logoOk }}" hint-placeholder-val="{{ true }}"><img src="https://frito.kz/brand.svg" alt="FRITO" onError="{{ logoFail }}" class="f-logo"></sc-if>
-    <sc-if value="{{ logoBroken }}" hint-placeholder-val="{{ false }}"><div class="mn-wordmark"><span class="mn-wordmark__bolt"></span>FRITO</div></sc-if>
-    <!-- delivery method: segmented + address -->
-    <div class="mn-d__method"><dc-import name="FritoMethodBar" layout="inline" mode="{{ segMode }}" address="{{ address }}" eta="{{ etaLabel }}" on-mode="{{ pickModeD }}" on-open="{{ openMethodD }}" hint-size="600px,48px"></dc-import></div>
-    <div class="mn-d__header-right">
-      <button onClick="{{ openMenuD }}" aria-label="Меню" class="mn-burger">
-        <span class="mn-burger__line"></span><span class="mn-burger__line"></span><span class="mn-burger__line"></span>
-      </button>
-    </div>
-  </header>
+  <dc-import name="FritoHeader" on-menu="{{ openMenuD }}" hint-size="100%,76px"><div class="mn-d__method"><dc-import name="FritoMethodBar" layout="inline" mode="{{ segMode }}" address="{{ address }}" eta="{{ etaLabel }}" on-mode="{{ pickModeD }}" on-open="{{ openMethodD }}" hint-size="600px,48px"></dc-import></div></dc-import>
 
   <div class="mn-d__cols">
     <!-- menu 2/3 -->
@@ -57,7 +47,7 @@ input:focus-visible,textarea:focus-visible{outline:none}
       </div>
       <nav data-cat-nav class="mn-cats">
           <sc-for list="{{ cats }}" as="cat" hint-placeholder-count="8">
-            <button data-idx="{{ cat.idx }}" onClick="{{ cat.goD }}" style="border:0;cursor:pointer;font:inherit;font-size:15px;font-weight:500;padding:12px 22px;border-radius:999px;white-space:nowrap;background:{{ cat.dBg }};color:{{ cat.dColor }};transition:background .15s">{{ cat.name }}</button>
+            <button type="button" data-idx="{{ cat.idx }}" onClick="{{ cat.goD }}" class="{{ cat.dCls }}">{{ cat.name }}</button>
           </sc-for>
         </nav>
       <div class="mn-d__catalog">
@@ -138,7 +128,7 @@ input:focus-visible,textarea:focus-visible{outline:none}
           <div class="f-panel f-panel--plain"><dc-import name="FritoTotals" subtotal="{{ liveSub }}" fee="{{ liveDel }}" discount="{{ liveDisc }}" fee-title="{{ modeLabel }}" hint-size="100%,140px"></dc-import></div>
         </div>
         <div class="mn-cart__foot">
-          <button onClick="{{ checkoutD }}" style="width:100%;border:0;cursor:{{ checkoutCursor }};font:inherit;background:{{ checkoutBg }};color:{{ checkoutColor }};border-radius:999px;height:60px;padding:0 28px;font-size:19px;font-weight:600;display:flex;align-items:center;justify-content:space-between;gap:16px;transition:background .15s"><span>Перейти к оформлению</span><span class="mn-cta__right"><span class="mn-cta__sep"></span><span class="mn-bold">{{ totalLabel }}</span></span></button>
+          <button type="button" onClick="{{ checkoutD }}" class="{{ ctaClsD }}" aria-disabled="{{ ctaOffD }}"><span>Перейти к оформлению</span><span class="f-cta__right"><span class="f-cta__sep"></span><span class="f-cta__sum">{{ totalLabel }}</span></span></button>
         </div>
       </sc-if>
     </aside>
@@ -177,15 +167,7 @@ input:focus-visible,textarea:focus-visible{outline:none}
 <section data-screen-label="Mobile" class="mn-m">
   <div ref="{{ mScrollRef }}" onScroll="{{ onMScroll }}" class="mn-m__scroll">
     <div class="mn-m__top">
-      <header class="mn-m__header">
-        <sc-if value="{{ logoOk }}" hint-placeholder-val="{{ true }}"><img src="https://frito.kz/brand.svg" alt="FRITO" onError="{{ logoFail }}" class="f-logo"></sc-if>
-        <sc-if value="{{ logoBroken }}" hint-placeholder-val="{{ false }}"><div class="mn-m-wordmark"><span class="mn-m-wordmark__bolt"></span>FRITO</div></sc-if>
-        <div class="mn-m__header-right">
-          <button onClick="{{ openMenuM }}" aria-label="Меню" class="mn-m-burger">
-            <span class="mn-m-burger__line"></span><span class="mn-m-burger__line"></span><span class="mn-m-burger__line"></span>
-          </button>
-        </div>
-      </header>
+      <dc-import name="FritoHeader" on-menu="{{ openMenuM }}" hint-size="100%,60px"></dc-import>
       <div class="mn-m__method">
         <dc-import name="FritoMethodBar" layout="stack" mode="{{ segMode }}" address="{{ address }}" eta="{{ etaLabel }}" on-mode="{{ pickModeM }}" on-open="{{ openMethodM }}" hint-size="100%,112px"></dc-import>
       </div>
@@ -198,7 +180,7 @@ input:focus-visible,textarea:focus-visible{outline:none}
     </div>
     <nav data-cat-nav class="mn-m-cats">
         <sc-for list="{{ cats }}" as="cat" hint-placeholder-count="6">
-          <button data-idx="{{ cat.idx }}" onClick="{{ cat.goM }}" style="border:0;cursor:pointer;font:inherit;font-size:14px;font-weight:500;padding:10px 18px;border-radius:999px;white-space:nowrap;background:{{ cat.mBg }};color:{{ cat.mColor }};transition:background .15s">{{ cat.name }}</button>
+          <button type="button" data-idx="{{ cat.idx }}" onClick="{{ cat.goM }}" class="{{ cat.mCls }}">{{ cat.name }}</button>
         </sc-for>
       </nav>
     <div class="mn-m__catalog">
@@ -286,7 +268,7 @@ input:focus-visible,textarea:focus-visible{outline:none}
           <div class="f-panel f-panel--compact f-panel--plain"><dc-import name="FritoTotals" subtotal="{{ liveSub }}" fee="{{ liveDel }}" discount="{{ liveDisc }}" fee-title="{{ modeLabel }}" compact="{{ true }}" hint-size="100%,120px"></dc-import></div>
         </div>
         <div class="mn-m-cart__foot">
-          <button onClick="{{ checkoutM }}" style="width:100%;border:0;cursor:{{ checkoutCursorM }};font:inherit;background:{{ checkoutBgM }};color:{{ checkoutColorM }};border-radius:999px;height:56px;padding:0 22px;display:flex;align-items:center;justify-content:space-between;gap:12px;font-size:16px;font-weight:600"><span>Перейти к оформлению</span><span class="mn-m-cta__right"><span class="mn-m-cta__sep"></span><span class="mn-bold">{{ totalLabel }}</span></span></button>
+          <button type="button" onClick="{{ checkoutM }}" class="{{ ctaClsM }}" aria-disabled="{{ ctaOffM }}"><span>Перейти к оформлению</span><span class="f-cta__right"><span class="f-cta__sep"></span><span class="f-cta__sum">{{ totalLabel }}</span></span></button>
         </div>
       </sc-if>
     </div>
@@ -323,7 +305,7 @@ input:focus-visible,textarea:focus-visible{outline:none}
 <sc-if value="{{ storyOpen }}" hint-placeholder-val="{{ false }}">
 <div role="dialog" aria-modal="true" aria-label="{{ storyAlt }}" style="position:fixed;inset:0;z-index:100;background:rgba(10,8,30,.92);display:flex;align-items:center;justify-content:center;font-family:var(--font);animation:{{ storyBdAnim }}">
   <div onClick="{{ closeStory }}" class="mn-story-view__backdrop"></div>
-  <div style="position:relative;height:{{ storyH }};aspect-ratio:9/16;max-width:100vw;border-radius:{{ storyRadius }};overflow:hidden;background:#5F4BE2;box-shadow:0 20px 60px rgba(0,0,0,.4);animation:frito-pop .3s var(--ease) both">
+  <div style="position:relative;height:{{ storyH }};aspect-ratio:9/16;max-width:100vw;border-radius:{{ storyRadius }};overflow:hidden;background:var(--primary);box-shadow:0 20px 60px rgba(0,0,0,.4);animation:frito-pop .3s var(--ease) both">
     <img src="{{ storyImg }}" alt="{{ storyAlt }}" draggable="false" class="mn-story-view__img">
     <div class="mn-story-view__shade"></div>
     <div class="mn-story-view__bars">
@@ -547,8 +529,7 @@ class Component extends DCLogic {
 
     const cats = CATS.map((c, idx) => ({
       name: c.name, idx,
-      dBg: s.activeD === idx ? 'var(--primary-100)' : 'var(--surface-2)', dColor: s.activeD === idx ? 'var(--primary)' : 'var(--ink)',
-      mBg: s.activeM === idx ? 'var(--primary-100)' : 'var(--surface-2)', mColor: s.activeM === idx ? 'var(--primary)' : 'var(--ink)',
+      dCls: 'f-catchip' + (s.activeD === idx ? ' is-on' : ''), mCls: 'f-catchip f-catchip--sm' + (s.activeM === idx ? ' is-on' : ''),
       goD: () => this.go('d', idx, this.dScrollRef, 'activeD'), goM: () => this.go('m', idx, this.mScrollRef, 'activeM'),
       items: c.items.map(it => {
         const pr = BY_ID[it[0]], qty = s.cart[pr.id] || 0, sold = isSold(pr.id);
@@ -662,8 +643,7 @@ class Component extends DCLogic {
       removePromo: () => this.setState({ promo: null }),
       agree: s.agree, toggleAgree: () => this.setState({ agree: !s.agree }),
       agreeBg: s.agree ? 'var(--primary)' : '#fff', agreeBorder: s.agree ? 'var(--primary)' : 'var(--neutral-300)', agreeCheck: s.agree ? 1 : 0,
-      checkoutBg: canCheckoutD ? 'var(--primary)' : 'var(--surface-3)', checkoutColor: canCheckoutD ? '#fff' : 'var(--ink-3)', checkoutCursor: canCheckoutD ? 'pointer' : 'not-allowed',
-      checkoutBgM: canCheckoutM ? 'var(--primary)' : 'var(--surface-3)', checkoutColorM: canCheckoutM ? '#fff' : 'var(--ink-3)', checkoutCursorM: canCheckoutM ? 'pointer' : 'not-allowed',
+      ctaClsD: 'f-cta f-cta--xl' + (canCheckoutD ? '' : ' is-disabled'), ctaOffD: !canCheckoutD, ctaClsM: 'f-cta' + (canCheckoutM ? '' : ' is-disabled'), ctaOffM: !canCheckoutM,
       checkoutD: () => { if (!canCheckoutD) return; if (!s.mode) this.setState({ modal: 'method', modalTarget: 'd' }); else this.goCheckout('d'); },
       checkoutM: () => { if (canCheckoutM) this.goCheckout('m'); },
       // mobile

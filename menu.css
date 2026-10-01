@@ -1,13 +1,6 @@
 /* Стили страницы menu.dc.html. Токены и общие компоненты — в frito.css */
 .mn-root{font-family:var(--font);color:var(--ink);background:var(--surface-1)}
 .mn-d{width:100%;height:100vh;height:100dvh;background:var(--surface-1);border-radius:0;overflow:hidden;display:grid;grid-template-rows:76px 1fr;position:relative;box-shadow:none}
-.mn-d__header{display:flex;align-items:center;gap:20px;padding:0 32px;background:#fff;border-bottom:1px solid var(--border)}
-.mn-wordmark{display:flex;align-items:center;gap:8px;color:var(--primary);font-weight:800;font-size:26px;letter-spacing:-.02em}
-.mn-wordmark__bolt{width:26px;height:30px;background:var(--primary);clip-path:polygon(45% 0,100% 0,60% 45%,85% 45%,20% 100%,40% 55%,10% 55%)}
-.mn-d__header-right{margin-left:auto;display:flex;align-items:center;gap:20px}
-.mn-burger{width:44px;height:44px;border:0;background:transparent;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;padding:0}
-.mn-burger:hover{opacity:.7}
-.mn-burger__line{width:20px;height:2.5px;border-radius:2px;background:var(--ink);display:block}
 .mn-d__cols{display:grid;grid-template-columns:minmax(0,1fr) 480px;min-height:0}
 .mn-d__scroll{overflow-y:auto;overflow-x:hidden;overscroll-behavior-x:none;min-height:0;scroll-behavior:smooth}
 .mn-d__top{background:#fff;padding:24px 32px 0}
@@ -37,18 +30,9 @@
 .mn-xl1{position:absolute;left:0;top:50%;width:100%;height:2px;margin-top:-1px;background:currentColor;border-radius:1px;transform:rotate(45deg)}
 .mn-xl2{position:absolute;left:0;top:50%;width:100%;height:2px;margin-top:-1px;background:currentColor;border-radius:1px;transform:rotate(-45deg)}
 .mn-cart__foot{padding:16px 24px 20px;border-top:1px solid var(--border);background:#fff}
-.mn-cta__right{display:flex;align-items:center;gap:16px}
-.mn-cta__sep{width:1px;height:24px;background:currentColor;opacity:.3}
-.mn-bold{font-weight:700}
 .mn-m{width:100%;height:100vh;height:100dvh;background:var(--surface-1);border-radius:0;overflow:hidden;position:relative;box-shadow:none}
 .mn-m__scroll{position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;overscroll-behavior-x:none;scroll-behavior:smooth}
 .mn-m__top{background:#fff}
-.mn-m__header{padding:16px 20px 0;display:flex;align-items:center;justify-content:space-between}
-.mn-m-wordmark{display:flex;align-items:center;gap:6px;color:var(--primary);font-weight:800;font-size:24px;letter-spacing:-.02em}
-.mn-m-wordmark__bolt{width:22px;height:26px;background:var(--primary);clip-path:polygon(45% 0,100% 0,60% 45%,85% 45%,20% 100%,40% 55%,10% 55%)}
-.mn-m__header-right{display:flex;align-items:center;gap:8px}
-.mn-m-burger{width:44px;height:44px;border:0;background:transparent;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:0}
-.mn-m-burger__line{width:18px;height:2.5px;border-radius:2px;background:var(--ink);display:block}
 .mn-m__method{padding:14px 20px 0}
 .mn-d__method{margin-left:24px;flex:0 1 620px;min-width:0}
 .mn-m-stories{display:flex;gap:12px;padding:18px 20px 0;overflow-x:auto;overflow-y:hidden;overscroll-behavior-x:contain}
@@ -78,8 +62,6 @@
 .mn-m-lines{background:#fff;border-radius:18px;padding:0 16px;display:flex;flex-direction:column}
 .mn-m-upsell{display:flex;gap:10px;overflow-x:auto;overflow-y:hidden;overscroll-behavior-x:contain}
 .mn-m-cart__foot{padding:12px 16px 26px;border-top:1px solid var(--border);background:#fff}
-.mn-m-cta__right{display:flex;align-items:center;gap:12px}
-.mn-m-cta__sep{width:1px;height:22px;background:currentColor;opacity:.3}
 .mn-story-view__backdrop{position:absolute;inset:0}
 .mn-story-view__img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;user-select:none;-webkit-user-select:none}
 .mn-story-view__shade{position:absolute;left:0;right:0;top:0;height:120px;background:linear-gradient(rgba(0,0,0,.35),rgba(0,0,0,0));pointer-events:none}
