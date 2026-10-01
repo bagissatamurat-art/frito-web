@@ -454,9 +454,6 @@ img.f-option__icon{object-fit:contain}
 .f-am__title{margin:0;font-size:26px;font-weight:700;line-height:1.15;letter-spacing:-.01em;text-wrap:pretty}
 .f-am__search{flex:1 1 0;min-height:0;display:flex;flex-direction:column;gap:12px}
 .f-am__search-row{flex-shrink:0;display:flex;align-items:center;gap:8px}
-.f-am__cities{flex-shrink:0;display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding:2px 0}
-.f-am__cities::-webkit-scrollbar{display:none}
-.f-am__cities .f-chip-btn{flex-shrink:0}
 .f-am__back{flex-shrink:0;width:44px;height:44px;border:0;border-radius:50%;background:var(--surface-2);cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0}
 .f-am__back-arrow{width:10px;height:10px;border-left:2.5px solid var(--ink);border-bottom:2.5px solid var(--ink);transform:rotate(45deg);margin-left:4px}
 .f-am__query{flex:1;min-width:0;height:52px;background:var(--surface-1);border-radius:14px;border:2px solid var(--primary);display:flex;align-items:center;gap:10px;padding:0 8px 0 12px;cursor:text}
@@ -492,6 +489,12 @@ img.f-option__icon{object-fit:contain}
 .f-am__city{display:inline-flex;align-items:center;gap:2px;padding:0;border:0;background:none;color:var(--primary);font:inherit;cursor:pointer}
 .f-am__city svg{transition:transform .2s var(--ease)}
 .f-am__city[aria-expanded=true] svg{transform:rotate(180deg)}
+.f-am__city-btn{flex-shrink:0;align-self:flex-start;display:inline-flex;align-items:center;gap:6px;height:var(--h-sm);padding:0 12px 0 14px;border:0;border-radius:var(--r-pill);background:var(--surface-2);color:var(--ink);font:inherit;font-size:14px;cursor:pointer;transition:background-color .15s}
+.f-am__city-btn:hover{background:var(--surface-3)}
+.f-am__city-btn-label{color:var(--ink-2);font-weight:500}
+.f-am__city-btn-name{font-weight:700}
+.f-am__city-btn svg{color:var(--ink-2);transition:transform .2s var(--ease)}
+.f-am__city-btn[aria-expanded=true] svg{transform:rotate(180deg)}
 .f-am__city-layer{position:absolute;inset:0;z-index:20}
 .f-am__city-scrim{position:absolute;inset:0;background:var(--overlay);animation:frito-fade .2s ease-out both}
 .f-am__city-menu{position:absolute;left:28px;top:96px;width:320px;padding:8px;background:var(--surface-0);border-radius:var(--r-lg);box-shadow:var(--shadow-modal);display:flex;flex-direction:column;gap:2px;animation:frito-rise .2s var(--ease) both}

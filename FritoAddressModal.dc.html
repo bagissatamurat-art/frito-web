@@ -77,9 +77,10 @@
           </label>
           <sc-if value="{{ isCenter }}" hint-placeholder-val="{{ false }}"><button type="button" onClick="{{ stopSearch }}" class="f-am__cancel">Отмена</button></sc-if>
         </div>
-        <div class="f-am__cities" role="group" aria-label="Город">
-          <sc-for list="{{ searchCities }}" as="c" hint-placeholder-count="5"><button type="button" class="{{ c.cls }}" onClick="{{ c.pick }}">{{ c.name }}</button></sc-for>
-        </div>
+        <button type="button" class="f-am__city-btn" onClick="{{ toggleCity }}" aria-haspopup="listbox" aria-expanded="{{ cityOpen }}">
+          <span class="f-am__city-btn-label">Город</span><span class="f-am__city-btn-name">{{ cityNameCur }}</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
         <div class="f-am__results">
           <sc-if value="{{ showRecent }}" hint-placeholder-val="{{ false }}"><div class="f-am__results-label">НЕДАВНИЕ</div></sc-if>
           <sc-if value="{{ searchHint }}" hint-placeholder-val="{{ false }}"><div class="f-am__msg">{{ searchHintText }}</div></sc-if>
@@ -472,6 +473,13 @@ class Component extends DCLogic {
     this.setState({ searching: false, q: '', sugg: [], addr: s.line, sub: s.sub, house: s.house, loading: false, inZone: inZones(s.lat, s.lng) });
     if (this.map) this.map.flyTo({ center: [s.lng, s.lat], zoom: 17, duration: 800 });
   }
+  // общий список городов: в поиске меняет город подсказок, в самовывозе — показывает рестораны города
+  pickCity(id) {
+    this.setState({ cityOpen: false });
+    if (this.state.searching) return this.setSearchCity(id);
+    const first = this.cityStores(id, this._dc || this._ref)[0].i;
+    this.setState({ city: id, store: first }, () => { this.fitStores(true); setTimeout(() => this.scrollCar(first), 50); });
+  }
   setSearchCity(id) {
     this.setState({ city: id });
     const q = this.state.q; if (q.trim()) { this.setState({ sLoading: true, sDone: false, sugg: [] }); setTimeout(() => this.search(q), 0); }
@@ -563,7 +571,7 @@ class Component extends DCLogic {
       searching: srch, q: s.q, hasQ, onQ: e => this.setQ(e.target.value), clearQ: () => { this.setQ(''); this.inputRef.current && this.inputRef.current.focus(); },
       onQKey: e => { if (e.key === 'Enter' && s.sugg[0]) this.pickSugg(s.sugg[0]); },
       rows, showRecent: !hasQ && RECENT.some(r => r.city === s.city), searchHint: !hasQ && !RECENT.some(r => r.city === s.city), searchHintText: 'Начните вводить улицу — подскажем адреса в ' + (CITIES.find(c => c.id === s.city) || CITIES[0]).inName,
-      searchCities: CITIES.map(c => ({ name: c.name, cls: 'f-chip-btn' + (c.id === s.city ? ' is-on' : ''), pick: () => this.setSearchCity(c.id) })), sLoading: s.sLoading && hasQ && !s.sugg.length, noResults: hasQ && s.sDone && !s.sugg.length,
+      cityNameCur: cityName(s.city), sLoading: s.sLoading && hasQ && !s.sugg.length, noResults: hasQ && s.sDone && !s.sugg.length,
       stopSearch: () => this.setState({ searching: false }), startSearch: () => this.startSearch(s.addr && s.addr !== 'Точка на карте' ? s.addr : ''), startSearchEmpty: () => this.startSearch(''),
       showDeliv: deliv && !srch && !out, showOut: out && !srch, showPickup: pick && !srch,
       addrLine: s.loading || s.moving ? 'Определяем адрес…' : s.addr || 'Точка на карте', addrColor: busy ? '#9CA3AF' : '#111827',
@@ -577,7 +585,7 @@ class Component extends DCLogic {
       toPickup: () => this.setMode('pickup'),
       cityIn: (CITIES.find(c => c.id === s.city) || CITIES[0]).inName, cityMenuCls: 'f-am__city-menu' + (sheet ? ' f-am__city-menu--sheet' : ''), cityOpen: s.cityOpen, toggleCity: () => this.setState({ cityOpen: !s.cityOpen }),
       cities: CITIES.map(c => { const n = STORES.filter(x => x.city === c.id).length; return { name: c.name, sel: c.id === s.city, cls: 'f-am__city-opt' + (c.id === s.city ? ' is-on' : ''), count: n + ' ' + (n % 10 === 1 && n % 100 !== 11 ? 'ресторан' : n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 10 || n % 100 >= 20) ? 'ресторана' : 'ресторанов'),
-        pick: () => { const first = this.cityStores(c.id, this._dc || this._ref)[0].i; this.setState({ city: c.id, cityOpen: false, store: first }, () => { this.fitStores(true); setTimeout(() => this.scrollCar(first), 50); }); } }; }),
+        pick: () => this.pickCity(c.id) }; }),
       stores, pickCaption: sheet ? (stores.length ? (stores.findIndex(x => x.idx === s.store) + 1) + ' из ' + stores.length + ' · листайте' : '') : 'расстояние от ' + (this.cityRef(s.city, ref) !== ref ? 'центра города' : this._dc ? 'точки доставки' : 'вас'), distCaption: 'расстояние от ' + (this.cityRef(s.city, ref) !== ref ? 'центра города' : this._dc ? 'точки доставки' : 'вас'),
       ctaDisabled: !ok, ctaCls: 'f-btn f-btn--primary f-btn--block' + (ok ? '' : ' is-disabled'),
       ctaLabel: busy ? 'Определяем адрес…' : !s.house ? 'Укажите номер дома' : 'Доставить сюда',
