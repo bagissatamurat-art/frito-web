@@ -181,11 +181,13 @@
 
     <sc-if value="{{ showDeliv }}" hint-placeholder-val="{{ true }}">
       <div class="f-am__foot">
+        <sc-if value="{{ hasPending }}" hint-placeholder-val="{{ false }}"><div class="f-am__pending"><span class="f-am__pending-ic" aria-hidden="true"><img src="assets/ic-delivery-p.svg" alt=""></span><span>{{ pendingText }}</span></div></sc-if>
         <button type="button" onClick="{{ confirm }}" disabled="{{ ctaDisabled }}" class="{{ ctaCls }}">{{ ctaLabel }}</button>
       </div>
     </sc-if>
     <sc-if value="{{ showPickup }}" hint-placeholder-val="{{ false }}">
       <div class="f-am__foot">
+        <sc-if value="{{ hasPending }}" hint-placeholder-val="{{ false }}"><div class="f-am__pending"><span class="f-am__pending-ic" aria-hidden="true"><img src="assets/ic-delivery-p.svg" alt=""></span><span>{{ pendingText }}</span></div></sc-if>
         <button type="button" onClick="{{ confirm }}" class="f-btn f-btn--primary f-btn--block">Заберу отсюда</button>
       </div>
     </sc-if>
@@ -550,6 +552,8 @@ class Component extends DCLogic {
     return {
       isCenter: center, isSheet: sheet, mapRef: this.mapRef, inputRef: this.inputRef, carRef: this.carRef, onCarScroll: () => this.onCarScroll(), mode: s.mode, mapFail: s.mapFail,
       title: deliv ? 'Куда доставить заказ?' : 'Где заберёте заказ?',
+      // товар, который ждёт выбора способа получения (props.pending — подпись)
+      hasPending: !!p.pending, pendingText: (p.pending || '') + ' — добавим в корзину сразу после выбора',
       wrapPad: center ? '32px' : '0', dlgMaxW: center ? '1120px' : '100%', dlgMaxH: center ? '720px' : '100%', dlgRadius: center ? '32px' : '0', dlgDir: center ? 'row' : 'column',
       mapOrder: center ? 2 : 0, panelW: center ? '420px' : '100%',
       panelFlex: center ? '0 0 420px' : srch ? '1 1 100%' : '0 0 auto', panelMaxH: center ? 'none' : srch ? '100%' : '64%',
