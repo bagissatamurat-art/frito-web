@@ -9,8 +9,19 @@
 <body>
 <x-dc>
 <!-- Прогресс заказа: этап крупно + время, шкала этапов, фото/адрес/кнопка. tone: brand (фиолетовая .f-brand-card) | light (белая панель).
-     onCta — кнопка действия внизу (напр. «Повторить заказ»), иначе cta — подпись-ссылка при onOpen. Используется: текущий заказ на главной и в кабинете, шапка страницы заказа. Стили — .f-progress* -->
+     etaLabel (+ etaNote) — режим «крупно время»: подпись, большое число, примечание; title становится строкой этапа. onCta — кнопка действия внизу (напр. «Повторить заказ»), иначе cta — подпись-ссылка при onOpen. Используется: текущий заказ на главной и в кабинете, шапка страницы заказа. Стили — .f-progress* -->
 <div class="{{ rootCls }}" role="{{ role }}" tabIndex="{{ tab }}" onClick="{{ open }}" onKeyDown="{{ key }}" aria-label="{{ aria }}">
+  <!-- герой: крупно время до доставки / готовности (etaLabel задан) -->
+  <sc-if value="{{ hasHero }}" hint-placeholder-val="{{ false }}">
+    <div class="f-progress__hero">
+      <span class="f-progress__caption">{{ caption }}</span>
+      <span class="f-progress__hero-label">{{ etaLabel }}</span>
+      <span class="f-progress__hero-value"><span class="f-progress__hero-num">{{ eta }}</span><span class="f-progress__hero-unit">{{ etaUnit }}</span></span>
+      <sc-if value="{{ hasNote }}" hint-placeholder-val="{{ true }}"><span class="f-progress__hero-note">{{ etaNote }}</span></sc-if>
+    </div>
+    <span class="f-progress__stage">{{ title }}</span>
+  </sc-if>
+  <sc-if value="{{ noHero }}" hint-placeholder-val="{{ true }}">
   <div class="f-progress__top">
     <span class="f-progress__titles">
       <span class="f-progress__caption">{{ caption }}</span>
@@ -19,6 +30,7 @@
     </span>
     <sc-if value="{{ hasEta }}" hint-placeholder-val="{{ true }}"><span class="f-progress__eta"><span class="f-progress__eta-v">{{ eta }}</span><span class="f-progress__eta-u">{{ etaUnit }}</span></span></sc-if>
   </div>
+  </sc-if>
   <div class="f-progress__steps" style="grid-template-columns:repeat({{ n }},minmax(0,1fr))">
     <sc-for list="{{ steps }}" as="st" hint-placeholder-count="4"><span class="{{ st.cls }}"><i class="f-progress__dot"></i><span class="f-progress__label">{{ st.label }}</span><sc-if value="{{ st.hasTime }}" hint-placeholder-val="{{ false }}"><span class="f-progress__time">{{ st.time }}</span></sc-if></span></sc-for>
   </div>
@@ -44,6 +56,7 @@ class Component extends DCLogic {
       open: () => link && p.onOpen(), key: e => { if (link && e.key === 'Enter') p.onOpen(); },
       caption: p.caption || '', title: p.title || '', sub: p.sub || '', hasSub: !!p.sub,
       eta: p.eta || '', etaUnit: p.etaUnit || '', hasEta: !!(p.eta || p.etaUnit),
+      hasHero: !!p.etaLabel, noHero: !p.etaLabel, etaLabel: p.etaLabel || '', etaNote: p.etaNote || '', hasNote: !!p.etaNote,
       n: steps.length,
       steps: steps.map(st => ({ label: st.label, time: st.time || '', hasTime: !!st.time, cls: 'f-progress__step is-' + (st.state || 'todo') })),
       thumbs, addr: p.addr || '', hasFoot: !!(thumbs.length || p.addr || p.cta), cta: p.cta || '', hasCta: !!p.cta && !p.onCta, hasBtn: !!p.cta && !!p.onCta,

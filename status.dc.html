@@ -38,7 +38,7 @@ button{outline:none}
 
         <!-- СТАТУС + ЭТАПЫ: одна карточка (FritoOrderProgress), как текущий заказ в кабинете и на главной -->
         <sc-if value="{{ isNormal }}" hint-placeholder-val="{{ true }}">
-          <dc-import name="FritoOrderProgress" size="lg" tone="{{ prog.tone }}" caption="{{ prog.caption }}" title="{{ prog.title }}" sub="{{ prog.sub }}" eta="{{ prog.eta }}" eta-unit="{{ prog.etaUnit }}" steps="{{ prog.steps }}" addr="{{ prog.addr }}" thumbs="{{ prog.thumbs }}" cta="{{ prog.cta }}" on-cta="{{ prog.onCta }}" hint-size="100%,260px"></dc-import>
+          <dc-import name="FritoOrderProgress" size="lg" tone="{{ prog.tone }}" caption="{{ prog.caption }}" title="{{ prog.title }}" sub="{{ prog.sub }}" eta="{{ prog.eta }}" eta-unit="{{ prog.etaUnit }}" eta-label="{{ prog.etaLabel }}" eta-note="{{ prog.etaNote }}" steps="{{ prog.steps }}" addr="{{ prog.addr }}" thumbs="{{ prog.thumbs }}" cta="{{ prog.cta }}" on-cta="{{ prog.onCta }}" hint-size="100%,260px"></dc-import>
         </sc-if>
 
         <sc-if value="{{ heroCard }}" hint-placeholder-val="{{ false }}">
@@ -108,7 +108,7 @@ button{outline:none}
         <section class="st-help">
           <h2 class="st-help__title">Нужна помощь?</h2>
           <a href="https://wa.me/77009380000?text=%D0%97%D0%B0%D0%BA%D0%B0%D0%B7%20%E2%84%964821" target="_blank" class="st-help__row">
-            <span class="st-help__wa"><img src="assets/ic-whatsapp-w.svg" alt="" class="st-icon-20"></span>
+            <span class="f-icon f-icon--square"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.2a8.8 8.8 0 0 0-7.6 13.3L3.2 20.8l4.4-1.2A8.8 8.8 0 1 0 12 3.2z"/><path d="M9.2 8.3c-.4 0-.9.5-.9 1.3 0 2.6 3.4 6 6 6 .8 0 1.3-.5 1.3-.9v-.9l-1.8-.8-.9.9c-1.1-.5-2.1-1.5-2.6-2.6l.9-.9-.8-1.8z" fill="currentColor" stroke="none"/></svg></span>
             <span class="st-help__body"><span class="st-strong-15">Написать в WhatsApp</span><span class="st-muted-13">Ответим за пару минут</span></span>
           </a>
           <sc-if value="{{ canCancel }}" hint-placeholder-val="{{ false }}">
@@ -119,7 +119,7 @@ button{outline:none}
 
         <section data-screen-label="Состав" class="st-card-sm">
           <button type="button" onClick="{{ toggleItems }}" aria-expanded="{{ itemsOpen }}" class="st-items__toggle">
-            <span class="st-items__titles"><span class="st-items__title">Состав и чек</span><span class="st-muted-13">3 позиции · {{ totalLabel }}</span></span>
+            <span class="st-items__titles"><span class="st-items__title">Состав заказа</span><span class="st-muted-13">{{ itemsMeta }}</span></span>
             <span class="st-items__chev"><span style="width:9px;height:9px;border-right:2.5px solid var(--ink);border-bottom:2.5px solid var(--ink);transform:{{ chevron }};transition:transform .2s"></span></span>
           </button>
           <sc-if value="{{ itemsOpen }}" hint-placeholder-val="{{ true }}">
@@ -132,7 +132,6 @@ button{outline:none}
                 </div>
               </sc-for>
             </div>
-            <div class="st-items__totals"><dc-import name="FritoTotals" subtotal="{{ subtotal }}" fee="{{ fee }}" discount="{{ discount }}" fee-title="{{ feeTitle }}" total-title="Оплачено" hint-size="100%,140px"></dc-import></div>
             <a href="#" class="st-link">Скачать чек (PDF)</a>
           </sc-if>
         </section>
@@ -276,13 +275,16 @@ class Component extends DCLogic {
     const SHORT = { 'Курьер в пути': 'В пути', 'Готов к выдаче': 'Готов' };
     const TITLES = pick ? ['Заказ принят', 'Оплата прошла', 'Готовим ваш заказ', 'Готов! Назовите номер на кассе', 'Заказ выдан'] : ['Заказ принят', 'Оплата прошла', 'Готовим ваш заказ', 'Курьер уже в пути', 'Заказ доставлен'];
     const place = pick ? 'Frito, Сыганак 11' : (v ? v.address : 'пр-кт Туран, 52/6');
+    const ready = pick && cur === 3, hero = !done;
     const prog = { tone: done ? 'light' : 'brand',
       caption: 'Заказ №' + orderNo + ' · ' + (pick ? 'самовывоз' : 'доставка') + ' · оформлен в ' + placedAt,
-      title: delayed ? 'Задерживаемся ~10 мин' : TITLES[cur], sub: done ? heroSub : delayed ? 'Сейчас много заказов — уже спешим. Извините за ожидание!' : list[cur].d,
-      eta: done ? '' : pick && cur === 3 ? '№' + orderNo : '~' + eta, etaUnit: done ? '' : pick && cur === 3 ? 'на кассе' : 'мин',
-      steps: list.map((st, i) => ({ label: SHORT[st.t] || st.t, time: i < cur || i === cur || done ? stepTime(i, st.time) : '', state: done || i < cur ? 'done' : i === cur ? 'cur' : 'todo' })),
+      title: hero ? (delayed ? 'Задерживаемся — сейчас много заказов' : TITLES[cur]) : TITLES[cur], sub: done ? heroSub : '',
+      etaLabel: !hero ? '' : ready ? 'Готов! Назовите номер на кассе' : pick ? 'Будет готов через' : 'Привезём через',
+      eta: !hero ? '' : ready ? '№' + orderNo : String(eta), etaUnit: !hero ? '' : ready ? '' : 'мин',
+      etaNote: !hero ? '' : ready ? 'Держим горячим до 23:00' : 'примерно к ' + arrive,
+      steps: list.map((st, i) => ({ label: SHORT[st.t] || st.t, time: done ? stepTime(i, st.time) : '', state: done || i < cur ? 'done' : i === cur ? 'cur' : 'todo' })),
       cta: done ? 'Повторить заказ' : '', onCta: done ? () => this.repeatOrder() : null,
-      addr: done ? '' : place + (cur < 4 && !(pick && cur === 3) ? ' · примерно к ' + arrive : ''), thumbs: LIST.slice(0, 3).map(it => it.img) };
+      addr: '', thumbs: done ? LIST.slice(0, 3).map(it => it.img) : [] };
     const subtotal = LIST.reduce((a, it) => a + it.price * it.qty, 0), discount = v ? 0 : 947;
     const fee = v ? Math.max(0, (v.total || 0) - subtotal) : pick ? 0 : 1000, total = subtotal - discount + fee;
     const itemsOpen = s.itemsOpen ?? !mobile;
@@ -305,6 +307,7 @@ class Component extends DCLogic {
       repeat: () => this.repeatOrder(),
       itemsOpen, toggleItems: () => this.setState({ itemsOpen: !itemsOpen }), chevron: itemsOpen ? 'rotate(-135deg) translate(-2px,-2px)' : 'rotate(45deg) translate(-2px,-2px)',
       backLabel: this.view ? 'Мои заказы' : 'В меню', backHref: this.view ? 'account.dc.html#orders' : 'menu.dc.html',
+      itemsMeta: LIST.reduce((a, it) => a + it.qty, 0) + ' ' + (n => n % 10 === 1 && n % 100 !== 11 ? 'позиция' : n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 10 || n % 100 >= 20) ? 'позиции' : 'позиций')(LIST.reduce((a, it) => a + it.qty, 0)) + ' · ' + money(total),
       items: LIST.map(it => ({ ...it, priceLabel: money(it.price * it.qty) })), totalLabel: money(total), orderNo, subtotal, discount, fee, feeTitle: pick ? 'Самовывоз' : 'Доставка',
       showRoutes: pick && issue !== 'cancelled' && !(normal && cur < 4),
       routes: [
