@@ -107,8 +107,8 @@ input:focus-visible,textarea:focus-visible{outline:none}
             </sc-for>
           </div>
           <!-- upsell -->
-          <div class="mn-panel-14">
-            <div class="mn-panel__title">Добавить к заказу?</div>
+          <div class="f-panel">
+            <div class="f-panel__title">Добавить к заказу?</div>
             <div class="mn-upsell">
               <sc-for list="{{ upsell }}" as="u" hint-placeholder-count="3">
                 <dc-import name="FritoUpsellTile" item="{{ u }}" on-add="{{ u.add }}" hint-size="92px,120px"></dc-import>
@@ -116,13 +116,13 @@ input:focus-visible,textarea:focus-visible{outline:none}
             </div>
           </div>
           <!-- method card -->
-          <div class="mn-panel-16">
-            <div class="mn-panel__title">Способ получения</div>
+          <div class="f-panel f-panel--gap-16">
+            <div class="f-panel__title">Способ получения</div>
             <dc-import name="FritoSegment" mode="{{ segMode }}" on-change="{{ pickModeD }}" variant="filled" icons="{{ true }}" height="{{ 40 }}" hint-size="100%,48px"></dc-import>
             <sc-if value="{{ hasMethod }}" hint-placeholder-val="{{ false }}">
               <div class="mn-method">
                 <span class="mn-icon-circle-40"><img src="assets/ic-pin-p.svg" alt="" class="mn-icon-18"></span>
-                <div class="mn-method__body"><div class="mn-caption-12">{{ addrCaption }} · <span class="mn-ok">{{ etaLabel }}</span></div><div class="mn-panel__title">{{ address }}</div></div>
+                <div class="mn-method__body"><div class="mn-caption-12">{{ addrCaption }} · <span class="mn-ok">{{ etaLabel }}</span></div><div class="f-panel__title">{{ address }}</div></div>
                 <button onClick="{{ openMethodD }}" class="f-btn f-btn--secondary f-btn--sm">Изменить</button>
               </div>
               <sc-if value="{{ isDelivery }}" hint-placeholder-val="{{ true }}">
@@ -137,14 +137,14 @@ input:focus-visible,textarea:focus-visible{outline:none}
             </sc-if>
           </div>
           <!-- promo -->
-          <div class="mn-panel-12">
+          <div class="f-panel f-panel--gap-12">
             <dc-import name="FritoPromoField" code="{{ promoCode }}" desc="{{ promoDesc }}" subtotal="{{ liveSub }}" on-apply="{{ setPromo }}" on-remove="{{ removePromo }}" hint-size="100%,44px"></dc-import>
             <sc-if value="{{ isDelivery }}" hint-placeholder-val="{{ true }}">
               <dc-import name="FritoDeliveryBar" subtotal="{{ liveSub }}" free-from="{{ freeFrom }}" hint-size="100%,60px"></dc-import>
             </sc-if>
           </div>
           <!-- totals -->
-          <div class="mn-panel-plain"><dc-import name="FritoTotals" subtotal="{{ liveSub }}" fee="{{ liveDel }}" discount="{{ liveDisc }}" fee-title="{{ modeLabel }}" hint-size="100%,140px"></dc-import></div>
+          <div class="f-panel f-panel--plain"><dc-import name="FritoTotals" subtotal="{{ liveSub }}" fee="{{ liveDel }}" discount="{{ liveDisc }}" fee-title="{{ modeLabel }}" hint-size="100%,140px"></dc-import></div>
           <p class="mn-legal">Контакты, комментарий и способ оплаты — на странице оформления.</p>
         </div>
         <div class="mn-cart__foot">
@@ -305,16 +305,16 @@ input:focus-visible,textarea:focus-visible{outline:none}
             <dc-import name="FritoCartLine" line="{{ l }}" compact="{{ true }}" hint-size="100%,120px"></dc-import>
           </sc-for>
           </div>
-          <div class="mn-m-panel">
-            <div class="mn-m-panel__title">Добавить к заказу?</div>
+          <div class="f-panel f-panel--compact f-panel--gap-12">
+            <div class="f-panel__title">Добавить к заказу?</div>
             <div class="mn-m-upsell">
               <sc-for list="{{ upsell }}" as="u" hint-placeholder-count="3">
                 <dc-import name="FritoUpsellTile" item="{{ u }}" compact="{{ true }}" on-add="{{ u.addM }}" hint-size="80px,104px"></dc-import>
               </sc-for>
             </div>
           </div>
-          <div class="mn-m-panel">
-            <div class="mn-m-panel__title">Способ получения</div>
+          <div class="f-panel f-panel--compact f-panel--gap-12">
+            <div class="f-panel__title">Способ получения</div>
             <dc-import name="FritoSegment" mode="{{ segMode }}" on-change="{{ pickModeM }}" variant="filled" icons="{{ true }}" height="{{ 40 }}" hint-size="100%,48px"></dc-import>
             <sc-if value="{{ hasMethod }}" hint-placeholder-val="{{ false }}">
               <div class="mn-m-method">
@@ -333,13 +333,13 @@ input:focus-visible,textarea:focus-visible{outline:none}
               <button onClick="{{ openMethodM }}" class="mn-m-linkbtn">Выберите способ — покажем адрес и время <span aria-hidden="true" class="mn-chev-16">›</span></button>
             </sc-if>
           </div>
-          <div class="mn-m-panel">
+          <div class="f-panel f-panel--compact f-panel--gap-12">
             <dc-import name="FritoPromoField" code="{{ promoCode }}" desc="{{ promoDesc }}" subtotal="{{ liveSub }}" compact="{{ true }}" on-apply="{{ setPromo }}" on-remove="{{ removePromo }}" hint-size="100%,44px"></dc-import>
             <sc-if value="{{ isDelivery }}" hint-placeholder-val="{{ true }}">
               <dc-import name="FritoDeliveryBar" subtotal="{{ liveSub }}" free-from="{{ freeFrom }}" compact="{{ true }}" hint-size="100%,56px"></dc-import>
             </sc-if>
           </div>
-          <div class="mn-m-panel-plain"><dc-import name="FritoTotals" subtotal="{{ liveSub }}" fee="{{ liveDel }}" discount="{{ liveDisc }}" fee-title="{{ modeLabel }}" compact="{{ true }}" hint-size="100%,120px"></dc-import></div>
+          <div class="f-panel f-panel--compact f-panel--plain"><dc-import name="FritoTotals" subtotal="{{ liveSub }}" fee="{{ liveDel }}" discount="{{ liveDisc }}" fee-title="{{ modeLabel }}" compact="{{ true }}" hint-size="100%,120px"></dc-import></div>
           <p class="mn-legal">Контакты, комментарий и способ оплаты — на странице оформления.</p>
         </div>
         <div class="mn-m-cart__foot">

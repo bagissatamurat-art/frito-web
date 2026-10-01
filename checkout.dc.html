@@ -58,9 +58,9 @@ input,textarea,button{outline:none}
       <div class="co-d__left">
         <h1 class="co-d__title">Оформление заказа</h1>
 
-        <div class="co-panel-16">
+        <div class="f-panel f-panel--gap-16">
           <div class="co-row-between-12">
-            <div class="co-panel__title">Способ получения</div>
+            <div class="f-panel__title">Способ получения</div>
             <dc-import name="FritoSegment" mode="{{ mode }}" on-change="{{ setMode }}" style="width:220px" hint-size="220px,40px"></dc-import>
           </div>
           <div class="co-addr">
@@ -85,8 +85,8 @@ input,textarea,button{outline:none}
           </sc-if>
         </div>
 
-        <div class="co-panel-14">
-          <div class="co-panel__title">{{ timeTitle }}</div>
+        <div class="f-panel">
+          <div class="f-panel__title">{{ timeTitle }}</div>
           <div class="co-opts">
             <dc-import name="FritoOptionCard" title="Как можно скорее" sub="{{ asapHint }}" selected="{{ isAsap }}" on-pick="{{ pickAsap }}" hint-size="150px,64px"></dc-import>
             <dc-import name="FritoOptionCard" title="Ко времени" sub="выбрать слот" selected="{{ isLater }}" on-pick="{{ pickLater }}" hint-size="150px,64px"></dc-import>
@@ -100,8 +100,8 @@ input,textarea,button{outline:none}
           </sc-if>
         </div>
 
-        <div class="co-panel-14">
-          <div class="co-panel__title">Контакты</div>
+        <div class="f-panel">
+          <div class="f-panel__title">Контакты</div>
           <div class="co-grid-2">
             <dc-import name="FritoInput" label="Имя" value="{{ name }}" on-change="{{ setName }}" hint-size="100%,56px"></dc-import>
             <dc-import name="FritoInput" label="Номер телефона" mask="phone" required="{{ true }}" value="{{ phone }}" on-change="{{ setPhone }}" hint-size="100%,56px"></dc-import>
@@ -109,8 +109,8 @@ input,textarea,button{outline:none}
           <dc-import name="FritoInput" label="Комментарий к заказу" value="{{ comment }}" on-change="{{ setComment }}" multiline="{{ true }}" hint-size="100%,84px"></dc-import>
         </div>
 
-        <div class="co-panel-12">
-          <div class="co-panel__title">Оплата</div>
+        <div class="f-panel f-panel--gap-12">
+          <div class="f-panel__title">Оплата</div>
           <div class="co-grid-2">
             <sc-for list="{{ payments }}" as="pm" hint-placeholder-count="2">
               <dc-import name="FritoOptionCard" title="{{ pm.title }}" sub="{{ pm.sub }}" icon="{{ pm.icon }}" icon-bg="{{ pm.iconBg }}" selected="{{ pm.on }}" on-pick="{{ pm.pick }}" hint-size="100%,68px"></dc-import>
@@ -122,7 +122,7 @@ input,textarea,button{outline:none}
       </div>
 
       <div class="co-d__aside">
-        <div class="co-panel-14">
+        <div class="f-panel">
           <div class="co-row-between"><span class="co-title-16">Ваш заказ</span><span class="co-muted-13">{{ countLabel }}</span></div>
           <sc-if value="{{ hasSold }}" hint-placeholder-val="{{ false }}">
             <dc-import name="FritoSoldAlert" text="{{ soldText }}" compact="{{ true }}" on-remove="{{ removeSold }}" hint-size="100%,56px"></dc-import>
@@ -135,7 +135,7 @@ input,textarea,button{outline:none}
           <a href="menu.dc.html" class="co-link">Изменить состав заказа</a>
         </div>
 
-        <div class="co-panel-12">
+        <div class="f-panel f-panel--gap-12">
           <dc-import name="FritoPromoField" code="{{ promoCode }}" desc="{{ promoDesc }}" subtotal="{{ subtotal }}" on-apply="{{ setPromo }}" on-remove="{{ removePromo }}" hint-size="100%,44px"></dc-import>
           <sc-if value="{{ isDelivery }}" hint-placeholder-val="{{ true }}"><dc-import name="FritoDeliveryBar" subtotal="{{ subtotal }}" free-from="{{ freeFrom }}" hint-size="100%,60px"></dc-import></sc-if>
           <div class="co-totals-wrap"><dc-import name="FritoTotals" subtotal="{{ subtotal }}" fee="{{ fee }}" discount="{{ discount }}" fee-title="{{ feeTitle }}" total-title="К оплате" hint-size="100%,140px"></dc-import></div>
@@ -159,7 +159,7 @@ input,textarea,button{outline:none}
     <span class="co-sk__spacer"></span>
   </div>
   <div class="co-m__scroll">
-    <div class="co-m-panel-14">
+    <div class="f-panel f-panel--compact">
       <dc-import name="FritoSegment" mode="{{ mode }}" on-change="{{ setMode }}" hint-size="100%,42px"></dc-import>
       <div class="co-m-addr">
         <span class="co-icon-circle"><img src="{{ methodIcon }}" alt="" class="co-icon-20"></span>
@@ -183,8 +183,8 @@ input,textarea,button{outline:none}
       </sc-if>
     </div>
 
-    <div class="co-m-panel-12">
-      <div class="co-m-panel__title">{{ timeTitle }}</div>
+    <div class="f-panel f-panel--compact f-panel--gap-12">
+      <div class="f-panel__title">{{ timeTitle }}</div>
       <div class="co-m-grid-2">
         <dc-import name="FritoOptionCard" title="Скорее" sub="{{ asapHint }}" selected="{{ isAsap }}" compact="{{ true }}" on-pick="{{ pickAsap }}" hint-size="100%,60px"></dc-import>
         <dc-import name="FritoOptionCard" title="Ко времени" sub="выбрать слот" selected="{{ isLater }}" compact="{{ true }}" on-pick="{{ pickLater }}" hint-size="100%,60px"></dc-import>
@@ -198,15 +198,15 @@ input,textarea,button{outline:none}
       </sc-if>
     </div>
 
-    <div class="co-m-panel-10">
-      <div class="co-m-panel__title-mb">Контакты</div>
+    <div class="f-panel f-panel--compact f-panel--gap-10">
+      <div class="f-panel__title f-panel__title--mb">Контакты</div>
       <dc-import name="FritoInput" label="Имя" value="{{ name }}" on-change="{{ setName }}" hint-size="100%,56px"></dc-import>
       <dc-import name="FritoInput" label="Номер телефона" mask="phone" required="{{ true }}" value="{{ phone }}" on-change="{{ setPhone }}" hint-size="100%,56px"></dc-import>
       <dc-import name="FritoInput" label="Комментарий к заказу" value="{{ comment }}" on-change="{{ setComment }}" multiline="{{ true }}" hint-size="100%,84px"></dc-import>
     </div>
 
-    <div class="co-m-panel-10">
-      <div class="co-m-panel__title-mb">Оплата</div>
+    <div class="f-panel f-panel--compact f-panel--gap-10">
+      <div class="f-panel__title f-panel__title--mb">Оплата</div>
       <sc-for list="{{ payments }}" as="pm" hint-placeholder-count="2">
         <dc-import name="FritoOptionCard" title="{{ pm.title }}" sub="{{ pm.sub }}" icon="{{ pm.icon }}" icon-bg="{{ pm.iconBg }}" selected="{{ pm.on }}" compact="{{ true }}" on-pick="{{ pm.pick }}" hint-size="100%,62px"></dc-import>
       </sc-for>
@@ -214,7 +214,7 @@ input,textarea,button{outline:none}
       <sc-if value="{{ isCash }}" hint-placeholder-val="{{ false }}"><dc-import name="FritoInput" label="С какой суммы подготовить сдачу" value="{{ change }}" on-change="{{ setChange }}" hint-size="100%,56px"></dc-import></sc-if>
     </div>
 
-    <div class="co-m-panel-12">
+    <div class="f-panel f-panel--compact f-panel--gap-12">
       <div class="co-row-between"><span class="co-text-15-700">Ваш заказ</span><a href="menu.dc.html" class="co-m-link">Изменить</a></div>
       <sc-if value="{{ hasSold }}" hint-placeholder-val="{{ false }}">
         <dc-import name="FritoSoldAlert" text="{{ soldText }}" compact="{{ true }}" on-remove="{{ removeSold }}" hint-size="100%,56px"></dc-import>

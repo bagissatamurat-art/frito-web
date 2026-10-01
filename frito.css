@@ -683,3 +683,14 @@ img.f-option__icon{object-fit:contain}
 .f-check.is-on{border-color:var(--primary);background:var(--primary)}
 .f-check__tick{width:10px;height:6px;border-left:2px solid #fff;border-bottom:2px solid #fff;transform:rotate(-45deg) translate(1px,-1px);opacity:0}
 .f-check.is-on .f-check__tick{opacity:1}
+
+/* Панель (Card) с заголовком: r20, p18/20, заголовок 15/700; компактная — для телефона */
+.f-panel{display:flex;flex-direction:column;gap:14px;padding:18px 20px;background:#fff;border-radius:var(--r-lg)}
+.f-panel--gap-10{gap:10px}
+.f-panel--gap-12{gap:12px}
+.f-panel--gap-16{gap:16px}
+.f-panel--plain{display:block}
+.f-panel--compact{padding:14px 16px;border-radius:18px}
+.f-panel__title{font-size:15px;font-weight:700}
+.f-panel--compact .f-panel__title{font-size:14px}
+.f-panel__title--mb{margin-bottom:2px}
