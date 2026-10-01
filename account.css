@@ -1,0 +1,131 @@
+/* Личный кабинет — только раскладка и специфичные блоки; панели, кнопки, бейджи, поля — из frito.css */
+.ac{width:100%;max-width:1080px;margin:0 auto;padding:24px var(--gutter) calc(48px + env(safe-area-inset-bottom))}
+.ac-grid{display:grid;grid-template-columns:300px minmax(0,1fr);gap:24px;align-items:start}
+.ac-side{position:sticky;top:24px;display:flex;flex-direction:column;gap:12px}
+.ac-main{display:flex;flex-direction:column;gap:12px;min-width:0;animation:frito-fade .25s ease-out both}
+
+/* загрузка */
+.ac-skel{display:grid;grid-template-columns:300px 1fr;gap:24px}
+.ac-skel__side{height:280px;border-radius:var(--r-lg)}
+.ac-skel__main{height:420px;border-radius:var(--r-lg)}
+
+/* гость */
+.ac-guest{max-width:440px;margin:40px auto 0;align-items:center;text-align:center;gap:12px;padding:32px 24px}
+.ac-guest__icon{display:flex;align-items:center;justify-content:center;width:64px;height:64px;border-radius:50%;background:var(--primary-100);color:var(--primary);margin-bottom:4px}
+.ac-guest__title{margin:0;font-size:24px;font-weight:700}
+.ac-guest__text{margin:0 0 8px;font-size:14px;line-height:1.5;color:var(--ink-2)}
+.ac-guest__btn{min-width:200px}
+
+/* профиль слева */
+.ac-me{flex-direction:row;align-items:center;gap:14px}
+.ac-me__avatar{flex-shrink:0;display:flex;align-items:center;justify-content:center;width:56px;height:56px;border-radius:50%;background:var(--primary);color:#fff;font-size:22px;font-weight:700}
+.ac-me__body{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.ac-me__name{font-size:18px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ac-me__phone{font-size:14px;font-weight:600;color:var(--ink)}
+.ac-me__via{font-size:12px;font-weight:600}
+
+/* разделы */
+.ac-tabs{display:flex;flex-direction:column;gap:2px;padding:8px;background:var(--surface-0);border-radius:var(--r-lg)}
+.ac-tab{display:flex;align-items:center;gap:8px;width:100%;height:var(--h-md);padding:0 12px;border:0;border-radius:var(--r-md-);background:transparent;color:var(--ink);font:inherit;font-size:15px;font-weight:600;text-align:left;cursor:pointer;transition:background-color .15s,color .15s}
+.ac-tab:hover{background:var(--surface-1)}
+.ac-tab.is-on{background:var(--primary-50);color:var(--primary)}
+.ac-tab__label{flex:1}
+.ac-tab__count{min-width:24px;height:24px;padding:0 8px;border-radius:var(--r-pill);background:var(--surface-2);color:var(--ink-2);font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center}
+.ac-tab.is-on .ac-tab__count{background:var(--primary-100);color:var(--primary)}
+.ac-logout{align-self:flex-start}
+.ac-logout-m{display:none}
+
+/* заголовки разделов */
+.ac-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;padding:8px 4px 0}
+.ac-title{margin:0;font-size:22px;font-weight:700}
+.ac-caption{font-size:13px;color:var(--ink-2)}
+
+/* текущий заказ */
+.ac-active{display:flex;flex-direction:column;gap:12px;padding:20px;border-radius:var(--r-lg);background:var(--primary);color:#fff;box-shadow:var(--shadow-fab);transition:transform .15s}
+.ac-active:hover{color:#fff;transform:translateY(-1px)}
+.ac-active__top,.ac-active__row{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.ac-active__label{font-size:13px;font-weight:600;opacity:.8}
+.ac-active__stage{font-size:20px;font-weight:700}
+.ac-active__bar{display:block;height:6px;border-radius:3px;background:rgba(255,255,255,.25);overflow:hidden}
+.ac-active__bar > span{display:block;height:100%;border-radius:3px;background:#fff;transition:width .4s var(--ease)}
+.ac-active__meta{min-width:0;font-size:13px;opacity:.85;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ac-active__go{flex-shrink:0;display:flex;align-items:center;gap:2px;font-size:14px;font-weight:700}
+
+/* карточка заказа */
+.ac-order{gap:12px}
+.ac-order__top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.ac-order__titles{display:flex;flex-direction:column;gap:2px}
+.ac-order__no{font-size:16px;font-weight:700}
+.ac-order__date{font-size:13px;color:var(--ink-2)}
+.ac-badge--muted{background:var(--surface-2);color:var(--ink-2)}
+.ac-order__where{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--ink-2);min-width:0}
+.ac-order__where span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ac-order__where-ic{flex-shrink:0;width:16px;height:16px}
+.ac-order__thumbs{display:flex;gap:8px}
+.ac-thumb{position:relative;flex-shrink:0;width:56px;height:56px;border-radius:var(--r-md-);background:var(--surface-2);overflow:hidden}
+.ac-thumb__qty{position:absolute;right:4px;bottom:4px;padding:1px 6px;border-radius:var(--r-pill);background:var(--surface-0);font-size:11px;font-weight:700;box-shadow:var(--shadow-xs)}
+.ac-thumb--more{display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:var(--ink-2)}
+.ac-order__lines{list-style:none;margin:0;padding:12px 0 0;border-top:1px solid var(--divider);display:flex;flex-direction:column;gap:8px;animation:frito-fade .2s ease-out both}
+.ac-line{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:12px;font-size:14px}
+.ac-line__name{font-weight:600}
+.ac-line__qty{color:var(--ink-3)}
+.ac-line__sum{font-weight:700;text-align:right}
+.ac-order__foot{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-top:12px;border-top:1px solid var(--divider)}
+.ac-order__total{font-size:18px;font-weight:700}
+.ac-order__actions{display:flex;align-items:center;gap:4px}
+
+/* пусто */
+.ac-empty{align-items:flex-start;gap:8px}
+.ac-empty__title{font-size:16px;font-weight:700}
+.ac-empty__text{font-size:14px;color:var(--ink-2);line-height:1.5;margin-bottom:4px}
+
+/* профиль */
+.ac-form{gap:12px}
+.ac-phone{display:flex;align-items:center;gap:12px;min-height:var(--h-lg);padding:8px 8px 8px 14px;border-radius:var(--r-md);background:var(--surface-1)}
+.ac-phone__body{flex:1;display:flex;flex-direction:column;gap:4px}
+.ac-phone__label{font-size:11px;font-weight:500;color:var(--ink-2);line-height:1}
+.ac-phone__value{font-size:15px;font-weight:600}
+.ac-switch{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:4px 0}
+.ac-switch + .ac-switch{padding-top:12px;border-top:1px solid var(--divider)}
+.ac-switch__body{display:flex;flex-direction:column;gap:2px}
+.ac-switch__title{font-size:15px;font-weight:600}
+.ac-switch__sub{font-size:12px;color:var(--ink-2)}
+.ac-save{display:flex;justify-content:flex-end;padding-top:4px}
+
+/* адреса */
+.ac-addr{flex-direction:row;align-items:center;gap:14px}
+.ac-addr__ic{width:18px;height:18px}
+.ac-addr__body{flex:1;min-width:0;display:flex;flex-direction:column;gap:4px}
+.ac-addr__top{display:flex;align-items:center;gap:8px}
+.ac-addr__top .f-badge{align-self:center;padding:3px 10px}
+.ac-addr__label{padding:0;border:0;background:none;font:inherit;font-size:13px;font-weight:600;color:var(--ink-2);cursor:pointer;border-bottom:1px dashed var(--neutral-300)}
+.ac-addr__line{font-size:15px;font-weight:700;overflow-wrap:anywhere}
+.ac-addr__actions{flex-shrink:0;display:flex;align-items:center;gap:4px}
+.ac-addr__del{display:flex;align-items:center;justify-content:center;width:var(--h-sm);height:var(--h-sm);border:0;border-radius:50%;background:transparent;color:var(--ink-3);cursor:pointer;transition:background-color .15s,color .15s}
+.ac-addr__del:hover{background:#FEF2F2;color:var(--danger)}
+.ac-add{gap:8px}
+.ac-add .f-plus{width:14px;height:14px}
+
+/* модалки и тост */
+.ac-layer{position:fixed;inset:0;z-index:50}
+.ac-toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom));z-index:60;transform:translateX(-50%);padding:12px 18px;border-radius:var(--r-md);background:var(--ink);color:#fff;font-size:14px;font-weight:600;box-shadow:var(--shadow-modal);animation:frito-rise .25s var(--ease) both}
+
+/* мобайл: разделы — горизонтальные вкладки сверху */
+@media (max-width:767px){
+  .ac{padding-top:16px}
+  .ac-grid,.ac-skel{grid-template-columns:minmax(0,1fr);gap:12px}
+  .ac-side{position:static}
+  .ac-me{padding:16px}
+  .ac-tabs{flex-direction:row;padding:4px;border-radius:var(--r-pill)}
+  .ac-tab{flex:1;justify-content:center;height:var(--h-sm);padding:0 8px;border-radius:var(--r-pill);font-size:14px}
+  .ac-tab__label{flex:none}
+  .ac-tab__count{min-width:20px;height:20px;padding:0 6px;font-size:11px}
+  .ac-logout{display:none}
+  .ac-logout-m{display:flex;align-self:center}
+  .ac-title{font-size:20px}
+  .ac-head{flex-direction:column;align-items:flex-start;gap:2px}
+  .f-panel.ac-order,.f-panel.ac-addr,.f-panel.ac-form,.f-panel.ac-empty{padding:16px}
+  .ac-addr{align-items:flex-start}
+  .ac-addr__actions{flex-direction:column;align-items:flex-end}
+  .ac-save .f-btn{width:100%}
+}

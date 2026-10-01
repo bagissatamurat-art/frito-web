@@ -17,15 +17,15 @@
   <div class="f-drawer">
     <!-- аккаунт -->
     <sc-if value="{{ userIn }}" hint-placeholder-val="{{ false }}">
-      <div class="f-drawer__user">
+      <a class="f-drawer__user" href="account.dc.html">
         <span class="f-icon f-icon--solid"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4.5 20a7.5 7.5 0 0 1 15 0"/></svg></span>
-        <span class="f-drawer__user-body"><span class="f-drawer__caption">{{ userVia }}</span><span class="f-drawer__value">{{ userPhone }}</span></span>
-        <button type="button" class="f-btn f-btn--ghost" onClick="{{ logout }}">Выйти</button>
-      </div>
+        <span class="f-drawer__user-body"><span class="f-drawer__caption">Личный кабинет</span><span class="f-drawer__value">{{ userTitle }}</span></span>
+        <span class="f-nav__chev"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></span>
+      </a>
     </sc-if>
     <sc-if value="{{ guest }}" hint-placeholder-val="{{ true }}">
       <div class="f-drawer__login">
-        <span class="f-drawer__login-text"><span class="f-drawer__value">Войдите в аккаунт</span><span class="f-drawer__caption">Телефон подставится при оформлении, заказы сохранятся</span></span>
+        <span class="f-drawer__login-text"><span class="f-drawer__value">Войдите в аккаунт</span><span class="f-drawer__caption">История заказов, адреса и повтор заказа в один клик</span></span>
         <button type="button" class="f-btn f-btn--primary f-btn--md f-btn--block" onClick="{{ login }}">Войти</button>
       </div>
     </sc-if>
@@ -69,7 +69,7 @@ class Component extends DCLogic {
       rootCls: 'f-comp f-drawer-root' + (p.compact ? ' f-drawer-root--compact' : ''),
       closeCls: 'f-drawer__close',
       close: () => p.onClose && p.onClose(),
-      userIn: !!u, guest: !u, userVia: u ? (VIA[u.via] || 'Аккаунт') : '', userPhone: u ? (u.phone || 'Аккаунт') : '',
+      userIn: !!u, guest: !u, userTitle: u ? (u.name || u.phone || 'Аккаунт') : '', userVia: u ? (VIA[u.via] || 'Аккаунт') : '', userPhone: u ? (u.phone || 'Аккаунт') : '',
       login: () => p.onLogin && p.onLogin(), logout: () => p.onLogout && p.onLogout(),
       addrCls: 'f-addr-btn' + (has ? '' : ' f-addr-btn--empty'),
       methodIcon: has && !deliv ? 'assets/ic-pickup-p.svg' : 'assets/ic-delivery-p.svg',

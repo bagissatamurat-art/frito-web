@@ -338,7 +338,7 @@ class Component extends DCLogic {
       countLabel: D.plural(LINES.reduce((a, l) => a + (l.soldOut ? 0 : l.qty), 0)),
       hasSold, soldText: soldLines.map(l => l.name).join(', ') + ' разобрали — уберите ' + (soldLines.length > 1 ? 'их' : 'его') + ', чтобы продолжить',
       removeSold: () => this.setState(st => ({ hidden: { ...st.hidden, ...Object.fromEntries(soldLines.map(l => [l.id, true])) } })),
-      payDisabled: hasSold || LINES.length === 0, payGo: () => { location.href = 'order-status.html?mode=' + mode; }, payCursor: hasSold ? 'not-allowed' : 'pointer',
+      payDisabled: hasSold || LINES.length === 0, payGo: () => { try { const list = readJSON('frito_orders') || []; list.unshift({ no: String(4800 + Math.floor(Math.random() * 190)), at: Date.now(), mode, address: isDelivery ? (s.addr || D.DEFAULT_ADDR) : (s.store ? s.store.name : D.STORES[0].name), items: LINES.filter(l => l.ok).map(l => [l.id, l.qty]), total, status: 'placed' }); localStorage.setItem('frito_orders', JSON.stringify(list.slice(0, 20))); } catch (e) {} location.href = 'order-status.html?mode=' + mode; }, payCursor: hasSold ? 'not-allowed' : 'pointer',
       payBg: hasSold ? 'var(--surface-3)' : 'var(--primary)', payColor: hasSold ? 'var(--ink-3)' : '#fff', payOpacity: hasSold ? .5 : 1, payFilter: hasSold ? 'grayscale(1)' : 'none',
       promoCode: promo || '', setPromo: c => this.setState({ promo: c, promoTouched: true }), promoDesc: '−' + pct + '% на первый заказ',
       removePromo: () => this.setState({ promo: null, promoTouched: true }),

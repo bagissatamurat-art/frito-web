@@ -430,6 +430,9 @@ class Component extends DCLogic {
   componentDidMount() { window.addEventListener('resize', this._vwH);
     if (this.props.startWithMethod) this.setState({ mode: 'delivery', address: DEFAULT_ADDR });
     else { try { const m = JSON.parse(localStorage.getItem('frito_method') || 'null'); if (m && m.mode && m.address) this.setState({ mode: m.mode, address: m.address }); } catch (e) {} }
+    // повтор заказа из личного кабинета
+    try { const r = JSON.parse(localStorage.getItem('frito_repeat') || 'null'); localStorage.removeItem('frito_repeat');
+      if (r && r.items && Date.now() - r.at < 6e4) { const cart = {}; Object.entries(r.items).forEach(([id, q]) => { if (BY_ID[id]) cart[id] = q; }); this.setState({ cart, mobileOpen: window.innerWidth < 1024 }); } } catch (e) {}
     // Общие данные меню/ресторанов лежат в frito-data.js — здесь оставлена локальная копия для мгновенного рендера.
   }
   componentDidUpdate(prev) {
