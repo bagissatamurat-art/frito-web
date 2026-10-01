@@ -144,14 +144,6 @@
         <div class="f-am__pick-head">
           <h3 class="f-am__pick-title">Рестораны в <button type="button" class="f-am__city" onClick="{{ toggleCity }}" aria-haspopup="listbox" aria-expanded="{{ cityOpen }}">{{ cityIn }}<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button></h3>
           <span class="f-am__caption">{{ pickCaption }}</span>
-          <sc-if value="{{ cityOpen }}" hint-placeholder-val="{{ false }}">
-            <div class="f-am__city-scrim" onClick="{{ toggleCity }}"></div>
-            <div class="f-am__city-menu" role="listbox" aria-label="Город">
-              <sc-for list="{{ cities }}" as="c" hint-placeholder-count="1">
-                <button type="button" role="option" aria-selected="{{ c.sel }}" class="{{ c.cls }}" onClick="{{ c.pick }}"><span class="f-am__city-name">{{ c.name }}</span><span class="f-am__city-count">{{ c.count }}</span></button>
-              </sc-for>
-            </div>
-          </sc-if>
         </div>
         <sc-if value="{{ isSheet }}" hint-placeholder-val="{{ false }}">
           <div ref="{{ carRef }}" onScroll="{{ onCarScroll }}" class="f-am__carousel">
@@ -194,6 +186,18 @@
       </div>
     </sc-if>
   </div>
+  <!-- выбор города: поверх окна, чтобы не обрезался прокруткой панели и не менял размер карты -->
+  <sc-if value="{{ cityOpen }}" hint-placeholder-val="{{ false }}">
+    <div class="f-am__city-layer">
+      <div class="f-am__city-scrim" onClick="{{ toggleCity }}"></div>
+      <div class="{{ cityMenuCls }}" role="listbox" aria-label="Город">
+        <div class="f-am__city-head">Выберите город</div>
+        <sc-for list="{{ cities }}" as="c" hint-placeholder-count="5">
+          <button type="button" role="option" aria-selected="{{ c.sel }}" class="{{ c.cls }}" onClick="{{ c.pick }}"><span class="f-am__city-name">{{ c.name }}</span><span class="f-am__city-count">{{ c.count }}</span></button>
+        </sc-for>
+      </div>
+    </div>
+  </sc-if>
 </div>
 </div>
 </div>
@@ -226,6 +230,19 @@ const STORES = [
   { city: 'astana', name: 'Республика 30', hours: '11:30 – 02:00', lat: 51.1620, lng: 71.4270 },
   { city: 'astana', name: 'Аль-фараби 13п', hours: '11:30 – 02:00', lat: 51.1000, lng: 71.4040 },
   { city: 'astana', name: 'ТРЦ Аружан', hours: '10:30 – 23:00', lat: 51.1596, lng: 71.4096 },
+  // Демо-локации в других городах (вымышленные)
+  { city: 'almaty', name: 'Абая 52', hours: '10:00 – 02:00', lat: 43.2401, lng: 76.9302 },
+  { city: 'almaty', name: 'Достык 111', hours: '10:00 – 01:00', lat: 43.2268, lng: 76.9590 },
+  { city: 'almaty', name: 'Толе би 189', hours: '11:00 – 02:00', lat: 43.2525, lng: 76.8880 },
+  { city: 'almaty', name: 'Розыбакиева 247', hours: '10:00 – 23:00', lat: 43.2019, lng: 76.8925 },
+  { city: 'shymkent', name: 'Тауке хана 35', hours: '10:00 – 01:00', lat: 42.3172, lng: 69.5960 },
+  { city: 'shymkent', name: 'Республики 12', hours: '11:00 – 00:00', lat: 42.3330, lng: 69.5900 },
+  { city: 'shymkent', name: 'Кунаева 59', hours: '10:00 – 23:00', lat: 42.3080, lng: 69.6050 },
+  { city: 'karaganda', name: 'Бухар-жырау 49', hours: '10:00 – 00:00', lat: 49.8040, lng: 73.0980 },
+  { city: 'karaganda', name: 'Ерубаева 37', hours: '11:00 – 01:00', lat: 49.8085, lng: 73.0930 },
+  { city: 'karaganda', name: 'Абдирова 15', hours: '10:00 – 23:00', lat: 49.7930, lng: 73.1120 },
+  { city: 'aktobe', name: 'Абилкайыр хана 52', hours: '10:00 – 00:00', lat: 50.2880, lng: 57.1660 },
+  { city: 'aktobe', name: 'Санкибай батыра 1', hours: '11:00 – 01:00', lat: 50.2780, lng: 57.1850 },
 ];
 // Зона доставки — демо-полигон, заменить на реальный
 const ZONE = [[51.205, 71.36], [51.205, 71.52], [51.17, 71.56], [51.10, 71.55], [51.065, 71.48], [51.065, 71.37], [51.10, 71.33], [51.16, 71.33]];
@@ -233,7 +250,13 @@ const ZONE = [[51.205, 71.36], [51.205, 71.52], [51.17, 71.56], [51.10, 71.55], 
 const HOME = { lat: 51.12827, lng: 71.43047 };
 const HOME_ADDR = { addr: 'бул. Нуржол, 14', sub: 'Есильский р-н, Астана', house: true };
 // Города самовывоза: добавить город = строка здесь + city у ресторанов в STORES
-const CITIES = [{ id: 'astana', name: 'Астана', inName: 'Астане' }];
+const CITIES = [
+  { id: 'astana', name: 'Астана', inName: 'Астане', lat: 51.1283, lng: 71.4305 },
+  { id: 'almaty', name: 'Алматы', inName: 'Алматы', lat: 43.2383, lng: 76.9450 },
+  { id: 'shymkent', name: 'Шымкент', inName: 'Шымкенте', lat: 42.3155, lng: 69.5869 },
+  { id: 'karaganda', name: 'Караганда', inName: 'Караганде', lat: 49.8047, lng: 73.1094 },
+  { id: 'aktobe', name: 'Актобе', inName: 'Актобе', lat: 50.2839, lng: 57.1670 },
+];
 const OUT = { lat: 51.036, lng: 71.432 };
 const RECENT = [
   { line: 'пр-кт Туран, 52/6', sub: 'Есильский р-н', lat: 51.1167, lng: 71.4150, house: true },
@@ -316,6 +339,9 @@ class Component extends DCLogic {
       ...(home ? { ...HOME_ADDR, loading: false } : { addr: null, sub: '', house: false, loading: true }),
       searching: false, q: '', sugg: [], sLoading: false, sDone: false, store: this.nearest(c), toast: '', mapFail: false, city: 'astana', cityOpen: false };
   })();
+  // Рестораны города по удалённости. Точка отсчёта — адрес/пользователь, а если он в другом городе — центр выбранного города
+  cityRef(city, ref) { const own = STORES.filter(x => x.city === city); const c = CITIES.find(x => x.id === city) || CITIES[0]; return ref && own.some(x => km(ref, x) < 60) ? ref : c; }
+  cityStores(city, ref) { const r = this.cityRef(city, ref); return STORES.map((st, i) => ({ st, i, d: km(r, st) })).filter(x => x.st.city === city).sort((a, b) => a.d - b.d); }
   nearest(c) { let best = 0, d = Infinity; STORES.forEach((s, i) => { const x = km(c, s); if (x < d) { d = x; best = i; } }); return best; }
 
   componentDidMount() {
@@ -436,7 +462,7 @@ class Component extends DCLogic {
   startSearch(prefill) { this.setState({ searching: true }); this.setQ(prefill || ''); }
   setMode(m) {
     if (m === this.state.mode) return;
-    if (m === 'pickup') { this._dc = this.state.center; const n = this.nearest(this.state.center); this.setState({ mode: 'pickup', searching: false, store: n }, () => { this.fitStores(true); setTimeout(() => this.scrollCar(n), 50); }); }
+    if (m === 'pickup') { this._dc = this.state.center; const n = this.nearest(this.state.center); this.setState({ mode: 'pickup', searching: false, store: n, city: STORES[n].city }, () => { this.fitStores(true); setTimeout(() => this.scrollCar(n), 50); }); }
     else { this.setState({ mode: 'delivery', searching: false }, () => { const c = this._dc || HOME; if (this.map) this.map.flyTo({ center: [c.lng, c.lat], zoom: 17, duration: 800 }); }); }
   }
   onCarScroll() {
@@ -456,7 +482,7 @@ class Component extends DCLogic {
     this._carLock = true; clearTimeout(this._cl); this._cl = setTimeout(() => { this._carLock = false; }, 900);
     c.scrollTo({ left: el.offsetLeft - c.offsetLeft - 20, behavior: 'smooth' });
   }
-  pickStore(i, fromCar) { this.setState({ store: i }); if (!fromCar) this.scrollCar(i); const s = STORES[i]; if (this.map) this.map.flyTo({ center: [s.lng, s.lat], zoom: Math.max(this.map.getZoom(), 15), duration: 600 }); }
+  pickStore(i, fromCar) { this.setState({ store: i, city: STORES[i].city }); if (!fromCar) this.scrollCar(i); const s = STORES[i]; if (this.map) this.map.flyTo({ center: [s.lng, s.lat], zoom: Math.max(this.map.getZoom(), 15), duration: 600 }); }
   toast(t) { clearTimeout(this._tt); this.setState({ toast: t }); this._tt = setTimeout(() => this.setState({ toast: '' }), 2800); }
   // auto — тихий запрос при открытии: без тостов об ошибке и без прыжка, если пользователь уже двигал карту
   locate(auto) {
@@ -486,7 +512,7 @@ class Component extends DCLogic {
     // Точка отсчёта фиксируется при входе в самовывоз, иначе список пересортировывается при каждом движении карты
     if (!this._ref) this._ref = s.center;
     const ref = this._dc || this._ref;
-    const stores = STORES.map((st, i) => ({ st, i, d: km(ref, st) })).filter(x => x.st.city === s.city).sort((a, b) => a.d - b.d).map(({ st, i, d }) => {
+    const stores = this.cityStores(s.city, ref).map(({ st, i, d }) => {
       const o = openInfo(st.hours), sel = i === s.store;
       return { idx: i, name: st.name, dist: kmLabel(d), openText: o.text, openColor: o.open ? '#15803D' : '#6B7280', pick: () => this.pickStore(i),
         bg: sel ? '#F5F3FF' : '#fff', border: sel ? '#614BE2' : '#ECECF1', ring: sel ? '#614BE2' : '#D1D5DB', dot: sel ? '#614BE2' : 'transparent' };
@@ -530,10 +556,10 @@ class Component extends DCLogic {
       feeSub: known ? 'Бесплатно от ' + money(freeFrom) : 'Зависит от расстояния',
       outSub: 'Ближайший Frito — ' + near.name + ', ' + nearDist + ' отсюда. Заберите заказ сами — будет готов через 15 минут.', nearName: near.name,
       toPickup: () => this.setMode('pickup'),
-      cityIn: (CITIES.find(c => c.id === s.city) || CITIES[0]).inName, cityOpen: s.cityOpen, toggleCity: () => this.setState({ cityOpen: !s.cityOpen }),
+      cityIn: (CITIES.find(c => c.id === s.city) || CITIES[0]).inName, cityMenuCls: 'f-am__city-menu' + (sheet ? ' f-am__city-menu--sheet' : ''), cityOpen: s.cityOpen, toggleCity: () => this.setState({ cityOpen: !s.cityOpen }),
       cities: CITIES.map(c => { const n = STORES.filter(x => x.city === c.id).length; return { name: c.name, sel: c.id === s.city, cls: 'f-am__city-opt' + (c.id === s.city ? ' is-on' : ''), count: n + ' ' + (n % 10 === 1 && n % 100 !== 11 ? 'ресторан' : n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 10 || n % 100 >= 20) ? 'ресторана' : 'ресторанов'),
-        pick: () => { const first = STORES.findIndex(x => x.city === c.id); this.setState({ city: c.id, cityOpen: false, store: first }, () => { this.fitStores(true); setTimeout(() => this.scrollCar(first), 50); }); } }; }),
-      stores, pickCaption: sheet ? (STORES.length ? (stores.findIndex(x => x.idx === s.store) + 1) + ' из ' + STORES.length + ' · листайте' : '') : 'расстояние от ' + (this._dc ? 'точки доставки' : 'вас'), distCaption: 'расстояние от ' + (this._dc ? 'точки доставки' : 'вас'),
+        pick: () => { const first = this.cityStores(c.id, this._dc || this._ref)[0].i; this.setState({ city: c.id, cityOpen: false, store: first }, () => { this.fitStores(true); setTimeout(() => this.scrollCar(first), 50); }); } }; }),
+      stores, pickCaption: sheet ? (stores.length ? (stores.findIndex(x => x.idx === s.store) + 1) + ' из ' + stores.length + ' · листайте' : '') : 'расстояние от ' + (this._dc ? 'точки доставки' : 'вас'), distCaption: 'расстояние от ' + (this._dc ? 'точки доставки' : 'вас'),
       ctaDisabled: !ok, ctaCls: 'f-btn f-btn--primary f-btn--block' + (ok ? '' : ' is-disabled'),
       ctaLabel: busy ? 'Определяем адрес…' : !s.house ? 'Укажите номер дома' : 'Доставить сюда',
       confirm: () => this.confirm(),

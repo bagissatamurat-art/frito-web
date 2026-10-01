@@ -489,9 +489,12 @@ img.f-option__icon{object-fit:contain}
 .f-am__city{display:inline-flex;align-items:center;gap:2px;padding:0;border:0;background:none;color:var(--primary);font:inherit;cursor:pointer}
 .f-am__city svg{transition:transform .2s var(--ease)}
 .f-am__city[aria-expanded=true] svg{transform:rotate(180deg)}
-.f-am__city-scrim{position:fixed;inset:0;z-index:9}
-.f-am__city-menu{position:absolute;left:0;top:calc(100% + 8px);z-index:10;min-width:240px;padding:6px;background:var(--surface-0);border-radius:var(--r-md-plus);box-shadow:var(--shadow-modal),0 0 0 1px var(--border);display:flex;flex-direction:column;gap:2px;animation:frito-rise .18s var(--ease) both}
-.f-am__city-opt{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;min-height:var(--h-md);padding:0 12px;border:0;border-radius:var(--r-md-);background:transparent;color:var(--ink);font:inherit;font-size:15px;font-weight:600;text-align:left;cursor:pointer}
+.f-am__city-layer{position:absolute;inset:0;z-index:20}
+.f-am__city-scrim{position:absolute;inset:0;background:var(--overlay);animation:frito-fade .2s ease-out both}
+.f-am__city-menu{position:absolute;left:28px;top:96px;width:320px;padding:8px;background:var(--surface-0);border-radius:var(--r-lg);box-shadow:var(--shadow-modal);display:flex;flex-direction:column;gap:2px;animation:frito-rise .2s var(--ease) both}
+.f-am__city-menu--sheet{left:8px;right:8px;top:auto;bottom:calc(8px + env(safe-area-inset-bottom));width:auto;padding:8px 8px 10px;border-radius:var(--r-xl);animation:frito-sheet .3s var(--ease) both}
+.f-am__city-head{padding:8px 12px 6px;font-size:13px;font-weight:600;color:var(--ink-2)}
+.f-am__city-opt{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;min-height:var(--h-lg);padding:0 12px;border:0;border-radius:var(--r-md-);background:transparent;color:var(--ink);font:inherit;font-size:15px;font-weight:600;text-align:left;cursor:pointer}
 .f-am__city-opt:hover{background:var(--surface-1)}
 .f-am__city-opt.is-on{background:var(--primary-50);color:var(--primary)}
 .f-am__city-count{font-size:12px;font-weight:500;color:var(--ink-2)}
