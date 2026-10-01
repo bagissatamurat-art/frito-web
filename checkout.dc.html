@@ -129,20 +129,11 @@ input,textarea,button{outline:none}
         <div class="co-panel-14">
           <div class="co-row-between"><span class="co-title-16">Ваш заказ</span><span class="co-muted-13">{{ countLabel }}</span></div>
           <sc-if value="{{ hasSold }}" hint-placeholder-val="{{ false }}">
-            <div class="co-sold">
-              <span class="co-sold__icon">!</span>
-              <div class="co-sold__text">{{ soldText }}</div>
-              <button onClick="{{ removeSold }}" class="co-sold__btn">Убрать</button>
-            </div>
+            <dc-import name="FritoSoldAlert" text="{{ soldText }}" compact="{{ true }}" on-remove="{{ removeSold }}" hint-size="100%,56px"></dc-import>
           </sc-if>
           <div class="co-lines">
             <sc-for list="{{ lines }}" as="l" hint-placeholder-count="3">
-              <div class="co-line">
-                <div class="co-line__img"><img data-skel src="{{ l.img }}" alt="" style="width:100%;height:100%;object-fit:cover;display:block;filter:{{ l.imgFilter }}"></div>
-                <div class="co-line__body"><span style="font-size:14px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:{{ l.nameColor }}">{{ l.name }}</span><sc-if value="{{ l.hasMods }}" hint-placeholder-val="{{ true }}"><span class="co-line__mods">{{ l.mods }}</span></sc-if><sc-if value="{{ l.soldOut }}" hint-placeholder-val="{{ false }}"><span class="co-line__sold"><span class="co-dot-danger"></span>Разобрали</span></sc-if><span class="co-line__qty">{{ l.qtyLabel }}</span></div>
-                <sc-if value="{{ l.ok }}" hint-placeholder-val="{{ true }}"><span class="co-line__price">{{ l.total }}</span></sc-if>
-                <sc-if value="{{ l.soldOut }}" hint-placeholder-val="{{ false }}"><span class="co-line__price-off">{{ l.total }}</span></sc-if>
-              </div>
+              <dc-import name="FritoOrderLine" line="{{ l }}" hint-size="100%,48px"></dc-import>
             </sc-for>
           </div>
           <a href="menu.dc.html" class="co-link">Изменить состав заказа</a>
@@ -234,20 +225,11 @@ input,textarea,button{outline:none}
     <div class="co-m-panel-12">
       <div class="co-row-between"><span class="co-text-15-700">Ваш заказ</span><a href="menu.dc.html" class="co-m-link">Изменить</a></div>
       <sc-if value="{{ hasSold }}" hint-placeholder-val="{{ false }}">
-        <div class="co-m-sold">
-          <span class="co-sold__icon">!</span>
-          <div class="co-sold__text">{{ soldText }}</div>
-          <button onClick="{{ removeSold }}" class="co-m-sold__btn">Убрать</button>
-        </div>
+        <dc-import name="FritoSoldAlert" text="{{ soldText }}" compact="{{ true }}" on-remove="{{ removeSold }}" hint-size="100%,56px"></dc-import>
       </sc-if>
       <div class="co-m-lines">
         <sc-for list="{{ lines }}" as="l" hint-placeholder-count="3">
-          <div class="co-m-line">
-            <div class="co-m-line__img"><img data-skel src="{{ l.img }}" alt="" style="width:100%;height:100%;object-fit:cover;display:block;filter:{{ l.imgFilter }}"></div>
-            <div class="co-m-line__body"><span style="font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:{{ l.nameColor }}">{{ l.name }}</span><sc-if value="{{ l.hasMods }}" hint-placeholder-val="{{ true }}"><span class="co-m-line__mods">{{ l.mods }}</span></sc-if><sc-if value="{{ l.soldOut }}" hint-placeholder-val="{{ false }}"><span class="co-m-line__sold"><span class="co-dot-danger"></span>Разобрали</span></sc-if><span class="co-m-line__qty">{{ l.qtyLabel }}</span></div>
-            <sc-if value="{{ l.ok }}" hint-placeholder-val="{{ true }}"><span class="co-m-line__price">{{ l.total }}</span></sc-if>
-            <sc-if value="{{ l.soldOut }}" hint-placeholder-val="{{ false }}"><span class="co-m-line__price-off">{{ l.total }}</span></sc-if>
-          </div>
+          <dc-import name="FritoOrderLine" line="{{ l }}" compact="{{ true }}" hint-size="100%,44px"></dc-import>
         </sc-for>
       </div>
       <dc-import name="FritoPromoField" code="{{ promoCode }}" desc="{{ promoDesc }}" subtotal="{{ subtotal }}" compact="{{ true }}" on-apply="{{ setPromo }}" on-remove="{{ removePromo }}" hint-size="100%,44px"></dc-import>

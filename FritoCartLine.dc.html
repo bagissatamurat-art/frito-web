@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="./frito.css">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<!-- Строка корзины: фото, название, модификаторы, цена и счётчик (или «Разобрали»). Стили — .f-cartline* -->
+<div class="{{ cls }}">
+  <div class="f-cartline__img"><sc-if value="{{ hasImg }}" hint-placeholder-val="{{ true }}"><img data-skel src="{{ img }}" alt="" style="width:100%;height:100%;object-fit:cover;display:block;filter:{{ imgFilter }}"></sc-if></div>
+  <div class="f-cartline__main">
+    <div class="f-cartline__info">
+      <div class="f-cartline__top">
+        <div class="f-cartline__name" style="color:{{ nameColor }}">{{ name }}</div>
+        <button type="button" class="f-cartline__remove" onClick="{{ remove }}" aria-label="Удалить">×</button>
+      </div>
+      <sc-if value="{{ ok }}" hint-placeholder-val="{{ true }}"><div class="f-cartline__mods">{{ mods }}</div></sc-if>
+      <sc-if value="{{ soldOut }}" hint-placeholder-val="{{ false }}"><div class="f-cartline__sold"><span class="f-dot-danger"></span>Разобрали</div></sc-if>
+      <sc-if value="{{ editable }}" hint-placeholder-val="{{ true }}"><a href="#" class="f-cartline__edit" onClick="{{ edit }}">Изменить</a></sc-if>
+    </div>
+    <sc-if value="{{ ok }}" hint-placeholder-val="{{ true }}">
+      <div class="f-cartline__row">
+        <span class="f-cartline__price">{{ lineLabel }}</span>
+        <sc-if value="{{ big }}" hint-placeholder-val="{{ true }}"><dc-import name="FritoStepper" qty="{{ qty }}" on-inc="{{ inc }}" on-dec="{{ dec }}" size="{{ 44 }}" style="width:132px" hint-size="132px,44px"></dc-import></sc-if>
+        <sc-if value="{{ small }}" hint-placeholder-val="{{ false }}"><dc-import name="FritoStepper" qty="{{ qty }}" on-inc="{{ inc }}" on-dec="{{ dec }}" size="{{ 40 }}" style="width:112px" hint-size="112px,40px"></dc-import></sc-if>
+      </div>
+    </sc-if>
+    <sc-if value="{{ soldOut }}" hint-placeholder-val="{{ false }}">
+      <div class="f-cartline__row">
+        <span class="f-cartline__price f-cartline__price--off">{{ lineLabel }}</span>
+        <button type="button" class="f-cartline__drop" onClick="{{ remove }}">{{ dropLabel }}</button>
+      </div>
+    </sc-if>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;: {&quot;width&quot;: 440, &quot;height&quot;: 160}, &quot;line&quot;: {&quot;editor&quot;: null, &quot;default&quot;: null, &quot;tsType&quot;: &quot;{ name, mods, img, hasImg, imgFilter, nameColor, qty, lineLabel, ok, soldOut, editable, remove, edit, inc, dec }&quot;}, &quot;compact&quot;: {&quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: false, &quot;tsType&quot;: &quot;boolean&quot;}}">
+class Component extends DCLogic {
+  renderVals() {
+    const p = this.props, l = p.line || {}, c = !!p.compact;
+    return {
+      cls: 'f-comp f-cartline' + (c ? ' f-cartline--compact' : ''), big: !c, small: c,
+      name: l.name ?? '', mods: l.mods ?? '', img: l.img ?? '', hasImg: !!l.hasImg, imgFilter: l.imgFilter ?? 'none', nameColor: l.nameColor ?? 'var(--ink)',
+      qty: l.qty ?? 1, lineLabel: l.lineLabel ?? '', ok: !!l.ok, soldOut: !!l.soldOut, editable: !!l.editable,
+      dropLabel: c ? 'Убрать' : 'Убрать из корзины',
+      remove: () => l.remove && l.remove(), edit: e => l.edit && l.edit(e), inc: () => l.inc && l.inc(), dec: () => l.dec && l.dec(),
+    };
+  }
+}
+</script>
+</body>
+</html>

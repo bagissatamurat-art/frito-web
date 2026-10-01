@@ -172,43 +172,12 @@ input:focus-visible,textarea:focus-visible{outline:none}
         <div class="mn-cart__body">
           <!-- sold-out notice -->
           <sc-if value="{{ dHasSold }}" hint-placeholder-val="{{ false }}">
-            <div class="mn-sold">
-              <span class="mn-sold__icon">!</span>
-              <div class="mn-sold__text">{{ dSoldText }}</div>
-              <button onClick="{{ dRemoveSold }}" class="mn-sold__btn">Убрать</button>
-            </div>
+            <dc-import name="FritoSoldAlert" text="{{ dSoldText }}" on-remove="{{ dRemoveSold }}" hint-size="100%,60px"></dc-import>
           </sc-if>
           <!-- items -->
           <div class="mn-lines">
             <sc-for list="{{ dLines }}" as="l" hint-placeholder-count="3">
-              <div class="mn-line">
-                <div class="mn-line__img">
-                  <sc-if value="{{ l.hasImg }}" hint-placeholder-val="{{ true }}"><img data-skel src="{{ l.img }}" alt="" style="width:100%;height:100%;object-fit:cover;display:block;filter:{{ l.imgFilter }}"></sc-if>
-                </div>
-                <div class="mn-line__main">
-                  <div class="mn-stack-4">
-                    <div class="mn-line__top">
-                      <div style="font-size:16px;font-weight:700;line-height:1.3;color:{{ l.nameColor }}">{{ l.name }}</div>
-                      <button onClick="{{ l.remove }}" aria-label="Удалить" class="mn-line__remove">×</button>
-                    </div>
-                    <sc-if value="{{ l.ok }}" hint-placeholder-val="{{ true }}"><div class="mn-line__mods">{{ l.mods }}</div></sc-if>
-                    <sc-if value="{{ l.soldOut }}" hint-placeholder-val="{{ false }}"><div class="mn-line__sold"><span class="mn-dot-danger"></span>Разобрали</div></sc-if>
-                    <sc-if value="{{ l.editable }}" hint-placeholder-val="{{ true }}"><a href="#" onClick="{{ l.edit }}" class="mn-link-13">Изменить</a></sc-if>
-                  </div>
-                  <sc-if value="{{ l.ok }}" hint-placeholder-val="{{ true }}">
-                  <div class="mn-row-between-10">
-                    <span class="mn-line__price">{{ l.lineLabel }}</span>
-                  <dc-import name="FritoStepper" qty="{{ l.qty }}" on-inc="{{ l.inc }}" on-dec="{{ l.dec }}" size="{{ 44 }}" style="width:132px" hint-size="132px,44px"></dc-import>
-                  </div>
-                  </sc-if>
-                  <sc-if value="{{ l.soldOut }}" hint-placeholder-val="{{ false }}">
-                  <div class="mn-row-between-10">
-                    <span class="mn-line__price-off">{{ l.lineLabel }}</span>
-                    <button onClick="{{ l.remove }}" class="mn-btn-soft">Убрать из корзины</button>
-                  </div>
-                  </sc-if>
-                </div>
-              </div>
+              <dc-import name="FritoCartLine" line="{{ l }}" hint-size="100%,144px"></dc-import>
             </sc-for>
           </div>
           <!-- upsell -->
@@ -472,40 +441,11 @@ input:focus-visible,textarea:focus-visible{outline:none}
       <sc-if value="{{ hasItems }}" hint-placeholder-val="{{ false }}">
         <div class="mn-m-cart__body">
           <sc-if value="{{ mHasSold }}" hint-placeholder-val="{{ false }}">
-            <div class="mn-m-sold">
-              <span class="mn-m-sold__icon">!</span>
-              <div class="mn-m-sold__text">{{ mSoldText }}</div>
-              <button onClick="{{ mRemoveSold }}" class="mn-m-sold__btn">Убрать</button>
-            </div>
+            <dc-import name="FritoSoldAlert" text="{{ mSoldText }}" compact="{{ true }}" on-remove="{{ mRemoveSold }}" hint-size="100%,56px"></dc-import>
           </sc-if>
           <div class="mn-m-lines">
           <sc-for list="{{ lines }}" as="l" hint-placeholder-count="2">
-            <div class="mn-m-line">
-              <div class="mn-m-line__img"><sc-if value="{{ l.hasImg }}" hint-placeholder-val="{{ true }}"><img data-skel src="{{ l.img }}" alt="" style="width:100%;height:100%;object-fit:cover;display:block;filter:{{ l.imgFilter }}"></sc-if></div>
-              <div class="mn-m-line__main">
-                <div class="mn-stack-3">
-                  <div class="mn-m-line__top">
-                    <div style="font-size:15px;font-weight:700;line-height:1.3;color:{{ l.nameColor }}">{{ l.name }}</div>
-                    <button onClick="{{ l.remove }}" aria-label="Удалить" class="mn-m-line__remove">×</button>
-                  </div>
-                  <sc-if value="{{ l.ok }}" hint-placeholder-val="{{ true }}"><div class="mn-m-line__mods">{{ l.mods }}</div></sc-if>
-                  <sc-if value="{{ l.soldOut }}" hint-placeholder-val="{{ false }}"><div class="mn-m-line__sold"><span class="mn-dot-danger"></span>Разобрали</div></sc-if>
-                  <sc-if value="{{ l.editable }}" hint-placeholder-val="{{ true }}"><a href="#" onClick="{{ l.edit }}" class="mn-link-12">Изменить</a></sc-if>
-                </div>
-                <sc-if value="{{ l.ok }}" hint-placeholder-val="{{ true }}">
-                <div class="mn-row-between-8">
-                  <span class="mn-m-line__price">{{ l.lineLabel }}</span>
-                  <dc-import name="FritoStepper" qty="{{ l.qty }}" on-inc="{{ l.inc }}" on-dec="{{ l.dec }}" size="{{ 40 }}" style="width:112px" hint-size="112px,40px"></dc-import>
-                </div>
-                </sc-if>
-                <sc-if value="{{ l.soldOut }}" hint-placeholder-val="{{ false }}">
-                <div class="mn-row-between-8">
-                  <span class="mn-m-line__price-off">{{ l.lineLabel }}</span>
-                  <button onClick="{{ l.remove }}" class="mn-m-btn-soft">Убрать</button>
-                </div>
-                </sc-if>
-              </div>
-            </div>
+            <dc-import name="FritoCartLine" line="{{ l }}" compact="{{ true }}" hint-size="100%,120px"></dc-import>
           </sc-for>
           </div>
           <div class="mn-m-panel">

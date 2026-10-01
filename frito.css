@@ -493,7 +493,7 @@ img.f-option__icon{object-fit:contain}
 
 /* 9. Составные компоненты (FritoPromoField, …) ------------------------------- */
 /* Корень составного компонента не участвует в раскладке, как и обёртка движка вокруг него */
-.f-contents,.sc-host:has(> .f-contents){display:contents}
+.f-contents,.sc-host:has(> .f-contents),.sc-host:has(> .f-comp){display:contents}
 .f-x--12{width:12px;height:12px}
 
 /* Промокод: применённый код / поле ввода с проверкой */
@@ -522,3 +522,60 @@ img.f-option__icon{object-fit:contain}
 .f-promocode--compact .f-promocode__apply{padding:0 14px;font-size:13px}
 .f-promocode--compact .f-promocode__err{padding:0 12px}
 .f-promocode--compact .f-promocode__apply:hover{background:var(--primary-100)}
+
+/* Плашка «товар закончился» */
+.f-dot-danger{flex-shrink:0;width:6px;height:6px;border-radius:50%;background:var(--danger)}
+.f-sold{display:flex;align-items:center;gap:12px;padding:12px 12px 12px 16px;background:#FEF2F2;border-radius:var(--r-md-plus)}
+.f-sold__icon{flex-shrink:0;display:flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:var(--danger);color:#fff;font-size:16px;font-weight:800;line-height:1}
+.f-sold__text{flex:1;font-size:13px;font-weight:600;color:#B91C1C;line-height:1.35}
+.f-sold__btn{flex-shrink:0;height:36px;padding:0 14px;border:0;border-radius:var(--r-pill);background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.06);color:var(--ink);font:inherit;font-size:13px;font-weight:600;cursor:pointer}
+.f-sold__btn:hover{background:var(--surface-2)}
+.f-sold--compact{gap:10px;padding:10px 10px 10px 14px;border-radius:var(--r-md)}
+.f-sold--compact .f-sold__icon{width:28px;height:28px;font-size:14px}
+.f-sold--compact .f-sold__text{font-size:12px}
+.f-sold--compact .f-sold__btn{padding:0 12px;font-size:12px}
+
+/* Строка корзины */
+.f-cartline{display:grid;grid-template-columns:104px minmax(0,1fr);gap:16px;padding:20px 0;border-bottom:1px solid var(--divider)}
+.f-cartline__img{width:104px;height:104px;border-radius:18px;background:var(--surface-2);overflow:hidden}
+.f-cartline__main{display:flex;flex-direction:column;justify-content:space-between;gap:12px;min-width:0}
+.f-cartline__info{display:flex;flex-direction:column;gap:4px}
+.f-cartline__top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.f-cartline__name{font-size:16px;font-weight:700;line-height:1.3}
+.f-cartline__remove{flex-shrink:0;display:flex;align-items:center;justify-content:center;width:24px;height:24px;margin-top:-2px;padding:0;border:0;background:transparent;color:var(--ink-3);font-size:20px;line-height:1;cursor:pointer}
+.f-cartline__remove:hover{color:var(--ink)}
+.f-cartline__mods{font-size:13px;color:var(--ink-2);line-height:1.4}
+.f-cartline__sold{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--danger);font-weight:600;line-height:1.4}
+.f-cartline__edit{align-self:flex-start;font-size:13px;font-weight:600}
+.f-cartline__row{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.f-cartline__price{font-size:17px;font-weight:700;white-space:nowrap}
+.f-cartline__price--off,.f-orderline__price--off{color:var(--ink-3);text-decoration:line-through}
+.f-cartline__drop{height:var(--h-sm);padding:0 16px;border:0;border-radius:var(--r-pill);background:var(--surface-2);color:var(--ink);font:inherit;font-size:13px;font-weight:600;cursor:pointer}
+.f-cartline__drop:hover{background:var(--surface-3)}
+.f-cartline--compact{grid-template-columns:88px minmax(0,1fr);gap:12px;padding:16px 0}
+.f-cartline--compact .f-cartline__img{width:88px;height:88px;border-radius:var(--r-md-plus)}
+.f-cartline--compact .f-cartline__main{gap:10px}
+.f-cartline--compact .f-cartline__info{gap:3px}
+.f-cartline--compact .f-cartline__top{gap:8px}
+.f-cartline--compact .f-cartline__name{font-size:15px}
+.f-cartline--compact .f-cartline__mods,.f-cartline--compact .f-cartline__sold,.f-cartline--compact .f-cartline__edit{font-size:12px}
+.f-cartline--compact .f-cartline__row{gap:8px}
+.f-cartline--compact .f-cartline__price{font-size:15px}
+.f-cartline--compact .f-cartline__drop{height:var(--h-xs);padding:0 12px;font-size:12px}
+.f-cartline--compact .f-cartline__drop:hover{background:var(--surface-2)}
+
+/* Строка заказа (оформление) */
+.f-orderline{display:grid;grid-template-columns:48px minmax(0,1fr) auto;gap:12px;align-items:center}
+.f-orderline__img{width:48px;height:48px;border-radius:var(--r-md-);background:var(--surface-2);overflow:hidden}
+.f-orderline__body{display:flex;flex-direction:column;gap:2px;min-width:0}
+.f-orderline__name{font-size:14px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.f-orderline__mods{font-size:12px;color:var(--ink-2);line-height:1.35}
+.f-orderline__sold{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--danger);font-weight:600}
+.f-orderline__qty{font-size:12px;color:var(--ink-3)}
+.f-orderline__price{font-size:14px;font-weight:700;white-space:nowrap}
+.f-orderline--compact{grid-template-columns:44px minmax(0,1fr) auto;gap:10px}
+.f-orderline--compact .f-orderline__img{width:44px;height:44px;border-radius:11px}
+.f-orderline--compact .f-orderline__body{gap:1px}
+.f-orderline--compact .f-orderline__name{font-size:13px}
+.f-orderline--compact .f-orderline__mods,.f-orderline--compact .f-orderline__sold,.f-orderline--compact .f-orderline__qty{font-size:11px}
+.f-orderline--compact .f-orderline__price{font-size:13px}
