@@ -49,16 +49,12 @@
 .st-route__body{display:flex;flex-direction:column;gap:1px;min-width:0}
 .st-route__name{font-size:14px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .st-route__hint{font-size:12px;color:#D9D3FB}
-.st-btn-primary{align-self:flex-start;height:52px;padding:0 24px;border:0;border-radius:999px;background:var(--primary);color:#fff;font:inherit;font-size:16px;font-weight:600;cursor:pointer}
-.st-btn-primary:hover{background:var(--primary-hover)}
 .st-fail__icon{width:56px;height:56px;border-radius:50%;background:#FEF2F2;color:#DC2626;font-size:28px;font-weight:800;display:flex;align-items:center;justify-content:center}
 .st-issue__title{font-size:clamp(30px,5vw,40px);font-weight:800;letter-spacing:-.02em;line-height:1.1}
 .st-issue__text{font-size:15px;color:#4B5563;line-height:1.5;text-wrap:pretty}
 .st-issue__actions{display:flex;gap:10px;flex-wrap:wrap}
 .st-kaspi-btn{height:56px;padding:0 20px 0 12px;border:0;border-radius:999px;background:var(--kaspi);color:#fff;font:inherit;font-size:16px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:10px}
 .st-kaspi-btn__icon{width:32px;height:32px}
-.st-btn-ghost{height:56px;padding:0 22px;border:0;border-radius:999px;background:var(--surface-2);color:var(--ink);font:inherit;font-size:16px;font-weight:600;cursor:pointer}
-.st-btn-ghost:hover{background:var(--surface-3)}
 .st-card{background:#fff;border-radius:28px;padding:clamp(20px,3vw,28px);display:flex;flex-direction:column;gap:18px}
 .st-card__title{margin:0;font-size:18px;font-weight:700}
 .st-steps{display:flex;flex-direction:column}
@@ -110,7 +106,4 @@
 .st-confirm__text{display:flex;flex-direction:column;gap:8px}
 .st-confirm__title{margin:0;font-size:24px;font-weight:700}
 .st-confirm__p{margin:0;font-size:15px;color:var(--ink-2);line-height:1.5}
-.st-confirm__yes{height:56px;border:0;border-radius:999px;background:#DC2626;color:#fff;font:inherit;font-size:16px;font-weight:600;cursor:pointer}
-.st-confirm__yes:hover{background:#B91C1C}
-.st-confirm__no{height:56px;border:0;border-radius:999px;background:var(--surface-2);color:var(--ink);font:inherit;font-size:16px;font-weight:600;cursor:pointer}
-.st-confirm__no:hover{background:var(--surface-3)}
+.st-btn-primary{align-self:flex-start}

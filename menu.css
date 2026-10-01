@@ -35,8 +35,6 @@
 .mn-cart__title{margin:0;font-size:22px;font-weight:700;letter-spacing:-.01em}
 .mn-cart__body{flex:1;overflow-y:auto;overflow-x:hidden;overscroll-behavior-x:none;padding:4px 24px 20px;display:flex;flex-direction:column;gap:16px;min-height:0;background:var(--surface-1)}
 .mn-lines{background:#fff;border-radius:20px;padding:4px 20px;display:flex;flex-direction:column}
-.mn-btn-soft{border:0;background:var(--surface-2);border-radius:999px;height:40px;padding:0 16px;font:inherit;font-size:13px;font-weight:600;color:var(--ink);cursor:pointer}
-.mn-btn-soft:hover{background:var(--surface-3)}
 .mn-panel-14{background:#fff;border-radius:20px;padding:18px 20px;display:flex;flex-direction:column;gap:14px}
 .mn-panel__title{font-size:15px;font-weight:700}
 .mn-upsell{display:flex;gap:12px;overflow-x:auto;overflow-y:hidden;overscroll-behavior-x:contain;padding-bottom:2px}
@@ -110,7 +108,6 @@
 .mn-m-method__body{display:flex;flex-direction:column;gap:2px;flex:1;min-width:0}
 .mn-m-method__caption{font-size:11px;color:var(--ink-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .mn-m-method__value{font-size:14px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.mn-m-method__change{flex-shrink:0;border:0;background:var(--surface-2);border-radius:999px;height:36px;padding:0 14px;font:inherit;font-size:12px;font-weight:600;color:var(--ink);cursor:pointer}
 .mn-m-door{border-top:1px solid var(--divider);padding-top:12px;display:flex;align-items:center;justify-content:space-between}
 .mn-m-linkbtn{height:36px;display:flex;align-items:center;justify-content:center;gap:6px;border:0;background:transparent;font:inherit;font-size:12px;font-weight:600;color:var(--primary);cursor:pointer}
 .mn-m-panel-plain{background:#fff;border-radius:18px;padding:14px 16px}
@@ -132,3 +129,4 @@
 .mn-story-view__btn{width:100%;height:52px;border:0;border-radius:999px;background:#fff;color:var(--primary);font:inherit;font-size:16px;font-weight:700;cursor:pointer}
 .mn-footer-wrap{margin:32px}
 .mn-m-footer-wrap{margin:8px 12px 110px}
+.mn-m-method__change{flex-shrink:0}

@@ -37,7 +37,6 @@
 .co-addr__body{display:flex;flex-direction:column;gap:3px;flex:1;min-width:0}
 .co-addr__caption{font-size:12px;color:var(--ink-2)}
 .co-addr__line{font-size:15px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.co-addr__change{border:0;background:#fff;border-radius:999px;height:40px;padding:0 16px;font:inherit;font-size:13px;font-weight:600;color:var(--ink);cursor:pointer;box-shadow:0 1px 2px rgba(0,0,0,.06)}
 .co-grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
 .co-door{display:flex;align-items:center;justify-content:space-between;padding-top:2px}
 .co-door__text{display:flex;flex-direction:column;gap:2px}
@@ -70,7 +69,6 @@
 .co-m-addr__body{display:flex;flex-direction:column;gap:2px;flex:1;min-width:0}
 .co-m-addr__caption{font-size:11px;color:var(--ink-2)}
 .co-m-addr__line{font-size:14px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.co-m-addr__change{border:0;background:var(--surface-2);border-radius:999px;height:36px;padding:0 12px;font:inherit;font-size:12px;font-weight:600;color:var(--ink);cursor:pointer;flex-shrink:0}
 .co-m-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .co-m-panel-12{background:#fff;border-radius:18px;padding:16px;display:flex;flex-direction:column;gap:12px}
 .co-m-panel__title{font-size:15px;font-weight:700}
@@ -84,3 +82,4 @@
 .co-m__foot{padding:12px 16px 26px;border-top:1px solid var(--border);background:#fff;display:flex;flex-direction:column;gap:8px}
 .co-m__foot-row{display:flex;align-items:center;justify-content:space-between;padding:0 4px}
 .co-m-cta__right{display:flex;align-items:center;gap:12px}
+.co-m-addr__change{flex-shrink:0}

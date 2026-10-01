@@ -123,7 +123,7 @@ input:focus-visible,textarea:focus-visible{outline:none}
               <div class="mn-method">
                 <span class="mn-icon-circle-40"><img src="assets/ic-pin-p.svg" alt="" class="mn-icon-18"></span>
                 <div class="mn-method__body"><div class="mn-caption-12">{{ addrCaption }} · <span class="mn-ok">{{ etaLabel }}</span></div><div class="mn-panel__title">{{ address }}</div></div>
-                <button onClick="{{ openMethodD }}" class="mn-btn-soft">Изменить</button>
+                <button onClick="{{ openMethodD }}" class="f-btn f-btn--secondary f-btn--sm">Изменить</button>
               </div>
               <sc-if value="{{ isDelivery }}" hint-placeholder-val="{{ true }}">
                 <div class="mn-door">
@@ -320,7 +320,7 @@ input:focus-visible,textarea:focus-visible{outline:none}
               <div class="mn-m-method">
                 <span class="mn-icon-circle-36"><img src="assets/ic-pin-p.svg" alt="" class="mn-icon-16"></span>
                 <div class="mn-m-method__body"><div class="mn-m-method__caption">{{ addrCaption }} · <span class="mn-ok">{{ etaLabel }}</span></div><div class="mn-m-method__value">{{ address }}</div></div>
-                <button onClick="{{ openMethodM }}" class="mn-m-method__change">Изменить</button>
+                <button onClick="{{ openMethodM }}" class="f-btn f-btn--secondary f-btn--xs mn-m-method__change">Изменить</button>
               </div>
               <sc-if value="{{ isDelivery }}" hint-placeholder-val="{{ true }}">
                 <div class="mn-m-door">

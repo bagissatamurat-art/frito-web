@@ -108,7 +108,7 @@ button{outline:none}
             </div>
             </sc-if>
             <sc-if value="{{ isDone }}" hint-placeholder-val="{{ false }}">
-              <button type="button" onClick="{{ repeat }}" class="st-btn-primary">Повторить заказ</button>
+              <button type="button" onClick="{{ repeat }}" class="f-btn f-btn--primary st-btn-primary">Повторить заказ</button>
             </sc-if>
           </sc-if>
 
@@ -120,7 +120,7 @@ button{outline:none}
             </div>
             <div class="st-issue__actions">
               <button type="button" onClick="{{ retryPay }}" class="st-kaspi-btn"><img src="assets/ic-kaspi-w.svg" alt="" class="st-kaspi-btn__icon">Оплатить снова</button>
-              <button type="button" class="st-btn-ghost">Другой способ оплаты</button>
+              <button type="button" class="f-btn f-btn--secondary">Другой способ оплаты</button>
             </div>
           </sc-if>
 
@@ -129,7 +129,7 @@ button{outline:none}
               <span class="st-issue__title">Заказ отменён</span>
               <span class="st-issue__text">Отменён в 14:14. Деньги вернутся на карту Kaspi в течение 1–3 рабочих дней.</span>
             </div>
-            <button type="button" onClick="{{ repeat }}" class="st-btn-primary">Повторить заказ</button>
+            <button type="button" onClick="{{ repeat }}" class="f-btn f-btn--primary st-btn-primary">Повторить заказ</button>
           </sc-if>
         </section>
 
@@ -228,8 +228,8 @@ button{outline:none}
       <div role="dialog" aria-modal="true" style="position:relative;width:100%;max-width:440px;background:#fff;border-radius:{{ cRadius }};padding:28px 24px 24px;display:flex;flex-direction:column;gap:18px;box-shadow:var(--shadow-modal)">
         <div class="st-confirm__text"><h2 class="st-confirm__title">Отменить заказ?</h2><p class="st-confirm__p">Мы ещё не начали готовить. Деньги вернутся на карту Kaspi в течение 1–3 рабочих дней.</p></div>
         <div class="st-stack-10">
-          <button type="button" onClick="{{ doCancel }}" class="st-confirm__yes">Да, отменить</button>
-          <button type="button" onClick="{{ closeCancel }}" class="st-confirm__no">Не отменять</button>
+          <button type="button" onClick="{{ doCancel }}" class="f-btn f-btn--danger">Да, отменить</button>
+          <button type="button" onClick="{{ closeCancel }}" class="f-btn f-btn--secondary">Не отменять</button>
         </div>
       </div>
     </div>
