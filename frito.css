@@ -771,6 +771,10 @@ img.f-option__icon{object-fit:contain}
 .f-addr-btn__caption{font-size:11px;color:var(--ink-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .f-addr-btn__line{font-size:14px;font-weight:700;line-height:1.3;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;overflow-wrap:anywhere}
 .f-addr-btn__chev{flex-shrink:0;color:var(--ink-3)}
+.f-addr-btn--lg{padding:12px;gap:14px}
+.f-addr-btn--lg .f-addr-btn__icon{width:44px;height:44px}
+.f-addr-btn--lg .f-addr-btn__caption{font-size:12px}
+.f-addr-btn--lg .f-addr-btn__line{font-size:16px}
 .f-addr-btn--empty{background:var(--primary-50);box-shadow:inset 0 0 0 1.5px var(--primary-200)}
 .f-addr-btn--empty .f-addr-btn__line{color:var(--primary)}
 .f-addr-btn--empty .f-addr-btn__chev{color:var(--primary)}

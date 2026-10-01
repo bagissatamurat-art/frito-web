@@ -4,8 +4,6 @@
 .mn-d__header{display:flex;align-items:center;gap:20px;padding:0 32px;background:#fff;border-bottom:1px solid var(--border)}
 .mn-wordmark{display:flex;align-items:center;gap:8px;color:var(--primary);font-weight:800;font-size:26px;letter-spacing:-.02em}
 .mn-wordmark__bolt{width:26px;height:30px;background:var(--primary);clip-path:polygon(45% 0,100% 0,60% 45%,85% 45%,20% 100%,40% 55%,10% 55%)}
-.mn-icon-16{width:16px;height:16px;object-fit:contain}
-.mn-icon-circle-36{width:36px;height:36px;border-radius:50%;background:var(--primary-100);display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .mn-d__header-right{margin-left:auto;display:flex;align-items:center;gap:20px}
 .mn-burger{width:44px;height:44px;border:0;background:transparent;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;padding:0}
 .mn-burger:hover{opacity:.7}
@@ -36,17 +34,6 @@
 .mn-cart__body{flex:1;overflow-y:auto;overflow-x:hidden;overscroll-behavior-x:none;padding:4px 24px 20px;display:flex;flex-direction:column;gap:16px;min-height:0;background:var(--surface-1)}
 .mn-lines{background:#fff;border-radius:20px;padding:0 20px;display:flex;flex-direction:column}
 .mn-upsell{display:flex;gap:12px;overflow-x:auto;overflow-y:hidden;overscroll-behavior-x:contain}
-.mn-method{display:flex;align-items:center;gap:14px;padding:4px 0}
-.mn-icon-circle-40{width:40px;height:40px;border-radius:50%;background:var(--primary-100);display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.mn-icon-18{width:18px;height:18px;object-fit:contain}
-.mn-method__body{display:flex;flex-direction:column;gap:3px;flex:1;min-width:0}
-.mn-caption-12{font-size:12px;color:var(--ink-2)}
-.mn-ok{color:var(--success);font-weight:600}
-.mn-door{border-top:1px solid var(--divider);padding-top:14px;display:flex;align-items:center;justify-content:space-between}
-.mn-text-14-600{font-size:14px;font-weight:600}
-.mn-linkbtn{height:40px;display:flex;align-items:center;justify-content:center;gap:6px;border:0;background:transparent;font:inherit;font-size:13px;font-weight:600;color:var(--primary);cursor:pointer}
-.mn-linkbtn:hover{color:var(--primary-dark)}
-.mn-chev-16{font-size:16px;line-height:1}
 .mn-xl1{position:absolute;left:0;top:50%;width:100%;height:2px;margin-top:-1px;background:currentColor;border-radius:1px;transform:rotate(45deg)}
 .mn-xl2{position:absolute;left:0;top:50%;width:100%;height:2px;margin-top:-1px;background:currentColor;border-radius:1px;transform:rotate(-45deg)}
 .mn-cart__foot{padding:16px 24px 20px;border-top:1px solid var(--border);background:#fff}
