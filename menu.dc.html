@@ -72,48 +72,7 @@ input:focus-visible,textarea:focus-visible{outline:none}
         </sc-for>
       </div>
       <!-- footer desktop -->
-      <footer class="mn-footer">
-        <div class="mn-footer__top">
-          <div class="mn-footer__brand">
-            <sc-if value="{{ logoOk }}" hint-placeholder-val="{{ true }}"><img src="https://frito.kz/brand.svg" alt="FRITO" class="mn-footer__logo"></sc-if>
-            <sc-if value="{{ logoBroken }}" hint-placeholder-val="{{ false }}"><div class="mn-footer__wordmark">FRITO</div></sc-if>
-            <p class="mn-footer__about">Хрустящая курочка, бургеры и стрипсы. Доставка по Астане за 35–45 минут и самовывоз из пяти ресторанов.</p>
-          </div>
-          <div class="mn-footer__contact">
-            <a href="tel:+77009380000" class="mn-footer__phone">+7 700 938 0000</a>
-            <span class="mn-footer__hours">ежедневно 11:30 – 02:00</span>
-            <div class="mn-footer__socials">
-              <a href="https://wa.me/77009380000" aria-label="WhatsApp" class="mn-footer__social-primary"><img src="assets/ic-whatsapp-w.svg" alt="" class="mn-icon-20w"></a>
-              <a href="https://www.instagram.com/frito.kz/" aria-label="Instagram" class="mn-footer__social"><img src="assets/ic-instagram-w.svg" alt="" class="mn-icon-20w"></a>
-              <a href="https://www.tiktok.com/@frito.kz" aria-label="TikTok" class="mn-footer__social"><img src="assets/ic-tiktok-w.svg" alt="" class="mn-icon-32"></a>
-            </div>
-          </div>
-        </div>
-        <div class="mn-stack-12">
-          <div class="mn-row-between-12">
-            <span class="mn-footer__overline">РЕСТОРАНЫ · {{ storeCount }}</span>
-            <a href="#" class="mn-footer__maplink">Все адреса на карте →</a>
-          </div>
-          <div class="mn-wrap-8">
-            <sc-for list="{{ footerStores }}" as="st" hint-placeholder-count="5">
-              <a href="#" class="mn-footer__pill"><img src="assets/ic-pin-p.svg" alt="" class="mn-footer__pin"><span class="mn-footer__pill-name">{{ st.name }}</span><span class="mn-footer__pill-hours">{{ st.hours }}</span></a>
-            </sc-for>
-            <sc-if value="{{ hasMoreStores }}" hint-placeholder-val="{{ false }}"><a href="#" class="mn-footer__more">ещё {{ moreStores }}</a></sc-if>
-          </div>
-        </div>
-        <div class="mn-footer__bottom">
-          <nav class="mn-footer__nav">
-            <a href="#" class="mn-footer__link">Франшиза</a>
-            <a href="#" class="mn-footer__link">Поставщикам</a>
-            <a href="#" class="mn-footer__link">Предложить помещение</a>
-            <a href="vacancies.dc.html" class="mn-footer__link">Вакансии</a>
-            <a href="#" class="mn-footer__link">Доставка и оплата</a>
-            <a href="#" class="mn-footer__link">Оферта</a>
-            <a href="#" class="mn-footer__link">Конфиденциальность</a>
-          </nav>
-          <span class="mn-footer__copy">© 2026 ТОО «Frito Restaurants» · Астана</span>
-        </div>
-      </footer>
+      <div class="mn-footer-wrap"><dc-import name="FritoFooter" hint-size="100%,420px"></dc-import></div>
     </div>
 
     <!-- cart 1/3 -->
@@ -301,43 +260,7 @@ input:focus-visible,textarea:focus-visible{outline:none}
       </sc-for>
     </div>
     <!-- footer mobile -->
-    <footer class="mn-m-footer">
-      <div class="mn-stack-12">
-        <sc-if value="{{ logoOk }}" hint-placeholder-val="{{ true }}"><img src="https://frito.kz/brand.svg" alt="FRITO" class="mn-m-footer__logo"></sc-if>
-        <sc-if value="{{ logoBroken }}" hint-placeholder-val="{{ false }}"><div class="mn-m-footer__wordmark">FRITO</div></sc-if>
-        <p class="mn-footer__about">Хрустящая курочка, бургеры и стрипсы. Доставка по Астане за 35–45 минут и самовывоз.</p>
-      </div>
-      <div class="mn-stack-6">
-        <a href="tel:+77009380000" class="mn-m-footer__phone">+7 700 938 0000</a>
-        <span class="mn-m-footer__hours">ежедневно 11:30 – 02:00</span>
-      </div>
-      <div class="mn-row-8">
-        <a href="https://wa.me/77009380000" aria-label="WhatsApp" class="mn-m-footer__social-primary"><img src="assets/ic-whatsapp-w.svg" alt="" class="mn-icon-20w"></a>
-        <a href="https://www.instagram.com/frito.kz/" aria-label="Instagram" class="mn-m-footer__social"><img src="assets/ic-instagram-w.svg" alt="" class="mn-icon-20w"></a>
-        <a href="https://www.tiktok.com/@frito.kz" aria-label="TikTok" class="mn-m-footer__social"><img src="assets/ic-tiktok-w.svg" alt="" class="mn-icon-32"></a>
-      </div>
-      <div class="mn-stack-10">
-        <div class="mn-row-between-12">
-          <span class="mn-m-footer__overline">РЕСТОРАНЫ · {{ storeCount }}</span>
-          <a href="#" class="mn-footer__maplink">На карте →</a>
-        </div>
-        <div class="mn-wrap-8">
-          <sc-for list="{{ footerStores }}" as="st" hint-placeholder-count="5">
-            <a href="#" class="mn-m-footer__pill"><img src="assets/ic-pin-p.svg" alt="" class="mn-m-footer__pin"><span class="mn-footer__pill-name">{{ st.name }}</span></a>
-          </sc-for>
-          <sc-if value="{{ hasMoreStores }}" hint-placeholder-val="{{ false }}"><a href="#" class="mn-m-footer__more">ещё {{ moreStores }}</a></sc-if>
-        </div>
-      </div>
-      <nav class="mn-m-footer__nav">
-        <a href="#" class="mn-m-footer__link">Франшиза</a>
-        <a href="#" class="mn-m-footer__link">Поставщикам</a>
-        <a href="#" class="mn-m-footer__link">Предложить помещение</a>
-        <a href="vacancies.dc.html" class="mn-m-footer__link">Вакансии</a>
-        <a href="#" class="mn-m-footer__link">Доставка и оплата</a>
-        <a href="#" class="mn-m-footer__link">Оферта и конфиденциальность</a>
-      </nav>
-      <span class="mn-footer__copy">© 2026 ТОО «Frito Restaurants» · Астана</span>
-    </footer>
+    <div class="mn-m-footer-wrap"><dc-import name="FritoFooter" hint-size="100%,520px"></dc-import></div>
   </div>
 
   <!-- floating cart -->
@@ -730,12 +653,10 @@ class Component extends DCLogic {
 
     const menuPick = t => () => this.setState({ menu: null, modal: 'method', modalTarget: t, pendingId: null, addrMode: 'pickup' });
     const stores = STORES.map(st => ({ ...st, pick: () => this.finishMethod('pickup', st.name), menuPickD: menuPick('d'), menuPickM: menuPick('m') }));
-    const maxFooter = p.footerStoresMax ?? 8;
-    const footerStores = stores.slice(0, maxFooter), moreStores = Math.max(0, stores.length - maxFooter);
     const modalOpen = !!s.modal;
 
     return {
-      cats, stores, footerStores, storeCount: stores.length, moreStores, hasMoreStores: moreStores > 0, dScrollRef: this.dScrollRef, mScrollRef: this.mScrollRef,
+      cats, stores, dScrollRef: this.dScrollRef, mScrollRef: this.mScrollRef,
       onDScroll: () => this.track('d', this.dScrollRef, 'activeD'), onMScroll: () => this.track('m', this.mScrollRef, 'activeM'),
       menuD: s.menu === 'd', menuM: s.menu === 'm',
       openMenuD: () => this.setState({ menu: 'd' }), openMenuM: () => this.setState({ menu: 'm' }), closeMenu: () => this.animateOut('menu', () => this.setState({ menu: null })),
