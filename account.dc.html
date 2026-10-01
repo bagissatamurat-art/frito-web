@@ -42,65 +42,96 @@ button{outline:none}
     </sc-if>
 
     <sc-if value="{{ isUser }}" hint-placeholder-val="{{ true }}">
-      <div class="ac-grid">
-        <!-- профиль + разделы -->
+      <div class="{{ gridCls }}">
+        <!-- хаб: профиль, текущий заказ (мобайл), разделы -->
         <aside class="ac-side">
-          <div class="f-panel ac-me">
+          <button type="button" class="f-panel ac-me" onClick="{{ openProfile }}">
             <span class="ac-me__avatar" aria-hidden="true">{{ initial }}</span>
-            <span class="ac-me__body"><span class="ac-me__name">{{ displayName }}</span><sc-if value="{{ hasName }}" hint-placeholder-val="{{ true }}"><span class="ac-me__phone">{{ phone }}</span></sc-if><span class="{{ viaCls }}">{{ viaLabel }}</span></span>
-          </div>
-          <nav class="ac-tabs" role="tablist" aria-label="Разделы кабинета">
-            <sc-for list="{{ tabs }}" as="t" hint-placeholder-count="3">
-              <button type="button" role="tab" aria-selected="{{ t.on }}" class="{{ t.cls }}" onClick="{{ t.pick }}"><span class="ac-tab__label">{{ t.label }}</span><sc-if value="{{ t.hasCount }}" hint-placeholder-val="{{ false }}"><span class="ac-tab__count">{{ t.count }}</span></sc-if></button>
+            <span class="ac-me__name">{{ displayName }}</span>
+            <span class="ac-me__meta">{{ meMeta }}</span>
+            <span class="ac-me__edit">Изменить профиль</span>
+          </button>
+          <sc-if value="{{ hasActive }}" hint-placeholder-val="{{ false }}"><div class="ac-hub-only"><a class="f-panel ac-live" href="{{ live.href }}" onClick="{{ live.open }}">
+              <span class="ac-live__top">
+                <span class="ac-live__titles"><span class="ac-live__no">{{ live.caption }}</span><span class="ac-live__title">{{ live.title }}</span></span>
+                <span class="ac-live__eta"><span class="ac-live__eta-v">{{ live.eta }}</span><span class="ac-live__eta-u">{{ live.etaUnit }}</span></span>
+              </span>
+              <span class="ac-steps">
+                <sc-for list="{{ live.steps }}" as="st" hint-placeholder-count="4"><span class="{{ st.cls }}"><i class="ac-step__dot"></i><span class="ac-step__label">{{ st.label }}</span></span></sc-for>
+              </span>
+              <span class="ac-live__foot">
+                <span class="ac-live__thumbs"><sc-for list="{{ live.thumbs }}" as="th" hint-placeholder-count="3"><span class="ac-mini"><img data-skel src="{{ th }}" alt="" class="f-cover-img"></span></sc-for></span>
+                <span class="ac-live__addr">{{ live.addr }}</span>
+                <span class="ac-live__go">Отследить<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></span>
+              </span>
+            </a></div></sc-if>
+          <nav class="f-panel ac-menu" aria-label="Разделы кабинета">
+            <sc-for list="{{ sections }}" as="t" hint-placeholder-count="3">
+              <button type="button" class="{{ t.cls }}" onClick="{{ t.pick }}" aria-current="{{ t.on }}">
+                <span class="f-icon f-icon--square"><img src="{{ t.icon }}" alt="" class="ac-row__ic"></span>
+                <span class="ac-row__text"><span class="ac-row__label">{{ t.label }}</span><span class="{{ t.metaCls }}">{{ t.meta }}</span></span>
+                <span class="ac-row__chev"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></span>
+              </button>
             </sc-for>
           </nav>
           <button type="button" class="f-btn f-btn--ghost ac-logout" onClick="{{ logout }}">Выйти из аккаунта</button>
         </aside>
 
         <section class="ac-main">
+          <div class="ac-head">
+            <button type="button" class="ac-back" onClick="{{ back }}" aria-label="Назад"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg></button>
+            <h2 class="ac-title">{{ sectionTitle }}</h2>
+            <span class="ac-caption">{{ sectionCaption }}</span>
+          </div>
+
           <!-- ЗАКАЗЫ -->
           <sc-if value="{{ tabOrders }}" hint-placeholder-val="{{ true }}">
-            <sc-if value="{{ hasActive }}" hint-placeholder-val="{{ false }}">
-              <a class="ac-active" href="{{ active.href }}">
-                <span class="ac-active__top"><span class="ac-active__label">Текущий заказ · №{{ active.no }}</span><span class="ac-active__stage">{{ active.stage }}</span></span>
-                <span class="ac-active__bar"><span style="width:{{ active.pct }}"></span></span>
-                <span class="ac-active__row"><span class="ac-active__meta">{{ active.meta }}</span><span class="ac-active__go">Отследить<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></span></span>
-              </a>
-            </sc-if>
-            <div class="ac-head"><h2 class="ac-title">История заказов</h2><span class="ac-caption">{{ historyCaption }}</span></div>
+            <sc-if value="{{ hasActive }}" hint-placeholder-val="{{ false }}"><a class="f-panel ac-live" href="{{ live.href }}" onClick="{{ live.open }}">
+              <span class="ac-live__top">
+                <span class="ac-live__titles"><span class="ac-live__no">{{ live.caption }}</span><span class="ac-live__title">{{ live.title }}</span></span>
+                <span class="ac-live__eta"><span class="ac-live__eta-v">{{ live.eta }}</span><span class="ac-live__eta-u">{{ live.etaUnit }}</span></span>
+              </span>
+              <span class="ac-steps">
+                <sc-for list="{{ live.steps }}" as="st" hint-placeholder-count="4"><span class="{{ st.cls }}"><i class="ac-step__dot"></i><span class="ac-step__label">{{ st.label }}</span></span></sc-for>
+              </span>
+              <span class="ac-live__foot">
+                <span class="ac-live__thumbs"><sc-for list="{{ live.thumbs }}" as="th" hint-placeholder-count="3"><span class="ac-mini"><img data-skel src="{{ th }}" alt="" class="f-cover-img"></span></sc-for></span>
+                <span class="ac-live__addr">{{ live.addr }}</span>
+                <span class="ac-live__go">Отследить<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></span>
+              </span>
+            </a></sc-if>
+            <sc-if value="{{ hasActive }}" hint-placeholder-val="{{ false }}"><span class="ac-sublabel">Прошлые заказы</span></sc-if>
             <sc-if value="{{ noOrders }}" hint-placeholder-val="{{ false }}">
               <div class="f-panel ac-empty"><span class="ac-empty__title">Заказов пока нет</span><span class="ac-empty__text">Первый заказ появится здесь — его можно будет повторить в один клик.</span><a class="f-btn f-btn--primary f-btn--md" href="menu.dc.html">Перейти в меню</a></div>
             </sc-if>
             <sc-for list="{{ orders }}" as="o" hint-placeholder-count="2">
-              <article class="f-panel ac-order">
+              <article class="f-panel ac-order" role="link" tabIndex="0" onClick="{{ o.open }}" onKeyDown="{{ o.key }}" aria-label="{{ o.aria }}">
                 <div class="ac-order__top">
                   <span class="ac-order__titles"><span class="ac-order__no">Заказ №{{ o.no }}</span><span class="ac-order__date">{{ o.date }}</span></span>
-                  <span class="{{ o.badgeCls }}">{{ o.status }}</span>
+                  <span class="ac-order__status"><span class="{{ o.badgeCls }}">{{ o.status }}</span><span class="ac-row__chev"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></span></span>
                 </div>
                 <div class="ac-order__where"><img src="{{ o.icon }}" alt="" class="ac-order__where-ic"><span>{{ o.where }}</span></div>
                 <div class="ac-order__thumbs">
                   <sc-for list="{{ o.thumbs }}" as="th" hint-placeholder-count="3"><span class="ac-thumb"><img data-skel src="{{ th.img }}" alt="" class="f-cover-img"><sc-if value="{{ th.multi }}" hint-placeholder-val="{{ false }}"><span class="ac-thumb__qty">×{{ th.qty }}</span></sc-if></span></sc-for>
                   <sc-if value="{{ o.hasMore }}" hint-placeholder-val="{{ false }}"><span class="ac-thumb ac-thumb--more">+{{ o.more }}</span></sc-if>
                 </div>
-                <sc-if value="{{ o.open }}" hint-placeholder-val="{{ false }}">
-                  <ul class="ac-order__lines">
-                    <sc-for list="{{ o.lines }}" as="l" hint-placeholder-count="2"><li class="ac-line"><span class="ac-line__name">{{ l.name }}</span><span class="ac-line__qty">{{ l.qty }}</span><span class="ac-line__sum">{{ l.sum }}</span></li></sc-for>
-                  </ul>
+                <sc-if value="{{ o.canRate }}" hint-placeholder-val="{{ false }}">
+                  <div class="ac-rate">
+                    <span class="ac-rate__label">{{ o.rateLabel }}</span>
+                    <span class="ac-stars" role="group" aria-label="Оценка заказа">
+                      <sc-for list="{{ o.stars }}" as="st" hint-placeholder-count="5"><button type="button" class="{{ st.cls }}" onClick="{{ st.pick }}" aria-label="{{ st.aria }}" disabled="{{ st.off }}"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.9l-5.2 2.7 1-5.8-4.3-4.1 5.9-.9z"/></svg></button></sc-for>
+                    </span>
+                  </div>
                 </sc-if>
                 <div class="ac-order__foot">
                   <span class="ac-order__total">{{ o.total }}</span>
-                  <span class="ac-order__actions">
-                    <button type="button" class="f-btn f-btn--ghost" onClick="{{ o.toggle }}">{{ o.toggleLabel }}</button>
-                    <button type="button" class="f-btn f-btn--tonal f-btn--sm" onClick="{{ o.repeat }}">Повторить</button>
-                  </span>
+                  <button type="button" class="f-btn f-btn--tonal f-btn--sm" onClick="{{ o.repeat }}">Повторить</button>
                 </div>
               </article>
             </sc-for>
           </sc-if>
-
           <!-- ПРОФИЛЬ -->
           <sc-if value="{{ tabProfile }}" hint-placeholder-val="{{ false }}">
-            <div class="ac-head"><h2 class="ac-title">Профиль</h2></div>
             <div class="f-panel ac-form">
               <dc-import name="FritoInput" label="Имя" value="{{ fName }}" on-change="{{ setName }}" hint-size="100%,56px"></dc-import>
               <div class="ac-phone">
@@ -118,12 +149,10 @@ button{outline:none}
             <div class="ac-save">
               <button type="button" class="{{ saveCls }}" disabled="{{ saveOff }}" onClick="{{ save }}">Сохранить изменения</button>
             </div>
-            <button type="button" class="f-btn f-btn--ghost ac-logout-m" onClick="{{ logout }}">Выйти из аккаунта</button>
           </sc-if>
 
           <!-- АДРЕСА -->
           <sc-if value="{{ tabAddr }}" hint-placeholder-val="{{ false }}">
-            <div class="ac-head"><h2 class="ac-title">Адреса доставки</h2><span class="ac-caption">Основной подставится при оформлении</span></div>
             <sc-if value="{{ noAddr }}" hint-placeholder-val="{{ false }}">
               <div class="f-panel ac-empty"><span class="ac-empty__title">Сохранённых адресов нет</span><span class="ac-empty__text">Добавьте дом или работу — не придётся искать адрес каждый раз.</span></div>
             </sc-if>
@@ -169,64 +198,98 @@ const DEMO_ORDERS = [
   { no: '4518', ago: 26 * DAY, mode: 'delivery', address: 'пр-кт Туран, 52/6', items: [['fritos-combo', 2]], status: 'cancelled' },
 ];
 const LABELS = ['Дом', 'Работа', 'Другое'];
-const STAGES = { delivery: [['accepted', 'Принят', 15], ['cooking', 'Готовим', 45], ['onway', 'Курьер в пути', 80]], pickup: [['accepted', 'Принят', 15], ['cooking', 'Готовим', 50], ['onway', 'Готов к выдаче', 90]] };
+// текущий заказ: этап по прошедшим минутам (до сервера — имитация)
+const LIVE = {
+  delivery: { steps: ['Принят', 'Готовим', 'В пути', 'Доставлен'], titles: ['Заказ принят', 'Готовим ваш заказ', 'Курьер уже в пути'], keys: ['accepted', 'cooking', 'onway'], total: 45 },
+  pickup: { steps: ['Принят', 'Готовим', 'Готов', 'Выдан'], titles: ['Заказ принят', 'Готовим ваш заказ', 'Готов — заберите на кассе'], keys: ['accepted', 'cooking', 'onway'], total: 20 },
+};
 const MONTHS = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'];
 const dateLabel = t => { const d = new Date(t), now = new Date(); const hm = String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0');
   const days = Math.floor((new Date(now.toDateString()) - new Date(d.toDateString())) / DAY);
   return (days === 0 ? 'Сегодня' : days === 1 ? 'Вчера' : d.getDate() + ' ' + MONTHS[d.getMonth()]) + ', ' + hm; };
+const plural = (n, f) => n + ' ' + (n % 10 === 1 && n % 100 !== 11 ? f[0] : n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 10 || n % 100 >= 20) ? f[1] : f[2]);
+const TITLES = { orders: 'Мои заказы', addresses: 'Адреса доставки', profile: 'Профиль' };
+const stop = e => { if (e && e.stopPropagation) e.stopPropagation(); };
 
 class Component extends DCLogic {
-  state = { ready: false, user: readJSON('frito_user'), tab: 'orders', open: {}, toast: '', auth: false, addr: false, vw: window.innerWidth, draft: null,
-    addrs: readJSON('frito_addresses'), placed: readJSON('frito_orders') || [] };
+  state = (() => { const h = (location.hash || '').slice(1), ok = ['orders', 'profile', 'addresses'].includes(h);
+    return { ready: false, user: readJSON('frito_user'), tab: ok ? h : 'orders', sub: ok, toast: '', auth: false, addr: false, vw: window.innerWidth, draft: null,
+      addrs: readJSON('frito_addresses'), placed: readJSON('frito_orders') || [], ratings: readJSON('frito_ratings') || {}, tick: 0 }; })();
   componentDidMount() {
     import('./frito-data.js').then(m => { D = m; this.setState({ ready: true }); });
     this._rs = () => this.setState({ vw: window.innerWidth }); window.addEventListener('resize', this._rs);
-    const h = (location.hash || '').slice(1); if (['orders', 'profile', 'addresses'].includes(h)) this.setState({ tab: h });
+    this._pop = () => { const h = (location.hash || '').slice(1); this.setState(TITLES[h] ? { tab: h, sub: true } : { sub: false }); }; window.addEventListener('popstate', this._pop);
+    this._clock = setInterval(() => this.setState(s => ({ tick: s.tick + 1 })), 30000);
     // первый визит: переносим текущий адрес доставки в сохранённые
     if (!this.state.addrs) { const m = readJSON('frito_method'); const list = m && m.mode === 'delivery' && m.address ? [{ id: Date.now(), label: 'Дом', line: m.address, city: m.city || 'Астана', def: true }] : []; this.setAddrs(list); }
   }
-  componentWillUnmount() { window.removeEventListener('resize', this._rs); clearTimeout(this._t); }
+  componentWillUnmount() { window.removeEventListener('resize', this._rs); window.removeEventListener('popstate', this._pop); clearInterval(this._clock); clearTimeout(this._t); }
   setAddrs(addrs) { writeJSON('frito_addresses', addrs); this.setState({ addrs }); }
   toast(t) { clearTimeout(this._t); this.setState({ toast: t }); this._t = setTimeout(() => this.setState({ toast: '' }), 2400); }
+  go(tab) { this.setState({ tab, sub: true }); history.pushState(null, '', '#' + tab); window.scrollTo(0, 0); }
+  back() { if (location.hash) history.back(); else this.setState({ sub: false }); }
   form(draft = this.state.draft) { const u = this.state.user || {}, d = draft || {}; return { name: d.name ?? u.name ?? '', email: d.email ?? u.email ?? '', bday: d.bday ?? u.bday ?? '', nStatus: d.nStatus ?? (u.notify ? u.notify.status : true), nPromo: d.nPromo ?? (u.notify ? u.notify.promo : false) }; }
   edit(k, v) { this.setState(s => ({ draft: { ...(s.draft || {}), [k]: v } })); }
+  // переход в карточку заказа (status.dc.html) с данными этого заказа
+  openOrder(o, stage) {
+    const items = o.items.filter(([id]) => D.BY_ID[id]);
+    writeJSON('frito_view', { no: o.no, mode: o.mode, address: o.address, total: this.total(o),
+      items: items.map(([id, q]) => ({ name: D.BY_ID[id].name, mods: D.BY_ID[id].mods || '', qty: q, price: D.BY_ID[id].price, img: D.BY_ID[id].img })), repeat: Object.fromEntries(items) });
+    const q = { order: o.no, mode: o.mode === 'pickup' ? 'pickup' : 'delivery', stage: stage || 'done' };
+    if (o.status === 'cancelled') { q.issue = 'cancelled'; q.stage = 'accepted'; }
+    location.href = 'status.dc.html?' + new URLSearchParams(q);
+  }
+  total(o) { return o.total ?? o.items.filter(([id]) => D.BY_ID[id]).reduce((a, [id, q]) => a + D.BY_ID[id].price * q, 0) + (o.mode === 'delivery' ? 600 : 0); }
+  rate(no, n) { const ratings = { ...this.state.ratings, [no]: { stars: n, at: Date.now() } }; writeJSON('frito_ratings', ratings); this.setState({ ratings });
+    this.toast(n <= 3 ? 'Спасибо! Менеджер свяжется с вами' : 'Спасибо за оценку!'); }
   orderView(o) {
-    const s = this.state, items = o.items.filter(([id]) => D.BY_ID[id]);
-    const total = o.total ?? items.reduce((a, [id, q]) => a + D.BY_ID[id].price * q, 0) + (o.mode === 'delivery' ? 600 : 0);
-    const thumbs = items.slice(0, 4).map(([id, q]) => ({ img: D.BY_ID[id].img || '', qty: q, multi: q > 1 }));
-    const status = o.status === 'cancelled' ? 'Отменён' : o.mode === 'pickup' ? 'Выдан' : 'Доставлен';
-    return { no: o.no, date: dateLabel(o.at), status, badgeCls: 'f-badge ' + (o.status === 'cancelled' ? 'ac-badge--muted' : 'f-badge--success'),
+    const s = this.state, items = o.items.filter(([id]) => D.BY_ID[id]), r = s.ratings[o.no], cancelled = o.status === 'cancelled';
+    return { no: o.no, date: dateLabel(o.at), status: cancelled ? 'Отменён' : o.mode === 'pickup' ? 'Выдан' : 'Доставлен',
+      badgeCls: 'f-badge ' + (cancelled ? 'ac-badge--muted' : 'f-badge--success'), aria: 'Открыть заказ №' + o.no,
       icon: o.mode === 'pickup' ? 'assets/ic-pickup-p.svg' : 'assets/ic-delivery-p.svg', where: (o.mode === 'pickup' ? 'Самовывоз · ' : 'Доставка · ') + o.address,
-      thumbs, hasMore: items.length > 4, more: items.length - 4, total: D.fmt(total), open: !!s.open[o.no],
-      lines: items.map(([id, q]) => ({ name: D.BY_ID[id].name, qty: q + ' × ' + D.fmt(D.BY_ID[id].price), sum: D.fmt(q * D.BY_ID[id].price) })),
-      toggle: () => this.setState(st => ({ open: { ...st.open, [o.no]: !st.open[o.no] } })), toggleLabel: s.open[o.no] ? 'Свернуть' : 'Состав',
-      repeat: () => { writeJSON('frito_repeat', { items: Object.fromEntries(items), at: Date.now() }); location.href = 'menu.dc.html'; } };
+      thumbs: items.slice(0, 4).map(([id, q]) => ({ img: D.BY_ID[id].img || '', qty: q, multi: q > 1 })), hasMore: items.length > 4, more: items.length - 4,
+      total: D.fmt(this.total(o)),
+      canRate: !cancelled, rateLabel: r ? 'Ваша оценка' : 'Оцените заказ',
+      stars: [1, 2, 3, 4, 5].map(n => ({ cls: 'ac-star' + (r && n <= r.stars ? ' is-on' : '') + (r ? ' is-done' : ''), off: !!r, aria: n + ' из 5', pick: e => { stop(e); if (!r) this.rate(o.no, n); } })),
+      open: () => this.openOrder(o), key: e => { if (e.key === 'Enter') this.openOrder(o); },
+      repeat: e => { stop(e); writeJSON('frito_repeat', { items: Object.fromEntries(items), at: Date.now() }); location.href = 'menu.dc.html'; } };
   }
   renderVals() {
-    const s = this.state, u = s.user, ready = s.ready && !!D;
-    const now = Date.now();
-    const all = ready ? [...s.placed.map(o => ({ ...o })), ...DEMO_ORDERS.map(o => ({ ...o, at: now - o.ago }))].sort((a, b) => b.at - a.at) : [];
-    // заказ младше 50 минут — «текущий»: этап по прошедшему времени
+    const s = this.state, u = s.user, ready = s.ready && !!D, now = Date.now(), mob = s.vw < 768;
+    const all = ready ? [...s.placed, ...DEMO_ORDERS.map(o => ({ ...o, at: now - o.ago }))].sort((a, b) => b.at - a.at) : [];
     const act = all.find(o => o.status !== 'cancelled' && now - o.at < 50 * MIN);
     const past = all.filter(o => o !== act);
-    let active = { no: '', stage: '', pct: '0%', meta: '', href: '#' };
-    if (act) { const m = (now - act.at) / MIN, st = STAGES[act.mode === 'pickup' ? 'pickup' : 'delivery'], i = m < 5 ? 0 : m < 20 ? 1 : 2;
-      active = { no: act.no, stage: st[i][1], pct: st[i][2] + '%', meta: (act.mode === 'pickup' ? 'Самовывоз · ' : 'Доставка · ') + act.address, href: 'status.dc.html?mode=' + (act.mode || 'delivery') + '&stage=' + st[i][0] }; }
+    let live = { caption: '', title: '', eta: '', etaUnit: '', steps: [], thumbs: [], addr: '', href: '#', open: () => {} };
+    if (act && ready) {
+      const L = LIVE[act.mode === 'pickup' ? 'pickup' : 'delivery'], m = (now - act.at) / MIN, i = m < 5 ? 0 : m < 20 ? 1 : 2, left = Math.max(1, Math.round(L.total - m));
+      live = { caption: 'Заказ №' + act.no + ' · ' + (act.mode === 'pickup' ? 'самовывоз' : 'доставка'), title: L.titles[i],
+        eta: act.mode === 'pickup' && i === 2 ? '' : '~' + left, etaUnit: act.mode === 'pickup' && i === 2 ? 'Ждём вас' : 'мин',
+        steps: L.steps.map((t, j) => ({ label: t, cls: 'ac-step' + (j < i ? ' is-done' : j === i ? ' is-cur' : '') })),
+        thumbs: act.items.filter(([id]) => D.BY_ID[id]).slice(0, 3).map(([id]) => D.BY_ID[id].img || ''), addr: act.address,
+        href: '#', open: e => { if (e && e.preventDefault) e.preventDefault(); this.openOrder(act, L.keys[i]); } };
+    }
     const f = this.form(), dirty = JSON.stringify(f) !== JSON.stringify(this.form(null));
     const via = u && u.via === 'telegram' ? 'Telegram' : 'WhatsApp';
-    const addrs = s.addrs || [];
-    const tab = (key, label, count) => ({ label, count, hasCount: !!count, on: s.tab === key, cls: 'ac-tab' + (s.tab === key ? ' is-on' : ''), pick: () => { this.setState({ tab: key }); history.replaceState(null, '', '#' + key); } });
+    const addrs = s.addrs || [], defAddr = addrs.find(a => a.def);
+    const sec = (key, label, icon, meta, hot) => ({ label, meta, icon, on: !mob && s.tab === key, cls: 'ac-row' + (!mob && s.tab === key ? ' is-on' : ''), metaCls: 'ac-row__meta' + (hot ? ' is-hot' : ''), pick: () => this.go(key) });
     return {
       loading: !ready, isGuest: ready && !u, isUser: ready && !!u,
+      gridCls: 'ac-grid' + (s.sub ? ' is-sub' : ''),
       login: () => this.setState({ auth: true }),
-      initial: ((f.name || '').trim()[0] || 'F').toUpperCase(), displayName: (u && (u.name || u.phone)) || '', hasName: !!(u && u.name), phone: (u && u.phone) || '',
-      viaLabel: 'Вход через ' + via, viaCls: 'ac-me__via ' + (via === 'Telegram' ? 'f-auth-tg' : 'f-auth-wa'),
-      tabs: [tab('orders', 'Заказы', past.length + (act ? 1 : 0)), tab('profile', 'Профиль'), tab('addresses', 'Адреса', addrs.length)],
-      logout: () => { try { localStorage.removeItem('frito_user'); } catch (e) {} this.setState({ user: null, draft: null }); },
+      initial: ((u && (u.name || '').trim()[0]) || '•').toUpperCase(), displayName: (u && u.name) || 'Как вас зовут?',
+      meMeta: u ? u.phone + ' · ' + via : '', openProfile: () => this.go('profile'),
+      sections: [
+        sec('orders', 'Мои заказы', 'assets/ic-delivery-p.svg', act ? live.title + ' · №' + act.no : past.length ? plural(past.length, ['заказ', 'заказа', 'заказов']) : 'Пока пусто', !!act),
+        sec('addresses', 'Адреса доставки', 'assets/ic-pin-p.svg', defAddr ? defAddr.line : 'Не добавлены'),
+        sec('profile', 'Профиль и уведомления', 'assets/ic-user-p.svg', 'Имя, почта, день рождения'),
+      ],
+      back: () => this.back(),
+      sectionTitle: TITLES[s.tab], sectionCaption: s.tab === 'orders' ? (past.length ? plural(past.length, ['заказ', 'заказа', 'заказов']) : '') : s.tab === 'addresses' ? 'Основной подставится при оформлении' : '',
+      logout: () => { try { localStorage.removeItem('frito_user'); } catch (e) {} this.setState({ user: null, draft: null, sub: false }); },
       tabOrders: s.tab === 'orders', tabProfile: s.tab === 'profile', tabAddr: s.tab === 'addresses',
-      hasActive: !!act, active,
-      orders: ready ? past.map(o => this.orderView(o)) : [], noOrders: ready && !past.length,
-      historyCaption: past.length ? past.length + ' ' + (past.length % 10 === 1 && past.length % 100 !== 11 ? 'заказ' : past.length % 10 >= 2 && past.length % 10 <= 4 && (past.length % 100 < 10 || past.length % 100 >= 20) ? 'заказа' : 'заказов') : '',
+      hasActive: !!act && ready, live,
+      orders: ready ? past.map(o => this.orderView(o)) : [], noOrders: ready && !past.length && !act,
+      phone: (u && u.phone) || '',
       fName: f.name, fEmail: f.email, fBday: f.bday, nStatus: f.nStatus, nPromo: f.nPromo,
       setName: v => this.edit('name', v), setEmail: v => this.edit('email', v), setBday: v => this.edit('bday', v),
       setNStatus: v => this.edit('nStatus', v), setNPromo: v => this.edit('nPromo', v),
@@ -241,7 +304,7 @@ class Component extends DCLogic {
         remove: () => { const rest = addrs.filter((_, j) => j !== i); if (a.def && rest[0]) rest[0] = { ...rest[0], def: true }; this.setAddrs(rest); } })),
       noAddr: !addrs.length,
       addAddr: () => this.setState({ addr: true }),
-      layout: s.vw < 768 ? 'sheet' : 'center',
+      layout: mob ? 'sheet' : 'center',
       authOpen: s.auth, closeAuth: () => this.setState({ auth: false }),
       authDone: r => { const nu = { ...(u || {}), via: r.via, phone: r.phone, at: Date.now() }; writeJSON('frito_user', nu); this.setState({ user: nu, auth: false }); this.toast(u ? 'Номер обновлён' : 'Вы вошли'); },
       addrOpen: s.addr, closeAddr: () => this.setState({ addr: false }),
