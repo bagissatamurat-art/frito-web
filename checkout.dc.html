@@ -168,13 +168,13 @@ input,textarea,button{outline:none}
   </div>
   <div class="co-m__scroll">
     <div class="f-panel f-panel--compact">
-      <button type="button" class="co-m-addr" onClick="{{ openAddrM }}" aria-label="Изменить адрес">
-        <span class="co-icon-circle"><img src="{{ methodIcon }}" alt="" class="co-icon-20"></span>
-        <span class="co-m-addr__body">
-          <span class="co-m-addr__caption">{{ addrCaption }}</span>
-          <span class="co-m-addr__line">{{ addrLine }}</span>
+      <button type="button" class="f-addr-btn" onClick="{{ openAddrM }}" aria-label="Изменить адрес">
+        <span class="f-addr-btn__icon"><img src="{{ methodIcon }}" alt=""></span>
+        <span class="f-addr-btn__body">
+          <span class="f-addr-btn__caption">{{ addrCaption }}</span>
+          <span class="f-addr-btn__line">{{ addrLine }}</span>
         </span>
-        <svg class="co-m-addr__chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
+        <svg class="f-addr-btn__chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
       </button>
       <sc-if value="{{ isDelivery }}" hint-placeholder-val="{{ true }}">
         <div class="co-m-grid-2">

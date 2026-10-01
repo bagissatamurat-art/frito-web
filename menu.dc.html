@@ -275,7 +275,7 @@ input:focus-visible,textarea:focus-visible{outline:none}
   <!-- bottom sheet cart -->
   <sc-if value="{{ mobileOpen }}" hint-placeholder-val="{{ false }}">
     <div onClick="{{ closeMobile }}" style="position:absolute;inset:0;background:var(--overlay);z-index:6;animation:{{ cartBdAnim }}"></div>
-    <div style="position:absolute;left:0;right:0;bottom:0;z-index:7;background:{{ mSheetHeadBg }};border-radius:32px 32px 0 0;max-height:88%;display:flex;flex-direction:column;box-shadow:var(--shadow-sheet);overflow:hidden;animation:{{ cartSheetAnim }}">
+    <div style="position:absolute;left:0;right:0;bottom:0;z-index:7;background:{{ mSheetHeadBg }};border-radius:32px 32px 0 0;max-height:{{ mSheetMax }};height:{{ mSheetH }};display:flex;flex-direction:column;box-shadow:var(--shadow-sheet);overflow:hidden;animation:{{ cartSheetAnim }}">
       <div class="mn-m-sheet__grabber"><div class="mn-grabber-bar"></div></div>
       <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 16px 12px 20px;background:{{ mSheetHeadBg }};border-radius:32px 32px 0 0">
         <h2 class="mn-h-20">{{ mHeadline }}</h2>
@@ -297,6 +297,16 @@ input:focus-visible,textarea:focus-visible{outline:none}
       </sc-if>
       <sc-if value="{{ hasItems }}" hint-placeholder-val="{{ false }}">
         <div class="mn-m-cart__body">
+          <div class="f-panel f-panel--compact">
+            <button type="button" class="{{ mAddrCls }}" onClick="{{ openMethodM }}" aria-label="Изменить способ получения">
+              <span class="f-addr-btn__icon"><img src="{{ methodIcon }}" alt=""></span>
+              <span class="f-addr-btn__body">
+                <span class="f-addr-btn__caption">{{ mAddrCaption }}</span>
+                <span class="f-addr-btn__line">{{ mAddrLine }}</span>
+              </span>
+              <svg class="f-addr-btn__chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
+            </button>
+          </div>
           <sc-if value="{{ mHasSold }}" hint-placeholder-val="{{ false }}">
             <dc-import name="FritoSoldAlert" text="{{ mSoldText }}" compact="{{ true }}" on-remove="{{ mRemoveSold }}" hint-size="100%,56px"></dc-import>
           </sc-if>
@@ -312,26 +322,6 @@ input:focus-visible,textarea:focus-visible{outline:none}
                 <dc-import name="FritoUpsellTile" item="{{ u }}" compact="{{ true }}" on-add="{{ u.addM }}" hint-size="80px,104px"></dc-import>
               </sc-for>
             </div>
-          </div>
-          <div class="f-panel f-panel--compact f-panel--gap-12">
-            <div class="f-panel__title">Способ получения</div>
-            <dc-import name="FritoSegment" mode="{{ segMode }}" on-change="{{ pickModeM }}" variant="filled" icons="{{ true }}" height="{{ 40 }}" hint-size="100%,48px"></dc-import>
-            <sc-if value="{{ hasMethod }}" hint-placeholder-val="{{ false }}">
-              <div class="mn-m-method">
-                <span class="mn-icon-circle-36"><img src="assets/ic-pin-p.svg" alt="" class="mn-icon-16"></span>
-                <div class="mn-m-method__body"><div class="mn-m-method__caption">{{ addrCaption }} · <span class="mn-ok">{{ etaLabel }}</span></div><div class="mn-m-method__value">{{ address }}</div></div>
-                <button onClick="{{ openMethodM }}" class="f-btn f-btn--secondary f-btn--xs mn-m-method__change">Изменить</button>
-              </div>
-              <sc-if value="{{ isDelivery }}" hint-placeholder-val="{{ true }}">
-                <div class="mn-m-door">
-                  <span class="mn-text-14-600">Оставить у двери</span>
-                  <dc-import name="FritoToggle" on="{{ door }}" on-change="{{ setDoor }}" hint-size="48px,28px"></dc-import>
-                </div>
-              </sc-if>
-            </sc-if>
-            <sc-if value="{{ noMethod }}" hint-placeholder-val="{{ true }}">
-              <button onClick="{{ openMethodM }}" class="mn-m-linkbtn">Выберите способ — покажем адрес и время <span aria-hidden="true" class="mn-chev-16">›</span></button>
-            </sc-if>
           </div>
           <div class="f-panel f-panel--compact f-panel--gap-12">
             <dc-import name="FritoPromoField" code="{{ promoCode }}" desc="{{ promoDesc }}" subtotal="{{ liveSub }}" compact="{{ true }}" on-apply="{{ setPromo }}" on-remove="{{ removePromo }}" hint-size="100%,44px"></dc-import>
@@ -702,6 +692,11 @@ class Component extends DCLogic {
       setPickup: () => this.finishMethod('pickup', s.mode === 'pickup' && s.address ? s.address : STORES[0].name),
       segMode: s.mode || 'delivery', pickMode: m => m === 'delivery' ? this.finishMethod('delivery', isDelivery && s.address ? s.address : DEFAULT_ADDR) : this.finishMethod('pickup', s.mode === 'pickup' && s.address ? s.address : STORES[0].name),
       addrCaption: isDelivery ? 'Адрес доставки' : 'Ресторан',
+      mSheetMax: hasItems ? 'calc(100% - 8px - env(safe-area-inset-top, 0px))' : '88%', mSheetH: hasItems ? 'calc(100% - 8px - env(safe-area-inset-top, 0px))' : 'auto',
+      methodIcon: s.mode === 'pickup' ? 'assets/ic-pickup-p.svg' : 'assets/ic-delivery-p.svg',
+      mAddrCls: 'f-addr-btn' + (hasMethod ? '' : ' f-addr-btn--empty'),
+      mAddrCaption: hasMethod ? (isDelivery ? 'Доставка · ' + (s.quote?.eta || '35–45 мин') : 'Самовывоз · готово за 15 мин') : 'Доставка или самовывоз',
+      mAddrLine: hasMethod ? s.address : 'Укажите адрес доставки',
       addrCaptionM: (isDelivery ? 'Адрес доставки' : 'Ресторан') + ' · ' + (isDelivery ? (s.quote?.eta || '35–45 мин') : 'готово за 15 мин'),
       etaLabel: isDelivery ? (s.quote?.eta || '35–45 мин') : 'готово за 15 мин',
       door: s.door, setDoor: v => this.setState({ door: v }),
