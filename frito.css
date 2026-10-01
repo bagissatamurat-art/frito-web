@@ -502,8 +502,6 @@ img.f-option__icon{object-fit:contain}
 .f-am__store-name{font-size:17px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .f-am__store-dist{flex-shrink:0;font-size:13px;font-weight:600;color:var(--primary);background:var(--primary-100);border-radius:999px;padding:4px 10px}
 .f-am__foot{padding:12px 20px 24px;border-top:1px solid var(--divider);background:#fff}
-.f-am__foot-note{font-size:13px;color:var(--ink-2);text-align:center}
-.f-am__foot--col{display:flex;flex-direction:column;gap:8px}
 
 /* общие классы страниц (из apply.dc.html) */
 .f-page{font-family:var(--font);color:var(--ink);min-height:100vh;display:flex;flex-direction:column;background:var(--surface-1)}
