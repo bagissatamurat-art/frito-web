@@ -74,31 +74,7 @@ input:focus-visible,textarea:focus-visible{outline:none}
             <h2 class="mn-cat__title">{{ cat.name }}</h2>
             <div class="mn-grid">
               <sc-for list="{{ cat.items }}" as="p" hint-placeholder-count="3">
-                <article data-reveal class="mn-card">
-                  <div onClick="{{ p.open }}" class="mn-card__media">
-                    <sc-if value="{{ p.hasImg }}" hint-placeholder-val="{{ true }}"><img data-skel src="{{ p.img }}" alt="{{ p.name }}" style="width:100%;height:100%;object-fit:cover;display:block;filter:{{ p.imgFilter }}"></sc-if>
-                    <sc-if value="{{ p.noImg }}" hint-placeholder-val="{{ false }}"><span class="mn-card__noimg">фото товара</span></sc-if>
-                    <sc-if value="{{ p.soldOut }}" hint-placeholder-val="{{ false }}"><span class="mn-card__badge">Разобрали</span></sc-if>
-                  </div>
-                  <div class="mn-card__body">
-                    <h3 onClick="{{ p.open }}" class="mn-card__name">{{ p.name }}</h3>
-                    <p class="mn-card__desc">{{ p.desc }}</p>
-                  </div>
-                  <div class="mn-card__foot">
-                    <sc-if value="{{ p.notInCart }}" hint-placeholder-val="{{ true }}">
-                      <span class="mn-price-20">{{ p.priceLabel }}</span>
-                      <button onClick="{{ p.add }}" class="mn-card__add">В корзину</button>
-                    </sc-if>
-                    <sc-if value="{{ p.inCart }}" hint-placeholder-val="{{ false }}">
-                      <span class="mn-price-20">{{ p.priceLabel }}</span>
-                      <dc-import name="FritoStepper" qty="{{ p.qty }}" on-inc="{{ p.inc }}" on-dec="{{ p.dec }}" size="{{ 44 }}" style="width:132px" hint-size="132px,44px"></dc-import>
-                    </sc-if>
-                    <sc-if value="{{ p.soldOut }}" hint-placeholder-val="{{ false }}">
-                      <span class="mn-card__price-off">{{ p.priceLabel }}</span>
-                      <span class="mn-card__soldout">Нет в наличии</span>
-                    </sc-if>
-                  </div>
-                </article>
+                <dc-import name="FritoProductCard" product="{{ p }}" hint-size="100%,420px"></dc-import>
               </sc-for>
             </div>
           </div>
@@ -185,10 +161,7 @@ input:focus-visible,textarea:focus-visible{outline:none}
             <div class="mn-panel__title">Добавить к заказу?</div>
             <div class="mn-upsell">
               <sc-for list="{{ upsell }}" as="u" hint-placeholder-count="3">
-                <button onClick="{{ u.add }}" class="mn-upsell__item">
-                  <span class="mn-upsell__img"><img data-skel src="{{ u.img }}" alt="" class="f-cover-img"><span class="mn-upsell__plus"><span aria-hidden="true" class="mn-x10"><span class="mn-plus-h"></span><span class="mn-plus-v"></span></span></span></span>
-                  <span class="mn-upsell__text"><span class="mn-upsell__name">{{ u.short }}</span><span class="mn-upsell__price">{{ u.priceLabel }}</span></span>
-                </button>
+                <dc-import name="FritoUpsellTile" item="{{ u }}" on-add="{{ u.add }}" hint-size="92px,120px"></dc-import>
               </sc-for>
             </div>
           </div>
@@ -339,28 +312,7 @@ input:focus-visible,textarea:focus-visible{outline:none}
           <h2 class="mn-m-cat__title">{{ cat.name }}</h2>
           <div class="mn-m-grid">
             <sc-for list="{{ cat.items }}" as="p" hint-placeholder-count="2">
-              <article data-reveal class="mn-m-card">
-                <div onClick="{{ p.open }}" class="mn-m-card__media">
-                  <sc-if value="{{ p.hasImg }}" hint-placeholder-val="{{ true }}"><img data-skel src="{{ p.img }}" alt="{{ p.name }}" style="width:100%;height:100%;object-fit:cover;display:block;filter:{{ p.imgFilter }}"></sc-if>
-                  <sc-if value="{{ p.noImg }}" hint-placeholder-val="{{ false }}"><span class="mn-m-card__noimg">фото</span></sc-if>
-                  <sc-if value="{{ p.soldOut }}" hint-placeholder-val="{{ false }}"><span class="mn-m-card__badge">Разобрали</span></sc-if>
-                </div>
-                <div class="mn-m-card__body">
-                  <h3 onClick="{{ p.open }}" class="mn-m-card__name">{{ p.name }}</h3>
-                  <p class="mn-m-card__desc">{{ p.desc }}</p>
-                </div>
-                <div class="mn-m-card__foot">
-                <sc-if value="{{ p.notInCart }}" hint-placeholder-val="{{ true }}">
-                  <button onClick="{{ p.add }}" class="mn-m-card__add" style-active="background:var(--primary);color:#fff">{{ p.priceLabel }}</button>
-                </sc-if>
-                <sc-if value="{{ p.inCart }}" hint-placeholder-val="{{ false }}">
-                  <dc-import name="FritoStepper" qty="{{ p.qty }}" on-inc="{{ p.inc }}" on-dec="{{ p.dec }}" size="{{ 44 }}" hint-size="100%,44px"></dc-import>
-                </sc-if>
-                <sc-if value="{{ p.soldOut }}" hint-placeholder-val="{{ false }}">
-                  <span class="mn-m-card__soldout">Нет в наличии</span>
-                </sc-if>
-                </div>
-              </article>
+              <dc-import name="FritoProductCard" product="{{ p }}" compact="{{ true }}" hint-size="100%,300px"></dc-import>
             </sc-for>
           </div>
         </div>
@@ -452,10 +404,7 @@ input:focus-visible,textarea:focus-visible{outline:none}
             <div class="mn-m-panel__title">Добавить к заказу?</div>
             <div class="mn-m-upsell">
               <sc-for list="{{ upsell }}" as="u" hint-placeholder-count="3">
-                <button onClick="{{ u.addM }}" class="mn-m-upsell__item">
-                  <span class="mn-m-upsell__img"><img data-skel src="{{ u.img }}" alt="" class="f-cover-img"><span class="mn-m-upsell__plus"><span aria-hidden="true" class="mn-x10"><span class="mn-plus-h"></span><span class="mn-plus-v"></span></span></span></span>
-                  <span class="mn-m-upsell__text"><span class="mn-m-upsell__name">{{ u.short }}</span><span class="mn-m-upsell__price">{{ u.priceLabel }}</span></span>
-                </button>
+                <dc-import name="FritoUpsellTile" item="{{ u }}" compact="{{ true }}" on-add="{{ u.addM }}" hint-size="80px,104px"></dc-import>
               </sc-for>
             </div>
           </div>

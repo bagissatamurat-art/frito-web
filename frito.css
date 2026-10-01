@@ -579,3 +579,49 @@ img.f-option__icon{object-fit:contain}
 .f-orderline--compact .f-orderline__name{font-size:13px}
 .f-orderline--compact .f-orderline__mods,.f-orderline--compact .f-orderline__sold,.f-orderline--compact .f-orderline__qty{font-size:11px}
 .f-orderline--compact .f-orderline__price{font-size:13px}
+
+/* Плитка допродажи */
+.f-plus{position:relative;display:block;width:10px;height:10px}
+.f-plus > span{position:absolute;left:0;top:50%;width:100%;height:2px;margin-top:-1px;background:currentColor;border-radius:1px}
+.f-plus > span:last-child{left:50%;top:0;width:2px;height:100%;margin:0 0 0 -1px}
+.f-upsell{flex-shrink:0;display:flex;flex-direction:column;align-items:center;gap:8px;width:92px;padding:0;border:0;background:transparent;color:var(--ink);font:inherit;cursor:pointer}
+.f-upsell__img{position:relative;display:block;width:80px;height:80px;border-radius:18px;background:var(--surface-2);overflow:hidden}
+.f-upsell__plus{position:absolute;right:5px;bottom:5px;display:flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:50%;background:var(--primary);color:#fff}
+.f-upsell__text{display:flex;flex-direction:column;align-items:center;gap:2px}
+.f-upsell__name{font-size:12px;font-weight:500;color:var(--ink-2);line-height:1.2}
+.f-upsell__price{font-size:13px;font-weight:700}
+.f-upsell--compact{gap:6px;width:80px}
+.f-upsell--compact .f-upsell__img{width:68px;height:68px;border-radius:var(--r-md-plus)}
+.f-upsell--compact .f-upsell__plus{right:4px;bottom:4px;width:22px;height:22px}
+.f-upsell--compact .f-upsell__text{gap:1px}
+.f-upsell--compact .f-upsell__name{font-size:11px}
+.f-upsell--compact .f-upsell__price{font-size:12px}
+
+/* Карточка товара */
+.f-pcard{display:flex;flex-direction:column;gap:10px;padding:14px;background:#fff;border:1px solid var(--border);border-radius:var(--r-xl);transition:box-shadow .2s}
+.f-pcard:hover{box-shadow:var(--shadow-card-hover)}
+.f-pcard__media{position:relative;display:flex;align-items:center;justify-content:center;aspect-ratio:1/1;border-radius:18px;background:var(--surface-2);overflow:hidden;cursor:pointer}
+.f-pcard__noimg{font-family:ui-monospace,monospace;font-size:11px;color:var(--ink-3)}
+.f-pcard__badge{position:absolute;left:12px;top:12px;padding:6px 12px;border-radius:var(--r-pill);background:var(--ink);color:#fff;font-size:12px;font-weight:700}
+.f-pcard__body{flex:1;display:flex;flex-direction:column;gap:6px;padding:2px 4px 0}
+.f-pcard__name{margin:0;font-size:18px;font-weight:700;line-height:1.25;cursor:pointer}
+.f-pcard__desc{margin:0;font-size:14px;line-height:1.4;color:var(--ink-2);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.f-pcard__foot{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:4px 4px 0}
+.f-pcard__price{font-size:20px;font-weight:700}
+.f-pcard__price--off{color:var(--ink-3)}
+.f-pcard__add{width:132px;height:var(--h-md);padding:0;border:0;border-radius:var(--r-pill);background:var(--primary-100);color:var(--primary);font:inherit;font-size:15px;font-weight:600;cursor:pointer;transition:all .15s}
+.f-pcard__add:hover{background:var(--primary);color:#fff}
+.f-pcard__soldout{display:flex;align-items:center;justify-content:center;width:132px;height:var(--h-md);border-radius:var(--r-pill);background:var(--surface-2);color:var(--ink-3);font-size:15px;font-weight:600;cursor:not-allowed}
+.f-pcard--compact{gap:8px;padding:8px 8px 12px;border-radius:var(--r-lg);transition:none}
+.f-pcard--compact:hover{box-shadow:none}
+.f-pcard--compact .f-pcard__media{border-radius:var(--r-md)}
+.f-pcard--compact .f-pcard__noimg{font-size:10px}
+.f-pcard--compact .f-pcard__badge{left:8px;top:8px;padding:5px 10px;font-size:11px}
+.f-pcard--compact .f-pcard__body{gap:3px;padding:0 4px}
+.f-pcard--compact .f-pcard__name{font-size:15px}
+.f-pcard--compact .f-pcard__desc{font-size:12px;line-height:1.35}
+.f-pcard--compact .f-pcard__foot{display:block;padding:0 4px}
+.f-pcard--compact .f-pcard__add{width:100%;font-weight:700;transition:none}
+.f-pcard--compact .f-pcard__add:hover{background:var(--primary-100);color:var(--primary)}
+.f-pcard--compact .f-pcard__add:active{background:var(--primary);color:#fff}
+.f-pcard--compact .f-pcard__soldout{width:100%;font-size:14px;cursor:auto}
