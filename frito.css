@@ -122,6 +122,15 @@ html,body{max-width:100%;overflow-x:clip;overscroll-behavior-x:none;-webkit-text
 .f-otp__cell.is-filled{border-color:var(--primary-200);background:var(--primary-50);color:var(--primary-dark);animation:f-otp-pop .24s var(--ease)}
 .f-otp__cell.is-current{border-color:var(--primary);box-shadow:0 0 0 4px var(--primary-100)}
 .f-otp__cell.is-current.is-empty::after{content:'';position:absolute;width:2px;height:28px;border-radius:1px;background:var(--primary);animation:f-caret 1s steps(1) infinite}
+.f-otp.is-checking .f-otp__cell{animation:f-otp-wait 1s ease-in-out infinite}
+.f-otp.is-checking .f-otp__cell:nth-child(2){animation-delay:.12s}
+.f-otp.is-checking .f-otp__cell:nth-child(3){animation-delay:.24s}
+.f-otp.is-checking .f-otp__cell:nth-child(4){animation-delay:.36s}
+.f-otp.is-error .f-otp__cell{border-color:var(--danger);background:#FEF2F2;color:var(--danger);box-shadow:none}
+.f-otp.is-error{animation:f-shake .4s var(--ease)}
+.f-otp.is-locked{cursor:not-allowed;opacity:.6}
+@keyframes f-otp-wait{50%{border-color:var(--primary-200);background:var(--primary-50)}}
+@keyframes f-shake{20%{transform:translateX(-8px)}40%{transform:translateX(7px)}60%{transform:translateX(-5px)}80%{transform:translateX(3px)}}
 .f-otp.is-done .f-otp__cell{border-color:var(--success);background:var(--surface-0);color:var(--success);box-shadow:var(--shadow-xs)}
 @keyframes f-otp-pop{0%{transform:scale(.88)}60%{transform:scale(1.06)}100%{transform:none}}
 @keyframes f-caret{50%{opacity:0}}
@@ -738,7 +747,10 @@ img.f-option__icon{object-fit:contain}
 .f-auth-link:hover{color:var(--primary-dark)}
 .f-otp--center{grid-template-columns:repeat(4,60px);justify-content:center;gap:12px;margin:4px 0}
 .f-sheet .f-otp--center{grid-template-columns:repeat(4,56px)}
-.f-auth-timer{margin:0;font-size:12px;font-weight:500;color:var(--ink-3);text-align:center}
+.f-auth-msg{margin:0;min-height:16px;font-size:12px;font-weight:500;line-height:16px;color:var(--ink-3);text-align:center;transition:color .15s}
+.f-auth-msg.is-error{color:var(--danger)}
+.f-auth-msg.is-ok{color:var(--success)}
+.f-btn--tabular{font-variant-numeric:tabular-nums}
 .f-dots{display:flex;justify-content:center;gap:6px;padding-top:2px}
 .f-dots__dot{width:6px;height:6px;border-radius:50%;background:var(--surface-3);transition:background .2s,width .2s}
 .f-dots__dot.is-on{width:18px;border-radius:3px;background:var(--primary)}
