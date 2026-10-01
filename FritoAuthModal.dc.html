@@ -38,7 +38,7 @@
 
     <sc-if value="{{ isPhone }}" hint-placeholder-val="{{ false }}">
       <form class="f-step" onSubmit="{{ sendCode }}" noValidate="{{ true }}">
-        <dc-import name="FritoInput" label="Номер телефона" value="{{ phone }}" on-change="{{ setPhone }}" mask="phone" required="{{ true }}" clearable="{{ false }}" hint-size="100%,56px"></dc-import>
+        <dc-import name="FritoInput" label="Номер телефона" value="{{ phone }}" on-change="{{ setPhone }}" mask="phone" required="{{ true }}" error="{{ phoneErr }}" clearable="{{ false }}" hint-size="100%,56px"></dc-import>
         <sc-if value="{{ phoneErr }}" hint-placeholder-val="{{ false }}"><span class="f-error">Введите номер полностью</span></sc-if>
         <button type="submit" class="{{ ctaClass }}" disabled="{{ sending }}"><sc-if value="{{ sending }}" hint-placeholder-val="{{ false }}"><span class="f-btn__spinner" aria-hidden="true"></span></sc-if>{{ ctaText }}</button>
         <button type="button" class="f-btn f-btn--ghost" onClick="{{ toChoose }}" style="align-self:center">Другой мессенджер</button>
@@ -100,7 +100,7 @@
 
     <sc-if value="{{ isPhone }}" hint-placeholder-val="{{ false }}">
       <form class="f-step" onSubmit="{{ sendCode }}" noValidate="{{ true }}">
-        <dc-import name="FritoInput" label="Номер телефона" value="{{ phone }}" on-change="{{ setPhone }}" mask="phone" required="{{ true }}" clearable="{{ false }}" hint-size="100%,56px"></dc-import>
+        <dc-import name="FritoInput" label="Номер телефона" value="{{ phone }}" on-change="{{ setPhone }}" mask="phone" required="{{ true }}" error="{{ phoneErr }}" clearable="{{ false }}" hint-size="100%,56px"></dc-import>
         <sc-if value="{{ phoneErr }}" hint-placeholder-val="{{ false }}"><span class="f-error">Введите номер полностью</span></sc-if>
         <button type="submit" class="{{ ctaClass }}" disabled="{{ sending }}"><sc-if value="{{ sending }}" hint-placeholder-val="{{ false }}"><span class="f-btn__spinner" aria-hidden="true"></span></sc-if>{{ ctaText }}</button>
         <button type="button" class="f-btn f-btn--ghost" onClick="{{ toChoose }}" style="align-self:center">Другой мессенджер</button>
