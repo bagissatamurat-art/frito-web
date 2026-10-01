@@ -142,8 +142,16 @@
       <!-- pickup -->
       <sc-if value="{{ showPickup }}" hint-placeholder-val="{{ false }}">
         <div class="f-am__pick-head">
-          <h3 class="f-am__pick-title">Рестораны Frito</h3>
+          <h3 class="f-am__pick-title">Рестораны в <button type="button" class="f-am__city" onClick="{{ toggleCity }}" aria-haspopup="listbox" aria-expanded="{{ cityOpen }}">{{ cityIn }}<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button></h3>
           <span class="f-am__caption">{{ pickCaption }}</span>
+          <sc-if value="{{ cityOpen }}" hint-placeholder-val="{{ false }}">
+            <div class="f-am__city-scrim" onClick="{{ toggleCity }}"></div>
+            <div class="f-am__city-menu" role="listbox" aria-label="Город">
+              <sc-for list="{{ cities }}" as="c" hint-placeholder-count="1">
+                <button type="button" role="option" aria-selected="{{ c.sel }}" class="{{ c.cls }}" onClick="{{ c.pick }}"><span class="f-am__city-name">{{ c.name }}</span><span class="f-am__city-count">{{ c.count }}</span></button>
+              </sc-for>
+            </div>
+          </sc-if>
         </div>
         <sc-if value="{{ isSheet }}" hint-placeholder-val="{{ false }}">
           <div ref="{{ carRef }}" onScroll="{{ onCarScroll }}" class="f-am__carousel">
@@ -213,15 +221,19 @@ const mbForward = q => fetch(`https://api.mapbox.com/search/geocode/v6/forward?q
 const BOLT = 'polygon(45% 0,100% 0,60% 45%,85% 45%,20% 100%,40% 55%,10% 55%)';
 // Координаты ресторанов приблизительные — заменить на точные из админки
 const STORES = [
-  { name: 'Сыганак 11', hours: '11:30 – 02:00', lat: 51.1238, lng: 71.4318 },
-  { name: 'Кошкарбаева 36', hours: '11:30 – 02:00', lat: 51.1419, lng: 71.4726 },
-  { name: 'Республика 30', hours: '11:30 – 02:00', lat: 51.1620, lng: 71.4270 },
-  { name: 'Аль-фараби 13п', hours: '11:30 – 02:00', lat: 51.1000, lng: 71.4040 },
-  { name: 'ТРЦ Аружан', hours: '10:30 – 23:00', lat: 51.1596, lng: 71.4096 },
+  { city: 'astana', name: 'Сыганак 11', hours: '11:30 – 02:00', lat: 51.1238, lng: 71.4318 },
+  { city: 'astana', name: 'Кошкарбаева 36', hours: '11:30 – 02:00', lat: 51.1419, lng: 71.4726 },
+  { city: 'astana', name: 'Республика 30', hours: '11:30 – 02:00', lat: 51.1620, lng: 71.4270 },
+  { city: 'astana', name: 'Аль-фараби 13п', hours: '11:30 – 02:00', lat: 51.1000, lng: 71.4040 },
+  { city: 'astana', name: 'ТРЦ Аружан', hours: '10:30 – 23:00', lat: 51.1596, lng: 71.4096 },
 ];
 // Зона доставки — демо-полигон, заменить на реальный
 const ZONE = [[51.205, 71.36], [51.205, 71.52], [51.17, 71.56], [51.10, 71.55], [51.065, 71.48], [51.065, 71.37], [51.10, 71.33], [51.16, 71.33]];
-const HOME = { lat: 51.1167, lng: 71.4150 };
+// Стартовая точка — монумент «Байтерек» (бул. Нуржол, 14). Адрес известен заранее — без запроса к геокодеру.
+const HOME = { lat: 51.12827, lng: 71.43047 };
+const HOME_ADDR = { addr: 'бул. Нуржол, 14', sub: 'Есильский р-н, Астана', house: true };
+// Города самовывоза: добавить город = строка здесь + city у ресторанов в STORES
+const CITIES = [{ id: 'astana', name: 'Астана', inName: 'Астане' }];
 const OUT = { lat: 51.036, lng: 71.432 };
 const RECENT = [
   { line: 'пр-кт Туран, 52/6', sub: 'Есильский р-н', lat: 51.1167, lng: 71.4150, house: true },
@@ -299,8 +311,10 @@ class Component extends DCLogic {
   carRef = React.createRef();
   state = (() => {
     const st = this.props.start || 'delivery', c = st === 'outOfZone' ? OUT : HOME;
-    return { mode: st === 'pickup' ? 'pickup' : 'delivery', center: c, inZone: inPoly(c.lat, c.lng, ZONE), moving: false, addr: null, sub: '', house: false, loading: true,
-      searching: false, q: '', sugg: [], sLoading: false, sDone: false, store: this.nearest(c), toast: '', mapFail: false };
+    const home = c === HOME; if (home) this._last = HOME;
+    return { mode: st === 'pickup' ? 'pickup' : 'delivery', center: c, inZone: inPoly(c.lat, c.lng, ZONE), moving: false,
+      ...(home ? { ...HOME_ADDR, loading: false } : { addr: null, sub: '', house: false, loading: true }),
+      searching: false, q: '', sugg: [], sLoading: false, sDone: false, store: this.nearest(c), toast: '', mapFail: false, city: 'astana', cityOpen: false };
   })();
   nearest(c) { let best = 0, d = Infinity; STORES.forEach((s, i) => { const x = km(c, s); if (x < d) { d = x; best = i; } }); return best; }
 
@@ -309,6 +323,11 @@ class Component extends DCLogic {
     this._rq = 0; this._sq = 0;
     this.onKey = e => { if (e.key !== 'Escape') return; if (this.state.searching) this.setState({ searching: false }); else this.props.onClose && this.props.onClose(); };
     window.addEventListener('keydown', this.onKey);
+    // Сразу предлагаем геолокацию: адрес находится одним запросом, без поиска вручную. Если доступ запрещён — не спрашиваем
+    if (this.state.mode === 'delivery' && this.props.start !== 'outOfZone' && navigator.geolocation) {
+      const ask = () => this.locate(true);
+      if (navigator.permissions && navigator.permissions.query) navigator.permissions.query({ name: 'geolocation' }).then(r => { if (r.state !== 'denied') ask(); }, ask); else ask();
+    }
     loadMapbox().then(gl => { this.gl = gl; this.initMap(); }).catch(() => this.setState({ mapFail: true, loading: false, addr: RECENT[0].line, sub: RECENT[0].sub, house: true }));
   }
   componentDidUpdate() {
@@ -330,7 +349,7 @@ class Component extends DCLogic {
     const gl = this.gl, el = this.mapRef.current; if (!el) return;
     if (this.map) { this.map.remove(); this.map = null; if (this.ro) this.ro.disconnect(); }
     this._el = el;
-    const c = this.state.center;
+    const c = this._geo || this.state.center; this._geo = null;
     const map = this.map = new gl.Map({ container: el, style: MAPBOX_STYLE, center: [c.lng, c.lat], zoom: 16, attributionControl: false, pitchWithRotate: false, dragRotate: false, touchPitch: false });
     map.touchZoomRotate.disableRotation();
     // Логический центр карты = центр видимой области (без верхней панели и нахлёста нижней). Кончик пина стоит ровно здесь.
@@ -366,7 +385,7 @@ class Component extends DCLogic {
     });
   }
   fitStores(anim) {
-    if (!this.map) return; const b = new this.gl.LngLatBounds(); STORES.forEach(s => b.extend([s.lng, s.lat]));
+    if (!this.map) return; const b = new this.gl.LngLatBounds(); STORES.filter(s => s.city === this.state.city).forEach(s => b.extend([s.lng, s.lat]));
     const sheet = this.props.layout === 'sheet';
     this.map.fitBounds(b, { padding: sheet ? { top: 78, bottom: 20, left: 90, right: 90 } : { top: 90, bottom: 40, left: 100, right: 100 }, maxZoom: 15, duration: anim ? 800 : 0 });
   }
@@ -439,12 +458,17 @@ class Component extends DCLogic {
   }
   pickStore(i, fromCar) { this.setState({ store: i }); if (!fromCar) this.scrollCar(i); const s = STORES[i]; if (this.map) this.map.flyTo({ center: [s.lng, s.lat], zoom: Math.max(this.map.getZoom(), 15), duration: 600 }); }
   toast(t) { clearTimeout(this._tt); this.setState({ toast: t }); this._tt = setTimeout(() => this.setState({ toast: '' }), 2800); }
-  locate() {
-    if (!navigator.geolocation) return this.toast('Геолокация недоступна в этом браузере');
+  // auto — тихий запрос при открытии: без тостов об ошибке и без прыжка, если пользователь уже двигал карту
+  locate(auto) {
+    if (!navigator.geolocation) return auto || this.toast('Геолокация недоступна в этом браузере');
     navigator.geolocation.getCurrentPosition(p => {
+      if (auto && this._touched) return;
       const c = { lat: p.coords.latitude, lng: p.coords.longitude };
-      if (this.state.mode === 'pickup') this.pickStore(this.nearest(c)); else if (this.map) this.map.flyTo({ center: [c.lng, c.lat], zoom: 17, duration: 800 });
-    }, () => this.toast('Не удалось определить, где вы. Разрешите доступ к геолокации'), { timeout: 6000 });
+      this._touched = true;
+      if (this.state.mode === 'pickup') this.pickStore(this.nearest(c));
+      else if (this.map) this.map.flyTo({ center: [c.lng, c.lat], zoom: 17, duration: auto ? 1000 : 800 });
+      else this._geo = c;
+    }, () => auto || this.toast('Не удалось определить, где вы. Разрешите доступ к геолокации'), { timeout: 8000, maximumAge: 60000 });
   }
   confirm() {
     const s = this.state, p = this.props; if (!p.onConfirm) return;
@@ -462,7 +486,7 @@ class Component extends DCLogic {
     // Точка отсчёта фиксируется при входе в самовывоз, иначе список пересортировывается при каждом движении карты
     if (!this._ref) this._ref = s.center;
     const ref = this._dc || this._ref;
-    const stores = STORES.map((st, i) => ({ st, i, d: km(ref, st) })).sort((a, b) => a.d - b.d).map(({ st, i, d }) => {
+    const stores = STORES.map((st, i) => ({ st, i, d: km(ref, st) })).filter(x => x.st.city === s.city).sort((a, b) => a.d - b.d).map(({ st, i, d }) => {
       const o = openInfo(st.hours), sel = i === s.store;
       return { idx: i, name: st.name, dist: kmLabel(d), openText: o.text, openColor: o.open ? '#15803D' : '#6B7280', pick: () => this.pickStore(i),
         bg: sel ? '#F5F3FF' : '#fff', border: sel ? '#614BE2' : '#ECECF1', ring: sel ? '#614BE2' : '#D1D5DB', dot: sel ? '#614BE2' : 'transparent' };
@@ -506,6 +530,9 @@ class Component extends DCLogic {
       feeSub: known ? 'Бесплатно от ' + money(freeFrom) : 'Зависит от расстояния',
       outSub: 'Ближайший Frito — ' + near.name + ', ' + nearDist + ' отсюда. Заберите заказ сами — будет готов через 15 минут.', nearName: near.name,
       toPickup: () => this.setMode('pickup'),
+      cityIn: (CITIES.find(c => c.id === s.city) || CITIES[0]).inName, cityOpen: s.cityOpen, toggleCity: () => this.setState({ cityOpen: !s.cityOpen }),
+      cities: CITIES.map(c => { const n = STORES.filter(x => x.city === c.id).length; return { name: c.name, sel: c.id === s.city, cls: 'f-am__city-opt' + (c.id === s.city ? ' is-on' : ''), count: n + ' ' + (n % 10 === 1 && n % 100 !== 11 ? 'ресторан' : n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 10 || n % 100 >= 20) ? 'ресторана' : 'ресторанов'),
+        pick: () => { const first = STORES.findIndex(x => x.city === c.id); this.setState({ city: c.id, cityOpen: false, store: first }, () => { this.fitStores(true); setTimeout(() => this.scrollCar(first), 50); }); } }; }),
       stores, pickCaption: sheet ? (STORES.length ? (stores.findIndex(x => x.idx === s.store) + 1) + ' из ' + STORES.length + ' · листайте' : '') : 'расстояние от ' + (this._dc ? 'точки доставки' : 'вас'), distCaption: 'расстояние от ' + (this._dc ? 'точки доставки' : 'вас'),
       ctaDisabled: !ok, ctaCls: 'f-btn f-btn--primary f-btn--block' + (ok ? '' : ' is-disabled'),
       ctaLabel: busy ? 'Определяем адрес…' : !s.house ? 'Укажите номер дома' : 'Доставить сюда',
