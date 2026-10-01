@@ -7,51 +7,46 @@
 </head>
 <body>
 <x-dc>
+<!-- Футер: бренд и связь | разделы (Компания, Покупателям) | приложение (QR на десктопе, кнопки магазинов) | нижняя строка. Стили — .f-footer* -->
 <footer class="f-footer">
-  <div class="f-footer__top">
+  <div class="f-footer__grid">
     <div class="f-footer__brand">
       <sc-if value="{{ logoOk }}" hint-placeholder-val="{{ true }}"><img class="f-footer__logo" src="https://frito.kz/brand.svg" alt="FRITO" onError="{{ logoFail }}"></sc-if>
       <sc-if value="{{ logoBroken }}" hint-placeholder-val="{{ false }}"><div class="f-footer__wordmark">FRITO</div></sc-if>
-      <p class="f-footer__about">Хрустящая курочка, бургеры и стрипсы. Доставка за 35–45 минут и самовывоз из ресторанов Frito.</p>
-    </div>
-    <div class="f-footer__contact">
-      <span class="f-footer__label">Связаться с нами</span>
-      <a class="f-footer__phone" href="https://wa.me/77009380000" target="_blank" rel="noopener">+7 700 938 0000</a>
-      <span class="f-footer__hours">WhatsApp · ежедневно 11:30 – 02:00</span>
+      <p class="f-footer__about">Хрустящая курочка, бургеры и стрипсы. Доставка за 35–45 минут и самовывоз.</p>
+      <a class="f-footer__wa" href="https://wa.me/77009380000" target="_blank" rel="noopener"><span class="f-footer__wa-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.2a8.8 8.8 0 0 0-7.6 13.3L3.2 20.8l4.4-1.2A8.8 8.8 0 1 0 12 3.2z"/><path d="M9.2 8.3c-.4 0-.9.5-.9 1.3 0 2.6 3.4 6 6 6 .8 0 1.3-.5 1.3-.9v-.9l-1.8-.8-.9.9c-1.1-.5-2.1-1.5-2.6-2.6l.9-.9-.8-1.8z" fill="currentColor" stroke="none"/></svg></span><span class="f-footer__wa-text"><span class="f-footer__wa-num">+7 700 938 0000</span><span class="f-footer__wa-hint">WhatsApp · ежедневно 11:30 – 02:00</span></span></a>
       <div class="f-footer__socials">
-        <a class="f-footer__social" href="https://wa.me/77009380000" aria-label="WhatsApp" target="_blank" rel="noopener"><img src="assets/ic-whatsapp-w.svg" alt="" style="width:20px;height:20px"></a>
-        <a class="f-footer__social" href="https://www.instagram.com/frito.kz/" aria-label="Instagram" target="_blank" rel="noopener"><img src="assets/ic-instagram-w.svg" alt="" style="width:20px;height:20px"></a>
-        <a class="f-footer__social" href="https://www.tiktok.com/@frito.kz" aria-label="TikTok" target="_blank" rel="noopener"><img src="assets/ic-tiktok-w.svg" alt="" style="width:32px;height:32px"></a>
+        <a class="f-footer__social" href="https://www.instagram.com/frito.kz/" aria-label="Instagram" target="_blank" rel="noopener"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1.1" fill="currentColor" stroke="none"/></svg></a>
+        <a class="f-footer__social" href="https://www.tiktok.com/@frito.kz" aria-label="TikTok" target="_blank" rel="noopener"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.6 3h-3.3v12.2a2.9 2.9 0 1 1-2.1-2.8V9a6.3 6.3 0 1 0 5.4 6.2V9.1a7.6 7.6 0 0 0 4.4 1.4V7.2a4.4 4.4 0 0 1-4.4-4.2z"/></svg></a>
       </div>
     </div>
-    <!-- приложение: кнопки магазинов; на десктопе — один QR на умную ссылку (откроет нужный магазин) -->
+    <sc-for list="{{ groups }}" as="g" hint-placeholder-count="2">
+      <nav class="f-footer__col" aria-label="{{ g.title }}">
+        <span class="f-footer__heading">{{ g.title }}</span>
+        <sc-for list="{{ g.links }}" as="l" hint-placeholder-count="4"><a class="f-footer__link" href="{{ l.href }}">{{ l.label }}</a></sc-for>
+      </nav>
+    </sc-for>
     <div class="f-footer__app">
-      <div class="f-footer__app-text">
-        <span class="f-footer__label">Приложение Frito</span>
-        <span class="f-footer__app-title">Заказывайте в пару касаний</span>
+      <span class="f-footer__heading">Приложение</span>
+      <div class="f-footer__app-row">
+        <div class="f-footer__qr"><img src="assets/qr-app.svg" alt="QR-код: скачать приложение Frito" class="f-footer__qr-img"><span class="f-footer__qr-text">Наведите камеру</span></div>
         <div class="f-footer__stores-btns">
           <a class="f-store" href="{{ appStore }}" target="_blank" rel="noopener"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.4 12.6c0-2.5 2-3.7 2.1-3.8-1.2-1.7-3-1.9-3.6-2-1.5-.2-3 .9-3.8.9-.8 0-2-.9-3.3-.9-1.7 0-3.3 1-4.2 2.5-1.8 3.1-.5 7.7 1.3 10.2.9 1.2 1.9 2.6 3.2 2.6 1.3-.1 1.8-.8 3.3-.8s2 .8 3.3.8c1.4 0 2.3-1.3 3.1-2.5 1-1.4 1.4-2.8 1.4-2.9-.1 0-2.8-1-2.8-4.1zM14 5.3c.7-.9 1.2-2 1-3.2-1 .1-2.3.7-3 1.6-.7.8-1.3 2-1.1 3.1 1.2.1 2.3-.6 3.1-1.5z"/></svg><span class="f-store__text"><span class="f-store__small">Загрузите в</span><span class="f-store__big">App Store</span></span></a>
           <a class="f-store" href="{{ googlePlay }}" target="_blank" rel="noopener"><svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path fill="#34A853" d="M3.6 2.3 13.4 12l-9.8 9.7c-.4-.2-.6-.6-.6-1.1V3.4c0-.5.2-.9.6-1.1z"/><path fill="#FBBC04" d="m16.9 15.5-3.5-3.5 3.5-3.5 4 2.3c1.1.6 1.1 1.8 0 2.4z"/><path fill="#4285F4" d="M16.9 8.5 13.4 12 3.6 2.3c.3-.2.8-.2 1.2 0z"/><path fill="#EA4335" d="M16.9 15.5 4.8 22c-.4.2-.9.2-1.2-.3l9.8-9.7z"/></svg><span class="f-store__text"><span class="f-store__small">Доступно в</span><span class="f-store__big">Google Play</span></span></a>
         </div>
       </div>
-      <div class="f-footer__qr" aria-label="QR-код для скачивания приложения">
-        <img src="assets/qr-app.svg" alt="QR-код: скачать приложение Frito" class="f-footer__qr-img">
-        <span class="f-footer__qr-text">Наведите камеру — откроем App Store или Google Play</span>
-      </div>
     </div>
   </div>
   <div class="f-footer__bottom">
-    <nav class="f-footer__nav">
-      <sc-for list="{{ links }}" as="l" hint-placeholder-count="6"><a class="f-footer__link" href="{{ l.href }}">{{ l.label }}</a></sc-for>
-    </nav>
     <span class="f-footer__copy">© 2026 ТОО «Frito Restaurants» · Астана</span>
+    <span class="f-footer__copy">Сайт работает в демо-режиме</span>
   </div>
 </footer>
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1100,&quot;height&quot;:420},&quot;stores&quot;:{&quot;editor&quot;:null,&quot;default&quot;:null,&quot;tsType&quot;:&quot;{name:string,hours:string}[] | null&quot;},&quot;storesMax&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:8,&quot;min&quot;:1,&quot;max&quot;:20,&quot;tsType&quot;:&quot;number&quot;},&quot;showStores&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;}}">
-const LINKS = [
-  { label: 'Франшиза', href: '#' }, { label: 'Поставщикам', href: '#' }, { label: 'Предложить помещение', href: '#' },
-  { label: 'Вакансии', href: 'vacancies.dc.html' }, { label: 'Доставка и оплата', href: '#' }, { label: 'Оферта', href: '#' }, { label: 'Конфиденциальность', href: '#' },
+const GROUPS = [
+  { title: 'Компания', links: [{ label: 'Вакансии', href: 'vacancies.dc.html' }, { label: 'Франшиза', href: '#' }, { label: 'Поставщикам', href: '#' }, { label: 'Предложить помещение', href: '#' }] },
+  { title: 'Покупателям', links: [{ label: 'Личный кабинет', href: 'account.dc.html' }, { label: 'Доставка и оплата', href: '#' }, { label: 'Оферта', href: '#' }, { label: 'Конфиденциальность', href: '#' }] },
 ];
 class Component extends DCLogic {
   state = { logoBroken: false };
@@ -60,7 +55,7 @@ class Component extends DCLogic {
     return {
       // ссылки на магазины — заменить на реальные, когда приложение опубликуют
       appStore: p.appStore || 'https://apps.apple.com/kz/app/frito', googlePlay: p.googlePlay || 'https://play.google.com/store/apps/details?id=kz.frito',
-      links: LINKS, logoOk: !s.logoBroken, logoBroken: s.logoBroken, logoFail: () => this.setState({ logoBroken: true }),
+      groups: GROUPS, logoOk: !s.logoBroken, logoBroken: s.logoBroken, logoFail: () => this.setState({ logoBroken: true }),
     };
   }
 }

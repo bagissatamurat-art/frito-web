@@ -392,25 +392,6 @@ img.f-option__icon{object-fit:contain}
 .f-sheet .f-cta__sep{height:20px}
 
 /* футер */
-.f-footer{display:flex;flex-direction:column;gap:32px;padding:clamp(28px,4vw,40px) clamp(22px,4vw,40px) 28px;background:var(--dark);border-radius:var(--r-2xl);color:#fff;font-family:var(--font)}
-.f-footer a{text-decoration:none}
-.f-footer__top{display:flex;align-items:flex-start;justify-content:space-between;gap:32px;flex-wrap:wrap}
-.f-footer__brand{display:flex;flex-direction:column;gap:14px;max-width:360px}
-.f-footer__logo{display:block;height:34px;width:max-content;filter:brightness(0) invert(1)}
-.f-footer__wordmark{font-size:32px;font-weight:800;letter-spacing:-.03em;line-height:1}
-.f-footer__about{margin:0;font-size:13px;line-height:1.5;color:rgba(255,255,255,.6)}
-.f-footer__contact{display:flex;flex-direction:column;gap:8px}
-.f-footer__label{font-size:13px;font-weight:600;color:rgba(255,255,255,.55)}
-.f-footer__phone,.f-footer__phone:hover{font-size:22px;font-weight:700;letter-spacing:-.01em;color:#fff}
-.f-footer__hours{font-size:13px;color:rgba(255,255,255,.55)}
-.f-footer__socials{display:flex;gap:8px;margin-top:4px}
-.f-footer__social{display:flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.1)}
-.f-footer__social:hover{background:rgba(255,255,255,.18)}
-.f-footer__bottom{display:flex;align-items:center;justify-content:space-between;gap:16px 24px;flex-wrap:wrap;padding-top:22px;border-top:1px solid rgba(255,255,255,.1)}
-.f-footer__nav{display:flex;gap:12px 24px;flex-wrap:wrap}
-.f-footer__link{font-size:13px;font-weight:500;color:rgba(255,255,255,.75)}
-.f-footer__link:hover{color:#fff}
-.f-footer__copy{font-size:12px;color:rgba(255,255,255,.4)}
 
 /* 8. Модалка адреса с картой (FritoAddressModal) ----------------------------- */
 .f-am__mapfail{position:absolute;inset:0;z-index:1;display:flex;align-items:center;justify-content:center;font-size:14px;color:var(--ink-2)}
@@ -504,7 +485,6 @@ img.f-option__icon{object-fit:contain}
 .f-select__arrow{position:absolute;right:20px;top:22px;width:9px;height:9px;border-right:2px solid var(--ink-2);border-bottom:2px solid var(--ink-2);transform:rotate(45deg);pointer-events:none}
 .f-select__date{position:absolute;left:0;right:0;top:0;bottom:0;width:100%;height:100%;padding:24px 14px 0 14px;border:0;background:transparent;font:inherit;font-size:15px;font-weight:600;color:var(--ink);appearance:none;-webkit-appearance:none;cursor:pointer;border-radius:14px;display:block;min-height:56px}
 .f-sr-input{position:absolute;opacity:0;width:0;height:0}
-.f-footer-wrap{margin:0 clamp(12px,3vw,32px) 32px}
 
 /* общие классы страниц (из vacancies.dc.html) */
 .f-cover-img{width:100%;height:100%;object-fit:cover;display:block}
@@ -942,17 +922,70 @@ img.f-option__icon{object-fit:contain}
 .f-method--inline .f-addr-btn__caption{font-size:11px}
 .f-method--inline .f-addr-btn__line{font-size:14px;-webkit-line-clamp:1}
 .f-method--inline .f-addr-btn--empty{box-shadow:none}
-/* футер: блок приложения */
-.f-footer__app{display:flex;align-items:center;gap:24px}
-.f-footer__app-text{display:flex;flex-direction:column;gap:8px}
-.f-footer__app-title{font-size:18px;font-weight:700}
-.f-footer__stores-btns{display:flex;gap:8px;flex-wrap:wrap;margin-top:4px}
-.f-store,.f-store:hover{display:flex;align-items:center;gap:10px;height:var(--h-lg);padding:0 18px 0 14px;border-radius:var(--r-md-plus);background:#000;color:#fff;box-shadow:inset 0 0 0 1px rgba(255,255,255,.22);transition:background-color .15s}
-.f-store:hover{background:#111}
+/* sm — компактная строка (главная) */
+.f-progress--sm{flex-direction:row;align-items:center;gap:14px;padding:12px 12px 12px 12px}
+.f-progress__sm-eta{flex-shrink:0;display:flex;flex-direction:column;align-items:center;justify-content:center;width:64px;height:64px;border-radius:var(--r-md-plus);line-height:1}
+.f-progress--brand .f-progress__sm-eta{background:#fff;color:var(--primary)}
+.f-progress--light .f-progress__sm-eta{background:var(--primary-50);color:var(--primary)}
+.f-progress__sm-num{font-size:26px;font-weight:800;letter-spacing:-.03em;animation:f-progress-in .6s var(--ease) both}
+.f-progress__sm-unit{margin-top:2px;font-size:12px;font-weight:700}
+.f-progress__sm-body{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
+.f-progress--sm .f-progress__caption{font-size:11px}
+.f-progress__sm-title{font-size:16px;font-weight:700;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.f-progress__bar{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:4px;margin-top:5px}
+.f-progress__seg{position:relative;display:block;height:4px;border-radius:2px;overflow:hidden}
+.f-progress--brand .f-progress__seg{background:rgba(255,255,255,.25)}
+.f-progress--brand .f-progress__seg.is-done{background:#fff}
+.f-progress--brand .f-progress__seg.is-cur{background:linear-gradient(90deg,rgba(255,255,255,.35) 0%,#fff 50%,rgba(255,255,255,.35) 100%);background-size:200% 100%;animation:f-progress-flow 1.4s linear infinite}
+.f-progress--light .f-progress__seg{background:var(--surface-3)}
+.f-progress--light .f-progress__seg.is-done{background:var(--primary)}
+.f-progress--light .f-progress__seg.is-cur{background:linear-gradient(90deg,var(--primary-200) 0%,var(--primary) 50%,var(--primary-200) 100%);background-size:200% 100%;animation:f-progress-flow 1.4s linear infinite}
+.f-progress__sm-cta{flex-shrink:0;display:flex;align-items:center;gap:2px;height:var(--h-sm);padding:0 10px 0 14px;border-radius:var(--r-pill);background:#fff;color:var(--primary);font-size:13px;font-weight:700}
+.f-progress__sm-cta.is-light{background:var(--primary-100)}
+.f-progress--sm.f-brand-card::before{right:-20px;top:-60px;width:140px;height:180px}
+@media (max-width:480px){ .f-progress__sm-cta{width:var(--h-sm);padding:0;justify-content:center} .f-progress__sm-cta-text{display:none} }
+@media (prefers-reduced-motion:reduce){ .f-progress__sm-num,.f-progress__seg.is-cur{animation:none} }
+
+/* Футер (FritoFooter): тёмная карточка, сетка бренд | 2 колонки ссылок | приложение */
+.f-footer-wrap{margin:0 clamp(12px,3vw,32px) 32px}
+.f-footer{container-type:inline-size;display:flex;flex-direction:column;gap:32px;padding:40px;border-radius:var(--r-2xl);background:var(--dark);color:#fff;font-family:var(--font)}
+.f-footer a{text-decoration:none}
+.f-footer__grid{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,.8fr) minmax(0,.9fr) auto;gap:32px 40px}
+.f-footer__brand{display:flex;flex-direction:column;align-items:flex-start;gap:16px}
+.f-footer__logo{display:block;height:32px;width:auto;filter:brightness(0) invert(1)}
+.f-footer__wordmark{font-size:28px;font-weight:800;letter-spacing:-.03em;line-height:1}
+.f-footer__about{margin:0;max-width:300px;font-size:14px;line-height:1.5;color:rgba(255,255,255,.6)}
+.f-footer__wa,.f-footer__wa:hover{display:flex;align-items:center;gap:12px;color:#fff}
+.f-footer__wa-icon{display:flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:50%;background:var(--primary);color:#fff;flex-shrink:0}
+.f-footer__wa-text{display:flex;flex-direction:column;gap:2px}
+.f-footer__wa-num{font-size:17px;font-weight:700;letter-spacing:-.01em}
+.f-footer__wa-hint{font-size:12px;color:rgba(255,255,255,.55)}
+.f-footer__socials{display:flex;gap:8px}
+.f-footer__social,.f-footer__social:hover{display:flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.08);color:#fff;transition:background-color .15s}
+.f-footer__social:hover{background:rgba(255,255,255,.16)}
+.f-footer__col{display:flex;flex-direction:column;align-items:flex-start;gap:12px}
+.f-footer__heading{font-size:13px;font-weight:600;color:rgba(255,255,255,.5)}
+.f-footer__link,.f-footer__link:visited{font-size:15px;font-weight:500;color:rgba(255,255,255,.85);transition:color .15s}
+.f-footer__link:hover{color:#fff}
+.f-footer__app{display:flex;flex-direction:column;gap:12px}
+.f-footer__app-row{display:flex;align-items:flex-start;gap:16px}
+.f-footer__qr{display:flex;flex-direction:column;align-items:center;gap:6px}
+.f-footer__qr-img{display:block;width:104px;height:104px;padding:8px;border-radius:var(--r-md-plus);background:#fff;image-rendering:pixelated}
+.f-footer__qr-text{font-size:11px;color:rgba(255,255,255,.5)}
+.f-footer__stores-btns{display:flex;flex-direction:column;gap:8px}
+.f-store,.f-store:hover{display:flex;align-items:center;gap:10px;width:156px;height:var(--h-md);padding:0 14px 0 12px;border-radius:var(--r-md);background:rgba(255,255,255,.08);color:#fff;box-shadow:inset 0 0 0 1px rgba(255,255,255,.14);transition:background-color .15s}
+.f-store:hover{background:rgba(255,255,255,.16)}
+.f-store svg{flex-shrink:0}
 .f-store__text{display:flex;flex-direction:column;line-height:1.1}
-.f-store__small{font-size:10px;font-weight:500;opacity:.8}
-.f-store__big{font-size:16px;font-weight:700;letter-spacing:-.01em}
-.f-footer__qr{display:flex;flex-direction:column;align-items:center;gap:8px;width:140px;flex-shrink:0}
-.f-footer__qr-img{display:block;width:120px;height:120px;padding:10px;border-radius:var(--r-md-plus);background:#fff;image-rendering:pixelated}
-.f-footer__qr-text{font-size:11px;line-height:1.35;text-align:center;color:rgba(255,255,255,.55)}
-@media (max-width:1023px){ .f-footer__qr{display:none} }
+.f-store__small{font-size:10px;font-weight:500;opacity:.7}
+.f-store__big{font-size:15px;font-weight:700;letter-spacing:-.01em}
+.f-footer__bottom{display:flex;align-items:center;justify-content:space-between;gap:8px 24px;flex-wrap:wrap;padding-top:24px;border-top:1px solid rgba(255,255,255,.1)}
+.f-footer__copy{font-size:12px;color:rgba(255,255,255,.4)}
+@container (max-width:920px){
+  .f-footer__grid{grid-template-columns:1fr 1fr;gap:28px 24px}
+  .f-footer__brand,.f-footer__app{grid-column:1 / -1}
+}
+@container (max-width:440px){
+  .f-store,.f-store:hover{flex:1;min-width:140px;width:auto}
+}
+@media (max-width:767px){ .f-footer{padding:28px 20px 20px;border-radius:var(--r-xl)} .f-footer__qr{display:none} .f-footer__stores-btns{flex-direction:row;flex-wrap:wrap} }

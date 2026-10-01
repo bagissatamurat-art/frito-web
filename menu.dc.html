@@ -48,7 +48,7 @@ input:focus-visible,textarea:focus-visible{outline:none}
     <div ref="{{ dScrollRef }}" onScroll="{{ onDScroll }}" class="mn-d__scroll">
       <div class="mn-d__top">
         <!-- текущий заказ (если клиент вошёл и заказ ещё в работе) -->
-        <sc-if value="{{ hasLive }}" hint-placeholder-val="{{ false }}"><div class="mn-live"><dc-import name="FritoOrderProgress" tone="brand" caption="{{ live.caption }}" title="{{ live.title }}" eta="{{ live.eta }}" eta-unit="{{ live.etaUnit }}" eta-label="{{ live.etaLabel }}" eta-note="{{ live.etaNote }}" steps="{{ live.steps }}" thumbs="{{ live.thumbs }}" addr="{{ live.addr }}" cta="Отследить" on-open="{{ live.open }}" hint-size="100%,200px"></dc-import></div></sc-if>
+        <sc-if value="{{ hasLive }}" hint-placeholder-val="{{ false }}"><div class="mn-live"><dc-import name="FritoOrderProgress" tone="brand" size="sm" caption="{{ live.caption }}" title="{{ live.title }}" eta="{{ live.eta }}" eta-unit="{{ live.etaUnit }}" eta-label="{{ live.etaLabel }}" eta-note="{{ live.etaNote }}" steps="{{ live.steps }}" thumbs="{{ live.thumbs }}" addr="{{ live.addr }}" cta="Отследить" on-open="{{ live.open }}" hint-size="100%,88px"></dc-import></div></sc-if>
         <div class="mn-stories">
           <img role="button" tabIndex="0" onClick="{{ openStoryD0 }}" src="assets/story-stores.png" alt="Заказ через WhatsApp" class="mn-story">
           <img role="button" tabIndex="0" onClick="{{ openStoryD1 }}" src="assets/story-new10.png" alt="NEW10 −10% в первый месяц работы сайта" class="mn-story">
@@ -189,7 +189,7 @@ input:focus-visible,textarea:focus-visible{outline:none}
       <div class="mn-m__method">
         <dc-import name="FritoMethodBar" layout="stack" mode="{{ segMode }}" address="{{ address }}" eta="{{ etaLabel }}" on-mode="{{ pickModeM }}" on-open="{{ openMethodM }}" hint-size="100%,112px"></dc-import>
       </div>
-      <sc-if value="{{ hasLive }}" hint-placeholder-val="{{ false }}"><div class="mn-m-live"><dc-import name="FritoOrderProgress" tone="brand" caption="{{ live.caption }}" title="{{ live.title }}" eta="{{ live.eta }}" eta-unit="{{ live.etaUnit }}" eta-label="{{ live.etaLabel }}" eta-note="{{ live.etaNote }}" steps="{{ live.steps }}" thumbs="{{ live.thumbs }}" addr="{{ live.addr }}" cta="Отследить" on-open="{{ live.open }}" hint-size="100%,200px"></dc-import></div></sc-if>
+      <sc-if value="{{ hasLive }}" hint-placeholder-val="{{ false }}"><div class="mn-m-live"><dc-import name="FritoOrderProgress" tone="brand" size="sm" caption="{{ live.caption }}" title="{{ live.title }}" eta="{{ live.eta }}" eta-unit="{{ live.etaUnit }}" eta-label="{{ live.etaLabel }}" eta-note="{{ live.etaNote }}" steps="{{ live.steps }}" thumbs="{{ live.thumbs }}" addr="{{ live.addr }}" cta="Отследить" on-open="{{ live.open }}" hint-size="100%,88px"></dc-import></div></sc-if>
       <div class="mn-m-stories">
         <img role="button" tabIndex="0" onClick="{{ openStoryM0 }}" src="assets/story-stores.png" alt="Заказ через WhatsApp" class="mn-m-story">
         <img role="button" tabIndex="0" onClick="{{ openStoryM1 }}" src="assets/story-new10.png" alt="NEW10 −10% в первый месяц работы сайта" class="mn-m-story">
