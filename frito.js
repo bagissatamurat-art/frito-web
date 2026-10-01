@@ -17,3 +17,15 @@ if ('IntersectionObserver' in window && !matchMedia('(prefers-reduced-motion: re
   const scan = () => document.querySelectorAll('[data-reveal]:not(.is-in):not([data-watch])').forEach(el => { el.setAttribute('data-watch', ''); io.observe(el); });
   new MutationObserver(scan).observe(document.documentElement, { childList: true, subtree: true });
 }
+
+// Высота экранной клавиатуры (iOS/Android) → CSS-переменная --kb. Шторки (.f-sheet) поднимаются над клавиатурой.
+if (window.visualViewport) {
+  const vv = window.visualViewport;
+  const update = () => {
+    const kb = Math.max(0, Math.round(window.innerHeight - vv.height - vv.offsetTop));
+    document.documentElement.style.setProperty('--kb', (kb > 80 ? kb : 0) + 'px');
+  };
+  vv.addEventListener('resize', update);
+  vv.addEventListener('scroll', update);
+  update();
+}

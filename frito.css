@@ -77,6 +77,8 @@ html,body{max-width:100%;overflow-x:clip;overscroll-behavior-x:none;-webkit-text
 .f-modal__center{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:40px}
 .f-dialog{position:relative;width:100%;max-width:560px;background:var(--surface-0);border-radius:var(--r-2xl);padding:36px 40px 32px;display:flex;flex-direction:column;gap:20px;box-shadow:var(--shadow-modal);animation:frito-pop .3s var(--ease) both}
 .f-sheet{position:absolute;left:0;right:0;bottom:0;background:var(--surface-0);border-radius:var(--r-2xl) var(--r-2xl) 0 0;padding:10px 20px calc(24px + env(safe-area-inset-bottom));display:flex;flex-direction:column;gap:18px;max-height:92%;overflow-y:auto;box-shadow:var(--shadow-sheet);animation:frito-sheet .38s var(--ease) both}
+/* над экранной клавиатурой: --kb ставит frito.js */
+.f-sheet{bottom:var(--kb,0px);max-height:calc(92% - var(--kb,0px));transition:bottom .25s var(--ease),max-height .25s var(--ease)}
 .f-grabber{align-self:center;flex-shrink:0;width:40px;height:4px;border-radius:2px;background:var(--surface-3)}
 .f-modal__head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px}
 .f-modal__titles{display:flex;flex-direction:column;gap:10px;min-width:0}
