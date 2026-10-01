@@ -88,13 +88,13 @@ input,textarea,button{outline:none}
         <div class="co-panel-14">
           <div class="co-panel__title">{{ timeTitle }}</div>
           <div class="co-opts">
-            <button onClick="{{ pickAsap }}" style="border:2px solid {{ asapBorder }};background:{{ asapBg }};border-radius:16px;padding:12px 18px;font:inherit;cursor:pointer;display:flex;flex-direction:column;align-items:flex-start;gap:2px;text-align:left;color:var(--ink);min-width:150px"><span class="co-title-16">Как можно скорее</span><span class="co-caption">{{ asapHint }}</span></button>
-            <button onClick="{{ pickLater }}" style="border:2px solid {{ laterBorder }};background:{{ laterBg }};border-radius:16px;padding:12px 18px;font:inherit;cursor:pointer;display:flex;flex-direction:column;align-items:flex-start;gap:2px;text-align:left;color:var(--ink);min-width:150px"><span class="co-title-16">Ко времени</span><span class="co-caption">выбрать слот</span></button>
+            <dc-import name="FritoOptionCard" title="Как можно скорее" sub="{{ asapHint }}" selected="{{ isAsap }}" on-pick="{{ pickAsap }}" hint-size="150px,64px"></dc-import>
+            <dc-import name="FritoOptionCard" title="Ко времени" sub="выбрать слот" selected="{{ isLater }}" on-pick="{{ pickLater }}" hint-size="150px,64px"></dc-import>
           </div>
           <sc-if value="{{ isLater }}" hint-placeholder-val="{{ false }}">
             <div class="co-slots">
               <sc-for list="{{ slots }}" as="sl" hint-placeholder-count="6">
-                <button onClick="{{ sl.pick }}" style="border:0;cursor:pointer;font:inherit;font-size:13px;font-weight:600;border-radius:999px;padding:9px 14px;background:{{ sl.bg }};color:{{ sl.color }}">{{ sl.label }}</button>
+                <button type="button" onClick="{{ sl.pick }}" class="{{ sl.cls }}">{{ sl.label }}</button>
               </sc-for>
             </div>
           </sc-if>
@@ -113,11 +113,7 @@ input,textarea,button{outline:none}
           <div class="co-panel__title">Оплата</div>
           <div class="co-grid-2">
             <sc-for list="{{ payments }}" as="pm" hint-placeholder-count="2">
-              <button onClick="{{ pm.pick }}" style="border:2px solid {{ pm.border }};background:{{ pm.bg }};border-radius:16px;padding:12px 14px;font:inherit;cursor:pointer;display:flex;align-items:center;gap:12px;text-align:left;color:var(--ink)">
-                <span style="width:40px;height:40px;border-radius:12px;background:{{ pm.iconBg }};display:flex;align-items:center;justify-content:center;flex-shrink:0"><img src="{{ pm.icon }}" alt="" class="co-pay__icon"></span>
-                <span class="co-pay__body"><span class="co-text-15-700">{{ pm.title }}</span><span class="co-caption">{{ pm.sub }}</span></span>
-                <span style="width:22px;height:22px;border-radius:50%;border:2px solid {{ pm.radioBorder }};background:{{ pm.radioBg }};display:flex;align-items:center;justify-content:center;flex-shrink:0"><span style="width:8px;height:8px;border-radius:50%;background:#fff;opacity:{{ pm.dot }}"></span></span>
-              </button>
+              <dc-import name="FritoOptionCard" title="{{ pm.title }}" sub="{{ pm.sub }}" icon="{{ pm.icon }}" icon-bg="{{ pm.iconBg }}" selected="{{ pm.on }}" on-pick="{{ pm.pick }}" hint-size="100%,68px"></dc-import>
             </sc-for>
           </div>
           <sc-if value="{{ isKaspi }}" hint-placeholder-val="{{ true }}"><dc-import name="FritoInput" label="Номер Kaspi, куда выставим счёт" mask="phone" required="{{ true }}" value="{{ kaspiPhone }}" on-change="{{ setKaspiPhone }}" hint-size="100%,56px"></dc-import></sc-if>
@@ -190,13 +186,13 @@ input,textarea,button{outline:none}
     <div class="co-m-panel-12">
       <div class="co-m-panel__title">{{ timeTitle }}</div>
       <div class="co-m-grid-2">
-        <button onClick="{{ pickAsap }}" style="border:2px solid {{ asapBorder }};background:{{ asapBg }};border-radius:14px;padding:10px 12px;font:inherit;cursor:pointer;display:flex;flex-direction:column;align-items:flex-start;gap:2px;text-align:left;color:var(--ink)"><span class="co-text-14-700">Скорее</span><span class="co-m-caption">{{ asapHint }}</span></button>
-        <button onClick="{{ pickLater }}" style="border:2px solid {{ laterBorder }};background:{{ laterBg }};border-radius:14px;padding:10px 12px;font:inherit;cursor:pointer;display:flex;flex-direction:column;align-items:flex-start;gap:2px;text-align:left;color:var(--ink)"><span class="co-text-14-700">Ко времени</span><span class="co-m-caption">выбрать слот</span></button>
+        <dc-import name="FritoOptionCard" title="Скорее" sub="{{ asapHint }}" selected="{{ isAsap }}" compact="{{ true }}" on-pick="{{ pickAsap }}" hint-size="100%,60px"></dc-import>
+        <dc-import name="FritoOptionCard" title="Ко времени" sub="выбрать слот" selected="{{ isLater }}" compact="{{ true }}" on-pick="{{ pickLater }}" hint-size="100%,60px"></dc-import>
       </div>
       <sc-if value="{{ isLater }}" hint-placeholder-val="{{ false }}">
         <div class="co-m-slots">
           <sc-for list="{{ slots }}" as="sl" hint-placeholder-count="6">
-            <button onClick="{{ sl.pick }}" style="flex-shrink:0;border:0;cursor:pointer;font:inherit;font-size:13px;font-weight:600;border-radius:999px;padding:9px 14px;background:{{ sl.bg }};color:{{ sl.color }}">{{ sl.label }}</button>
+            <button type="button" onClick="{{ sl.pick }}" class="{{ sl.cls }}" style="flex-shrink:0">{{ sl.label }}</button>
           </sc-for>
         </div>
       </sc-if>
@@ -212,11 +208,7 @@ input,textarea,button{outline:none}
     <div class="co-m-panel-10">
       <div class="co-m-panel__title-mb">Оплата</div>
       <sc-for list="{{ payments }}" as="pm" hint-placeholder-count="2">
-        <button onClick="{{ pm.pick }}" style="border:2px solid {{ pm.border }};background:{{ pm.bg }};border-radius:14px;padding:10px 12px;font:inherit;cursor:pointer;display:flex;align-items:center;gap:12px;text-align:left;color:var(--ink);width:100%">
-          <span style="width:38px;height:38px;border-radius:11px;background:{{ pm.iconBg }};display:flex;align-items:center;justify-content:center;flex-shrink:0"><img src="{{ pm.icon }}" alt="" class="co-m-pay__icon"></span>
-          <span class="co-m-pay__body"><span class="co-text-14-700">{{ pm.title }}</span><span class="co-caption">{{ pm.sub }}</span></span>
-          <span style="width:22px;height:22px;border-radius:50%;border:2px solid {{ pm.radioBorder }};background:{{ pm.radioBg }};display:flex;align-items:center;justify-content:center;flex-shrink:0"><span style="width:8px;height:8px;border-radius:50%;background:#fff;opacity:{{ pm.dot }}"></span></span>
-        </button>
+        <dc-import name="FritoOptionCard" title="{{ pm.title }}" sub="{{ pm.sub }}" icon="{{ pm.icon }}" icon-bg="{{ pm.iconBg }}" selected="{{ pm.on }}" compact="{{ true }}" on-pick="{{ pm.pick }}" hint-size="100%,62px"></dc-import>
       </sc-for>
       <sc-if value="{{ isKaspi }}" hint-placeholder-val="{{ true }}"><dc-import name="FritoInput" label="Номер Kaspi, куда выставим счёт" mask="phone" required="{{ true }}" value="{{ kaspiPhone }}" on-change="{{ setKaspiPhone }}" hint-size="100%,56px"></dc-import></sc-if>
       <sc-if value="{{ isCash }}" hint-placeholder-val="{{ false }}"><dc-import name="FritoInput" label="С какой суммы подготовить сдачу" value="{{ change }}" on-change="{{ setChange }}" hint-size="100%,56px"></dc-import></sc-if>
@@ -254,7 +246,6 @@ input,textarea,button{outline:none}
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props="{&quot;mode&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;delivery&quot;,&quot;options&quot;:[&quot;delivery&quot;,&quot;pickup&quot;],&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Сценарий&quot;},&quot;soldOut&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;none&quot;,&quot;options&quot;:[&quot;none&quot;,&quot;fritos-combo&quot;,&quot;salsa-box&quot;,&quot;crispy&quot;],&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Сценарий&quot;},&quot;promo&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;NEW10&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Сценарий&quot;},&quot;promoPercent&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:10,&quot;min&quot;:0,&quot;max&quot;:50,&quot;unit&quot;:&quot;%&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Сценарий&quot;},&quot;freeDeliveryFrom&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:12000,&quot;min&quot;:0,&quot;max&quot;:30000,&quot;step&quot;:500,&quot;unit&quot;:&quot;тг&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Доставка&quot;},&quot;deliveryFee&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:1000,&quot;min&quot;:0,&quot;max&quot;:3000,&quot;step&quot;:50,&quot;unit&quot;:&quot;тг&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Доставка&quot;}}">
 const SLOTS = ['12:30–13:00', '13:00–13:30', '13:30–14:00', '14:00–14:30', '14:30–15:00', '15:00–15:30'];
-const ON = 'var(--primary)', SEL_BG = 'var(--primary-50)';
 let D = null; // frito-data.js
 
 class Component extends DCLogic {
@@ -283,9 +274,9 @@ class Component extends DCLogic {
       { id: 'kaspi', title: 'Kaspi', sub: 'Счёт в приложении', icon: 'assets/ic-kaspi-w.svg', iconBg: 'var(--kaspi)' },
       { id: 'card', title: 'Картой онлайн', sub: 'Visa · Mastercard', icon: 'assets/ic-card-p.svg', iconBg: 'var(--primary-100)' },
       ...(isDelivery ? [] : [{ id: 'cash', title: 'На кассе', sub: 'Наличные или карта', icon: 'assets/ic-pickup-p.svg', iconBg: '#ECFDF3' }]),
-    ].map(pm => { const on = s.pay === pm.id; return { ...pm, pick: () => this.setState({ pay: pm.id }), border: on ? ON : 'var(--divider)', bg: on ? SEL_BG : '#fff', radioBorder: on ? ON : 'var(--neutral-300)', radioBg: on ? ON : '#fff', dot: on ? 1 : 0 }; });
+    ].map(pm => { const on = s.pay === pm.id; return { ...pm, pick: () => this.setState({ pay: pm.id }), on }; });
     const isLater = s.when === 'later';
-    const slots = SLOTS.map((label, i) => ({ label, pick: () => this.setState({ slot: i }), bg: s.slot === i ? ON : 'var(--surface-2)', color: s.slot === i ? '#fff' : 'var(--ink)' }));
+    const slots = SLOTS.map((label, i) => ({ label, pick: () => this.setState({ slot: i }), cls: 'f-chip-btn' + (s.slot === i ? ' is-on' : '') }));
     const payLabel = s.pay === 'card' ? 'Оплатить картой' : 'Оформить заказ';
     return {
       mode, isDelivery, setMode: m => this.setState({ mode: m, modeTouched: true, pay: m === 'delivery' && s.pay === 'cash' ? 'kaspi' : s.pay }),
@@ -298,7 +289,7 @@ class Component extends DCLogic {
       timeTitle: isDelivery ? 'Время доставки' : 'Время готовности',
       asapHint: isDelivery ? '~45 мин · готовка 25 + дорога 20' : '~25 мин',
       pickAsap: () => this.setState({ when: 'asap' }), pickLater: () => this.setState({ when: 'later' }),
-      asapBorder: isLater ? 'var(--divider)' : ON, asapBg: isLater ? '#fff' : SEL_BG, laterBorder: isLater ? ON : 'var(--divider)', laterBg: isLater ? SEL_BG : '#fff',
+      isAsap: !isLater,
       isLater, slots,
       payments, isKaspi: s.pay === 'kaspi', notKaspi: s.pay !== 'kaspi', isCash: s.pay === 'cash',
       payLabel,

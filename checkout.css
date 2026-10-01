@@ -48,8 +48,6 @@
 .co-title-16{font-size:16px;font-weight:700}
 .co-slots{display:flex;gap:8px;flex-wrap:wrap}
 .co-panel-12{background:#fff;border-radius:20px;padding:20px 22px;display:flex;flex-direction:column;gap:12px}
-.co-pay__icon{width:24px;height:24px;display:block}
-.co-pay__body{display:flex;flex-direction:column;gap:2px;flex:1;min-width:0}
 .co-text-15-700{font-size:15px;font-weight:700}
 .co-d__aside{position:sticky;top:0;display:flex;flex-direction:column;gap:12px}
 .co-row-between{display:flex;align-items:center;justify-content:space-between}
@@ -76,13 +74,9 @@
 .co-m-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .co-m-panel-12{background:#fff;border-radius:18px;padding:16px;display:flex;flex-direction:column;gap:12px}
 .co-m-panel__title{font-size:15px;font-weight:700}
-.co-text-14-700{font-size:14px;font-weight:700}
-.co-m-caption{font-size:11px;color:var(--ink-2)}
 .co-m-slots{display:flex;gap:8px;overflow-x:auto;overflow-y:hidden;overscroll-behavior-x:contain;margin:0 -16px;padding:0 16px}
 .co-m-panel-10{background:#fff;border-radius:18px;padding:16px;display:flex;flex-direction:column;gap:10px}
 .co-m-panel__title-mb{font-size:15px;font-weight:700;margin-bottom:2px}
-.co-m-pay__icon{width:22px;height:22px;display:block}
-.co-m-pay__body{display:flex;flex-direction:column;gap:1px;flex:1;min-width:0}
 .co-m-link{font-size:13px;font-weight:600}
 .co-m-lines{display:flex;flex-direction:column;gap:10px}
 .co-m-totals{border-top:1px solid var(--divider);padding-top:12px}

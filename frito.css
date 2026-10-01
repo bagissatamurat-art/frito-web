@@ -649,3 +649,26 @@ img.f-option__icon{object-fit:contain}
 .f-addr--compact .f-addr__caption,.f-addr--compact .f-addr__value{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .f-addr--compact .f-addr__change{flex-shrink:0;margin-left:0}
 .f-addr--compact:not(.f-addr--empty):hover{border-color:var(--border)}
+
+/* OptionCard: простая и с иконкой/радио */
+.f-ocard{display:flex;flex-direction:column;align-items:flex-start;gap:2px;min-width:150px;padding:12px 18px;border:2px solid var(--divider);border-radius:var(--r-md-plus);background:#fff;color:var(--ink);font:inherit;text-align:left;cursor:pointer}
+.f-ocard.is-selected{border-color:var(--primary);background:var(--primary-50)}
+.f-ocard__title{font-size:16px;font-weight:700}
+.f-ocard__sub{font-size:12px;color:var(--ink-2)}
+.f-ocard--radio{flex-direction:row;align-items:center;gap:12px;min-width:0;padding:12px 14px}
+.f-ocard__icon{flex-shrink:0;display:flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:var(--r-md-)}
+.f-ocard__img{display:block;width:24px;height:24px}
+.f-ocard__body{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.f-ocard--radio .f-ocard__title{font-size:15px}
+.f-ocard--compact{min-width:0;padding:10px 12px;border-radius:var(--r-md)}
+.f-ocard--compact .f-ocard__title{font-size:14px}
+.f-ocard--compact .f-ocard__sub{font-size:11px}
+.f-ocard--compact.f-ocard--radio{width:100%}
+.f-ocard--compact.f-ocard--radio .f-ocard__sub{font-size:12px}
+.f-ocard--compact .f-ocard__icon{width:38px;height:38px;border-radius:11px}
+.f-ocard--compact .f-ocard__img{width:22px;height:22px}
+.f-ocard--compact .f-ocard__body{gap:1px}
+
+/* Чип-переключатель (слоты времени) */
+.f-chip-btn{padding:9px 14px;border:0;border-radius:var(--r-pill);background:var(--surface-2);color:var(--ink);font:inherit;font-size:13px;font-weight:600;cursor:pointer}
+.f-chip-btn.is-on{background:var(--primary);color:#fff}

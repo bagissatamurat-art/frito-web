@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="./frito.css">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<!-- OptionCard: выбор одного из N. Простая (заголовок + подпись) или с иконкой и радио (оплата). Стили — .f-ocard* -->
+<sc-if value="{{ simple }}" hint-placeholder-val="{{ true }}">
+  <button type="button" class="{{ cls }}" onClick="{{ pick }}" role="radio" aria-checked="{{ selected }}"><span class="f-ocard__title">{{ title }}</span><span class="f-ocard__sub">{{ sub }}</span></button>
+</sc-if>
+<sc-if value="{{ withIcon }}" hint-placeholder-val="{{ false }}">
+  <button type="button" class="{{ cls }}" onClick="{{ pick }}" role="radio" aria-checked="{{ selected }}">
+    <span class="f-ocard__icon" style="background:{{ iconBg }}"><img src="{{ icon }}" alt="" class="f-ocard__img"></span>
+    <span class="f-ocard__body"><span class="f-ocard__title">{{ title }}</span><span class="f-ocard__sub">{{ sub }}</span></span>
+    <span class="f-mark f-mark--radio" aria-hidden="true"><span></span></span>
+  </button>
+</sc-if>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;: {&quot;width&quot;: 300, &quot;height&quot;: 80}, &quot;title&quot;: {&quot;editor&quot;: &quot;text&quot;, &quot;default&quot;: &quot;Как можно скорее&quot;, &quot;tsType&quot;: &quot;string&quot;}, &quot;sub&quot;: {&quot;editor&quot;: &quot;text&quot;, &quot;default&quot;: &quot;&quot;, &quot;tsType&quot;: &quot;string&quot;}, &quot;selected&quot;: {&quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: false, &quot;tsType&quot;: &quot;boolean&quot;}, &quot;icon&quot;: {&quot;editor&quot;: &quot;text&quot;, &quot;default&quot;: &quot;&quot;, &quot;tsType&quot;: &quot;string&quot;}, &quot;iconBg&quot;: {&quot;editor&quot;: &quot;text&quot;, &quot;default&quot;: &quot;var(--primary-100)&quot;, &quot;tsType&quot;: &quot;string&quot;}, &quot;compact&quot;: {&quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: false, &quot;tsType&quot;: &quot;boolean&quot;}, &quot;onPick&quot;: {&quot;editor&quot;: null, &quot;default&quot;: null, &quot;tsType&quot;: &quot;() =&gt; void&quot;}}">
+class Component extends DCLogic {
+  renderVals() {
+    const p = this.props, icon = !!p.icon;
+    return {
+      simple: !icon, withIcon: icon, selected: !!p.selected,
+      cls: 'f-comp f-ocard' + (icon ? ' f-ocard--radio' : '') + (p.compact ? ' f-ocard--compact' : '') + (p.selected ? ' is-selected' : ''),
+      title: p.title ?? '', sub: p.sub ?? '', icon: p.icon ?? '', iconBg: p.iconBg ?? 'var(--primary-100)',
+      pick: () => p.onPick && p.onPick(),
+    };
+  }
+}
+</script>
+</body>
+</html>
