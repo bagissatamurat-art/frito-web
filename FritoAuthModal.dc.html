@@ -40,8 +40,7 @@
 
     <sc-if value="{{ isCode }}" hint-placeholder-val="{{ false }}">
       <div class="f-step">
-        <span class="f-badge f-badge--warn">Демо: подойдёт любой код</span>
-        <label class="f-otp">
+        <label class="{{ otpCls }}">
           <sc-for list="{{ cells }}" as="c" hint-placeholder-count="4"><span class="{{ c.cls }}">{{ c.ch }}</span></sc-for>
           <input class="f-otp__input" ref="{{ codeRef }}" value="{{ code }}" onChange="{{ setCode }}" onFocus="{{ codeFocus }}" onBlur="{{ codeBlur }}" type="text" inputMode="numeric" autoComplete="one-time-code" maxLength="{{ 4 }}" aria-label="Код из WhatsApp">
         </label>
@@ -64,9 +63,15 @@
     </sc-if>
 
     <sc-if value="{{ isOk }}" hint-placeholder-val="{{ false }}">
-      <div class="f-step" style="align-items:center;text-align:center;padding:8px 0 12px">
-        <span class="f-success"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span>
-        <span class="f-modal__sub" style="font-size:15px">Переходим к оформлению заказа…</span>
+      <div class="f-step f-auth-ok">
+        <span class="f-auth-ok__badge" aria-hidden="true">
+          <i class="f-auth-ok__spark"></i><i class="f-auth-ok__spark"></i><i class="f-auth-ok__spark"></i><i class="f-auth-ok__spark"></i><i class="f-auth-ok__spark"></i><i class="f-auth-ok__spark"></i>
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path class="f-auth-ok__tick" d="M5 12.5l4.5 4.5L19 7.5"/></svg>
+        </span>
+        <span class="f-auth-ok__title">Готово, вы вошли</span>
+        <span class="f-auth-ok__who">{{ okWho }}</span>
+        <span class="f-auth-ok__go"><span class="f-auth-ok__bar"><span></span></span>Переходим к оформлению</span>
+        
       </div>
     </sc-if>
     </div>
@@ -102,8 +107,7 @@
 
     <sc-if value="{{ isCode }}" hint-placeholder-val="{{ false }}">
       <div class="f-step">
-        <span class="f-badge f-badge--warn">Демо: подойдёт любой код</span>
-        <label class="f-otp">
+        <label class="{{ otpCls }}">
           <sc-for list="{{ cells }}" as="c" hint-placeholder-count="4"><span class="{{ c.cls }}">{{ c.ch }}</span></sc-for>
           <input class="f-otp__input" ref="{{ codeRef }}" value="{{ code }}" onChange="{{ setCode }}" onFocus="{{ codeFocus }}" onBlur="{{ codeBlur }}" type="text" inputMode="numeric" autoComplete="one-time-code" maxLength="{{ 4 }}" aria-label="Код из WhatsApp">
         </label>
@@ -126,9 +130,15 @@
     </sc-if>
 
     <sc-if value="{{ isOk }}" hint-placeholder-val="{{ false }}">
-      <div class="f-step" style="align-items:center;text-align:center;padding:8px 0 12px">
-        <span class="f-success"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span>
-        <span class="f-modal__sub" style="font-size:15px">Переходим к оформлению заказа…</span>
+      <div class="f-step f-auth-ok">
+        <span class="f-auth-ok__badge" aria-hidden="true">
+          <i class="f-auth-ok__spark"></i><i class="f-auth-ok__spark"></i><i class="f-auth-ok__spark"></i><i class="f-auth-ok__spark"></i><i class="f-auth-ok__spark"></i><i class="f-auth-ok__spark"></i>
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path class="f-auth-ok__tick" d="M5 12.5l4.5 4.5L19 7.5"/></svg>
+        </span>
+        <span class="f-auth-ok__title">Готово, вы вошли</span>
+        <span class="f-auth-ok__who">{{ okWho }}</span>
+        <span class="f-auth-ok__go"><span class="f-auth-ok__bar"><span></span></span>Переходим к оформлению</span>
+        
       </div>
     </sc-if>
   </div>
@@ -143,7 +153,7 @@ const TITLES = {
   phone: ['Вход по коду из WhatsApp', 'Отправим 4 цифры в сообщении'],
   code: ['Введите код', ''],
   tg: ['Вход через Telegram', 'Займёт пару секунд'],
-  ok: ['Вы вошли', ''],
+  ok: ['', ''],
 };
 class Component extends DCLogic {
   state = { step: 'choose', phone: '', tried: false, sending: false, code: '', codeFocus: false, t: 0, tgWaiting: false };
@@ -160,8 +170,8 @@ class Component extends DCLogic {
   }
   done(via) {
     const user = { via, phone: via === 'whatsapp' ? this.state.phone : null };
-    this.setState({ step: 'ok' });
-    this._d = setTimeout(() => this.props.onDone && this.props.onDone(user), 900);
+    this.setState({ step: 'ok', via });
+    this._d = setTimeout(() => this.props.onDone && this.props.onDone(user), 1500);
   }
   renderVals() {
     const p = this.props, s = this.state, sheet = p.layout === 'sheet';
@@ -181,7 +191,9 @@ class Component extends DCLogic {
         setTimeout(() => { this.setState({ sending: false, step: 'code', code: '' }); this.startTimer(); this.focusCode(); }, 600);
       },
       codeRef: this.codeRef, code: s.code,
-      cells: [0, 1, 2, 3].map(i => { const cur = s.codeFocus && i === Math.min(s.code.length, 3); return { ch: s.code[i] || ' ', cls: 'f-otp__cell' + (cur ? ' is-current' : '') }; }),
+      cells: [0, 1, 2, 3].map(i => { const ch = s.code[i], cur = s.codeFocus && s.code.length < 4 && i === s.code.length; return { ch: ch || ' ', cls: 'f-otp__cell' + (ch ? ' is-filled' : ' is-empty') + (cur ? ' is-current' : '') }; }),
+      otpCls: 'f-otp' + (s.code.length === 4 ? ' is-done' : ''),
+      okWho: s.via === 'telegram' ? 'через Telegram' : (s.phone ? s.phone + ' · через WhatsApp' : 'через WhatsApp'),
       setCode: e => { const v = e.target.value.replace(/\D/g, '').slice(0, 4); this.setState({ code: v }); if (v.length === 4) { e.target.blur(); setTimeout(() => this.done('whatsapp'), 400); } },
       codeFocus: () => this.setState({ codeFocus: true }), codeBlur: () => this.setState({ codeFocus: false }),
       resendOff: s.t > 0, resendText: s.t > 0 ? 'Отправить ещё раз через 0:' + String(s.t).padStart(2, '0') : 'Отправить код ещё раз',
