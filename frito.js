@@ -42,3 +42,35 @@ if (window.visualViewport) {
   ['focusin', 'focusout'].forEach(e => document.addEventListener(e, () => [50, 300, 600].forEach(t => setTimeout(later, t))));
   update();
 }
+
+// Текущий заказ (до сервера — имитация по времени с момента оформления). Общая логика для главной, кабинета и страницы заказа.
+// orders: localStorage.frito_orders = [{ no, at, mode, address, items: [[id, qty]], total, status }]
+window.FritoOrder = (() => {
+  const MIN = 6e4, ACTIVE_MIN = 50;
+  const FLOW = {
+    delivery: { steps: ['Принят', 'Готовим', 'В пути', 'Доставлен'], titles: ['Заказ принят', 'Готовим ваш заказ', 'Курьер уже в пути'], keys: ['accepted', 'cooking', 'onway'], total: 45 },
+    pickup: { steps: ['Принят', 'Готовим', 'Готов', 'Выдан'], titles: ['Заказ принят', 'Готовим ваш заказ', 'Готов — заберите на кассе'], keys: ['accepted', 'cooking', 'onway'], total: 20 },
+  };
+  const read = k => { try { return JSON.parse(localStorage.getItem(k)); } catch (e) { return null; } };
+  const user = () => read('frito_user');
+  const active = (list = read('frito_orders') || []) => list.find(o => o.status !== 'cancelled' && Date.now() - o.at < ACTIVE_MIN * MIN) || null;
+  // данные для FritoOrderProgress: caption, title, eta, steps…
+  const live = (o, img = () => '') => {
+    const f = FLOW[o.mode === 'pickup' ? 'pickup' : 'delivery'], m = (Date.now() - o.at) / MIN, i = m < 5 ? 0 : m < 20 ? 1 : 2;
+    const ready = o.mode === 'pickup' && i === 2;
+    return { caption: 'Заказ №' + o.no + ' · ' + (o.mode === 'pickup' ? 'самовывоз' : 'доставка'), title: f.titles[i], stageKey: f.keys[i],
+      eta: ready ? '' : '~' + Math.max(1, Math.round(f.total - m)), etaUnit: ready ? 'Ждём вас' : 'мин',
+      steps: f.steps.map((label, j) => ({ label, state: j < i ? 'done' : j === i ? 'cur' : 'todo' })),
+      thumbs: (o.items || []).slice(0, 3).map(([id]) => img(id)).filter(Boolean), addr: o.address || '' };
+  };
+  // открыть страницу заказа: кладём состав в frito_view (byId: id → { name, price, img, mods })
+  const open = (o, byId, stage) => {
+    const items = (o.items || []).filter(([id]) => byId[id]);
+    try { localStorage.setItem('frito_view', JSON.stringify({ no: o.no, at: o.status === 'placed' ? o.at : null, mode: o.mode, address: o.address, total: o.total,
+      items: items.map(([id, q]) => ({ name: byId[id].name, mods: byId[id].mods || '', qty: q, price: byId[id].price, img: byId[id].img })), repeat: Object.fromEntries(items) })); } catch (e) {}
+    const q = { order: o.no, mode: o.mode === 'pickup' ? 'pickup' : 'delivery', stage: stage || 'done' };
+    if (o.status === 'cancelled') { q.issue = 'cancelled'; q.stage = 'accepted'; }
+    location.href = 'status.dc.html?' + new URLSearchParams(q);
+  };
+  return { FLOW, user, active, live, open };
+})();

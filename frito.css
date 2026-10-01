@@ -842,3 +842,65 @@ img.f-option__icon{object-fit:contain}
 .f-rate__done-sub{font-size:14px;color:var(--primary-200)}
 .f-rate--compact .f-rate__send{align-self:stretch;width:100%}
 @media (max-width:767px){ .f-rate__send{align-self:stretch;width:100%} }
+
+/* Прогресс заказа (FritoOrderProgress): brand — фиолетовая .f-brand-card, light — белая .f-panel */
+.f-progress{display:flex;flex-direction:column;gap:18px;padding:20px;font-family:var(--font);text-align:left}
+.f-progress.is-link{cursor:pointer;transition:transform .15s,box-shadow .15s}
+.f-progress.is-link:hover{transform:translateY(-1px)}
+.f-progress--brand{box-shadow:var(--shadow-fab)}
+.f-progress__top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.f-progress__titles{display:flex;flex-direction:column;gap:4px;min-width:0}
+.f-progress__caption{font-size:12px;font-weight:600}
+.f-progress__title{font-size:20px;font-weight:800;letter-spacing:-.01em;line-height:1.2}
+.f-progress__sub{font-size:14px;line-height:1.45}
+.f-progress__eta{flex-shrink:0;display:flex;align-items:baseline;gap:4px;padding:8px 12px;border-radius:var(--r-md)}
+.f-progress__eta-v{font-size:20px;font-weight:800;letter-spacing:-.01em;white-space:nowrap}
+.f-progress__eta-u{font-size:13px;font-weight:600;white-space:nowrap}
+.f-progress__steps{display:grid}
+.f-progress__step{position:relative;display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;min-width:0}
+.f-progress__step::before{content:'';position:absolute;top:6px;right:50%;width:100%;height:2px}
+.f-progress__step:first-child::before{display:none}
+.f-progress__dot{position:relative;z-index:1;display:block;width:14px;height:14px;margin-bottom:2px;border-radius:50%}
+.f-progress__label{font-size:12px;font-weight:500;line-height:1.25;white-space:nowrap}
+@media (max-width:420px){ .f-progress--lg .f-progress__label{font-size:11px} }
+.f-progress__step.is-cur .f-progress__label{font-weight:700}
+.f-progress__time{font-size:11px;font-variant-numeric:tabular-nums}
+.f-progress__foot{display:flex;align-items:center;gap:10px;padding-top:14px}
+.f-progress__thumbs{display:flex}
+.f-progress__mini{width:32px;height:32px;border-radius:50%;overflow:hidden;background:#fff}
+.f-progress__mini + .f-progress__mini{margin-left:-8px}
+.f-progress__addr{flex:1;min-width:0;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.f-progress__cta{flex-shrink:0;gap:2px;padding:0 10px 0 14px}
+.f-progress__btn{flex-shrink:0;margin-left:auto}
+/* brand */
+.f-progress--brand .f-progress__caption,.f-progress--brand .f-progress__sub,.f-progress--brand .f-progress__addr{color:var(--primary-200)}
+.f-progress--brand .f-progress__eta{background:#fff;color:var(--primary)}
+.f-progress--brand .f-progress__step::before{background:rgba(255,255,255,.25)}
+.f-progress--brand .f-progress__step.is-done::before,.f-progress--brand .f-progress__step.is-cur::before{background:#fff}
+.f-progress--brand .f-progress__dot{background:rgba(255,255,255,.3);box-shadow:0 0 0 3px var(--primary)}
+.f-progress--brand .is-done .f-progress__dot,.f-progress--brand .is-cur .f-progress__dot{background:#fff}
+.f-progress--brand .is-cur .f-progress__dot{animation:f-progress-pulse 1.6s ease-out infinite}
+.f-progress--brand .f-progress__label,.f-progress--brand .f-progress__time{color:rgba(255,255,255,.55)}
+.f-progress--brand .is-done .f-progress__label,.f-progress--brand .is-done .f-progress__time{color:var(--primary-200)}
+.f-progress--brand .is-cur .f-progress__label,.f-progress--brand .is-cur .f-progress__time{color:#fff}
+.f-progress--brand .f-progress__foot{border-top:1px solid rgba(255,255,255,.18)}
+.f-progress--brand .f-progress__mini{box-shadow:0 0 0 2px var(--primary)}
+@keyframes f-progress-pulse{0%{box-shadow:0 0 0 3px var(--primary),0 0 0 3px rgba(255,255,255,.5)}100%{box-shadow:0 0 0 3px var(--primary),0 0 0 11px rgba(255,255,255,0)}}
+/* light */
+.f-progress--light .f-progress__caption,.f-progress--light .f-progress__sub,.f-progress--light .f-progress__addr{color:var(--ink-2)}
+.f-progress--light .f-progress__eta{background:var(--primary-50);color:var(--primary)}
+.f-progress--light .f-progress__step::before{background:var(--surface-3)}
+.f-progress--light .f-progress__step.is-done::before,.f-progress--light .f-progress__step.is-cur::before{background:var(--primary)}
+.f-progress--light .f-progress__dot{background:var(--surface-3);box-shadow:0 0 0 3px var(--surface-0)}
+.f-progress--light .is-done .f-progress__dot,.f-progress--light .is-cur .f-progress__dot{background:var(--primary)}
+.f-progress--light .is-fail .f-progress__dot{background:var(--danger)}
+.f-progress--light .f-progress__label,.f-progress--light .f-progress__time{color:var(--ink-3)}
+.f-progress--light .is-done .f-progress__label{color:var(--ink-2)}
+.f-progress--light .is-cur .f-progress__label{color:var(--ink)}
+.f-progress--light .f-progress__foot{border-top:1px solid var(--divider)}
+.f-progress--light .f-progress__mini{background:var(--surface-2);box-shadow:0 0 0 2px var(--surface-0)}
+/* lg — шапка страницы заказа */
+.f-progress--lg{gap:22px;padding:clamp(20px,3.5vw,32px)}
+.f-progress--lg .f-progress__title{font-size:clamp(24px,3.6vw,32px);letter-spacing:-.02em}
+.f-progress--lg .f-progress__eta{padding:10px 14px}
+.f-progress--lg .f-progress__eta-v{font-size:clamp(22px,3.4vw,28px)}

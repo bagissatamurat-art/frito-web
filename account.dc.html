@@ -51,20 +51,7 @@ button{outline:none}
             <span class="ac-me__meta">{{ meMeta }}</span>
             <span class="ac-me__edit">Изменить профиль</span>
           </button>
-          <sc-if value="{{ hasActive }}" hint-placeholder-val="{{ false }}"><div class="ac-hub-only"><a class="f-brand-card ac-live" href="{{ live.href }}" onClick="{{ live.open }}">
-              <span class="ac-live__top">
-                <span class="ac-live__titles"><span class="ac-live__no">{{ live.caption }}</span><span class="ac-live__title">{{ live.title }}</span></span>
-                <span class="ac-live__eta"><span class="ac-live__eta-v">{{ live.eta }}</span><span class="ac-live__eta-u">{{ live.etaUnit }}</span></span>
-              </span>
-              <span class="ac-steps">
-                <sc-for list="{{ live.steps }}" as="st" hint-placeholder-count="4"><span class="{{ st.cls }}"><i class="ac-step__dot"></i><span class="ac-step__label">{{ st.label }}</span></span></sc-for>
-              </span>
-              <span class="ac-live__foot">
-                <span class="ac-live__thumbs"><sc-for list="{{ live.thumbs }}" as="th" hint-placeholder-count="3"><span class="ac-mini"><img data-skel src="{{ th }}" alt="" class="f-cover-img"></span></sc-for></span>
-                <span class="ac-live__addr">{{ live.addr }}</span>
-                <span class="f-btn f-btn--on-brand f-btn--xs ac-live__go">Отследить<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></span>
-              </span>
-            </a></div></sc-if>
+          <sc-if value="{{ hasActive }}" hint-placeholder-val="{{ false }}"><div class="ac-hub-only"><dc-import name="FritoOrderProgress" tone="brand" caption="{{ live.caption }}" title="{{ live.title }}" eta="{{ live.eta }}" eta-unit="{{ live.etaUnit }}" steps="{{ live.steps }}" thumbs="{{ live.thumbs }}" addr="{{ live.addr }}" cta="Отследить" on-open="{{ live.open }}" hint-size="100%,200px"></dc-import></div></sc-if>
           <nav class="f-panel ac-menu" aria-label="Разделы кабинета">
             <sc-for list="{{ sections }}" as="t" hint-placeholder-count="3">
               <button type="button" class="{{ t.cls }}" onClick="{{ t.pick }}" aria-current="{{ t.on }}">
@@ -86,20 +73,7 @@ button{outline:none}
 
           <!-- ЗАКАЗЫ -->
           <sc-if value="{{ tabOrders }}" hint-placeholder-val="{{ true }}">
-            <sc-if value="{{ hasActive }}" hint-placeholder-val="{{ false }}"><a class="f-brand-card ac-live" href="{{ live.href }}" onClick="{{ live.open }}">
-              <span class="ac-live__top">
-                <span class="ac-live__titles"><span class="ac-live__no">{{ live.caption }}</span><span class="ac-live__title">{{ live.title }}</span></span>
-                <span class="ac-live__eta"><span class="ac-live__eta-v">{{ live.eta }}</span><span class="ac-live__eta-u">{{ live.etaUnit }}</span></span>
-              </span>
-              <span class="ac-steps">
-                <sc-for list="{{ live.steps }}" as="st" hint-placeholder-count="4"><span class="{{ st.cls }}"><i class="ac-step__dot"></i><span class="ac-step__label">{{ st.label }}</span></span></sc-for>
-              </span>
-              <span class="ac-live__foot">
-                <span class="ac-live__thumbs"><sc-for list="{{ live.thumbs }}" as="th" hint-placeholder-count="3"><span class="ac-mini"><img data-skel src="{{ th }}" alt="" class="f-cover-img"></span></sc-for></span>
-                <span class="ac-live__addr">{{ live.addr }}</span>
-                <span class="f-btn f-btn--on-brand f-btn--xs ac-live__go">Отследить<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></span>
-              </span>
-            </a></sc-if>
+            <sc-if value="{{ hasActive }}" hint-placeholder-val="{{ false }}"><dc-import name="FritoOrderProgress" tone="brand" caption="{{ live.caption }}" title="{{ live.title }}" eta="{{ live.eta }}" eta-unit="{{ live.etaUnit }}" steps="{{ live.steps }}" thumbs="{{ live.thumbs }}" addr="{{ live.addr }}" cta="Отследить" on-open="{{ live.open }}" hint-size="100%,200px"></dc-import></sc-if>
             <sc-if value="{{ hasActive }}" hint-placeholder-val="{{ false }}"><span class="ac-sublabel">Прошлые заказы</span></sc-if>
             <sc-if value="{{ noOrders }}" hint-placeholder-val="{{ false }}">
               <div class="f-panel ac-empty"><span class="ac-empty__title">Заказов пока нет</span><span class="ac-empty__text">Первый заказ появится здесь — его можно будет повторить в один клик.</span><a class="f-btn f-btn--primary f-btn--md" href="menu.dc.html">Перейти в меню</a></div>
@@ -204,11 +178,6 @@ const DEMO_ORDERS = [
   { no: '4518', ago: 26 * DAY, mode: 'delivery', address: 'пр-кт Туран, 52/6', items: [['fritos-combo', 2]], status: 'cancelled' },
 ];
 const LABELS = ['Дом', 'Работа', 'Другое'];
-// текущий заказ: этап по прошедшим минутам (до сервера — имитация)
-const LIVE = {
-  delivery: { steps: ['Принят', 'Готовим', 'В пути', 'Доставлен'], titles: ['Заказ принят', 'Готовим ваш заказ', 'Курьер уже в пути'], keys: ['accepted', 'cooking', 'onway'], total: 45 },
-  pickup: { steps: ['Принят', 'Готовим', 'Готов', 'Выдан'], titles: ['Заказ принят', 'Готовим ваш заказ', 'Готов — заберите на кассе'], keys: ['accepted', 'cooking', 'onway'], total: 20 },
-};
 const MONTHS = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'];
 const dateLabel = t => { const d = new Date(t), now = new Date(); const hm = String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0');
   const days = Math.floor((new Date(now.toDateString()) - new Date(d.toDateString())) / DAY);
@@ -237,14 +206,7 @@ class Component extends DCLogic {
   form(draft = this.state.draft) { const u = this.state.user || {}, d = draft || {}; return { name: d.name ?? u.name ?? '', email: d.email ?? u.email ?? '', bday: d.bday ?? u.bday ?? '', nStatus: d.nStatus ?? (u.notify ? u.notify.status : true), nPromo: d.nPromo ?? (u.notify ? u.notify.promo : false) }; }
   edit(k, v) { this.setState(s => ({ draft: { ...(s.draft || {}), [k]: v } })); }
   // переход в карточку заказа (status.dc.html) с данными этого заказа
-  openOrder(o, stage) {
-    const items = o.items.filter(([id]) => D.BY_ID[id]);
-    writeJSON('frito_view', { no: o.no, mode: o.mode, address: o.address, total: this.total(o),
-      items: items.map(([id, q]) => ({ name: D.BY_ID[id].name, mods: D.BY_ID[id].mods || '', qty: q, price: D.BY_ID[id].price, img: D.BY_ID[id].img })), repeat: Object.fromEntries(items) });
-    const q = { order: o.no, mode: o.mode === 'pickup' ? 'pickup' : 'delivery', stage: stage || 'done' };
-    if (o.status === 'cancelled') { q.issue = 'cancelled'; q.stage = 'accepted'; }
-    location.href = 'status.dc.html?' + new URLSearchParams(q);
-  }
+  openOrder(o, stage) { FritoOrder.open({ ...o, total: this.total(o) }, D.BY_ID, stage); }
   total(o) { return o.total ?? o.items.filter(([id]) => D.BY_ID[id]).reduce((a, [id, q]) => a + D.BY_ID[id].price * q, 0) + (o.mode === 'delivery' ? 600 : 0); }
   orderView(o) {
     const s = this.state, items = o.items.filter(([id]) => D.BY_ID[id]), r = s.ratings[o.no], cancelled = o.status === 'cancelled';
@@ -262,17 +224,11 @@ class Component extends DCLogic {
   renderVals() {
     const s = this.state, u = s.user, ready = s.ready && !!D, now = Date.now(), mob = s.vw < 768;
     const all = ready ? [...s.placed, ...DEMO_ORDERS.map(o => ({ ...o, at: now - o.ago }))].sort((a, b) => b.at - a.at) : [];
-    const act = all.find(o => o.status !== 'cancelled' && now - o.at < 50 * MIN);
+    const act = FritoOrder.active(all);
     const past = all.filter(o => o !== act);
-    let live = { caption: '', title: '', eta: '', etaUnit: '', steps: [], thumbs: [], addr: '', href: '#', open: () => {} };
-    if (act && ready) {
-      const L = LIVE[act.mode === 'pickup' ? 'pickup' : 'delivery'], m = (now - act.at) / MIN, i = m < 5 ? 0 : m < 20 ? 1 : 2, left = Math.max(1, Math.round(L.total - m));
-      live = { caption: 'Заказ №' + act.no + ' · ' + (act.mode === 'pickup' ? 'самовывоз' : 'доставка'), title: L.titles[i],
-        eta: act.mode === 'pickup' && i === 2 ? '' : '~' + left, etaUnit: act.mode === 'pickup' && i === 2 ? 'Ждём вас' : 'мин',
-        steps: L.steps.map((t, j) => ({ label: t, cls: 'ac-step' + (j < i ? ' is-done' : j === i ? ' is-cur' : '') })),
-        thumbs: act.items.filter(([id]) => D.BY_ID[id]).slice(0, 3).map(([id]) => D.BY_ID[id].img || ''), addr: act.address,
-        href: '#', open: e => { if (e && e.preventDefault) e.preventDefault(); this.openOrder(act, L.keys[i]); } };
-    }
+    let live = { caption: '', title: '', eta: '', etaUnit: '', steps: [], thumbs: [], addr: '', open: () => {} };
+    if (act && ready) { const L = FritoOrder.live(act, id => D.BY_ID[id] && D.BY_ID[id].img);
+      live = { ...L, open: () => FritoOrder.open({ ...act, total: this.total(act) }, D.BY_ID, L.stageKey) }; }
     const f = this.form(), dirty = JSON.stringify(f) !== JSON.stringify(this.form(null));
     const via = u && u.via === 'telegram' ? 'Telegram' : 'WhatsApp';
     const addrs = s.addrs || [], defAddr = addrs.find(a => a.def);

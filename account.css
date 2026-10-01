@@ -106,35 +106,6 @@
 .ac-caption{font-size:13px;color:var(--ink-2);text-align:right}
 .ac-sublabel{padding:8px 4px 0;font-size:13px;font-weight:600;color:var(--ink-2)}
 
-/* текущий заказ — фирменная карточка (.f-brand-card) */
-.ac-live{display:flex;flex-direction:column;gap:18px;padding:20px;color:#fff;text-decoration:none;box-shadow:var(--shadow-fab);transition:transform .15s,box-shadow .15s}
-.ac-live:hover{color:#fff;transform:translateY(-1px)}
-.ac-live__top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
-.ac-live__titles{display:flex;flex-direction:column;gap:4px;min-width:0}
-.ac-live__no{font-size:12px;font-weight:600;color:var(--primary-200)}
-.ac-live__title{font-size:20px;font-weight:800;letter-spacing:-.01em;line-height:1.2}
-.ac-live__eta{flex-shrink:0;display:flex;align-items:baseline;gap:4px;padding:8px 12px;border-radius:var(--r-md);background:#fff;color:var(--primary)}
-.ac-live__eta-v{font-size:20px;font-weight:800;letter-spacing:-.01em}
-.ac-live__eta-u{font-size:13px;font-weight:600}
-.ac-steps{display:grid;grid-template-columns:repeat(4,1fr)}
-.ac-step{position:relative;display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center}
-.ac-step::before{content:'';position:absolute;top:6px;right:50%;width:100%;height:2px;background:rgba(255,255,255,.25)}
-.ac-step:first-child::before{display:none}
-.ac-step.is-done::before,.ac-step.is-cur::before{background:#fff}
-.ac-step__dot{position:relative;z-index:1;display:block;width:14px;height:14px;border-radius:50%;background:rgba(255,255,255,.3);box-shadow:0 0 0 3px var(--primary)}
-.ac-step.is-done .ac-step__dot{background:#fff}
-.ac-step.is-cur .ac-step__dot{background:#fff;animation:ac-pulse 1.6s ease-out infinite}
-.ac-step__label{font-size:12px;font-weight:500;color:rgba(255,255,255,.55)}
-.ac-step.is-done .ac-step__label{color:var(--primary-200)}
-.ac-step.is-cur .ac-step__label{color:#fff;font-weight:700}
-@keyframes ac-pulse{0%{box-shadow:0 0 0 3px var(--primary),0 0 0 3px rgba(255,255,255,.5)}100%{box-shadow:0 0 0 3px var(--primary),0 0 0 11px rgba(255,255,255,0)}}
-.ac-live__foot{display:flex;align-items:center;gap:10px;padding-top:14px;border-top:1px solid rgba(255,255,255,.18)}
-.ac-live__thumbs{display:flex}
-.ac-mini{width:32px;height:32px;border-radius:50%;background:#fff;overflow:hidden;box-shadow:0 0 0 2px var(--primary)}
-.ac-mini + .ac-mini{margin-left:-8px}
-.ac-live__addr{flex:1;min-width:0;font-size:13px;color:var(--primary-200);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.ac-live__go{flex-shrink:0;gap:2px;padding:0 10px 0 14px}
-
 /* оценка в карточке */
 .ac-rate{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 12px;border-radius:var(--r-md);background:var(--surface-1)}
 .ac-rate__label{display:flex;flex-direction:column;gap:2px;font-size:13px;font-weight:600;color:var(--ink-2)}

@@ -36,29 +36,28 @@ button{outline:none}
           <dc-import name="FritoRating" order-no="{{ rateNo }}" title="{{ rateTitle }}" hint-size="100%,240px"></dc-import>
         </sc-if>
 
-        <!-- HERO -->
+        <!-- СТАТУС + ЭТАПЫ: одна карточка (FritoOrderProgress), как текущий заказ в кабинете и на главной -->
+        <sc-if value="{{ isNormal }}" hint-placeholder-val="{{ true }}">
+          <dc-import name="FritoOrderProgress" size="lg" tone="{{ prog.tone }}" caption="{{ prog.caption }}" title="{{ prog.title }}" sub="{{ prog.sub }}" eta="{{ prog.eta }}" eta-unit="{{ prog.etaUnit }}" steps="{{ prog.steps }}" addr="{{ prog.addr }}" thumbs="{{ prog.thumbs }}" cta="{{ prog.cta }}" on-cta="{{ prog.onCta }}" hint-size="100%,260px"></dc-import>
+        </sc-if>
+
+        <sc-if value="{{ heroCard }}" hint-placeholder-val="{{ false }}">
         <section data-screen-label="Статус" class="st-hero">
+          <sc-if value="{{ notNormal }}" hint-placeholder-val="{{ false }}">
           <div class="st-hero__meta">
             <span class="st-hero__order">Заказ №{{ orderNo }}</span>
             <span class="st-hero__mode">{{ modeLabel }}</span>
-            <span class="st-muted-13">оформлен в 14:12</span>
+            <span class="st-muted-13">оформлен в {{ placedAt }}</span>
           </div>
+          </sc-if>
 
           <sc-if value="{{ isNormal }}" hint-placeholder-val="{{ true }}">
-            <div class="st-hero__main">
-              <span class="st-hero__pre">{{ heroPre }}</span>
-              <span class="st-hero__big">{{ heroBig }}</span>
-              <span class="st-hero__sub">{{ heroSub }}</span>
-            </div>
-            <div class="st-hero__bar">
-              <sc-for list="{{ segs }}" as="g" hint-placeholder-count="5">
-                <div style="position:relative;height:8px;border-radius:4px;background:{{ g.bg }};overflow:hidden">{{ g.live }}</div>
-              </sc-for>
-            </div>
-            <div class="st-hero__stage">
-              <span class="st-hero__stage-title">{{ curTitle }}</span>
-              <span class="st-hero__stage-text">{{ curDesc }}</span>
-            </div>
+            <sc-if value="{{ isDone }}" hint-placeholder-val="{{ false }}">
+              <div class="st-hero__stage">
+                <span class="st-hero__stage-title">Спасибо, что выбрали Frito!</span>
+                <span class="st-hero__stage-text">Будем рады видеть вас снова.</span>
+              </div>
+            </sc-if>
             <sc-if value="{{ showDelay }}" hint-placeholder-val="{{ false }}">
               <div class="st-delay">
                 <span class="st-delay__icon">!</span>
@@ -100,32 +99,8 @@ button{outline:none}
             <button type="button" onClick="{{ repeat }}" class="f-btn f-btn--primary st-btn-primary">Повторить заказ</button>
           </sc-if>
         </section>
+        </sc-if>
 
-        <!-- TIMELINE -->
-        <section data-screen-label="Этапы" class="st-card">
-          <h2 class="st-card__title">Этапы заказа</h2>
-          <div class="st-steps">
-            <sc-for list="{{ steps }}" as="s" hint-placeholder-count="5">
-              <div class="st-step">
-                <div class="st-step__rail">
-                  <div style="position:relative;width:28px;height:28px;border-radius:50%;background:{{ s.dotBg }};border:3px solid {{ s.dotBorder }};display:flex;align-items:center;justify-content:center;flex-shrink:0">
-                    <sc-if value="{{ s.check }}" hint-placeholder-val="{{ false }}"><span class="st-step__check"></span></sc-if>
-                    <sc-if value="{{ s.cross }}" hint-placeholder-val="{{ false }}"><span class="st-step__num">×</span></sc-if>
-                    {{ s.pulse }}
-                  </div>
-                  <sc-if value="{{ s.hasLine }}" hint-placeholder-val="{{ true }}"><div style="width:2px;flex:1;min-height:20px;background:{{ s.lineColor }};margin:4px 0"></div></sc-if>
-                </div>
-                <div class="st-step__body">
-                  <div class="st-step__row">
-                    <span style="font-size:16px;font-weight:{{ s.weight }};color:{{ s.color }}">{{ s.t }}</span>
-                    <span class="st-step__time">{{ s.timeLabel }}</span>
-                  </div>
-                  <sc-if value="{{ s.showDesc }}" hint-placeholder-val="{{ false }}"><span class="st-step__text">{{ s.d }}</span></sc-if>
-                </div>
-              </div>
-            </sc-for>
-          </div>
-        </section>
       </div>
 
       <!-- RIGHT -->
@@ -252,6 +227,7 @@ class Component extends DCLogic {
     if (on && !this._demo) this._demo = setInterval(() => this.setState(s => ({ stageOv: ((s.stageOv ?? this.baseStage()) + 1) % 5 })), 3500);
     if (!on && this._demo) { clearInterval(this._demo); this._demo = null; this.setState({ stageOv: null }); }
   }
+  repeatOrder() { if (this.view && this.view.repeat) try { localStorage.setItem('frito_repeat', JSON.stringify({ items: this.view.repeat, at: Date.now() })); } catch (e) {} location.href = 'menu.dc.html'; }
   baseStage() { return Math.max(0, KEYS.indexOf(this.qp('stage') || 'cooking')); }
   renderVals() {
     const p = this.props, s = this.state, mode = this.qp('mode') === 'pickup' ? 'pickup' : 'delivery', pick = mode === 'pickup';
@@ -263,8 +239,13 @@ class Component extends DCLogic {
     const normal = issue === 'none' || issue === 'delayed';
     const delayed = issue === 'delayed' && cur < 4, done = normal && cur === 4;
     const mobile = s.w < 900;
-    const eta = ETA[mode][cur] + (delayed ? 10 : 0);
-    const arrive = delayed ? '15:02' : pick ? '14:30' : '14:52';
+    let eta = ETA[mode][cur] + (delayed ? 10 : 0);
+    const hm = t => { const d = new Date(t); return String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0'); };
+    const at = v && v.at, T = pick ? 20 : 45;
+    const placedAt = at ? hm(at) : '14:12';
+    const arrive = at ? hm(at + (T + (delayed ? 10 : 0)) * 6e4) : delayed ? '15:02' : pick ? '14:30' : '14:52';
+    if (at && !done) eta = Math.max(1, Math.round(T + (delayed ? 10 : 0) - (Date.now() - at) / 6e4));
+    const stepTime = (i, fallback) => at ? hm(at + [0, 0, 5, pick ? 15 : 20, T][i] * 6e4) : fallback;
     let heroPre, heroBig, heroSub;
     if (!pick) {
       if (cur < 4) { heroPre = 'Привезём через'; heroBig = eta + ' мин'; heroSub = 'Примерно к ' + arrive + ' · ' + (this.view ? this.view.address : 'пр-кт Туран, 52/6'); }
@@ -291,6 +272,17 @@ class Component extends DCLogic {
     });
     if (issue === 'cancelled') steps = steps.slice(0, cur + 1).concat([{ t: 'Отменён', d: 'Вы отменили заказ. Деньги вернутся в течение 1–3 рабочих дней.', timeLabel: '14:14', dotBg: 'var(--ink-2)', dotBorder: 'var(--ink-2)', check: false, cross: true, pulse: null, weight: 700, color: 'var(--ink)', showDesc: true, lineColor: 'var(--surface-3)', hasLine: false }]);
     steps[steps.length - 1].hasLine = false;
+    // прогресс для FritoOrderProgress (5 этапов со временем)
+    const SHORT = { 'Курьер в пути': 'В пути', 'Готов к выдаче': 'Готов' };
+    const TITLES = pick ? ['Заказ принят', 'Оплата прошла', 'Готовим ваш заказ', 'Готов! Назовите номер на кассе', 'Заказ выдан'] : ['Заказ принят', 'Оплата прошла', 'Готовим ваш заказ', 'Курьер уже в пути', 'Заказ доставлен'];
+    const place = pick ? 'Frito, Сыганак 11' : (v ? v.address : 'пр-кт Туран, 52/6');
+    const prog = { tone: done ? 'light' : 'brand',
+      caption: 'Заказ №' + orderNo + ' · ' + (pick ? 'самовывоз' : 'доставка') + ' · оформлен в ' + placedAt,
+      title: delayed ? 'Задерживаемся ~10 мин' : TITLES[cur], sub: done ? heroSub : delayed ? 'Сейчас много заказов — уже спешим. Извините за ожидание!' : list[cur].d,
+      eta: done ? '' : pick && cur === 3 ? '№' + orderNo : '~' + eta, etaUnit: done ? '' : pick && cur === 3 ? 'на кассе' : 'мин',
+      steps: list.map((st, i) => ({ label: SHORT[st.t] || st.t, time: i < cur || i === cur || done ? stepTime(i, st.time) : '', state: done || i < cur ? 'done' : i === cur ? 'cur' : 'todo' })),
+      cta: done ? 'Повторить заказ' : '', onCta: done ? () => this.repeatOrder() : null,
+      addr: done ? '' : place + (cur < 4 && !(pick && cur === 3) ? ' · примерно к ' + arrive : ''), thumbs: LIST.slice(0, 3).map(it => it.img) };
     const subtotal = LIST.reduce((a, it) => a + it.price * it.qty, 0), discount = v ? 0 : 947;
     const fee = v ? Math.max(0, (v.total || 0) - subtotal) : pick ? 0 : 1000, total = subtotal - discount + fee;
     const itemsOpen = s.itemsOpen ?? !mobile;
@@ -298,9 +290,10 @@ class Component extends DCLogic {
     return {
       headerTitle: this.view && mobile ? '' : 'Статус заказа', gridCols: mobile ? 'minmax(0,1fr)' : 'minmax(0,1.35fr) minmax(0,1fr)',
       modeLabel: pick ? 'Самовывоз' : 'Доставка',
+      prog, placedAt, notNormal: !normal, heroCard: !normal || (normal && pick && cur < 4),
       isNormal: normal, isPayFail: issue === 'paymentFailed', isCancelled: issue === 'cancelled', isDone: done,
       heroPre, heroBig, heroSub, segs, curTitle: done ? (pick ? 'Спасибо, что выбрали Frito!' : 'Спасибо, что выбрали Frito!') : list[cur].t, curDesc: done ? 'Будем рады видеть вас снова.' : list[cur].d,
-      showDelay: normal && delayed, showPickupCode: normal && pick && cur === 3, showHeroRoutes: normal && pick && cur < 4,
+      showDelay: false, showPickupCode: normal && pick && cur === 3, showHeroRoutes: normal && pick && cur < 4,
       showRating: done,
       rateNo: this.view ? this.view.no : '',
       rateTitle: pick ? 'Как вам заказ?' : 'Как вам заказ и доставка?',
@@ -309,7 +302,7 @@ class Component extends DCLogic {
       askCancel: () => this.setState({ confirmCancel: true }), closeCancel: () => this.setState({ confirmCancel: false }),
       doCancel: () => this.setState({ confirmCancel: false, issueOv: 'cancelled' }),
       confirmCancel: s.confirmCancel, cAlign: mobile ? 'flex-end' : 'center', cPad: mobile ? '0' : '24px', cRadius: mobile ? '28px 28px 0 0' : '28px',
-      repeat: () => { if (this.view && this.view.repeat) try { localStorage.setItem('frito_repeat', JSON.stringify({ items: this.view.repeat, at: Date.now() })); } catch (e) {} location.href = 'menu.dc.html'; }, retryPay: () => this.setState({ issueOv: 'none', stageOv: 2 }),
+      repeat: () => this.repeatOrder(),
       itemsOpen, toggleItems: () => this.setState({ itemsOpen: !itemsOpen }), chevron: itemsOpen ? 'rotate(-135deg) translate(-2px,-2px)' : 'rotate(45deg) translate(-2px,-2px)',
       backLabel: this.view ? 'Мои заказы' : 'В меню', backHref: this.view ? 'account.dc.html#orders' : 'menu.dc.html',
       items: LIST.map(it => ({ ...it, priceLabel: money(it.price * it.qty) })), totalLabel: money(total), orderNo, subtotal, discount, fee, feeTitle: pick ? 'Самовывоз' : 'Доставка',
@@ -320,7 +313,7 @@ class Component extends DCLogic {
         { name: 'Google Maps', logo: 'assets/logo-google-maps.svg', href: 'https://www.google.com/maps/dir/?api=1&destination=51.1238,71.4318' },
       ],
       placeIcon: pick ? 'assets/ic-pickup-p.svg' : 'assets/ic-pin-p.svg', placeCaption: pick ? 'Ресторан' : 'Адрес доставки',
-      placeLine: pick ? 'Frito, Сыганак 11' : 'пр-кт Туран, 52/6', placeSub: pick ? 'Ежедневно 11:30 – 02:00' : 'Астана · курьер позвонит у двери',
+      placeLine: pick ? 'Frito, Сыганак 11' : (v ? v.address : 'пр-кт Туран, 52/6'), placeSub: pick ? 'Ежедневно 11:30 – 02:00' : 'Астана · курьер позвонит у двери',
       payStatus: issue === 'cancelled' ? 'Возврат' : paid ? 'Оплачено' : 'Не оплачено', payColor: issue === 'cancelled' ? '#4B5563' : paid ? '#15803D' : '#B91C1C', payBg: issue === 'cancelled' ? 'var(--surface-2)' : paid ? '#F0FDF4' : '#FEF2F2',
     };
   }
