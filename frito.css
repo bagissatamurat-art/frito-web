@@ -796,3 +796,21 @@ img.f-option__icon{object-fit:contain}
 .f-addr-btn--empty{background:var(--primary-50);box-shadow:inset 0 0 0 1.5px var(--primary-200)}
 .f-addr-btn--empty .f-addr-btn__line{color:var(--primary)}
 .f-addr-btn--empty .f-addr-btn__chev{color:var(--primary)}
+
+/* Список товаров категории (FritoPickList): «Добавить к заказу?» → Напитки, Соусы… */
+.f-pick.f-dialog{max-width:560px;max-height:min(100%,760px)}
+.f-pick.f-sheet{max-height:calc(100% - 48px)}
+.f-pick__body.f-modal__body{gap:0;padding-top:8px;padding-bottom:8px}
+.f-pick__row{display:flex;align-items:center;gap:14px;padding:12px 0;border-bottom:1px solid var(--divider)}
+.f-pick__row:last-child{border-bottom:0}
+.sc-host:last-child > .f-pick__row{border-bottom:0}
+.f-pick__img{flex-shrink:0;width:72px;height:72px;border-radius:var(--r-md-plus);background:var(--surface-2);overflow:hidden}
+.f-pick__info{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.f-pick__name{font-size:15px;font-weight:700;line-height:1.3}
+.f-pick__desc{font-size:12px;color:var(--ink-2);line-height:1.35;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.f-pick__price{margin-top:4px;font-size:15px;font-weight:700}
+.f-pick__add{flex-shrink:0;display:flex;align-items:center;justify-content:center;width:var(--h-sm);height:var(--h-sm);border:0;border-radius:50%;background:var(--primary-100);color:var(--primary);cursor:pointer;transition:background-color .15s,color .15s,transform .14s}
+.f-pick__add:hover{background:var(--primary);color:#fff}
+.f-pick__add:active{transform:scale(.92)}
+.f-pick__stepper{flex-shrink:0;width:112px;animation:frito-fade .2s ease-out both}
+.f-pick__add .f-plus{width:14px;height:14px}

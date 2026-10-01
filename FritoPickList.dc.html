@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="./frito.css">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<!-- Выбор товаров категории из корзины («Добавить к заказу?» → Напитки и т.д.): строка = фото, название, цена, «+» или степпер. Стили — .f-pick* -->
+<div class="f-modal">
+<sc-if value="{{ isCenter }}" hint-placeholder-val="{{ true }}">
+  <div class="f-modal__center">
+    <div class="f-overlay" onClick="{{ close }}"></div>
+    <div class="f-dialog f-dialog--flush f-pick" role="dialog" aria-modal="true" aria-label="{{ title }}">
+      <div class="f-modal__head">
+        <div class="f-modal__titles"><h2 class="f-modal__title">{{ title }}</h2><p class="f-modal__sub">{{ sub }}</p></div>
+        <div class="f-modal__close"><dc-import name="FritoCloseButton" on-click="{{ close }}" style="width:48px;height:48px" hint-size="48px,48px"></dc-import></div>
+      </div>
+      <div class="f-modal__body f-pick__body">
+        <sc-for list="{{ rows }}" as="r" hint-placeholder-count="4">
+          <div class="f-pick__row">
+            <span class="f-pick__img"><sc-if value="{{ r.hasImg }}" hint-placeholder-val="{{ true }}"><img data-skel src="{{ r.img }}" alt="" class="f-cover-img"></sc-if></span>
+            <span class="f-pick__info"><span class="f-pick__name">{{ r.name }}</span><span class="f-pick__desc">{{ r.desc }}</span><span class="f-pick__price">{{ r.price }}</span></span>
+            <sc-if value="{{ r.none }}" hint-placeholder-val="{{ true }}"><button type="button" class="f-pick__add" onClick="{{ r.add }}" aria-label="{{ r.addLabel }}"><span aria-hidden="true" class="f-plus"><span></span><span></span></span></button></sc-if>
+            <sc-if value="{{ r.some }}" hint-placeholder-val="{{ false }}"><span class="f-pick__stepper"><dc-import name="FritoStepper" qty="{{ r.qty }}" size="{{ 40 }}" on-inc="{{ r.add }}" on-dec="{{ r.dec }}" hint-size="112px,40px"></dc-import></span></sc-if>
+          </div>
+        </sc-for>
+      </div>
+      <div class="f-modal__foot"><button type="button" class="{{ ctaCls }}" onClick="{{ close }}">{{ cta }}</button></div>
+    </div>
+  </div>
+</sc-if>
+<sc-if value="{{ isSheet }}" hint-placeholder-val="{{ false }}">
+  <div class="f-overlay" onClick="{{ close }}"></div>
+  <div class="f-sheet f-sheet--flush f-pick" role="dialog" aria-modal="true" aria-label="{{ title }}">
+    <div class="f-grabber-wrap" style="padding-top:10px"><div class="f-grabber"></div></div>
+    <div class="f-modal__head">
+      <div class="f-modal__titles"><h2 class="f-modal__title">{{ title }}</h2><p class="f-modal__sub">{{ sub }}</p></div>
+      <div class="f-modal__close"><dc-import name="FritoCloseButton" on-click="{{ close }}" style="width:40px;height:40px" hint-size="40px,40px"></dc-import></div>
+    </div>
+    <div class="f-modal__body f-pick__body">
+      <sc-for list="{{ rows }}" as="r" hint-placeholder-count="4">
+        <div class="f-pick__row">
+          <span class="f-pick__img"><sc-if value="{{ r.hasImg }}" hint-placeholder-val="{{ true }}"><img data-skel src="{{ r.img }}" alt="" class="f-cover-img"></sc-if></span>
+          <span class="f-pick__info"><span class="f-pick__name">{{ r.name }}</span><span class="f-pick__desc">{{ r.desc }}</span><span class="f-pick__price">{{ r.price }}</span></span>
+          <sc-if value="{{ r.none }}" hint-placeholder-val="{{ true }}"><button type="button" class="f-pick__add" onClick="{{ r.add }}" aria-label="{{ r.addLabel }}"><span aria-hidden="true" class="f-plus"><span></span><span></span></span></button></sc-if>
+          <sc-if value="{{ r.some }}" hint-placeholder-val="{{ false }}"><span class="f-pick__stepper"><dc-import name="FritoStepper" qty="{{ r.qty }}" size="{{ 40 }}" on-inc="{{ r.add }}" on-dec="{{ r.dec }}" hint-size="112px,40px"></dc-import></span></sc-if>
+        </div>
+      </sc-for>
+    </div>
+    <div class="f-modal__foot"><button type="button" class="{{ ctaCls }}" onClick="{{ close }}">{{ cta }}</button></div>
+  </div>
+</sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:720,&quot;height&quot;:760},&quot;layout&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;center&quot;,&quot;options&quot;:[&quot;center&quot;,&quot;sheet&quot;],&quot;tsType&quot;:&quot;string&quot;},&quot;title&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Напитки&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;items&quot;:{&quot;editor&quot;:null,&quot;default&quot;:null,&quot;tsType&quot;:&quot;{ id, name, desc, priceLabel, img, qty, add, dec }[]&quot;}}">
+class Component extends DCLogic {
+  componentDidMount() {
+    this.onKey = e => { if (e.key === 'Escape' && this.props.onClose) this.props.onClose(); };
+    window.addEventListener('keydown', this.onKey);
+  }
+  componentWillUnmount() { window.removeEventListener('keydown', this.onKey); }
+  renderVals() {
+    const p = this.props, items = p.items || [], sheet = p.layout === 'sheet';
+    const added = items.reduce((n, it) => n + (it.qty || 0), 0);
+    return {
+      isCenter: !sheet, isSheet: sheet, title: p.title || '',
+      sub: added ? 'В заказе: ' + added + ' шт.' : 'Выберите и добавьте в заказ',
+      cta: added ? 'Готово' : 'Закрыть', ctaCls: 'f-btn f-btn--block ' + (added ? 'f-btn--primary' : 'f-btn--secondary'),
+      close: () => p.onClose && p.onClose(),
+      rows: items.map(it => ({ name: it.name, desc: it.desc || '', price: it.priceLabel, img: it.img || '', hasImg: !!it.img, qty: it.qty || 0,
+        none: !it.qty, some: !!it.qty, add: it.add, dec: it.dec, addLabel: 'Добавить: ' + it.name })),
+    };
+  }
+}
+</script>
+</body>
+</html>

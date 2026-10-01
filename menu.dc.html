@@ -203,6 +203,10 @@ input:focus-visible,textarea:focus-visible{outline:none}
   <sc-if value="{{ authD }}" hint-placeholder-val="{{ false }}">
     <div style="position:absolute;inset:0;z-index:40;animation:{{ authOutAnim }}"><dc-import name="FritoAuthModal" layout="center" on-close="{{ closeAuth }}" on-done="{{ authDone }}" on-guest="{{ authGuest }}" style="position:absolute;inset:0" hint-size="100%,100%"></dc-import></div>
   </sc-if>
+  <!-- MODAL: выбор допов из «Добавить к заказу?» -->
+  <sc-if value="{{ pickD }}" hint-placeholder-val="{{ false }}">
+    <div style="position:absolute;inset:0;z-index:45;animation:{{ pickOutAnim }}"><dc-import name="FritoPickList" layout="center" title="{{ pickTitle }}" items="{{ pickItems }}" on-close="{{ closePick }}" style="position:absolute;inset:0" hint-size="100%,100%"></dc-import></div>
+  </sc-if>
 </section>
 </div></sc-if>
 
@@ -387,6 +391,10 @@ input:focus-visible,textarea:focus-visible{outline:none}
   <sc-if value="{{ authM }}" hint-placeholder-val="{{ false }}">
     <div style="position:absolute;inset:0;z-index:40;animation:{{ authOutAnim }}"><dc-import name="FritoAuthModal" layout="sheet" on-close="{{ closeAuth }}" on-done="{{ authDone }}" on-guest="{{ authGuest }}" style="position:absolute;inset:0" hint-size="100%,100%"></dc-import></div>
   </sc-if>
+  <!-- MODAL: выбор допов из «Добавить к заказу?» -->
+  <sc-if value="{{ pickM }}" hint-placeholder-val="{{ false }}">
+    <div style="position:absolute;inset:0;z-index:45;animation:{{ pickOutAnim }}"><dc-import name="FritoPickList" layout="sheet" title="{{ pickTitle }}" items="{{ pickItems }}" on-close="{{ closePick }}" style="position:absolute;inset:0" hint-size="100%,100%"></dc-import></div>
+  </sc-if>
 </section>
 </div></sc-if>
 
@@ -478,7 +486,8 @@ CATS.forEach(c => c.items.forEach(it => { BY_ID[it[0]] = { id: it[0], name: it[1
 const fmt = n => String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, ' ') + ' тг.';
 const plural = n => n + ' ' + (n % 10 === 1 && n % 100 !== 11 ? 'товар' : n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 10 || n % 100 >= 20) ? 'товара' : 'товаров');
 const DEMO = { 'salsa-box': 1, 'fritos-combo': 1, 'crispy': 1 };
-const UPSELL = [['cola','Напитки'],['strips-s','Стрипсы'],['sauce-frito','Соус Frito'],['fries','Фри']];
+// «Добавить к заказу?»: плитка = категория (обложка — первый товар), по клику — список товаров категории
+const UPSELL = [{ key: 'drinks', label: 'Напитки', cover: 'cola', cat: 'Напитки' }, { key: 'strips', label: 'Стрипсы', cover: 'strips-s', cat: 'Стрипсы' }, { key: 'sauces', label: 'Соусы', cover: 'sauce-frito', cat: 'Соусы' }, { key: 'snacks', label: 'Фри', cover: 'fries', cat: 'Снэки' }];
 const DEFAULT_ADDR = 'пр-кт Туран, 52/6';
 const BURGERS = ['crispy','seul','classic','deluxe','salsa','cheese','rap-cheese','fritos'];
 const kindOf = id => id === 'strips-combo' ? 'stripsCombo' : /-box$/.test(id) ? 'box' : /-combo$/.test(id) ? 'combo' : BURGERS.includes(id) ? 'burger' : /^strips-/.test(id) ? 'strips' : null;
@@ -700,7 +709,15 @@ class Component extends DCLogic {
       freeFromLabel: 'от ' + fmt(freeFrom), progressPct: live.pct,
       progressText: live.remain === 0 ? 'Доставка бесплатно' : 'Ещё ' + fmt(live.remain) + ' до бесплатной доставки',
       progressColor: live.remain === 0 ? 'var(--success)' : 'var(--primary)',
-      upsell: UPSELL.filter(u => !dCart[u[0]]).map(u => ({ img: BY_ID[u[0]].img, short: u[1], priceLabel: fmt(BY_ID[u[0]].price), add: () => this.tryAdd(u[0], 'd'), addM: () => this.tryAdd(u[0], 'm') })),
+      upsell: UPSELL.map(u => ({ img: BY_ID[u.cover].img, short: u.label, priceLabel: '', add: () => this.setState({ pick: { key: u.key, at: 'd' } }), addM: () => this.setState({ pick: { key: u.key, at: 'm' } }) })),
+      pickD: !!s.pick && s.pick.at === 'd', pickM: !!s.pick && s.pick.at === 'm',
+      pickTitle: s.pick ? (UPSELL.find(u => u.key === s.pick.key) || {}).label : '',
+      pickItems: s.pick ? ((CATS.find(c => c.name === (UPSELL.find(u => u.key === s.pick.key) || {}).cat) || { items: [] }).items.map(it => {
+        const pr = BY_ID[it[0]], q = s.cart[pr.id] || 0;
+        return { id: pr.id, name: pr.name, desc: pr.desc, priceLabel: fmt(pr.price), img: pr.img, qty: q, add: () => this.tryAdd(pr.id, s.pick.at), dec: () => this.setQty(pr.id, -1) };
+      })) : [],
+      pickOutAnim: s.out === 'pick' ? `frito-out ${OUT_MS}ms ease-in both` : 'none',
+      closePick: () => this.animateOut('pick', () => this.setState({ pick: null })),
       clear: () => this.setState({ cart: {} }),
       promoCode: s.promo || '', promoDesc: '−10% на первый заказ', setPromo: c => this.setState({ promo: c }),
       removePromo: () => this.setState({ promo: null }),
