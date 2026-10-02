@@ -390,7 +390,7 @@ img.f-option__icon{object-fit:contain}
 .f-mseg__btn{flex:1;min-width:0;height:44px;display:flex;align-items:center;justify-content:center;gap:6px;border:0;border-radius:var(--r-pill);background:transparent;color:var(--ink-2);font:inherit;font-size:14px;font-weight:600;white-space:nowrap;cursor:pointer;transition:background-color .15s,color .15s,box-shadow .15s}
 .f-mseg__btn:hover{color:var(--ink)}
 .f-mseg__btn.is-on{background:#fff;color:var(--ink);box-shadow:0 1px 3px rgba(17,24,39,.12)}
-.f-mseg__chili{width:16px;height:16px;color:#EF4444;flex-shrink:0}
+.f-mseg__chili{width:16px;height:16px;color:var(--primary);flex-shrink:0}
 /* «один из многих» с фото — плитки */
 .f-mtiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(60px,1fr));gap:8px}
 .f-mtile{display:flex;flex-direction:column;align-items:center;gap:6px;min-width:0;padding:4px 4px 8px;border:2px solid transparent;border-radius:var(--r-md-plus);background:var(--surface-2);color:var(--ink);font:inherit;cursor:pointer;transition:border-color .15s,background-color .15s}
