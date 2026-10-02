@@ -63,7 +63,7 @@
     <sc-if value="{{ isPay }}" hint-placeholder-val="{{ false }}">
       <div class="f-os__eta">
         <span class="f-os__label">Оплатите в течение</span>
-        <span class="f-os__big"><span class="f-os__num">{{ leftMin }}</span><span class="f-os__unit">мин {{ leftSec }} с</span></span>
+        <span class="f-os__big"><span class="f-os__num">{{ leftMin }}</span><span class="f-os__unit">{{ leftUnit }}</span></span>
         <span class="f-os__note">{{ sub }}</span>
       </div>
       <sc-if value="{{ payMain }}" hint-placeholder-val="{{ true }}">
@@ -156,7 +156,7 @@ class Component extends DCLogic {
       openPick: () => this.setState({ pick: true }), closePick: () => this.setState({ pick: false }),
       payMethods: [{ id: 'kaspi', title: 'Kaspi', sub: 'Счёт в приложении Kaspi.kz', icon: 'assets/ic-kaspi-w.svg', bg: 'var(--kaspi)' }, { id: 'card', title: 'Картой онлайн', sub: 'Visa · Mastercard', icon: 'assets/ic-card-p.svg', bg: '#fff' }]
         .map(m => ({ ...m, pick: () => { this.setState({ pick: false }); p.onCta && p.onCta(m.id); } })),
-      leftMin: Math.floor(secLeft(this.state.until - this.state.now) / 60), leftSec: String(secLeft(this.state.until - this.state.now) % 60).padStart(2, '0'),
+      leftMin: Math.floor(secLeft(this.state.until - this.state.now) / 60), leftUnit: 'мин ' + String(secLeft(this.state.until - this.state.now) % 60).padStart(2, '0') + ' с',
       refund: p.refund || '', hasRefund: !!p.refund, refundSub: p.refundSub || 'На карту Kaspi · 1–3 рабочих дня',
       title: p.title || 'Готовим ваш заказ', sub: p.sub || '',
       etaLabel: p.etaLabel || (pick ? 'Будет готов через' : 'Привезём через'), eta: p.eta ?? '28', etaUnit: p.etaUnit ?? 'мин', etaNote: p.etaNote || '',
