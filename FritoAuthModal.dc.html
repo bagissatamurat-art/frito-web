@@ -154,14 +154,17 @@
 </sc-if>
 </div>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;: {&quot;width&quot;: 800, &quot;height&quot;: 620}, &quot;layout&quot;: {&quot;editor&quot;: &quot;enum&quot;, &quot;default&quot;: &quot;center&quot;, &quot;options&quot;: [&quot;center&quot;, &quot;sheet&quot;], &quot;tsType&quot;: &quot;&#x27;center&#x27; | &#x27;sheet&#x27;&quot;}, &quot;onClose&quot;: {&quot;editor&quot;: null, &quot;default&quot;: null, &quot;tsType&quot;: &quot;() =&gt; void&quot;}, &quot;onGuest&quot;: {&quot;editor&quot;: null, &quot;default&quot;: null, &quot;tsType&quot;: &quot;() =&gt; void&quot;}, &quot;onDone&quot;: {&quot;editor&quot;: null, &quot;default&quot;: null, &quot;tsType&quot;: &quot;(user: { via: &#x27;messenger&#x27;, phone: string }) =&gt; void&quot;}}">
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;: {&quot;width&quot;: 800, &quot;height&quot;: 620}, &quot;layout&quot;: {&quot;editor&quot;: &quot;enum&quot;, &quot;default&quot;: &quot;center&quot;, &quot;options&quot;: [&quot;center&quot;, &quot;sheet&quot;], &quot;tsType&quot;: &quot;&#x27;center&#x27; | &#x27;sheet&#x27;&quot;}, &quot;step&quot;: {&quot;editor&quot;: &quot;enum&quot;, &quot;default&quot;: &quot;choose&quot;, &quot;options&quot;: [&quot;choose&quot;, &quot;phone&quot;, &quot;code&quot;, &quot;wrong&quot;, &quot;tg&quot;, &quot;ok&quot;], &quot;tsType&quot;: &quot;string&quot;}, &quot;onClose&quot;: {&quot;editor&quot;: null, &quot;default&quot;: null, &quot;tsType&quot;: &quot;() =&gt; void&quot;}, &quot;onGuest&quot;: {&quot;editor&quot;: null, &quot;default&quot;: null, &quot;tsType&quot;: &quot;() =&gt; void&quot;}, &quot;onDone&quot;: {&quot;editor&quot;: null, &quot;default&quot;: null, &quot;tsType&quot;: &quot;(user: { via: &#x27;messenger&#x27;, phone: string }) =&gt; void&quot;}}">
 // Вход перед оформлением: мессенджер (WhatsApp / Telegram) → телефон → 4 цифры из выбранного мессенджера.
 // Прототип без сервера: код не отправляется. Демо: 0000 — неверный код, любой другой — верный.
 const RESEND = 60, TRIES = 3, WRONG = '0000';
 // Telegram: бот просит поделиться номером и сам подтверждает вход. Имя бота — заменить на реальное.
 const BOT = 'https://t.me/FritoKzBot?start=login', TG_DEMO_PHONE = '+7 (777) 123-45-67';
 class Component extends DCLogic {
-  state = { step: 'choose', chan: 'whatsapp', phone: '', tried: false, sending: false, code: '', codeFocus: false, t: 0, check: '', left: TRIES, note: '' };
+  // step — только для превью в «Frito Модалки»: choose | phone | code | wrong | tg | ok
+  state = (() => { const st = this.props.step || 'choose', code = st === 'code' || st === 'wrong';
+    return { step: code ? 'code' : st, chan: st === 'tg' ? 'telegram' : 'whatsapp', phone: st === 'choose' || st === 'phone' ? '' : '+7 (701) 234-56-78', tried: false, sending: false, code: '', codeFocus: false,
+      t: code ? 47 : 0, check: st === 'wrong' ? 'retry' : '', left: st === 'wrong' ? 2 : TRIES, note: '' }; })();
   codeRef = React.createRef();
   // невидимое поле-«держатель»: фокус на нём в момент нажатия не даёт iOS закрыть клавиатуру между шагами
   keepRef = React.createRef();

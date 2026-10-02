@@ -174,7 +174,7 @@ input,textarea,button{outline:none}
   </section>
 
   <section style="background:#fff;border-radius:24px;padding:28px 32px;display:flex;flex-direction:column;gap:20px">
-    <div><h2 style="margin:0 0 4px;font-size:20px;font-weight:700">Segment · Stepper · Toggle · Checkbox</h2><p style="margin:0;font-size:13px;color:#6B7280">Вынесены: FritoSegment, FritoStepper, FritoToggle, FritoOption. Модалки — FritoMethodModal и FritoProductModal, все состояния в <a href="Frito Модалки.dc.html">Frito Модалки</a>.</p></div>
+    <div><h2 style="margin:0 0 4px;font-size:20px;font-weight:700">Segment · Stepper · Toggle · Checkbox</h2><p style="margin:0;font-size:13px;color:#6B7280">Вынесены: FritoSegment, FritoStepper, FritoToggle, FritoOption. Модалки — FritoAddressModal, FritoProductModal, FritoAuthModal, FritoVacancyModal, все состояния в <a href="Frito Модалки.dc.html">Frito Модалки</a>.</p></div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:center">
       <dc-import name="FritoSegment" mode="delivery" icons="{{ true }}" height="{{ 40 }}" hint-size="100%,48px"></dc-import>
       <dc-import name="FritoSegment" mode="pickup" variant="filled" icons="{{ true }}" height="{{ 40 }}" hint-size="100%,48px"></dc-import>
@@ -206,7 +206,7 @@ input,textarea,button{outline:none}
     <div style="display:flex;flex-direction:column;gap:8px">
       <dc-import name="FritoOption" type="radio" label="Неострый" selected="{{ true }}" hint-size="100%,56px"></dc-import>
       <dc-import name="FritoOption" type="checkbox" label="Соус Frito 50 мл" price="{{ 250 }}" hint-size="100%,56px"></dc-import>
-      <span style="font-size:12px;color:#9CA3AF;font-family:ui-monospace,monospace">FritoOption · radio / checkbox · 56 · r16 · модификаторы в модалке товара</span>
+      <span style="font-size:12px;color:#9CA3AF;font-family:ui-monospace,monospace">FritoOption · radio / checkbox · 56 · r16 · списки в анкете вакансии (в модалке товара — сегмент/плитки/чипы, см. «Модификаторы»)</span>
     </div>
   </section>
 </div>
@@ -239,83 +239,78 @@ input,textarea,button{outline:none}
   </div>
 </section>
 
-<!-- OPTION CARDS + ROWS -->
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
-  <section style="background:#fff;border-radius:24px;padding:28px 32px;display:flex;flex-direction:column;gap:20px">
-    <div><h2 style="margin:0 0 4px;font-size:20px;font-weight:700">OptionCard</h2><p style="margin:0;font-size:13px;color:#6B7280">Выбор одного из N: border 2px, selected = primary + primary-50. Варианты: simple, radio (оплата), rich (модалка способа — иконка, заголовок, описание; кликабельна вся карточка).</p></div>
-    <div style="display:flex;gap:10px;flex-wrap:wrap">
-      <button style="border:2px solid #614BE2;background:#F5F3FF;border-radius:16px;padding:12px 18px;font:inherit;cursor:pointer;display:flex;flex-direction:column;align-items:flex-start;gap:2px;text-align:left;color:#111827;min-width:150px"><span style="font-size:16px;font-weight:700">Как можно скорее</span><span style="font-size:12px;color:#6B7280">~45 мин</span></button>
-      <button style="border:2px solid #F1F1F4;background:#fff;border-radius:16px;padding:12px 18px;font:inherit;cursor:pointer;display:flex;flex-direction:column;align-items:flex-start;gap:2px;text-align:left;color:#111827;min-width:150px" style-hover="border-color:#D9D4F7"><span style="font-size:16px;font-weight:700">Ко времени</span><span style="font-size:12px;color:#6B7280">выбрать слот</span></button>
-    </div>
+<!-- PRODUCT CARD -->
+<section style="background:#fff;border-radius:24px;padding:28px 32px;display:flex;flex-direction:column;gap:16px">
+  <div><h2 style="margin:0 0 4px;font-size:20px;font-weight:700">Карточка товара · FritoProductCard</h2><p style="margin:0;font-size:13px;color:#6B7280;line-height:1.5">Ширина карточки решает раскладку (container query): от 250px — цена и «В корзину» в строку; уже — как в мобильной: цена прямо на кнопке во всю ширину, чтобы ничего не наезжало. В корзине → степпер. compact — мобильная сетка 2 в ряд. Сетка меню: 3 в ряд, 4 от 1600px, 5 от 2100px.</p></div>
+  <div style="display:flex;gap:20px;align-items:flex-start;flex-wrap:wrap">
+    <div style="width:300px;display:flex;flex-direction:column;gap:8px"><dc-import name="FritoProductCard" product="{{ kitProd }}" hint-size="100%,440px"></dc-import><span style="font-size:12px;color:#9CA3AF;font-family:ui-monospace,monospace">300 · широкая</span></div>
+    <div style="width:230px;display:flex;flex-direction:column;gap:8px"><dc-import name="FritoProductCard" product="{{ kitProd }}" hint-size="100%,400px"></dc-import><span style="font-size:12px;color:#9CA3AF;font-family:ui-monospace,monospace">230 · узкая · цена на кнопке</span></div>
+    <div style="width:230px;display:flex;flex-direction:column;gap:8px"><dc-import name="FritoProductCard" product="{{ kitProdIn }}" hint-size="100%,400px"></dc-import><span style="font-size:12px;color:#9CA3AF;font-family:ui-monospace,monospace">в корзине · степпер</span></div>
+    <div style="width:230px;display:flex;flex-direction:column;gap:8px"><dc-import name="FritoProductCard" product="{{ kitProdSold }}" hint-size="100%,400px"></dc-import><span style="font-size:12px;color:#9CA3AF;font-family:ui-monospace,monospace">закончился</span></div>
+    <div style="width:172px;display:flex;flex-direction:column;gap:8px"><dc-import name="FritoProductCard" product="{{ kitProd }}" compact="{{ true }}" hint-size="100%,300px"></dc-import><span style="font-size:12px;color:#9CA3AF;font-family:ui-monospace,monospace">compact · mobile</span></div>
+  </div>
+</section>
+
+<!-- PRODUCT MODIFIERS -->
+<section style="background:#fff;border-radius:24px;padding:28px 32px;display:flex;flex-direction:column;gap:16px">
+  <div><h2 style="margin:0 0 4px;font-size:20px;font-weight:700">Модификаторы · FritoProductModal</h2><p style="margin:0;font-size:13px;color:#6B7280;line-height:1.5">Вид группы выбирается автоматически. «Один из 2–3» → переключатель .f-mseg в строку (острота, 🌶 у острого). «Один из многих» → плитки с фото .f-mtiles (напиток, все в один ряд, галочка на выбранной). «По желанию» → чипы .f-mchips с ценой (соусы, добавки; «Убрать» — с минусом). Подписи короткие (группа уже говорит «Соусы»), в корзину уходит полное название. Значения по умолчанию выбраны — можно сразу «В корзину».</p></div>
+  <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px;align-items:start">
+    <div style="display:flex;flex-direction:column;gap:10px"><h3 class="f-group__title">Острота бургера</h3><div class="f-mseg" role="radiogroup"><button type="button" class="f-mseg__btn is-on">Неострый</button><button type="button" class="f-mseg__btn"><svg class="f-mseg__chili" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M13.6 5.2c.4-1.5 1.5-2.6 3-2.9l.4 1.1c-1 .3-1.7.9-2 1.9 1.8.6 3 2.2 3 4.2 0 5.5-6.2 11.2-13.3 11.2-1.3 0-1.7-1.6-.6-2.2 4.4-2.4 6.2-6 6.6-9.6.2-2.1 1.7-3.7 2.9-3.7z"/></svg>Острый</button></div><span style="font-size:12px;color:#9CA3AF;font-family:ui-monospace,monospace">.f-mseg · 44 · single ≤ 3</span></div>
+    <div style="display:flex;flex-direction:column;gap:10px"><h3 class="f-group__title">Напиток</h3><div class="f-mtiles"><sc-for list="{{ kitDrinks }}" as="d" hint-placeholder-count="5"><button type="button" class="{{ d.cls }}"><span class="f-mtile__img"><sc-if value="{{ d.img }}" hint-placeholder-val="{{ true }}"><img data-src="{{ d.img }}" alt="" class="f-cover-img"></sc-if><sc-if value="{{ d.noImg }}" hint-placeholder-val="{{ false }}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M10 2.5h4v2.2c0 .8 2.5 1.6 2.5 4.3V20a1.5 1.5 0 0 1-1.5 1.5H9A1.5 1.5 0 0 1 7.5 20V9c0-2.7 2.5-3.5 2.5-4.3z"/><path d="M7.5 11h9M7.5 17h9"/></svg></sc-if><span class="f-mtile__check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span></span><span class="f-mtile__name">{{ d.name }}</span></button></sc-for></div><span style="font-size:12px;color:#9CA3AF;font-family:ui-monospace,monospace">.f-mtiles · min 60 · single &gt; 3 / с фото</span></div>
+    <div style="display:flex;flex-direction:column;gap:10px"><div class="f-group__row"><h3 class="f-group__title">Соусы</h3><span class="f-group__count">1 из 5</span></div><div class="f-mchips"><button type="button" class="f-mchip is-on"><span class="f-mchip__mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14" class="f-mchip__plus"/><path d="M5 12.5l4.5 4.5L19 7.5" class="f-mchip__ok"/></svg></span>Frito 50 мл<span class="f-mchip__price">+250 тг.</span></button><button type="button" class="f-mchip"><span class="f-mchip__mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14" class="f-mchip__plus"/><path d="M5 12.5l4.5 4.5L19 7.5" class="f-mchip__ok"/></svg></span>Барбекю<span class="f-mchip__price">+200 тг.</span></button><button type="button" class="f-mchip f-mchip--minus"><span class="f-mchip__mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14" class="f-mchip__plus"/><path d="M5 12h14" class="f-mchip__minus"/><path d="M5 12.5l4.5 4.5L19 7.5" class="f-mchip__ok"/></svg></span>Без соуса</button><button type="button" class="f-mchip is-disabled"><span class="f-mchip__mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14" class="f-mchip__plus"/><path d="M5 12.5l4.5 4.5L19 7.5" class="f-mchip__ok"/></svg></span>Сыр Гауда<span class="f-mchip__price">+150 тг.</span></button></div><span style="font-size:12px;color:#9CA3AF;font-family:ui-monospace,monospace">.f-mchip · 40 · multi · is-on / --minus / is-disabled (лимит)</span></div>
+  </div>
+</section>
+
+<!-- CART -->
+<div style="display:grid;grid-template-columns:1fr 1fr 380px;gap:24px;align-items:start">
+  <section style="background:#fff;border-radius:24px;padding:28px 32px;display:flex;flex-direction:column;gap:16px">
+    <div><h2 style="margin:0 0 4px;font-size:20px;font-weight:700">Корзина · CartLine · UpsellTile</h2><p style="margin:0;font-size:13px;color:#6B7280;line-height:1.5">FritoCartLine — строка корзины (фото, модификаторы, «Изменить», степпер). FritoUpsellTile — плитка-категория «Добавить к заказу?» без цены, открывает FritoPickList.</p></div>
+    <dc-import name="FritoCartLine" line="{{ kitLine }}" hint-size="100%,130px"></dc-import>
+    <dc-import name="FritoCartLine" line="{{ kitLineSold }}" hint-size="100%,130px"></dc-import>
+    <span style="font-size:12px;color:#9CA3AF;font-family:ui-monospace,monospace">cart-line · обычная / закончился</span>
+    <div style="display:flex;gap:12px"><sc-for list="{{ kitUpsell }}" as="u" hint-placeholder-count="3"><dc-import name="FritoUpsellTile" item="{{ u }}" on-add="{{ noop }}" hint-size="92px,120px"></dc-import></sc-for></div>
+    <span style="font-size:12px;color:#9CA3AF;font-family:ui-monospace,monospace">upsell-tile · 92 / 80 mobile</span>
+  </section>
+  <section style="background:#fff;border-radius:24px;padding:28px 32px;display:flex;flex-direction:column;gap:16px">
+    <div><h2 style="margin:0 0 4px;font-size:20px;font-weight:700">Оформление · OrderLine · OptionCard</h2><p style="margin:0;font-size:13px;color:#6B7280;line-height:1.5">FritoOrderLine — строка состава (14/600, модификаторы 12, «2 × 4 090»). FritoOptionCard — выбор одного из N (время, оплата): border 2px, выбран = primary + primary-50.</p></div>
+    <dc-import name="FritoOrderLine" line="{{ kitOrderLine }}" hint-size="100%,64px"></dc-import>
+    <span style="font-size:12px;color:#9CA3AF;font-family:ui-monospace,monospace">order-line</span>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-      <button style="border:2px solid #614BE2;background:#F5F3FF;border-radius:16px;padding:12px 14px;font:inherit;cursor:pointer;display:flex;align-items:center;gap:12px;text-align:left;color:#111827"><span style="width:40px;height:40px;border-radius:12px;background:#F14635;display:flex;align-items:center;justify-content:center;flex-shrink:0"><img src="assets/ic-kaspi-w.svg" alt="" style="width:24px;height:24px"></span><span style="display:flex;flex-direction:column;gap:2px;flex:1"><span style="font-size:15px;font-weight:700">Kaspi</span><span style="font-size:12px;color:#6B7280">Счёт в приложении</span></span><span style="width:22px;height:22px;border-radius:50%;border:2px solid #614BE2;background:#614BE2;display:flex;align-items:center;justify-content:center"><span style="width:8px;height:8px;border-radius:50%;background:#fff"></span></span></button>
-      <button style="border:2px solid #F1F1F4;background:#fff;border-radius:16px;padding:12px 14px;font:inherit;cursor:pointer;display:flex;align-items:center;gap:12px;text-align:left;color:#111827"><span style="width:40px;height:40px;border-radius:12px;background:#EFEDFC;display:flex;align-items:center;justify-content:center;flex-shrink:0"><img src="assets/ic-card-p.svg" alt="" style="width:24px;height:24px"></span><span style="display:flex;flex-direction:column;gap:2px;flex:1"><span style="font-size:15px;font-weight:700">Картой онлайн</span><span style="font-size:12px;color:#6B7280">Visa · Mastercard</span></span><span style="width:22px;height:22px;border-radius:50%;border:2px solid #D1D5DB;background:#fff"></span></button>
+      <dc-import name="FritoOptionCard" title="Как можно скорее" sub="35–45 мин" selected="{{ true }}" hint-size="100%,72px"></dc-import>
+      <dc-import name="FritoOptionCard" title="Ко времени" sub="Выбрать слот" hint-size="100%,72px"></dc-import>
+      <dc-import name="FritoOptionCard" title="Kaspi" icon="assets/ic-kaspi-w.svg" icon-bg="var(--kaspi)" selected="{{ true }}" hint-size="100%,72px"></dc-import>
+      <dc-import name="FritoOptionCard" title="Картой онлайн" icon="assets/ic-card-p.svg" hint-size="100%,72px"></dc-import>
     </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
-      <button style="display:flex;flex-direction:column;align-items:stretch;gap:8px;border:2px solid #ECECF1;cursor:pointer;font:inherit;background:#F8F8FB;color:#111827;border-radius:24px;padding:18px;text-align:left" style-hover="border-color:#614BE2;background:#F5F3FF"><img src="assets/ic-delivery-p.svg" alt="" style="width:48px;height:48px;object-fit:contain;align-self:center;margin:6px 0"><span style="font-size:19px;font-weight:700">Доставка</span><span style="font-size:13px;color:#6B7280;line-height:1.35;flex:1">Курьером за 35–45 мин · от 1 000 тг</span></button>
-      <button style="display:flex;flex-direction:column;align-items:stretch;gap:8px;border:2px solid #614BE2;cursor:pointer;font:inherit;background:#F5F3FF;color:#111827;border-radius:24px;padding:18px;text-align:left"><img src="assets/ic-pickup-p.svg" alt="" style="width:48px;height:48px;object-fit:contain;align-self:center;margin:6px 0"><span style="font-size:19px;font-weight:700">Самовывоз</span><span style="font-size:13px;color:#6B7280;line-height:1.35;flex:1">5 ресторанов · готово через 15 мин</span></button>
-    </div>
-  </section>
-
-  <section style="background:#fff;border-radius:24px;padding:28px 32px;display:flex;flex-direction:column;gap:20px">
-    <div><h2 style="margin:0 0 4px;font-size:20px;font-weight:700">Rows · Address · Panel</h2><p style="margin:0;font-size:13px;color:#6B7280">Составные блоки: адресная пилюля, строка адреса, строка настройки, панель (Card) с заголовком.</p></div>
-    <div style="display:flex;flex-direction:column;gap:12px">
-      <button style="display:flex;align-items:center;gap:10px;height:48px;padding:0 16px 0 6px;font:inherit;font-size:13px;font-weight:600;color:#614BE2;border:1px dashed #B7ACF3;background:#F5F3FF;border-radius:999px;cursor:pointer;width:max-content;transition:all .15s" style-hover="background:#EFEDFC;border-color:#614BE2"><span style="width:36px;height:36px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center"><img src="assets/ic-pin-p.svg" alt="" style="width:16px;height:16px"></span>Выберите, как получить заказ<span aria-hidden="true" style="font-size:18px;line-height:1;margin-left:2px">›</span></button>
-      <button style="display:flex;align-items:center;gap:8px;border:1px solid #ECECF1;background:#fff;border-radius:999px;height:48px;padding:0 16px 0 6px;font:inherit;cursor:pointer;color:#111827;text-align:left;width:max-content" style-hover="border-color:#B7ACF3"><span style="width:36px;height:36px;border-radius:50%;background:#EFEDFC;display:flex;align-items:center;justify-content:center"><img src="assets/ic-pin-p.svg" alt="" style="width:16px;height:16px"></span><span style="display:flex;flex-direction:column;line-height:1.15"><span style="font-size:11px;color:#6B7280;font-weight:500">Адрес доставки</span><span style="font-size:14px;font-weight:700">пр-кт Туран, 52/6</span></span><span style="font-size:13px;color:#614BE2;font-weight:600;margin-left:8px">Изменить</span></button>
-      <span style="font-size:12px;color:#9CA3AF;font-family:ui-monospace,monospace">address-pill · empty (dashed, primary-50, открывает модалку) / filled</span>
-    </div>
-    <div style="background:#F7F7F9;border-radius:20px;padding:18px 20px;display:flex;flex-direction:column;gap:16px">
-      <div style="font-size:15px;font-weight:700">Способ получения</div>
-      <div style="display:flex;align-items:center;gap:14px"><span style="width:40px;height:40px;border-radius:50%;background:#EFEDFC;display:flex;align-items:center;justify-content:center;flex-shrink:0"><img src="assets/ic-delivery-p.svg" alt="" style="width:20px;height:20px"></span><div style="display:flex;flex-direction:column;gap:3px;flex:1"><div style="font-size:12px;color:#6B7280">Адрес доставки · <span style="color:#16A34A;font-weight:600">35–45 мин</span></div><div style="font-size:15px;font-weight:700">пр-кт Туран, 52/6</div></div><button style="border:0;background:#fff;border-radius:999px;padding:10px 16px;font:inherit;font-size:13px;font-weight:600;color:#111827;cursor:pointer;box-shadow:0 1px 2px rgba(0,0,0,.06)">Изменить</button></div>
-      <div style="border-top:1px solid #F1F1F4;padding-top:14px;display:flex;align-items:center;justify-content:space-between"><div style="display:flex;flex-direction:column;gap:2px"><span style="font-size:14px;font-weight:600">Оставить у двери</span><span style="font-size:12px;color:#6B7280">Курьер позвонит и оставит заказ</span></div><dc-import name="FritoToggle" on="{{ true }}" hint-size="48px,28px"></dc-import></div>
-    </div>
-    <span style="font-size:12px;color:#9CA3AF;font-family:ui-monospace,monospace">panel (r20, p18/20) → panel-title 15/700 → address-row → setting-row</span>
-    <div style="display:flex;flex-direction:column;gap:10px">
-      <dc-import name="FritoDeliveryBar" subtotal="{{ 5200 }}" free-from="{{ 8000 }}" hint-size="100%,60px"></dc-import>
-      <dc-import name="FritoDeliveryBar" subtotal="{{ 9000 }}" free-from="{{ 8000 }}" compact="{{ true }}" hint-size="100%,56px"></dc-import>
-      <span style="font-size:12px;color:#9CA3AF;font-family:ui-monospace,monospace">delivery-bar · progress / done · compact</span>
-    </div>
-  </section>
-</div>
-
-<!-- PRODUCT + LINE + TOTALS -->
-<div style="display:grid;grid-template-columns:400px 1fr 360px;gap:24px;align-items:start">
-  <section style="background:#fff;border-radius:24px;padding:28px 32px;display:flex;flex-direction:column;gap:16px">
-    <h2 style="margin:0;font-size:20px;font-weight:700">ProductCard</h2>
-    <article style="background:#fff;border:1px solid #ECECF1;border-radius:24px;padding:14px;display:flex;flex-direction:column;gap:10px" style-hover="box-shadow:0 12px 32px -14px rgba(17,24,39,.2)">
-      <div style="aspect-ratio:1/1;border-radius:18px;background:#F3F4F6;overflow:hidden"><img src="{{ demoImg }}" alt="" style="width:100%;height:100%;object-fit:cover;display:block"></div>
-      <div style="display:flex;flex-direction:column;gap:6px;padding:2px 4px 0"><h3 style="margin:0;font-size:18px;font-weight:700;line-height:1.25">Сальса бокс</h3><p style="margin:0;font-size:14px;line-height:1.4;color:#6B7280;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">Сальса бургер, стрипсы (3 шт.), фри, напиток 0,5 л и фирменный соус Frito</p></div>
-      <div style="display:flex;align-items:center;justify-content:space-between;padding:4px 4px 0"><span style="font-size:20px;font-weight:700;white-space:nowrap">4 090 тг.</span><button style="border:0;cursor:pointer;font:inherit;font-size:15px;font-weight:600;background:#EFEDFC;color:#614BE2;border-radius:999px;width:132px;height:44px" style-hover="background:#614BE2;color:#fff">В корзину</button></div>
-    </article>
-    <span style="font-size:12px;color:#9CA3AF;font-family:ui-monospace,monospace">desktop · 3 в ряд · после добавления кнопка → stepper 132×44</span>
+    <span style="font-size:12px;color:#9CA3AF;font-family:ui-monospace,monospace">option-card · simple / с иконкой</span>
   </section>
   <section style="background:#fff;border-radius:24px;padding:28px 32px;display:flex;flex-direction:column;gap:16px">
-    <h2 style="margin:0;font-size:20px;font-weight:700">CartLine · OrderLine · UpsellTile</h2>
-    <div style="display:grid;grid-template-columns:104px minmax(0,1fr);gap:16px;padding:0 0 20px;border-bottom:1px solid #F1F1F4">
-      <div style="width:104px;height:104px;border-radius:18px;background:#F3F4F6;overflow:hidden"><img src="{{ demoImg }}" alt="" style="width:100%;height:100%;object-fit:cover;display:block"></div>
-      <div style="display:flex;flex-direction:column;justify-content:space-between;gap:12px;min-width:0">
-        <div style="display:flex;flex-direction:column;gap:4px"><div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px"><div style="font-size:16px;font-weight:700;line-height:1.3">Сальса бокс</div><button aria-label="Удалить" style="border:0;background:transparent;color:#9CA3AF;font-size:20px;line-height:1;cursor:pointer;padding:0;width:24px;height:24px;display:flex;align-items:center;justify-content:center;margin-top:-2px">×</button></div><div style="font-size:13px;color:#6B7280;line-height:1.4">Неострый 3 шт · Coca-cola 0,5 л</div><a href="#" style="font-size:13px;font-weight:600;align-self:flex-start">Изменить</a></div>
-        <div style="display:flex;align-items:center;justify-content:space-between;gap:10px"><span style="font-size:17px;font-weight:700">4 090 тг.</span><div style="width:132px"><dc-import name="FritoStepper" qty="{{ 1 }}" size="{{ 44 }}" hint-size="132px,44px"></dc-import></div></div>
-      </div>
-    </div>
-    <div style="display:grid;grid-template-columns:48px minmax(0,1fr) auto;gap:12px;align-items:center">
-      <div style="width:48px;height:48px;border-radius:12px;background:#F3F4F6;overflow:hidden"><img src="{{ demoImg }}" alt="" style="width:100%;height:100%;object-fit:cover;display:block"></div>
-      <div style="display:flex;flex-direction:column;gap:2px;min-width:0"><span style="font-size:14px;font-weight:600">Сальса бокс</span><span style="font-size:12px;color:#6B7280;line-height:1.35">Неострый 3 шт · Coca-cola 0,5 л</span><span style="font-size:12px;color:#9CA3AF">1 × 4 090 тг.</span></div>
-      <span style="font-size:14px;font-weight:700">4 090 тг.</span>
-    </div>
-    <span style="font-size:12px;color:#9CA3AF;font-family:ui-monospace,monospace">cart-line (корзина) · order-line (оформление: name 14/600 · mods 12 ink-2 · qty×price 12 ink-3)</span>
-    <div style="display:flex;gap:12px">
-      <button style="display:flex;flex-direction:column;align-items:center;gap:8px;border:0;background:transparent;font:inherit;cursor:pointer;color:#111827;width:92px;padding:0"><span style="width:80px;height:80px;border-radius:18px;background:#F3F4F6;overflow:hidden;display:block;position:relative"><img src="{{ upsellImg }}" alt="" style="width:100%;height:100%;object-fit:cover;display:block"><span style="position:absolute;right:5px;bottom:5px;width:24px;height:24px;border-radius:50%;background:#614BE2;color:#fff;display:flex;align-items:center;justify-content:center"><span aria-hidden="true" style="position:relative;width:10px;height:10px;display:block"><span style="position:absolute;left:0;top:50%;width:100%;height:2px;margin-top:-1px;background:currentColor;border-radius:1px"></span><span style="position:absolute;top:0;left:50%;height:100%;width:2px;margin-left:-1px;background:currentColor;border-radius:1px"></span></span></span></span><span style="display:flex;flex-direction:column;gap:2px;align-items:center"><span style="font-size:12px;font-weight:500;color:#6B7280">Напитки</span><span style="font-size:13px;font-weight:700">650 тг.</span></span></button>
-      <span style="align-self:center;font-size:12px;color:#9CA3AF;font-family:ui-monospace,monospace">upsell-tile · 92 / 80 mobile</span>
-    </div>
-  </section>
-  <section style="background:#fff;border-radius:24px;padding:28px 32px;display:flex;flex-direction:column;gap:16px">
-    <h2 style="margin:0;font-size:20px;font-weight:700">Totals</h2>
+    <h2 style="margin:0;font-size:20px;font-weight:700">Итоги · доставка · алерт</h2>
     <dc-import name="FritoTotals" subtotal="{{ 9470 }}" fee="{{ 1000 }}" discount="{{ 947 }}" total-title="К оплате" hint-size="100%,140px"></dc-import>
     <div style="border-top:1px solid #F1F1F4;padding-top:12px"><dc-import name="FritoTotals" subtotal="{{ 9470 }}" fee="{{ 0 }}" discount="{{ 0 }}" fee-title="Самовывоз" compact="{{ true }}" hint-size="100%,100px"></dc-import></div>
     <span style="font-size:12px;color:#9CA3AF;font-family:ui-monospace,monospace">totals · default / compact · fee 0 = «Бесплатно»</span>
+    <dc-import name="FritoDeliveryBar" subtotal="{{ 5200 }}" free-from="{{ 8000 }}" hint-size="100%,60px"></dc-import>
+    <dc-import name="FritoDeliveryBar" subtotal="{{ 9000 }}" free-from="{{ 8000 }}" compact="{{ true }}" hint-size="100%,56px"></dc-import>
+    <span style="font-size:12px;color:#9CA3AF;font-family:ui-monospace,monospace">delivery-bar · progress / done</span>
+    <dc-import name="FritoSoldAlert" hint-size="100%,64px"></dc-import>
+    <span style="font-size:12px;color:#9CA3AF;font-family:ui-monospace,monospace">sold-alert · товар закончился</span>
+    <dc-import name="FritoPromoField" hint-size="100%,48px"></dc-import>
+    <dc-import name="FritoPromoField" code="NEW10" subtotal="{{ 9470 }}" hint-size="100%,56px"></dc-import>
+    <span style="font-size:12px;color:#9CA3AF;font-family:ui-monospace,monospace">promo-field · пусто / применён (состояния ошибок — в Input)</span>
   </section>
 </div>
+
+<!-- SMALL CONTROLS -->
+<section style="background:#fff;border-radius:24px;padding:28px 32px;display:flex;flex-direction:column;gap:16px">
+  <div><h2 style="margin:0 0 4px;font-size:20px;font-weight:700">Адрес · закрыть · язык</h2><p style="margin:0;font-size:13px;color:#6B7280;line-height:1.5">.f-addr-btn — строка адреса (пустая — подсвеченная «Укажите адрес доставки»; --lg в шапке). FritoCloseButton — soft (в модалках) / float (поверх фото). .f-lang — «Рус | Қаз» в боковом меню; переводы — frito-i18n-kk.js, data-no-i18n исключает узел.</p></div>
+  <div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap">
+    <dc-import name="FritoMethodBar" layout="stack" mode="delivery" address="" hint-size="340px,110px" style="width:340px"></dc-import>
+    <dc-import name="FritoMethodBar" layout="stack" mode="delivery" address="ул. Сауран, 2" eta="35–45 мин" hint-size="340px,110px" style="width:340px"></dc-import>
+    <div style="width:48px;height:48px"><dc-import name="FritoCloseButton" on-click="{{ noop }}" hint-size="48px,48px"></dc-import></div>
+    <div style="width:40px;height:40px;background:#F3F4F6;border-radius:12px;padding:0"><dc-import name="FritoCloseButton" variant="float" on-click="{{ noop }}" hint-size="40px,40px"></dc-import></div>
+    <div class="f-lang" data-no-i18n=""><button type="button" class="f-lang__btn is-on">Рус</button><button type="button" class="f-lang__btn">Қаз</button></div>
+  </div>
+  <span style="font-size:12px;color:#9CA3AF;font-family:ui-monospace,monospace">address · empty / filled · close soft 48 / float 40 · lang</span>
+</section>
 
 <!-- HEADER / FOOTER -->
 <section style="background:#fff;border-radius:24px;padding:28px 32px;display:flex;flex-direction:column;gap:16px">
@@ -339,16 +334,21 @@ input,textarea,button{outline:none}
   <div><h2 style="margin:0 0 4px;font-size:20px;font-weight:700">Прогресс заказа · FritoOrderProgress</h2><p style="margin:0;font-size:13px;color:#6B7280;line-height:1.5">Одна карточка для главной, кабинета и страницы заказа. size: sm (строка — главная и кабинет) | md | lg (страница заказа). tone: brand (фиолетовая .f-brand-card с молниями) | light. pct + etaLabel — кольцо-таймер; onOpen — вся карточка ссылка; cta+onCta — кнопка действия. Анимации: поток по текущему участку, пульс точки, блик, дрейф молний (отключаются при prefers-reduced-motion).</p></div>
   <div style="max-width:640px"><dc-import name="FritoOrderProgress" tone="brand" size="sm" caption="Заказ №4821 · доставка" title="Готовим ваш заказ" eta="32" eta-unit="мин" steps="{{ kitSteps4 }}" cta="Отследить" on-open="{{ noop }}" hint-size="100%,88px"></dc-import></div>
   <span style="font-size:12px;color:#9CA3AF;font-family:ui-monospace,monospace">progress · sm · brand — главная, кабинет</span>
-  <div style="max-width:640px"><dc-import name="FritoOrderProgress" size="lg" tone="light" pct="{{ 0.38 }}" caption="Заказ №4821 · доставка · 14:12" title="Готовим ваш заказ" eta="28" eta-unit="мин" eta-label="Привезём через" eta-note="примерно к 14:57" steps="{{ kitSteps5 }}" hint-size="100%,260px"></dc-import></div>
-  <span style="font-size:12px;color:#9CA3AF;font-family:ui-monospace,monospace">progress · lg · light · ring — страница заказа, активный</span>
-  <div style="max-width:640px"><dc-import name="FritoOrderProgress" size="lg" tone="light" caption="Заказ №4793 · доставка · 14:12" title="Заказ доставлен" sub="В 14:57 · приятного аппетита!" steps="{{ kitSteps5done }}" cta="Повторить заказ" on-cta="{{ noop }}" hint-size="100%,220px"></dc-import></div>
-  <span style="font-size:12px;color:#9CA3AF;font-family:ui-monospace,monospace">progress · lg · light · done + cta</span>
+  <div style="max-width:640px"><dc-import name="FritoOrderProgress" size="lg" tone="brand" pct="{{ 0.38 }}" caption="Заказ №4821 · доставка · 14:12" title="Готовим ваш заказ" eta="28" eta-unit="мин" eta-label="Привезём через" eta-note="примерно к 14:57" steps="{{ kitSteps5 }}" hint-size="100%,260px"></dc-import></div>
+  <span style="font-size:12px;color:#9CA3AF;font-family:ui-monospace,monospace">progress · lg · brand · ring — страница заказа, активный (фиолетовый для всех обычных состояний)</span>
+  <div style="max-width:640px"><dc-import name="FritoOrderProgress" size="lg" tone="brand" caption="Заказ №4793 · доставка · 14:12" title="Заказ доставлен" sub="В 14:57 · приятного аппетита!" steps="{{ kitSteps5done }}" cta="Повторить заказ" on-cta="{{ noop }}" hint-size="100%,220px"></dc-import></div>
+  <span style="font-size:12px;color:#9CA3AF;font-family:ui-monospace,monospace">progress · lg · brand · done + cta (миниатюры состава — thumbs)</span>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;max-width:1300px">
+    <dc-import name="FritoOrderProgress" size="lg" tone="light" alert="pay" caption="Заказ №4821 · доставка · 14:12" title="Оплата не прошла" sub="Kaspi отклонил платёж. Заказ сохранили — оплатите в течение 15 минут, и мы сразу начнём готовить." steps="{{ kitStepsPay }}" cta="Оплатить снова" on-cta="{{ noop }}" cta2="Другой способ" on-cta2="{{ noop }}" hint-size="100%,260px"></dc-import>
+    <dc-import name="FritoOrderProgress" size="lg" tone="light" alert="cancel" caption="Заказ №4821 · доставка · 14:12" title="Заказ отменён" sub="Деньги вернутся на карту Kaspi в течение 1–3 рабочих дней." steps="{{ kitStepsCancel }}" cta="Повторить заказ" on-cta="{{ noop }}" hint-size="100%,260px"></dc-import>
+  </div>
+  <span style="font-size:12px;color:#9CA3AF;font-family:ui-monospace,monospace">progress · lg · light · alert="pay" (Kaspi + cta2) / alert="cancel" · шаг fail</span>
 </section>
 
 <section style="background:#fff;border-radius:24px;padding:28px 32px;display:flex;flex-direction:column;gap:16px">
   <div><h2 style="margin:0 0 4px;font-size:20px;font-weight:700">Оценка · FritoRating</h2><p style="margin:0;font-size:13px;color:#6B7280;line-height:1.5">Звёзды → готовые теги (4–5: «Что понравилось?», 1–3: «Что пошло не так?») → отзыв до 500 символов → «Спасибо». Хранит оценку по orderNo (общая для кабинета и страницы заказа). closable — для окна в кабинете.</p></div>
-  <div style="max-width:560px"><dc-import name="FritoRating" title="Как вам заказ?" hint-size="100%,240px"></dc-import></div>
-  <span style="font-size:12px;color:#9CA3AF;font-family:ui-monospace,monospace">rating · brand-card</span>
+  <div style="display:flex;gap:16px;flex-wrap:wrap;align-items:flex-start"><div style="width:560px"><dc-import name="FritoRating" title="Как вам заказ?" hint-size="100%,240px"></dc-import></div><div style="width:560px"><dc-import name="FritoRating" tone="light" stars="{{ 5 }}" hint-size="100%,420px"></dc-import></div><div style="width:420px"><dc-import name="FritoRating" tone="light" compact="{{ true }}" closable="{{ true }}" on-close="{{ noop }}" hint-size="100%,240px"></dc-import></div></div>
+  <span style="font-size:12px;color:#9CA3AF;font-family:ui-monospace,monospace">rating · brand / light (страница заказа, выбраны звёзды → теги и отзыв) / light compact closable (окно в кабинете)</span>
 </section>
 
 <section style="background:#fff;border-radius:24px;padding:28px 32px;display:flex;flex-direction:column;gap:16px">
@@ -358,7 +358,7 @@ input,textarea,button{outline:none}
 </section>
 
 <section style="background:#fff;border-radius:24px;padding:28px 32px;display:flex;flex-direction:column;gap:16px">
-  <div><h2 style="margin:0 0 4px;font-size:20px;font-weight:700">Боковое меню · FritoDrawer</h2><p style="margin:0;font-size:13px;color:#6B7280;line-height:1.5">Аккаунт (вход / «Личный кабинет»), способ получения (.f-addr-btn), разделы, «Связаться с нами» (WhatsApp, Instagram, TikTok — без звонков).</p></div>
+  <div><h2 style="margin:0 0 4px;font-size:20px;font-weight:700">Боковое меню · FritoDrawer</h2><p style="margin:0;font-size:13px;color:#6B7280;line-height:1.5">Аккаунт (вход / «Личный кабинет»), способ получения (.f-addr-btn), разделы, «Связаться с нами» (WhatsApp, Instagram, TikTok — без звонков), переключатель языка «Рус | Қаз» в шапке меню.</p></div>
   <div style="display:flex;gap:16px;flex-wrap:wrap"><div style="position:relative;width:360px;height:720px;display:flex;flex-direction:column;border:1px solid #ECECF1;border-radius:20px;overflow:hidden"><dc-import name="FritoDrawer" compact="{{ true }}" mode="delivery" address="ул. Алматы, 4" eta="35–45 мин" hint-size="100%,100%"></dc-import></div>
   <div style="position:relative;width:360px;height:720px;display:flex;flex-direction:column;border:1px solid #ECECF1;border-radius:20px;overflow:hidden"><dc-import name="FritoDrawer" compact="{{ true }}" user="{{ kitUser }}" mode="" hint-size="100%,100%"></dc-import></div></div>
   <span style="font-size:12px;color:#9CA3AF;font-family:ui-monospace,monospace">drawer · гость / вошёл</span>
@@ -383,7 +383,7 @@ input,textarea,button{outline:none}
   <h2 style="margin:0;font-size:20px;font-weight:700">Иконки · assets/</h2>
   <div style="display:flex;gap:16px;flex-wrap:wrap">
     <sc-for list="{{ icons }}" as="i" hint-placeholder-count="10">
-      <div style="display:flex;flex-direction:column;align-items:center;gap:8px;width:110px"><span style="width:56px;height:56px;border-radius:16px;background:{{ i.bg }};display:flex;align-items:center;justify-content:center"><img src="assets/{{ i.file }}" alt="" style="width:24px;height:24px;object-fit:contain"></span><span style="font-size:11px;font-family:ui-monospace,monospace;color:#6B7280;text-align:center">{{ i.file }}</span></div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:8px;width:110px"><span style="width:56px;height:56px;border-radius:16px;background:{{ i.bg }};display:flex;align-items:center;justify-content:center"><img data-src="assets/{{ i.file }}" alt="" style="width:24px;height:24px;object-fit:contain"></span><span style="font-size:11px;font-family:ui-monospace,monospace;color:#6B7280;text-align:center">{{ i.file }}</span></div>
     </sc-for>
   </div>
   <p style="margin:0;font-size:12px;color:#6B7280">Суффикс -p = primary (#614BE2), -w = white. Иконки 20–24px в кругах 36/40/44/48. Изображения: bag-frito.png, story-*.png, фото товаров с CDN.</p>
@@ -392,6 +392,7 @@ input,textarea,button{outline:none}
 </div>
 </x-dc>
 <script type="text/x-dc" data-dc-script>
+const IMGS = 'https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/frito-co/96814/images/items/';
 class Component extends DCLogic {
   state = { qty: 2, tog: true, chk: true, phone: '+7 708 261 63 92', flat: '157' };
   renderVals() {
@@ -401,9 +402,19 @@ class Component extends DCLogic {
       kitSteps4: [{ label: 'Принят', state: 'done' }, { label: 'Готовим', state: 'cur' }, { label: 'В пути', state: 'todo' }, { label: 'Доставлен', state: 'todo' }],
       kitSteps5: [{ label: 'Принят', state: 'done' }, { label: 'Оплачен', state: 'done' }, { label: 'Готовим', state: 'cur' }, { label: 'В пути', state: 'todo' }, { label: 'Доставлен', state: 'todo' }],
       kitSteps5done: [['Принят', '14:12'], ['Оплачен', '14:12'], ['Готовим', '14:17'], ['В пути', '14:32'], ['Доставлен', '14:57']].map(([label, time]) => ({ label, time, state: 'done' })),
+      kitStepsPay: [{ label: 'Принят', state: 'done' }, { label: 'Не оплачен', state: 'fail' }, { label: 'Готовим', state: 'todo' }, { label: 'В пути', state: 'todo' }, { label: 'Доставлен', state: 'todo' }],
+      kitStepsCancel: [{ label: 'Принят', time: '14:12', state: 'done' }, { label: 'Отменён', time: '14:12', state: 'fail' }],
       kitPick: [{ id: 'a', name: 'Соус Frito 50 мл', desc: 'Авторский кисло-сладкий', priceLabel: '250 тг.', img: '', qty: 1, add: () => {}, dec: () => {} }, { id: 'b', name: 'Соус сырный', desc: 'Кремовая текстура', priceLabel: '200 тг.', img: '', qty: 0, add: () => {}, dec: () => {} }],
       kitUser: { via: 'whatsapp', phone: '+7 (701) 234-56-78' },
       nullMode: null,
+      kitProd: { name: 'Сальса бокс', desc: 'Сальса бургер, стрипсы (3 шт.), фри, напиток 0,5 л и фирменный соус Frito', img: IMGS + '0a86b5cc0389ecd9f3e219c2ef8795b7.JPEG', hasImg: true, priceLabel: '4 090 тг.', notInCart: true, add: () => {}, open: () => {} },
+      kitProdIn: { name: 'Классический бокс', desc: 'Классический бургер, стрипсы (3 шт.), фри, соус Frito', img: IMGS + 'd7ce2a28a1ab08cc33564ee0d8b718fb.JPEG', hasImg: true, priceLabel: '3 890 тг.', inCart: true, qty: s.qty || 1, inc: () => this.setState({ qty: s.qty + 1 }), dec: () => this.setState({ qty: Math.max(1, s.qty - 1) }) },
+      kitProdSold: { name: 'Делюкс бокс', desc: 'Делюкс бургер, стрипсы (3 шт.), фри и соус Frito', img: IMGS + '19be7ebeecd85f0a68328d493dcfca2e.JPEG', hasImg: true, imgFilter: 'grayscale(1)', priceLabel: '4 190 тг.', soldOut: true },
+      kitDrinks: [['Coca-Cola', 'b33fdd1975cc96cbfe2a3ac2edd7c7de.JPEG', 1], ['Fanta', '53cdae8ffbd7544bed6861a6ac547b06.PNG'], ['Sprite', 'eb4bcd36a03b7997d533e3d97c75c9e3.JPEG'], ['Fuse-tea', '8eaf98fe05df54aadb3431e0cb49f88f.WEBP'], ['Bonaqua', '']].map(([name, f, on]) => ({ name, img: f ? IMGS + f : '', noImg: !f, cls: 'f-mtile' + (on ? ' is-on' : '') })),
+      kitLine: { name: 'Сальса бокс', mods: 'Неострый · Coca-Cola 0,5 л · Соус Frito 50 мл', lineLabel: '4 340 тг.', qty: 1, img: IMGS + '0a86b5cc0389ecd9f3e219c2ef8795b7.JPEG', hasImg: true, imgFilter: 'none', ok: true, editable: true, inc: () => {}, dec: () => {}, edit: () => {}, remove: () => {} },
+      kitLineSold: { name: 'Делюкс бокс', mods: 'Закончился', lineLabel: '4 190 тг.', qty: 1, img: IMGS + '19be7ebeecd85f0a68328d493dcfca2e.JPEG', hasImg: true, imgFilter: 'grayscale(1)', nameColor: 'var(--ink-3)', soldOut: true, remove: () => {} },
+      kitOrderLine: { name: 'Сальса бокс', mods: 'Неострый · Coca-Cola 0,5 л', hasMods: true, qtyLabel: '2 × 4 090 тг.', total: '8 180 тг.', img: IMGS + '0a86b5cc0389ecd9f3e219c2ef8795b7.JPEG', imgFilter: 'none', ok: true },
+      kitUpsell: [['Напитки', 'b33fdd1975cc96cbfe2a3ac2edd7c7de.JPEG'], ['Соусы', '282f8bcb4c887eb6af2532576864ae15.PNG'], ['Снэки', '1e47ef85ba6a0da2d9728620a354db44.JPEG']].map(([short, f]) => ({ short, img: IMGS + f })),
       colors: [
         { name: 'primary', hex: '#614BE2', use: 'CTA, активные состояния, ссылки' },
         { name: 'primary-hover', hex: '#503BCB', use: 'hover primary-кнопок' },
@@ -425,6 +436,9 @@ class Component extends DCLogic {
         { name: 'success', hex: '#16A34A', use: 'ETA, промокод применён, бесплатная доставка' },
         { name: 'danger', hex: '#EF4444', use: 'бэдж счётчика, hover «Очистить», ошибка' },
         { name: 'kaspi', hex: '#F14635', use: 'иконка и CTA Kaspi' },
+        { name: 'whatsapp', hex: '#1DAA55', use: 'кнопка «Написать в WhatsApp», вход через WhatsApp' },
+        { name: 'telegram', hex: '#229ED9', use: 'вход через Telegram-бота' },
+        { name: 'warn', hex: '#F59E0B', use: 'предупреждения (+ warn-bg #FEF3C7, warn-ink #92400E)' },
         { name: 'neutral-300', hex: '#D1D5DB', use: 'toggle off, radio/checkbox off border' },
         { name: 'canvas', hex: '#E9E8F0', use: 'фон канваса макетов (не продукт)' },
       ],

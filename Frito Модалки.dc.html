@@ -3,6 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="./frito.css">
+<script src="./frito.js"></script>
 <script src="./support.js"></script>
 </head>
 <body>
@@ -23,7 +25,7 @@ button{outline:none}
   <div style="display:flex;flex-direction:column;gap:8px;max-width:900px">
     <div style="font-size:13px;font-weight:600;color:#6B7280;letter-spacing:.04em">FRITO · МОДАЛКИ</div>
     <h1 style="margin:0;font-size:36px;font-weight:800;letter-spacing:-.02em">Модалки и шторки</h1>
-    <p style="margin:0;font-size:15px;color:#6B7280;line-height:1.5">Компоненты: <b>FritoProductModal</b> (товар с модификаторами), <b>FritoMethodModal</b> (способ получения), <b>FritoVacancyModal</b> (вакансия), <b>FritoCloseButton</b>, <b>FritoOption</b> (строка radio/checkbox). Общее: оверлей rgba(17,24,39,.45), r32 (sheet — только сверху), закрытие по оверлею, крестику и Esc. У модалок один prop <code>layout</code>: <code>center</code> — диалог по центру (desktop), <code>sheet</code> — шторка снизу (mobile). Компонент заполняет родителя с position:relative и рисует свой оверлей. Последнее действие: <b>{{ last }}</b></p>
+    <p style="margin:0;font-size:15px;color:#6B7280;line-height:1.5">Компоненты: <b>FritoProductModal</b> (товар с модификаторами), <b>FritoAddressModal</b> (способ получения и адрес), <b>FritoAuthModal</b> (вход), <b>FritoVacancyModal</b> (вакансия), <b>FritoCloseButton</b>, <b>FritoOption</b> (строка radio/checkbox). Общее: оверлей rgba(17,24,39,.45), r32 (sheet — только сверху), закрытие по оверлею, крестику и Esc. У модалок один prop <code>layout</code>: <code>center</code> — диалог по центру (desktop), <code>sheet</code> — шторка снизу (mobile). Компонент заполняет родителя с position:relative и рисует свой оверлей. Последнее действие: <b>{{ last }}</b></p>
   </div>
 
   <div style="display:flex;flex-direction:column;gap:14px">
@@ -100,20 +102,27 @@ button{outline:none}
         <dc-import name="FritoProductModal" layout="sheet" mode="edit" qty="{{ 2 }}" product="{{ editBox }}" on-add="{{ onAdd }}" on-close="{{ onClose }}" style="position:absolute;inset:0" hint-size="100%,100%"></dc-import>
       </section>
     </div>
-    <div style="display:flex;flex-direction:column;gap:14px;width:390px">
-      <div style="font-size:13px;font-weight:600;color:#6B7280;letter-spacing:.04em">MOBILE · FritoMethodModal · sheet</div>
-      <section data-screen-label="Method mobile" style="width:390px;height:844px;background:#F7F7F9;border-radius:44px;overflow:hidden;position:relative;box-shadow:0 30px 80px -30px rgba(50,30,140,.25)">
-        <dc-import name="FritoMethodModal" layout="sheet" pending="{{ true }}" on-choose="{{ onChoose }}" on-close="{{ onClose }}" style="position:absolute;inset:0" hint-size="100%,100%"></dc-import>
-      </section>
-    </div>
   </div>
 
   <div style="display:flex;gap:40px;align-items:flex-start">
-    <div style="display:flex;flex-direction:column;gap:14px">
-      <div style="font-size:13px;font-weight:600;color:#6B7280;letter-spacing:.04em">DESKTOP · FritoMethodModal · center</div>
-      <section data-screen-label="Method desktop" style="width:960px;height:600px;background:#F7F7F9;border-radius:20px;overflow:hidden;position:relative;box-shadow:0 30px 80px -30px rgba(50,30,140,.25)">
-        <dc-import name="FritoMethodModal" layout="center" on-choose="{{ onChoose }}" on-close="{{ onClose }}" style="position:absolute;inset:0" hint-size="100%,100%"></dc-import>
-      </section>
+    <div style="display:flex;flex-direction:column;gap:24px">
+      <div><h2 style="margin:0 0 4px;font-size:20px;font-weight:700">FritoAuthModal</h2><p style="margin:0;font-size:13px;color:#6B7280;line-height:1.45;max-width:900px">Вход: WhatsApp / Telegram / SMS → телефон → код (4 цифры, 3 попытки, «Новый код через 0:59» в кнопке) → «Готово». Telegram: на desktop QR на бота + «Открыть Telegram на компьютере», в боте «Поделиться номером» — вход завершается сам. Демо: код 0000 — неверный.</p></div>
+      <div style="display:flex;gap:24px;flex-wrap:wrap;align-items:flex-start">
+      <div style="display:flex;flex-direction:column;gap:14px"><div style="font-size:13px;font-weight:600;color:#6B7280;letter-spacing:.04em">DESKTOP · выбор</div>
+      <section data-screen-label="Auth choose center" style="width:720px;height:640px;background:#F7F7F9;border-radius:20px;overflow:hidden;position:relative;box-shadow:0 30px 80px -30px rgba(50,30,140,.25)"><dc-import name="FritoAuthModal" layout="center" step="choose" on-close="{{ onClose }}" style="position:absolute;inset:0" hint-size="100%,100%"></dc-import></section></div>
+      <div style="display:flex;flex-direction:column;gap:14px"><div style="font-size:13px;font-weight:600;color:#6B7280;letter-spacing:.04em">DESKTOP · Telegram QR</div>
+      <section data-screen-label="Auth tg center" style="width:720px;height:640px;background:#F7F7F9;border-radius:20px;overflow:hidden;position:relative;box-shadow:0 30px 80px -30px rgba(50,30,140,.25)"><dc-import name="FritoAuthModal" layout="center" step="tg" on-close="{{ onClose }}" style="position:absolute;inset:0" hint-size="100%,100%"></dc-import></section></div>
+      </div>
+      <div style="display:flex;gap:24px;flex-wrap:wrap;align-items:flex-start">
+      <div style="display:flex;flex-direction:column;gap:14px"><div style="font-size:13px;font-weight:600;color:#6B7280;letter-spacing:.04em">MOBILE · телефон</div>
+      <section data-screen-label="Auth phone sheet" style="width:390px;height:844px;background:#F7F7F9;border-radius:44px;overflow:hidden;position:relative;box-shadow:0 30px 80px -30px rgba(50,30,140,.25)"><dc-import name="FritoAuthModal" layout="sheet" step="phone" on-close="{{ onClose }}" style="position:absolute;inset:0" hint-size="100%,100%"></dc-import></section></div>
+      <div style="display:flex;flex-direction:column;gap:14px"><div style="font-size:13px;font-weight:600;color:#6B7280;letter-spacing:.04em">MOBILE · код</div>
+      <section data-screen-label="Auth code sheet" style="width:390px;height:844px;background:#F7F7F9;border-radius:44px;overflow:hidden;position:relative;box-shadow:0 30px 80px -30px rgba(50,30,140,.25)"><dc-import name="FritoAuthModal" layout="sheet" step="code" on-close="{{ onClose }}" style="position:absolute;inset:0" hint-size="100%,100%"></dc-import></section></div>
+      <div style="display:flex;flex-direction:column;gap:14px"><div style="font-size:13px;font-weight:600;color:#6B7280;letter-spacing:.04em">MOBILE · неверный код</div>
+      <section data-screen-label="Auth wrong sheet" style="width:390px;height:844px;background:#F7F7F9;border-radius:44px;overflow:hidden;position:relative;box-shadow:0 30px 80px -30px rgba(50,30,140,.25)"><dc-import name="FritoAuthModal" layout="sheet" step="wrong" on-close="{{ onClose }}" style="position:absolute;inset:0" hint-size="100%,100%"></dc-import></section></div>
+      <div style="display:flex;flex-direction:column;gap:14px"><div style="font-size:13px;font-weight:600;color:#6B7280;letter-spacing:.04em">MOBILE · Telegram</div>
+      <section data-screen-label="Auth tg sheet" style="width:390px;height:844px;background:#F7F7F9;border-radius:44px;overflow:hidden;position:relative;box-shadow:0 30px 80px -30px rgba(50,30,140,.25)"><dc-import name="FritoAuthModal" layout="sheet" step="tg" on-close="{{ onClose }}" style="position:absolute;inset:0" hint-size="100%,100%"></dc-import></section></div>
+      </div>
     </div>
     <div style="display:flex;flex-direction:column;gap:40px">
     <section style="width:640px;background:#fff;border-radius:24px;padding:28px 32px;display:flex;flex-direction:column;gap:16px">
