@@ -57,19 +57,25 @@ button{outline:none}
   <main class="vc-main">
 
     <!-- HERO -->
-    <section class="vc-hero">
+    <section class="vc-hero f-brand-card">
+      <div class="vc-hero__photo"><img src="assets/team/team-hero.webp" alt="Команда Frito в фирменной форме" class="f-cover-img" fetchpriority="high"></div>
       <div class="vc-hero__card">
         <div class="vc-hero__text">
           <span class="vc-hero__eyebrow">РАБОТА В FRITO · АСТАНА</span>
           <h1 class="vc-hero__title">Настоящий chicken power начинается с команды</h1>
           <p class="vc-hero__lead">Frito — динамично развивающаяся сеть ресторанов быстрого питания. Фирменная жареная курочка по авторским рецептурам, {{ storeCount }} ресторанов в Астане и открытые вакансии в каждом.</p>
         </div>
+        <ul class="vc-hero__facts">
+          <li><b>{{ storeCount }}</b> ресторанов</li>
+          <li><b>{{ total }}</b> вакансий</li>
+          <li><b>{{ minSalary }}</b> зарплата от</li>
+          <li><b>5 дней</b> обучение</li>
+        </ul>
         <div class="vc-hero__actions">
           <a href="#vacancies" onClick="{{ toVacancies }}" class="vc-hero__cta">Смотреть вакансии<span class="vc-hero__count">{{ total }}</span></a>
           <a href="apply.dc.html" class="vc-hero__cta2">Заполнить анкету</a>
         </div>
       </div>
-      <div class="vc-hero__photo"><img src="assets/team/team-hero.webp" alt="Команда Frito в фирменной форме" class="f-cover-img" fetchpriority="high"></div>
     </section>
 
     <!-- VALUES + BENEFITS -->
@@ -135,7 +141,7 @@ button{outline:none}
           </label>
           <div class="vc-shifts">
             <sc-for list="{{ shiftChips }}" as="sh" hint-placeholder-count="5">
-              <button type="button" onClick="{{ sh.pick }}" style="height:44px;padding:0 16px;border:0;border-radius:999px;background:{{ sh.bg }};color:{{ sh.color }};font:inherit;font-size:14px;font-weight:600;cursor:pointer;transition:all .15s" style-hover="background:{{ sh.hover }}">{{ sh.label }}</button>
+              <button type="button" onClick="{{ sh.pick }}" class="{{ sh.cls }}" aria-pressed="{{ sh.on }}">{{ sh.label }}</button>
             </sc-for>
           </div>
         </div>
@@ -155,6 +161,7 @@ button{outline:none}
               <span class="vc-tag">{{ v.hours }}</span>
               <span class="vc-tag">{{ v.branchLabel }}</span>
             </div>
+            <span class="vc-card__more">Подробнее<span class="vc-card__arrow" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></span>
           </button>
         </sc-for>
       </div>
@@ -197,7 +204,7 @@ button{outline:none}
       <div class="vc-map">
         <div class="vc-map__list">
           <sc-for list="{{ stores }}" as="st" hint-placeholder-count="5">
-            <a href="{{ st.gis }}" target="_blank" rel="noopener" onMouseEnter="{{ st.focus }}" style="text-align:left;background:{{ st.bg }};border:1px solid {{ st.border }};border-radius:16px;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;gap:10px;color:var(--ink)" style-hover="border-color:#B7ACF3;color:var(--ink)">
+            <a href="{{ st.gis }}" target="_blank" rel="noopener" onMouseEnter="{{ st.focus }}" style="text-align:left;background:{{ st.bg }};border:1px solid {{ st.border }};border-radius:16px;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;gap:10px;color:var(--ink)" style-hover="border-color:var(--primary-300);color:var(--ink)">
               <span class="vc-map__item"><span class="vc-map__name">{{ st.name }}</span><span class="vc-map__hours">{{ st.hours }}</span></span>
               <span class="vc-map__link">2ГИС →</span>
             </a>
@@ -259,13 +266,13 @@ class Component extends DCLogic {
     const list = all.filter(v => (!s.city || v.city === s.city) && (!s.shift || v.shift === s.shift));
     const n = list.length;
     const countLabel = d ? (n ? `${n} ${n === 1 ? 'открытая вакансия' : n < 5 ? 'открытые вакансии' : 'открытых вакансий'}` : 'Ничего не найдено') : '';
-    const chip = (label, val) => { const on = s.shift === val; return { label, pick: () => this.setState({ shift: val }), bg: on ? 'var(--primary)' : '#fff', color: on ? '#fff' : 'var(--ink)', hover: on ? 'var(--primary-hover)' : 'var(--primary-100)' }; };
+    const chip = (label, val) => { const on = s.shift === val; return { label, on, cls: 'f-catchip f-catchip--sm vc-shift' + (on ? ' is-on' : ''), pick: () => this.setState({ shift: val }) }; };
     const mv = s.modal ? all.find(v => v.id === s.modal) : null;
     const seg = on => ({ bg: on ? '#fff' : 'transparent', color: on ? 'var(--ink)' : 'var(--ink-2)', shadow: on ? '0 1px 3px rgba(17,24,39,.12)' : 'none' });
     const L = seg(s.view === 'list'), M = seg(s.view === 'map');
     const mobile = (s.w || window.innerWidth) < 720;
     return {
-      storeCount: storesRaw.length || 5, total: all.length, benefits: BENEFITS, vacRef: this.vacRef,
+      storeCount: storesRaw.length || 5, total: all.length, minSalary: (all.map(v => +String(v.salary || '').replace(/\D/g, '')).filter(Boolean).sort((x, y) => x - y)[0] || 250000).toLocaleString('ru-RU').replace(/\s/g, '\u00a0') + '\u00a0₸', benefits: BENEFITS, vacRef: this.vacRef,
       toVacancies: e => { e.preventDefault(); const el = this.vacRef.current; if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' }); },
       cities, city: s.city, setCity: e => this.setState({ city: e.target.value }),
       shiftChips: [chip('Любая смена', ''), ...shifts.map(x => chip(x, x))],

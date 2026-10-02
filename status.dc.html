@@ -189,7 +189,7 @@ const ITEMS = [
   { name: 'Криспи бургер', mods: 'Острый', qty: 1, price: 2090, img: IMG + '9488ca37967b9a8724216d5cb8364d83.PNG' },
 ];
 const readJSON = k => { try { return JSON.parse(localStorage.getItem(k)); } catch (e) { return null; } };
-const money = n => String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ' ') + ' тг';
+const money = n => String(n).replace(/\B(?=(\d{3})+(?!\d))/g, '\u00a0') + '\u00a0₸';
 
 class Component extends DCLogic {
   // сценарий можно задать в адресе: status.dc.html?mode=pickup&stage=done&issue=delayed&demo=1
@@ -299,7 +299,7 @@ class Component extends DCLogic {
       ],
       placeIcon: pick ? 'assets/ic-pickup-p.svg' : 'assets/ic-pin-p.svg', placeCaption: pick ? 'Ресторан' : 'Адрес доставки',
       placeLine: pick ? 'Frito, Сыганак 11' : (v ? v.address : 'пр-кт Туран, 52/6'), placeSub: pick ? 'Ежедневно 11:30 – 02:00' : 'Астана · курьер позвонит у двери',
-      payStatus: issue === 'cancelled' ? 'Возврат' : paid ? 'Оплачено' : 'Не оплачено', payColor: issue === 'cancelled' ? 'var(--ink-2)' : paid ? 'var(--success)' : '#B91C1C', payBg: issue === 'cancelled' ? 'var(--surface-2)' : paid ? '#F0FDF4' : '#FEF2F2',
+      payStatus: issue === 'cancelled' ? 'Возврат' : paid ? 'Оплачено' : 'Не оплачено', payColor: issue === 'cancelled' ? 'var(--ink-2)' : paid ? 'var(--success)' : 'var(--danger-ink)', payBg: issue === 'cancelled' ? 'var(--surface-2)' : paid ? 'var(--success-50)' : 'var(--danger-50)',
     };
   }
 }

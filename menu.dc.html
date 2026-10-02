@@ -59,7 +59,7 @@
 <helmet>
 <style>
 @keyframes story-fill{from{width:0}to{width:100%}}
-body{margin:0;background:#E9E8F0;}
+body{margin:0;background:var(--surface-1);}
 a{color:var(--primary);text-decoration:none}a:hover{color:var(--primary-dark)}
 *{box-sizing:border-box}
 ::-webkit-scrollbar{width:0;height:0}
@@ -273,8 +273,8 @@ input:focus-visible,textarea:focus-visible{outline:none}
           <p class="mn-m-cart__empty-text">Начните с бокса — в нём бургер, стрипсы, фри и напиток.</p>
           <sc-if value="{{ noMethod }}" hint-placeholder-val="{{ true }}">
             <div class="mn-m-cart__empty-actions">
-              <button onClick="{{ pickDeliveryM }}" class="mn-m-chip-btn" style-active="background:#E4E0FA"><img src="assets/ic-delivery-p.svg" alt="" class="mn-icon-20">Доставка</button>
-              <button onClick="{{ pickPickupM }}" class="mn-m-chip-btn" style-active="background:#E4E0FA"><img src="assets/ic-pickup-p.svg" alt="" class="mn-icon-20">Самовывоз</button>
+              <button onClick="{{ pickDeliveryM }}" class="mn-m-chip-btn" style-active="background:var(--primary-100)"><img src="assets/ic-delivery-p.svg" alt="" class="mn-icon-20">Доставка</button>
+              <button onClick="{{ pickPickupM }}" class="mn-m-chip-btn" style-active="background:var(--primary-100)"><img src="assets/ic-pickup-p.svg" alt="" class="mn-icon-20">Самовывоз</button>
             </div>
           </sc-if>
         </div>
@@ -393,7 +393,7 @@ input:focus-visible,textarea:focus-visible{outline:none}
 <h2>Соусы</h2><ul><li><strong>Соус Frito 50 мл</strong> — Авторский кисло-сладкий фирменный соус — 250 ₸</li><li><strong>Соус сырный</strong> — Насыщенный сырный вкус, кремовая текстура — 200 ₸</li><li><strong>Соус кетчуп</strong> — Классический сладко-острый кетчуп — 200 ₸</li></ul>
 <p><a href="delivery.dc.html">Доставка и оплата</a> · <a href="vacancies.dc.html">Вакансии</a> · <a href="franchise.dc.html">Франшиза</a> · <a href="offer.dc.html">Оферта</a> · <a href="privacy.dc.html">Конфиденциальность</a></p>
 </noscript>
-<script type="text/x-dc" data-dc-script data-props="{&quot;startWithMethod&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Сценарий&quot;},&quot;desktopState&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;auto&quot;,&quot;options&quot;:[&quot;auto&quot;,&quot;filled&quot;],&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Сценарий&quot;},&quot;soldOut&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;none&quot;,&quot;options&quot;:[&quot;none&quot;,&quot;fritos-combo&quot;,&quot;salsa-box&quot;,&quot;crispy&quot;,&quot;cola&quot;],&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Сценарий&quot;},&quot;footerStoresMax&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:8,&quot;min&quot;:1,&quot;max&quot;:30,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Футер&quot;},&quot;freeDeliveryFrom&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:8000,&quot;min&quot;:0,&quot;max&quot;:20000,&quot;step&quot;:500,&quot;unit&quot;:&quot;тг&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Доставка&quot;},&quot;deliveryFee&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:1000,&quot;min&quot;:0,&quot;max&quot;:3000,&quot;step&quot;:50,&quot;unit&quot;:&quot;тг&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Доставка&quot;}}">
+<script type="text/x-dc" data-dc-script data-props="{&quot;startWithMethod&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Сценарий&quot;},&quot;desktopState&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;auto&quot;,&quot;options&quot;:[&quot;auto&quot;,&quot;filled&quot;],&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Сценарий&quot;},&quot;soldOut&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;none&quot;,&quot;options&quot;:[&quot;none&quot;,&quot;fritos-combo&quot;,&quot;salsa-box&quot;,&quot;crispy&quot;,&quot;cola&quot;],&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Сценарий&quot;},&quot;footerStoresMax&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:8,&quot;min&quot;:1,&quot;max&quot;:30,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Футер&quot;},&quot;freeDeliveryFrom&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:8000,&quot;min&quot;:0,&quot;max&quot;:20000,&quot;step&quot;:500,&quot;unit&quot;:&quot;₸&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Доставка&quot;},&quot;deliveryFee&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:1000,&quot;min&quot;:0,&quot;max&quot;:3000,&quot;step&quot;:50,&quot;unit&quot;:&quot;₸&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Доставка&quot;}}">
 const IMG = 'https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/frito-co/96814/images/items/';
 const CATS = [
   { name: 'Боксы', items: [
@@ -456,7 +456,7 @@ CATS.forEach(c => c.items.forEach(it => { BY_ID[it[0]] = { id: it[0], name: it[1
 // аналитика (analytics.js): товар → { id, name, price, qty, category }
 const fa = (name, p) => window.FritoAnalytics && window.FritoAnalytics.track(name, p);
 const anItem = (id, qty, price) => ({ id, name: BY_ID[id].name, price: price ?? BY_ID[id].price, qty, category: BY_ID[id].cat });
-const fmt = n => String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, ' ') + ' тг.';
+const fmt = n => String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, '\u00a0') + '\u00a0₸';
 const plural = n => n + ' ' + (n % 10 === 1 && n % 100 !== 11 ? 'товар' : n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 10 || n % 100 >= 20) ? 'товара' : 'товаров');
 const DEMO = { 'salsa-box': 1, 'fritos-combo': 1, 'crispy': 1 };
 // «Добавить к заказу?»: плитка = категория (обложка — первый товар), по клику — список товаров категории

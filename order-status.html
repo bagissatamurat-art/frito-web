@@ -54,7 +54,7 @@ h1{margin:6px 0 0;font-size:clamp(28px,6vw,34px);font-weight:800;letter-spacing:
 .txt{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
 .txt b{font-size:16px;font-weight:700}
 .txt span{font-size:13px;color:var(--ink-2);line-height:1.35}
-.chev{color:#C4C4CF;flex-shrink:0}
+.chev{color:var(--neutral-300);flex-shrink:0}
 </style>
 </head>
 <body>
@@ -110,7 +110,7 @@ const STAGES = {
 };
 const ISSUES = [
   ['delayed', 'cooking', 'Задерживается', 'Заказ готовится дольше обычного', 'var(--warn)', '#FEF3C7'],
-  ['paymentFailed', 'paid', 'Оплата не прошла', 'Предложим повторить оплату', 'var(--danger)', '#FEE2E2'],
+  ['paymentFailed', 'paid', 'Оплата не прошла', 'Предложим повторить оплату', 'var(--danger)', 'var(--danger-100)'],
   ['cancelled', 'accepted', 'Заказ отменён', 'Экран отмены и возврата', 'var(--ink-2)', 'var(--surface-2)'],
 ];
 const chev = '<svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>';

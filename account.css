@@ -68,7 +68,7 @@
 .ac-addr__line{font-size:15px;font-weight:700;overflow-wrap:anywhere}
 .ac-addr__actions{flex-shrink:0;display:flex;align-items:center;gap:4px}
 .ac-addr__del{display:flex;align-items:center;justify-content:center;width:var(--h-sm);height:var(--h-sm);border:0;border-radius:50%;background:transparent;color:var(--ink-3);cursor:pointer;transition:background-color .15s,color .15s}
-.ac-addr__del:hover{background:#FEF2F2;color:var(--danger)}
+.ac-addr__del:hover{background:var(--danger-50);color:var(--danger)}
 .ac-add{gap:8px}
 .ac-add .f-plus{width:14px;height:14px}
 
@@ -113,10 +113,10 @@
 .ac-rate__note{font-size:12px;font-weight:500;color:var(--ink-3)}
 .ac-stars{display:flex;gap:2px}
 .ac-star{display:flex;align-items:center;justify-content:center;width:32px;height:32px;padding:0;border:0;border-radius:50%;background:transparent;color:var(--neutral-300);cursor:pointer;transition:color .12s,transform .12s}
-.ac-star:hover:not(:disabled),.ac-stars:hover .ac-star:not(:disabled){color:#F5B301}
+.ac-star:hover:not(:disabled),.ac-stars:hover .ac-star:not(:disabled){color:var(--primary)}
 .ac-stars .ac-star:hover ~ .ac-star:not(:disabled){color:var(--neutral-300)}
 .ac-star:active:not(:disabled){transform:scale(.9)}
-.ac-star.is-on{color:#F5B301}
+.ac-star.is-on{color:var(--primary)}
 .ac-star.is-done{cursor:default;width:24px}
 .ac-star.is-done svg{width:18px;height:18px}
 

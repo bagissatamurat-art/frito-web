@@ -19,7 +19,7 @@
 .st-help__body{display:flex;flex-direction:column;gap:1px;flex:1;min-width:0}
 .st-strong-15{font-size:15px;font-weight:600}
 .st-cancel-btn{height:var(--h-md);border:0;border-radius:var(--r-pill);background:transparent;color:var(--danger);font:inherit;font-size:15px;font-weight:600;cursor:pointer}
-.st-cancel-btn:hover{background:#FEF2F2}
+.st-cancel-btn:hover{background:var(--danger-50)}
 .st-card-sm{background:#fff;border-radius:var(--r-xl);padding:clamp(18px,3vw,24px);display:flex;flex-direction:column;gap:14px}
 .st-items__toggle{display:flex;align-items:center;justify-content:space-between;gap:12px;border:0;background:transparent;padding:0;font:inherit;color:var(--ink);cursor:pointer;text-align:left}
 .st-items__titles{display:flex;flex-direction:column;gap:2px}
