@@ -311,7 +311,7 @@ class Component extends DCLogic {
   confirmAddr(r) {
     const pickup = r.mode === 'pickup';
     this.setState(s => ({ addrModal: null, city: r.city || s.city, from: r.from || null, mode: r.mode, modeTouched: true, addr: pickup ? s.addr : r.address, store: pickup ? (r.store || { name: r.address }) : s.store,
-      pay: !pickup && s.pay === 'cash' ? 'kaspi' : s.pay }));
+      pay: s.pay === 'cash' ? 'kaspi' : s.pay }));
     try { localStorage.setItem('frito_method', JSON.stringify({ mode: r.mode, address: r.address, hours: r.store && r.store.hours, city: r.city, from: r.from })); } catch (e) {}
   }
   set(k) { return v => this.setState({ [k]: v }); }
@@ -337,7 +337,6 @@ class Component extends DCLogic {
     const payments = [
       { id: 'kaspi', title: 'Kaspi', sub: 'Счёт в приложении', icon: 'assets/ic-kaspi-w.svg', iconBg: 'var(--kaspi)' },
       { id: 'card', title: 'Картой онлайн', sub: 'Visa · Mastercard', icon: 'assets/ic-card-p.svg', iconBg: 'var(--primary-100)' },
-      ...(isDelivery ? [] : [{ id: 'cash', title: 'На кассе', sub: 'Наличные или карта', icon: 'assets/ic-pickup-p.svg', iconBg: '#ECFDF3' }]),
     ].map(pm => { const on = s.pay === pm.id; return { ...pm, pick: () => { if (window.FritoAnalytics) window.FritoAnalytics.track('add_payment_info', { payment_type: pm.id, items: anItems, value: total }); this.setState({ pay: pm.id }); }, on }; });
     const isLater = s.when === 'later';
     const slots = SLOTS.map((label, i) => ({ label, pick: () => this.setState({ slot: i }), cls: 'f-chip-btn' + (s.slot === i ? ' is-on' : '') }));

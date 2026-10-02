@@ -1119,7 +1119,7 @@ html.i18n-wait body{visibility:hidden}
 .f-display,.f-page-title,.vc-hero__title,.co-d__title,.co-m__h1,.ac-title,.ac-guest__title,
 .mn-cat__title,.vc-h2,.vc-why__title,.f-modal__title,.f-stock__title,.in-done__title,.ap-done__title,.st-confirm__title,
 .f-rate__title,.in-body h2,.in-facts__title,.in-form__title{font-family:var(--font-display);font-weight:800;letter-spacing:-.02em}
-.f-page-title,.vc-hero__title,.co-d__title,.co-m__h1,.ac-guest__title{color:var(--primary)}
+.f-page-title,.co-d__title,.co-m__h1,.ac-guest__title{color:var(--primary)}
 .f-subdisplay{font-family:var(--font-display);font-weight:600;letter-spacing:-.01em}
 
 /* ===== Фирменная графика (гайдлайн, раздел «Графика»; исходники — assets/brand/) =====

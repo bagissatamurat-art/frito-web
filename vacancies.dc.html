@@ -69,7 +69,7 @@ button{outline:none}
           <a href="apply.dc.html" class="vc-hero__cta2">Заполнить анкету</a>
         </div>
       </div>
-      <div class="vc-hero__photo"><img src="assets/hero-staff-3.jpg" alt="Сотрудник Frito в форме" class="f-cover-img"></div>
+      <div class="vc-hero__photo"><img src="assets/team/team-hero.webp" alt="Команда Frito в фирменной форме" class="f-cover-img" fetchpriority="high"></div>
     </section>
 
     <!-- VALUES + BENEFITS -->
@@ -83,13 +83,15 @@ button{outline:none}
           <span class="vc-why__eyebrow">ЦЕННОСТЬ 01</span>
           <h3 class="vc-why__title">Качество</h3>
           <p class="vc-why__text">Мы всегда стремимся к качеству во всём: в продукции, в жизни, в людях. Для нас качество — не разовая акция, а стабильный стандарт.</p>
+          <img class="vc-why__cut" src="assets/team/staff-box.webp" alt="" loading="lazy" decoding="async">
         </div>
         <div class="vc-why__card f-brand-card">
           <span class="vc-why__eyebrow">ЦЕННОСТЬ 02</span>
           <h3 class="vc-why__title">Команда</h3>
           <p class="vc-why__text">Мы любим и ценим каждого сотрудника. Обучаем с нуля, растим внутри сети и отмечаем результат.</p>
+          <img class="vc-why__cut vc-why__cut--duo" src="assets/team/staff-duo.webp" alt="" loading="lazy" decoding="async">
         </div>
-        <div class="vc-why__photo"><img src="assets/photo-uniform.jpg" alt="Форма команды Frito" class="f-cover-img"></div>
+        <div class="vc-why__photo"><img src="assets/team/team-4.webp" alt="Сотрудница Frito в фирменной футболке" class="f-cover-img" loading="lazy" decoding="async"></div>
       </div>
       <div class="vc-steps">
         <sc-for list="{{ benefits }}" as="b" hint-placeholder-count="6">
@@ -99,6 +101,20 @@ button{outline:none}
             <span class="vc-step__text">{{ b.text }}</span>
           </div>
         </sc-for>
+      </div>
+    </section>
+
+    <!-- КОМАНДА: фото сотрудников -->
+    <section class="vc-block">
+      <div class="vc-block__head">
+        <h2 class="vc-h2">Команда Frito</h2>
+        <p class="vc-lead">Фирменная форма выдаётся бесплатно — футболка, кепка и всё для смены.</p>
+      </div>
+      <div class="vc-gallery">
+        <figure class="vc-gallery__item"><img src="assets/team/team-1.webp" alt="Сотрудница Frito в фирменной футболке" class="f-cover-img" loading="lazy" decoding="async"></figure>
+        <figure class="vc-gallery__item"><img src="assets/team/team-2.webp" alt="Сотрудницы Frito в фирменных футболках" class="f-cover-img" loading="lazy" decoding="async"></figure>
+        <figure class="vc-gallery__item"><img src="assets/team/team-3.webp" alt="Сотрудница Frito с фирменным пакетом" class="f-cover-img" loading="lazy" decoding="async"></figure>
+        <figure class="vc-gallery__item vc-gallery__item--brand f-brand-card"><img src="assets/team/staff-bag.webp" alt="Сотрудница Frito с фирменным пакетом" class="vc-gallery__cut" loading="lazy" decoding="async"></figure>
       </div>
     </section>
 
