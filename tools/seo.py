@@ -195,7 +195,7 @@ open('sitemap.xml', 'w', encoding='utf-8').write(
     '</urlset>\n')
 open('robots.txt', 'w', encoding='utf-8').write(
     '# Работает только в корне домена (на github.io/frito-web/ — нет; после переезда на свой домен — да)\n'
-    'User-agent: *\nDisallow: /tools/\nDisallow: /account.dc.html\nDisallow: /checkout.dc.html\n\n'
+    'User-agent: *\nDisallow: /tools/\nDisallow: /docs/\nDisallow: /account.dc.html\nDisallow: /checkout.dc.html\n\n'
     f'Sitemap: {BASE}sitemap.xml\n')
 open('site.webmanifest', 'w', encoding='utf-8').write(json.dumps({
     'name': 'Frito — доставка курочки и бургеров', 'short_name': 'Frito', 'lang': 'ru',

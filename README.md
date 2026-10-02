@@ -1,20 +1,30 @@
-# Frito — веб-прототип
+# Frito — фронтенд сайта (frito.kz)
 
-Статический сайт, сборка не нужна. `index.html` → `menu.dc.html`.
-Экран сам подстраивается: ≥1024px — ПК-версия, меньше — мобильная.
+Новый фронт сайта доставки Frito: меню, корзина, оформление, статус заказа, личный кабинет, вакансии,
+страницы партнёров и документы. Дизайн по гайдлайну Frito (белый / фиолетовый #614BE2 / чёрный), русский и казахский.
 
-## Флоу
-menu → (способ получения, корзина) → checkout → оплатить → status
-vacancies → apply
+Сейчас это **статический сайт без бэкенда**: данные — демо, «сервер» имитируется в браузере (localStorage).
+Задача следующего этапа — подключить его к существующему бэкенду и БД и выложить на frito.kz.
 
-## Публикация
+- Демо: https://bagissatamurat-art.github.io/frito-web/
+- UI Kit: `Frito UI Kit.dc.html` · все модалки: `Frito Модалки.dc.html`
+
+## Быстрый старт
+
+Сборки нет. Нужен любой статический сервер (из-за `fetch` компонентов `file://` не работает):
+
 ```bash
-git init && git add . && git commit -m "Frito web"
-git branch -M main
-git remote add origin https://github.com/<you>/frito-web.git
-git push -u origin main
+cd frito-site
+python3 -m http.server 8765
+# открыть http://localhost:8765/menu.dc.html
 ```
-Settings → Pages → Source: `main` / root.
 
-Файлы `Frito *.dc.html` — дизайн-холсты (ПК + мобайл рядом), на сайт не влияют.
-Ключи Mapbox и DaData API ограничьте по домену `*.github.io`.
+## Документация для разработчика
+
+| Файл | Что внутри |
+|---|---|
+| [docs/HANDOFF.md](docs/HANDOFF.md) | **Начать отсюда.** Как устроен фронт, страницы, компоненты, стили, план объединения с бэком |
+| [docs/BACKEND.md](docs/BACKEND.md) | Все места с демо-данными и что их заменяет; черновик API с форматами данных |
+| [docs/LAUNCH.md](docs/LAUNCH.md) | Чек-лист переезда на frito.kz: домен, SEO, аналитика, ключи, юр. реквизиты |
+| [docs/AUDIT.md](docs/AUDIT.md) | Результаты проверки перед передачей: SEO, скорость, дизайн, казахский, известные проблемы |
+| [AGENTS.md](AGENTS.md) | Правила для ИИ-ассистента (Claude Code, Cursor и т. п.) при работе с этим кодом |

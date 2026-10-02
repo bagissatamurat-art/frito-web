@@ -1,6 +1,7 @@
 # Работает только в корне домена (на github.io/frito-web/ — нет; после переезда на свой домен — да)
 User-agent: *
 Disallow: /tools/
+Disallow: /docs/
 Disallow: /account.dc.html
 Disallow: /checkout.dc.html
 
