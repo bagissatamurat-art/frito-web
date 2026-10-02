@@ -189,7 +189,7 @@ const ITEMS = [
   { name: 'Криспи бургер', mods: 'Острый', qty: 1, price: 2090, img: IMG + '9488ca37967b9a8724216d5cb8364d83.PNG' },
 ];
 const readJSON = k => { try { return JSON.parse(localStorage.getItem(k)); } catch (e) { return null; } };
-const money = n => String(n).replace(/\B(?=(\d{3})+(?!\d))/g, '\u00a0') + '\u00a0₸';
+const money = n => String(n).replace(/\B(?=(\d{3})+(?!\d))/g, '\u00a0') + '\u00a0тг';
 
 class Component extends DCLogic {
   // сценарий можно задать в адресе: status.dc.html?mode=pickup&stage=done&issue=delayed&demo=1

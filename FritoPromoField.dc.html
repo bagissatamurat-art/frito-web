@@ -29,11 +29,11 @@
 </div>
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;: {&quot;width&quot;: 420, &quot;height&quot;: 120}, &quot;code&quot;: {&quot;editor&quot;: &quot;text&quot;, &quot;default&quot;: &quot;&quot;, &quot;tsType&quot;: &quot;string&quot;}, &quot;desc&quot;: {&quot;editor&quot;: &quot;text&quot;, &quot;default&quot;: &quot;−10% на первый заказ&quot;, &quot;tsType&quot;: &quot;string&quot;}, &quot;subtotal&quot;: {&quot;editor&quot;: &quot;int&quot;, &quot;default&quot;: 0, &quot;tsType&quot;: &quot;number&quot;}, &quot;compact&quot;: {&quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: false, &quot;tsType&quot;: &quot;boolean&quot;}, &quot;onApply&quot;: {&quot;editor&quot;: null, &quot;default&quot;: null, &quot;tsType&quot;: &quot;(code: string) =&gt; void&quot;}, &quot;onRemove&quot;: {&quot;editor&quot;: null, &quot;default&quot;: null, &quot;tsType&quot;: &quot;() =&gt; void&quot;}}">
-// Демо-проверка: NEW10 — применяется, OLD20 — истёк, BIG15 — от 10 000 ₸, остальное — не найден
+// Демо-проверка: NEW10 — применяется, OLD20 — истёк, BIG15 — от 10 000 тг, остальное — не найден
 const check = (code, subtotal) => {
   if (code === 'NEW10') return null;
   if (code === 'OLD20') return 'Срок действия промокода истёк';
-  if (code === 'BIG15') return subtotal >= 10000 ? null : 'Промокод действует для заказов от 10 000 ₸';
+  if (code === 'BIG15') return subtotal >= 10000 ? null : 'Промокод действует для заказов от 10 000 тг';
   return 'Промокод не найден — проверьте написание';
 };
 class Component extends DCLogic {
