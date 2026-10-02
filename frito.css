@@ -589,7 +589,7 @@ img.f-option__icon{object-fit:contain}
 .f-upsell--compact .f-upsell__price{font-size:12px}
 
 /* Карточка товара */
-.f-pcard{display:flex;flex-direction:column;gap:10px;padding:14px;background:#fff;border:1px solid var(--border);border-radius:var(--r-xl);transition:box-shadow .2s}
+.f-pcard{container-type:inline-size;display:flex;flex-direction:column;gap:10px;padding:14px;background:#fff;border:1px solid var(--border);border-radius:var(--r-xl);transition:box-shadow .2s}
 .f-pcard:hover{box-shadow:var(--shadow-card-hover)}
 .f-pcard__media{position:relative;display:flex;align-items:center;justify-content:center;aspect-ratio:1/1;border-radius:18px;background:var(--surface-2);overflow:hidden;cursor:pointer}
 .f-pcard__noimg{font-family:ui-monospace,monospace;font-size:11px;color:var(--ink-3)}
@@ -1105,3 +1105,14 @@ html.i18n-wait body{visibility:hidden}
 .f-lang__btn.is-on{background:var(--surface-0);color:var(--ink);box-shadow:var(--shadow-xs)}
 .f-nav__label{white-space:nowrap;min-width:max-content}
 .f-nav__item .f-badge{white-space:nowrap}
+/* узкая карточка на ПК — как мобильная: цена на кнопке во всю ширину (пока цена и «В корзину» не помещаются в строку) */
+.f-pcard__add-price{display:none}
+@container (max-width:249px){
+  .f-pcard__foot{display:block;padding:0 2px}
+  .f-pcard__foot .f-pcard__price{display:none}
+  .f-pcard__foot .f-pcard__add{width:100%;font-weight:700}
+  .f-pcard__foot .f-pcard__add-label{display:none}
+  .f-pcard__foot .f-pcard__add-price{display:inline}
+  .f-pcard__foot .sc-host,.f-pcard__foot .f-stepper{width:100% !important}
+  .f-pcard__foot .f-pcard__soldout{width:100%}
+}
