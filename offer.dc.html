@@ -6,7 +6,7 @@
 <title>Публичная оферта · Frito</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Montserrat:wght@600;800&display=swap" rel="stylesheet">
 <!-- компоненты первого экрана: грузим параллельно, без цепочки -->
 <link rel="preload" href="FritoHeader.dc.html" as="fetch" crossorigin="anonymous">
 <link rel="preload" href="FritoFooter.dc.html" as="fetch" crossorigin="anonymous">
@@ -136,7 +136,7 @@ input,select,button{outline:none}
         <h2>11. Личный кабинет</h2>
         <p>11.1. Вход в Личный кабинет выполняется по номеру телефона и одноразовому коду, направляемому через WhatsApp, Telegram или SMS. Действия, совершённые после входа, считаются совершёнными Покупателем.</p>
         <p>11.2. Покупатель обязан не передавать коды третьим лицам. При подозрении на несанкционированный доступ Покупатель сообщает об этом Продавцу.</p>
-        <p>11.3. Покупатель может в любой момент выйти из Личного кабинета и попросить удалить аккаунт, написав на <a href="mailto:info@frito.kz">info@frito.kz</a>.</p>
+        <p>11.3. Покупатель может в любой момент выйти из Личного кабинета и попросить удалить аккаунт, написав на <a href="{{ c.mailUrl }}">{{ c.email }}</a>.</p>
       </section>
       <section id="data">
         <h2>12. Персональные данные</h2>
@@ -144,7 +144,7 @@ input,select,button{outline:none}
       </section>
       <section id="claims">
         <h2>13. Претензии и споры</h2>
-        <p>13.1. Претензии принимаются через WhatsApp <a href="https://wa.me/77009380000" target="_blank" rel="noopener">+7 700 938 00 00</a> или по электронной почте <a href="mailto:info@frito.kz">info@frito.kz</a>. Срок рассмотрения — не более 10 календарных дней с момента получения.</p>
+        <p>13.1. Претензии принимаются через WhatsApp <a href="{{ c.waUrl }}" target="_blank" rel="noopener">{{ c.phone }}</a> или по электронной почте <a href="{{ c.mailUrl }}">{{ c.email }}</a>. Срок рассмотрения — не более 10 календарных дней с момента получения.</p>
         <p>13.2. Споры разрешаются путём переговоров. При недостижении согласия спор передаётся в суд по месту нахождения Продавца, если иное не предусмотрено законодательством о защите прав потребителей.</p>
       </section>
       <section id="final">
@@ -159,8 +159,8 @@ input,select,button{outline:none}
           <li>БИН: [БИН]</li>
           <li>Юридический адрес: [юридический адрес]</li>
           <li>Банковские реквизиты: [—]</li>
-          <li>Электронная почта: <a href="mailto:info@frito.kz">info@frito.kz</a></li>
-          <li>WhatsApp: <a href="https://wa.me/77009380000" target="_blank" rel="noopener">+7 700 938 00 00</a></li>
+          <li>Электронная почта: <a href="{{ c.mailUrl }}">{{ c.email }}</a></li>
+          <li>WhatsApp: <a href="{{ c.waUrl }}" target="_blank" rel="noopener">{{ c.phone }}</a></li>
         </ul>
       </section>
         <p class="in-muted">Редакция от [дата]. ТОО «[наименование]», БИН [БИН].</p>
@@ -172,7 +172,8 @@ input,select,button{outline:none}
 </div>
 </x-dc>
 <script type="text/x-dc" data-dc-script>
-class Component extends DCLogic {}
+// контакты — из window.FritoContacts (frito.js): {{ c.phone }}, {{ c.waUrl }}, {{ c.email }}…
+class Component extends DCLogic { renderVals() { return { c: window.FritoContacts || {} }; } }
 </script>
 </body>
 </html>

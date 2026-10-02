@@ -159,7 +159,8 @@
 // Прототип без сервера: код не отправляется. Демо: 0000 — неверный код, любой другой — верный.
 const RESEND = 60, TRIES = 3, WRONG = '0000';
 // Telegram: бот просит поделиться номером и сам подтверждает вход. Имя бота — заменить на реальное.
-const BOT = 'https://t.me/FritoKzBot?start=login', TG_DEMO_PHONE = '+7 (777) 123-45-67';
+// ссылка на бота — из общих контактов (FritoContacts в frito.js)
+const BOT = (window.FritoContacts || {}).tgLogin || '', TG_DEMO_PHONE = '+7 (777) 123-45-67';
 class Component extends DCLogic {
   // step — только для превью в «Frito Модалки»: choose | phone | code | wrong | tg | ok
   state = (() => { const st = this.props.step || 'choose', code = st === 'code' || st === 'wrong';

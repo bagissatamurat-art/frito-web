@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Montserrat:wght@600;800&display=swap" rel="stylesheet">
 <link rel="preconnect" href="https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru" crossorigin>
 <link rel="preconnect" href="https://frito.kz">
 <!-- компоненты первого экрана: грузим параллельно, без цепочки -->
@@ -431,7 +431,7 @@ const OUT_MS = 200;
 const EASE = 'cubic-bezier(.2,.8,.2,1)';
 const STORIES = [
   // имена файлов перепутаны в исходниках: story-stores.png — переписка WhatsApp, story-whatsapp.png — рестораны
-  { img: 'assets/story-stores.png', alt: 'Заказ через WhatsApp', cta: 'Написать в WhatsApp', href: 'https://wa.me/77009380000' },
+  { img: 'assets/story-stores.png', alt: 'Заказ через WhatsApp', cta: 'Написать в WhatsApp', href: (window.FritoContacts || {}).waUrl },
   { img: 'assets/story-new10.png', alt: 'NEW10 −10% в первый месяц работы сайта', cta: 'Заказать со скидкой' },
   { img: 'assets/story-whatsapp.png', alt: 'Рестораны и часы работы', cta: 'Выбрать ресторан', action: 'pickup' },
 ];

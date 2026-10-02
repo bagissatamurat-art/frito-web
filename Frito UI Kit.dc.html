@@ -12,7 +12,7 @@
 <helmet>
 <meta name="design_doc_mode" content="canvas">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Montserrat:wght@600;800&display=swap" rel="stylesheet">
 <style>
 body{margin:0;background:#E9E8F0;}
 a{color:#614BE2;text-decoration:none}a:hover{color:#4A36C4}
@@ -20,7 +20,7 @@ a{color:#614BE2;text-decoration:none}a:hover{color:#4A36C4}
 input,textarea,button{outline:none}
 </style>
 </helmet>
-<div style="padding:56px;font-family:Inter,system-ui,sans-serif;color:#111827;display:flex;flex-direction:column;gap:40px;width:1560px">
+<div style="padding:56px;font-family:Inter,system-ui,sans-serif;color:#0E0E10;display:flex;flex-direction:column;gap:40px;width:1560px">
 
 <div style="display:flex;flex-direction:column;gap:8px">
   <div style="font-size:13px;font-weight:600;color:#6B7280;letter-spacing:.04em">FRITO · UI KIT · v1</div>
@@ -30,7 +30,7 @@ input,textarea,button{outline:none}
 
 <!-- COLORS -->
 <section style="background:#fff;border-radius:24px;padding:28px 32px;display:flex;flex-direction:column;gap:20px">
-  <h2 style="margin:0;font-size:20px;font-weight:700">Цвета</h2>
+  <div><h2 style="margin:0 0 4px;font-size:20px;font-weight:700">Цвета</h2><p style="margin:0;font-size:13px;color:#6B7280;line-height:1.5;max-width:900px">По гайдлайну палитра бренда — три цвета: <b>белый, фиолетовый #614BE2, чёрный</b>; белый и фиолетовый в равных пропорциях, новые цвета не вводим. Разнообразие — через фиолетовые блоки, белую графику (молнии, частицы), крупные заголовки Transforma и фото. Оттенки primary — служебные для интерфейса. Зелёный, красный, жёлтый — только состояния; цвета сервисов — только на их кнопках.</p></div>
   <div style="display:grid;grid-template-columns:repeat(6,150px);gap:12px">
     <sc-for list="{{ colors }}" as="c" hint-placeholder-count="18">
       <div style="display:flex;flex-direction:column;gap:8px">
@@ -45,12 +45,12 @@ input,textarea,button{outline:none}
 
 <!-- TYPE -->
 <section style="background:#fff;border-radius:24px;padding:28px 32px;display:flex;flex-direction:column;gap:20px">
-  <h2 style="margin:0;font-size:20px;font-weight:700">Типографика · Inter</h2>
+  <div><h2 style="margin:0 0 4px;font-size:20px;font-weight:700">Типографика · Transforma + Inter</h2><p style="margin:0;font-size:13px;color:#6B7280;line-height:1.5;max-width:900px">Гайдлайн: заголовки — Transforma Extra Bold, подзаголовки — Transforma SemiBold, набор — Inter Regular / Bold. Заголовок первого уровня на белом — всегда фиолетовый. Контраст уровней высокий (x · x/2 · x/4 · x/5). Transforma — платный шрифт: пока нет файлов лицензии, в стеке --font-display стоит замена Montserrat (800/600); добавьте @font-face Transforma — и он подхватится везде. Классы: .f-display, .f-subdisplay, .f-page-title.</p></div>
   <div style="display:flex;flex-direction:column">
     <sc-for list="{{ type }}" as="t" hint-placeholder-count="10">
       <div style="display:grid;grid-template-columns:190px 1fr 240px;gap:24px;align-items:baseline;padding:12px 0;border-bottom:1px solid #F1F1F4">
         <span style="font-size:12px;font-weight:600;font-family:ui-monospace,monospace;color:#614BE2">{{ t.token }}</span>
-        <span style="font-size:{{ t.size }};font-weight:{{ t.weight }};line-height:{{ t.lh }};letter-spacing:{{ t.ls }}">{{ t.sample }}</span>
+        <span style="font-family:{{ t.ff }};color:{{ t.color }};font-size:{{ t.size }};font-weight:{{ t.weight }};line-height:{{ t.lh }};letter-spacing:{{ t.ls }}">{{ t.sample }}</span>
         <span style="font-size:12px;color:#6B7280;font-family:ui-monospace,monospace">{{ t.spec }}</span>
       </div>
     </sc-for>
@@ -109,10 +109,10 @@ input,textarea,button{outline:none}
     <button style="display:flex;align-items:center;gap:8px;border:0;background:#EFEDFC;color:#614BE2;border-radius:999px;height:44px;padding:0 18px 0 12px;font:inherit;font-size:14px;font-weight:600;cursor:pointer"><img src="assets/ic-delivery-p.svg" alt="" style="width:20px;height:20px;object-fit:contain">Доставка</button>
 
     <span style="font-size:13px;font-weight:600">ghost · sm</span>
-    <button style="border:0;cursor:pointer;font:inherit;background:#F3F4F6;color:#111827;border-radius:999px;height:40px;padding:0 16px;font-size:13px;font-weight:600" style-hover="background:#E5E7EB">Изменить</button>
-    <button style="border:0;cursor:pointer;font:inherit;background:#E5E7EB;color:#111827;border-radius:999px;height:40px;padding:0 16px;font-size:13px;font-weight:600">Изменить</button>
+    <button style="border:0;cursor:pointer;font:inherit;background:#F3F4F6;color:#0E0E10;border-radius:999px;height:40px;padding:0 16px;font-size:13px;font-weight:600" style-hover="background:#E5E7EB">Изменить</button>
+    <button style="border:0;cursor:pointer;font:inherit;background:#E5E7EB;color:#0E0E10;border-radius:999px;height:40px;padding:0 16px;font-size:13px;font-weight:600">Изменить</button>
     <button style="border:0;cursor:not-allowed;font:inherit;background:#F3F4F6;color:#9CA3AF;border-radius:999px;height:40px;padding:0 16px;font-size:13px;font-weight:600">Изменить</button>
-    <a href="#" style="display:inline-flex;align-items:center;gap:8px;color:#111827;font-size:15px;font-weight:600;background:#F3F4F6;border-radius:999px;height:40px;padding:0 18px 0 14px"><span style="font-size:18px;line-height:1">‹</span>В меню</a>
+    <a href="#" style="display:inline-flex;align-items:center;gap:8px;color:#0E0E10;font-size:15px;font-weight:600;background:#F3F4F6;border-radius:999px;height:40px;padding:0 18px 0 14px"><span style="font-size:18px;line-height:1">‹</span>В меню</a>
 
     <span style="font-size:13px;font-weight:600">kaspi · брендовая</span>
     <button aria-label="Оплатить с Kaspi.kz" style="border:0;cursor:pointer;background:transparent;padding:0;display:block;line-height:0;width:100%" style-hover="opacity:.92"><img src="assets/btn-kaspi-pay.svg" alt="Оплатить с Kaspi.kz" style="width:100%;height:auto;display:block"></button>
@@ -123,20 +123,20 @@ input,textarea,button{outline:none}
     <button style="border:0;background:transparent;font:inherit;font-size:13px;font-weight:500;color:#6B7280;cursor:pointer" style-hover="color:#EF4444">Очистить</button>
     <button style="border:0;background:transparent;font:inherit;font-size:13px;font-weight:500;color:#EF4444;cursor:pointer">Очистить</button>
     <a href="#" style="font-size:13px;font-weight:600">Изменить состав заказа</a>
-    <a href="#" style="font-size:13px;font-weight:600;color:#A899FF;background:#1B1740;padding:6px 10px;border-radius:8px">Все адреса на карте →</a>
+    <a href="#" style="font-size:13px;font-weight:600;color:#A899FF;background:#000000;padding:6px 10px;border-radius:8px">Все адреса на карте →</a>
 
     <span style="font-size:13px;font-weight:600">icon</span>
     <div style="display:flex;gap:10px;align-items:center">
-      <button style="border:0;background:#F3F4F6;border-radius:50%;width:48px;height:48px;display:flex;align-items:center;justify-content:center;line-height:1;padding:0;font:inherit;font-size:22px;color:#111827;cursor:pointer" style-hover="background:#E5E7EB"><span aria-hidden="true" style="position:relative;width:16px;height:16px;display:block"><span style="position:absolute;left:0;top:50%;width:100%;height:2px;margin-top:-1px;background:currentColor;border-radius:1px;transform:rotate(45deg)"></span><span style="position:absolute;left:0;top:50%;width:100%;height:2px;margin-top:-1px;background:currentColor;border-radius:1px;transform:rotate(-45deg)"></span></span></button>
-      <button style="border:0;background:#F3F4F6;border-radius:50%;width:44px;height:44px;display:flex;align-items:center;justify-content:center;line-height:1;padding:0;font:inherit;font-size:20px;color:#111827;cursor:pointer"><span aria-hidden="true" style="position:relative;width:16px;height:16px;display:block"><span style="position:absolute;left:0;top:50%;width:100%;height:2px;margin-top:-1px;background:currentColor;border-radius:1px;transform:rotate(45deg)"></span><span style="position:absolute;left:0;top:50%;width:100%;height:2px;margin-top:-1px;background:currentColor;border-radius:1px;transform:rotate(-45deg)"></span></span></button>
-      <button style="border:0;background:#F3F4F6;border-radius:50%;width:40px;height:40px;display:flex;align-items:center;justify-content:center;line-height:1;padding:0;font:inherit;font-size:20px;color:#111827;cursor:pointer"><span aria-hidden="true" style="position:relative;width:14px;height:14px;display:block"><span style="position:absolute;left:0;top:50%;width:100%;height:2px;margin-top:-1px;background:currentColor;border-radius:1px;transform:rotate(45deg)"></span><span style="position:absolute;left:0;top:50%;width:100%;height:2px;margin-top:-1px;background:currentColor;border-radius:1px;transform:rotate(-45deg)"></span></span></button>
-      <button style="border:0;background:#F3F4F6;border-radius:50%;width:36px;height:36px;display:flex;align-items:center;justify-content:center;line-height:1;padding:0;font:inherit;font-size:18px;color:#111827;cursor:pointer"><span aria-hidden="true" style="position:relative;width:14px;height:14px;display:block"><span style="position:absolute;left:0;top:50%;width:100%;height:2px;margin-top:-1px;background:currentColor;border-radius:1px;transform:rotate(45deg)"></span><span style="position:absolute;left:0;top:50%;width:100%;height:2px;margin-top:-1px;background:currentColor;border-radius:1px;transform:rotate(-45deg)"></span></span></button>
+      <button style="border:0;background:#F3F4F6;border-radius:50%;width:48px;height:48px;display:flex;align-items:center;justify-content:center;line-height:1;padding:0;font:inherit;font-size:22px;color:#0E0E10;cursor:pointer" style-hover="background:#E5E7EB"><span aria-hidden="true" style="position:relative;width:16px;height:16px;display:block"><span style="position:absolute;left:0;top:50%;width:100%;height:2px;margin-top:-1px;background:currentColor;border-radius:1px;transform:rotate(45deg)"></span><span style="position:absolute;left:0;top:50%;width:100%;height:2px;margin-top:-1px;background:currentColor;border-radius:1px;transform:rotate(-45deg)"></span></span></button>
+      <button style="border:0;background:#F3F4F6;border-radius:50%;width:44px;height:44px;display:flex;align-items:center;justify-content:center;line-height:1;padding:0;font:inherit;font-size:20px;color:#0E0E10;cursor:pointer"><span aria-hidden="true" style="position:relative;width:16px;height:16px;display:block"><span style="position:absolute;left:0;top:50%;width:100%;height:2px;margin-top:-1px;background:currentColor;border-radius:1px;transform:rotate(45deg)"></span><span style="position:absolute;left:0;top:50%;width:100%;height:2px;margin-top:-1px;background:currentColor;border-radius:1px;transform:rotate(-45deg)"></span></span></button>
+      <button style="border:0;background:#F3F4F6;border-radius:50%;width:40px;height:40px;display:flex;align-items:center;justify-content:center;line-height:1;padding:0;font:inherit;font-size:20px;color:#0E0E10;cursor:pointer"><span aria-hidden="true" style="position:relative;width:14px;height:14px;display:block"><span style="position:absolute;left:0;top:50%;width:100%;height:2px;margin-top:-1px;background:currentColor;border-radius:1px;transform:rotate(45deg)"></span><span style="position:absolute;left:0;top:50%;width:100%;height:2px;margin-top:-1px;background:currentColor;border-radius:1px;transform:rotate(-45deg)"></span></span></button>
+      <button style="border:0;background:#F3F4F6;border-radius:50%;width:36px;height:36px;display:flex;align-items:center;justify-content:center;line-height:1;padding:0;font:inherit;font-size:18px;color:#0E0E10;cursor:pointer"><span aria-hidden="true" style="position:relative;width:14px;height:14px;display:block"><span style="position:absolute;left:0;top:50%;width:100%;height:2px;margin-top:-1px;background:currentColor;border-radius:1px;transform:rotate(45deg)"></span><span style="position:absolute;left:0;top:50%;width:100%;height:2px;margin-top:-1px;background:currentColor;border-radius:1px;transform:rotate(-45deg)"></span></span></button>
     </div>
     <div style="display:flex;gap:10px;align-items:center">
-      <button aria-label="Меню" style="width:44px;height:44px;border:0;background:transparent;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;padding:0"><span style="width:20px;height:2.5px;border-radius:2px;background:#111827;display:block"></span><span style="width:20px;height:2.5px;border-radius:2px;background:#111827;display:block"></span><span style="width:20px;height:2.5px;border-radius:2px;background:#111827;display:block"></span></button>
-      <button aria-label="Удалить" style="border:0;background:transparent;color:#9CA3AF;font-size:20px;line-height:1;cursor:pointer;padding:0;width:32px;height:32px;display:flex;align-items:center;justify-content:center" style-hover="color:#111827">×</button>
+      <button aria-label="Меню" style="width:44px;height:44px;border:0;background:transparent;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;padding:0"><span style="width:20px;height:2.5px;border-radius:2px;background:#0E0E10;display:block"></span><span style="width:20px;height:2.5px;border-radius:2px;background:#0E0E10;display:block"></span><span style="width:20px;height:2.5px;border-radius:2px;background:#0E0E10;display:block"></span></button>
+      <button aria-label="Удалить" style="border:0;background:transparent;color:#9CA3AF;font-size:20px;line-height:1;cursor:pointer;padding:0;width:32px;height:32px;display:flex;align-items:center;justify-content:center" style-hover="color:#0E0E10">×</button>
     </div>
-    <div style="display:flex;gap:8px"><a href="#" aria-label="WhatsApp" style="width:44px;height:44px;border-radius:50%;background:#614BE2;display:flex;align-items:center;justify-content:center"><img src="assets/ic-whatsapp-w.svg" alt="" style="width:20px;height:20px"></a><a href="#" aria-label="Instagram" style="width:44px;height:44px;border-radius:50%;background:#1B1740;display:flex;align-items:center;justify-content:center"><img src="assets/ic-instagram-w.svg" alt="" style="width:20px;height:20px"></a></div>
+    <div style="display:flex;gap:8px"><a href="#" aria-label="WhatsApp" style="width:44px;height:44px;border-radius:50%;background:#614BE2;display:flex;align-items:center;justify-content:center"><img src="assets/ic-whatsapp-w.svg" alt="" style="width:20px;height:20px"></a><a href="#" aria-label="Instagram" style="width:44px;height:44px;border-radius:50%;background:#000000;display:flex;align-items:center;justify-content:center"><img src="assets/ic-instagram-w.svg" alt="" style="width:20px;height:20px"></a></div>
     <span style="font-size:12px;color:#9CA3AF;white-space:normal">48 модалка · 44 меню · 40 шторка mobile · 36 корзина mobile</span>
   </div>
 </section>
@@ -148,20 +148,20 @@ input,textarea,button{outline:none}
     <div style="display:flex;flex-direction:column;gap:14px">
       <div style="display:flex;gap:10px;flex-wrap:wrap">
         <button style="border:0;cursor:pointer;font:inherit;font-size:15px;font-weight:500;padding:12px 22px;border-radius:999px;background:#EFEDFC;color:#614BE2">Боксы</button>
-        <button style="border:0;cursor:pointer;font:inherit;font-size:15px;font-weight:500;padding:12px 22px;border-radius:999px;background:#F3F4F6;color:#111827" style-hover="background:#E5E7EB">Комбо</button>
-        <button style="border:0;cursor:pointer;font:inherit;font-size:15px;font-weight:500;padding:12px 22px;border-radius:999px;background:#F3F4F6;color:#111827">Бургеры</button>
+        <button style="border:0;cursor:pointer;font:inherit;font-size:15px;font-weight:500;padding:12px 22px;border-radius:999px;background:#F3F4F6;color:#0E0E10" style-hover="background:#E5E7EB">Комбо</button>
+        <button style="border:0;cursor:pointer;font:inherit;font-size:15px;font-weight:500;padding:12px 22px;border-radius:999px;background:#F3F4F6;color:#0E0E10">Бургеры</button>
         <span style="align-self:center;font-size:12px;color:#9CA3AF;font-family:ui-monospace,monospace">chip · tinted · active / default</span>
       </div>
       <div style="display:flex;gap:8px;flex-wrap:wrap">
         <button style="border:0;cursor:pointer;font:inherit;font-size:13px;font-weight:600;border-radius:999px;padding:9px 14px;background:#614BE2;color:#fff">12:30–13:00</button>
-        <button style="border:0;cursor:pointer;font:inherit;font-size:13px;font-weight:600;border-radius:999px;padding:9px 14px;background:#F3F4F6;color:#111827">13:00–13:30</button>
-        <button style="border:0;cursor:pointer;font:inherit;font-size:13px;font-weight:600;border-radius:999px;padding:9px 14px;background:#F3F4F6;color:#111827">13:30–14:00</button>
+        <button style="border:0;cursor:pointer;font:inherit;font-size:13px;font-weight:600;border-radius:999px;padding:9px 14px;background:#F3F4F6;color:#0E0E10">13:00–13:30</button>
+        <button style="border:0;cursor:pointer;font:inherit;font-size:13px;font-weight:600;border-radius:999px;padding:9px 14px;background:#F3F4F6;color:#0E0E10">13:30–14:00</button>
         <span style="align-self:center;font-size:12px;color:#9CA3AF;font-family:ui-monospace,monospace">chip · solid · selected / default</span>
       </div>
-      <div style="display:flex;gap:8px;flex-wrap:wrap;background:#1B1740;padding:12px;border-radius:14px">
+      <div style="display:flex;gap:8px;flex-wrap:wrap;background:#000000;padding:12px;border-radius:14px">
         <a href="#" style="display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.06);border-radius:999px;padding:8px 14px 8px 10px;color:#fff"><img src="assets/ic-pin-p.svg" alt="" style="width:14px;height:14px;filter:brightness(0) invert(1);opacity:.7"><span style="font-size:13px;font-weight:600">Сыганак 11</span><span style="font-size:12px;color:rgba(255,255,255,.5)">11:30 – 02:00</span></a>
         <a href="#" style="display:flex;align-items:center;background:rgba(168,153,255,.15);border-radius:999px;padding:8px 14px;color:#A899FF;font-size:13px;font-weight:600">ещё 3</a>
-        <span style="align-self:center;font-size:12px;color:rgba(255,255,255,.5);font-family:ui-monospace,monospace">chip · on-dark (футер)</span>
+        <span style="align-self:center;font-size:12px;color:rgba(255,255,255,.5);font-family:ui-monospace,monospace">chip · on-dark</span>
       </div>
     </div>
     <div><h2 style="margin:0 0 4px;font-size:20px;font-weight:700">Badge</h2></div>
@@ -228,13 +228,13 @@ input,textarea,button{outline:none}
   </div>
   <div><h3 style="margin:0 0 4px;font-size:16px;font-weight:700">PromoField · состояния</h3><p style="margin:0;font-size:13px;color:#6B7280">Ошибка: border 2px danger, фон #FEF2F2, сообщение 12/500 danger под полем. Сбрасывается при вводе. Enter = «Применить».</p></div>
   <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px 20px;align-items:start">
-    <div style="display:flex;flex-direction:column;gap:6px"><div style="display:flex;gap:8px"><div style="flex:1;position:relative;min-width:0"><input value="" placeholder="Промокод" style="width:100%;border:2px solid transparent;background:#F3F4F6;border-radius:999px;height:44px;padding:0 16px 0 16px;font:inherit;font-size:14px;color:#111827;text-transform:uppercase"></div><button style="border:0;background:#EFEDFC;color:#614BE2;border-radius:999px;height:44px;padding:0 18px;font:inherit;font-size:14px;font-weight:600;cursor:pointer" style-hover="background:#E4E0FA">Применить</button></div></div>
-    <div style="display:flex;flex-direction:column;gap:6px"><div style="display:flex;gap:8px"><div style="flex:1;position:relative;min-width:0"><input value="SUMMER" placeholder="Промокод" style="width:100%;border:2px solid transparent;background:#F3F4F6;border-radius:999px;height:44px;padding:0 44px 0 16px;font:inherit;font-size:14px;color:#111827;text-transform:uppercase"><button aria-label="Очистить" style="position:absolute;right:8px;top:8px;width:28px;height:28px;border:0;border-radius:50%;background:#E5E7EB;color:#6B7280;cursor:pointer;padding:0;display:flex;align-items:center;justify-content:center"><span aria-hidden="true" style="position:relative;width:10px;height:10px;display:block"><span style="position:absolute;left:0;top:50%;width:100%;height:2px;margin-top:-1px;background:currentColor;border-radius:1px;transform:rotate(45deg)"></span><span style="position:absolute;left:0;top:50%;width:100%;height:2px;margin-top:-1px;background:currentColor;border-radius:1px;transform:rotate(-45deg)"></span></span></button></div><button style="border:0;background:#EFEDFC;color:#614BE2;border-radius:999px;height:44px;padding:0 18px;font:inherit;font-size:14px;font-weight:600;cursor:pointer" style-hover="background:#E4E0FA">Применить</button></div></div>
+    <div style="display:flex;flex-direction:column;gap:6px"><div style="display:flex;gap:8px"><div style="flex:1;position:relative;min-width:0"><input value="" placeholder="Промокод" style="width:100%;border:2px solid transparent;background:#F3F4F6;border-radius:999px;height:44px;padding:0 16px 0 16px;font:inherit;font-size:14px;color:#0E0E10;text-transform:uppercase"></div><button style="border:0;background:#EFEDFC;color:#614BE2;border-radius:999px;height:44px;padding:0 18px;font:inherit;font-size:14px;font-weight:600;cursor:pointer" style-hover="background:#E4E0FA">Применить</button></div></div>
+    <div style="display:flex;flex-direction:column;gap:6px"><div style="display:flex;gap:8px"><div style="flex:1;position:relative;min-width:0"><input value="SUMMER" placeholder="Промокод" style="width:100%;border:2px solid transparent;background:#F3F4F6;border-radius:999px;height:44px;padding:0 44px 0 16px;font:inherit;font-size:14px;color:#0E0E10;text-transform:uppercase"><button aria-label="Очистить" style="position:absolute;right:8px;top:8px;width:28px;height:28px;border:0;border-radius:50%;background:#E5E7EB;color:#6B7280;cursor:pointer;padding:0;display:flex;align-items:center;justify-content:center"><span aria-hidden="true" style="position:relative;width:10px;height:10px;display:block"><span style="position:absolute;left:0;top:50%;width:100%;height:2px;margin-top:-1px;background:currentColor;border-radius:1px;transform:rotate(45deg)"></span><span style="position:absolute;left:0;top:50%;width:100%;height:2px;margin-top:-1px;background:currentColor;border-radius:1px;transform:rotate(-45deg)"></span></span></button></div><button style="border:0;background:#EFEDFC;color:#614BE2;border-radius:999px;height:44px;padding:0 18px;font:inherit;font-size:14px;font-weight:600;cursor:pointer" style-hover="background:#E4E0FA">Применить</button></div></div>
     <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;background:#EFEDFC;border-radius:14px;padding:10px 12px 10px 14px"><div style="display:flex;align-items:center;gap:10px"><span style="font-size:12px;font-weight:800;color:#614BE2;background:#fff;border-radius:8px;padding:4px 8px;letter-spacing:.04em">NEW10</span><span style="font-size:13px;color:#4A36C4;font-weight:600">−10% на первый заказ</span></div><button aria-label="Убрать промокод" style="border:0;background:transparent;color:#6B7280;cursor:pointer;padding:0;width:28px;height:28px;display:flex;align-items:center;justify-content:center;flex-shrink:0"><span aria-hidden="true" style="position:relative;width:12px;height:12px;display:block"><span style="position:absolute;left:0;top:50%;width:100%;height:2px;margin-top:-1px;background:currentColor;border-radius:1px;transform:rotate(45deg)"></span><span style="position:absolute;left:0;top:50%;width:100%;height:2px;margin-top:-1px;background:currentColor;border-radius:1px;transform:rotate(-45deg)"></span></span></button></div>
     <span style="font-size:12px;color:#9CA3AF;font-family:ui-monospace,monospace">empty</span><span style="font-size:12px;color:#9CA3AF;font-family:ui-monospace,monospace">typing (uppercase)</span><span style="font-size:12px;color:#9CA3AF;font-family:ui-monospace,monospace">applied</span>
-    <div style="display:flex;flex-direction:column;gap:6px"><div style="display:flex;gap:8px"><div style="flex:1;position:relative;min-width:0"><input value="SUMMER" placeholder="Промокод" style="width:100%;border:2px solid #EF4444;background:#FEF2F2;border-radius:999px;height:44px;padding:0 44px 0 16px;font:inherit;font-size:14px;color:#111827;text-transform:uppercase"><button aria-label="Очистить" style="position:absolute;right:8px;top:8px;width:28px;height:28px;border:0;border-radius:50%;background:#E5E7EB;color:#6B7280;cursor:pointer;padding:0;display:flex;align-items:center;justify-content:center"><span aria-hidden="true" style="position:relative;width:10px;height:10px;display:block"><span style="position:absolute;left:0;top:50%;width:100%;height:2px;margin-top:-1px;background:currentColor;border-radius:1px;transform:rotate(45deg)"></span><span style="position:absolute;left:0;top:50%;width:100%;height:2px;margin-top:-1px;background:currentColor;border-radius:1px;transform:rotate(-45deg)"></span></span></button></div><button style="border:0;background:#EFEDFC;color:#614BE2;border-radius:999px;height:44px;padding:0 18px;font:inherit;font-size:14px;font-weight:600;cursor:pointer" style-hover="background:#E4E0FA">Применить</button></div><div style="font-size:12px;color:#EF4444;font-weight:500;padding:0 14px">Промокод не найден — проверьте написание</div></div>
-    <div style="display:flex;flex-direction:column;gap:6px"><div style="display:flex;gap:8px"><div style="flex:1;position:relative;min-width:0"><input value="OLD20" placeholder="Промокод" style="width:100%;border:2px solid #EF4444;background:#FEF2F2;border-radius:999px;height:44px;padding:0 44px 0 16px;font:inherit;font-size:14px;color:#111827;text-transform:uppercase"><button aria-label="Очистить" style="position:absolute;right:8px;top:8px;width:28px;height:28px;border:0;border-radius:50%;background:#E5E7EB;color:#6B7280;cursor:pointer;padding:0;display:flex;align-items:center;justify-content:center"><span aria-hidden="true" style="position:relative;width:10px;height:10px;display:block"><span style="position:absolute;left:0;top:50%;width:100%;height:2px;margin-top:-1px;background:currentColor;border-radius:1px;transform:rotate(45deg)"></span><span style="position:absolute;left:0;top:50%;width:100%;height:2px;margin-top:-1px;background:currentColor;border-radius:1px;transform:rotate(-45deg)"></span></span></button></div><button style="border:0;background:#EFEDFC;color:#614BE2;border-radius:999px;height:44px;padding:0 18px;font:inherit;font-size:14px;font-weight:600;cursor:pointer" style-hover="background:#E4E0FA">Применить</button></div><div style="font-size:12px;color:#EF4444;font-weight:500;padding:0 14px">Срок действия промокода истёк</div></div>
-    <div style="display:flex;flex-direction:column;gap:6px"><div style="display:flex;gap:8px"><div style="flex:1;position:relative;min-width:0"><input value="BIG15" placeholder="Промокод" style="width:100%;border:2px solid #EF4444;background:#FEF2F2;border-radius:999px;height:44px;padding:0 44px 0 16px;font:inherit;font-size:14px;color:#111827;text-transform:uppercase"><button aria-label="Очистить" style="position:absolute;right:8px;top:8px;width:28px;height:28px;border:0;border-radius:50%;background:#E5E7EB;color:#6B7280;cursor:pointer;padding:0;display:flex;align-items:center;justify-content:center"><span aria-hidden="true" style="position:relative;width:10px;height:10px;display:block"><span style="position:absolute;left:0;top:50%;width:100%;height:2px;margin-top:-1px;background:currentColor;border-radius:1px;transform:rotate(45deg)"></span><span style="position:absolute;left:0;top:50%;width:100%;height:2px;margin-top:-1px;background:currentColor;border-radius:1px;transform:rotate(-45deg)"></span></span></button></div><button style="border:0;background:#EFEDFC;color:#614BE2;border-radius:999px;height:44px;padding:0 18px;font:inherit;font-size:14px;font-weight:600;cursor:pointer" style-hover="background:#E4E0FA">Применить</button></div><div style="font-size:12px;color:#EF4444;font-weight:500;padding:0 14px">Промокод действует для заказов от 10 000 тг.</div></div>
+    <div style="display:flex;flex-direction:column;gap:6px"><div style="display:flex;gap:8px"><div style="flex:1;position:relative;min-width:0"><input value="SUMMER" placeholder="Промокод" style="width:100%;border:2px solid #EF4444;background:#FEF2F2;border-radius:999px;height:44px;padding:0 44px 0 16px;font:inherit;font-size:14px;color:#0E0E10;text-transform:uppercase"><button aria-label="Очистить" style="position:absolute;right:8px;top:8px;width:28px;height:28px;border:0;border-radius:50%;background:#E5E7EB;color:#6B7280;cursor:pointer;padding:0;display:flex;align-items:center;justify-content:center"><span aria-hidden="true" style="position:relative;width:10px;height:10px;display:block"><span style="position:absolute;left:0;top:50%;width:100%;height:2px;margin-top:-1px;background:currentColor;border-radius:1px;transform:rotate(45deg)"></span><span style="position:absolute;left:0;top:50%;width:100%;height:2px;margin-top:-1px;background:currentColor;border-radius:1px;transform:rotate(-45deg)"></span></span></button></div><button style="border:0;background:#EFEDFC;color:#614BE2;border-radius:999px;height:44px;padding:0 18px;font:inherit;font-size:14px;font-weight:600;cursor:pointer" style-hover="background:#E4E0FA">Применить</button></div><div style="font-size:12px;color:#EF4444;font-weight:500;padding:0 14px">Промокод не найден — проверьте написание</div></div>
+    <div style="display:flex;flex-direction:column;gap:6px"><div style="display:flex;gap:8px"><div style="flex:1;position:relative;min-width:0"><input value="OLD20" placeholder="Промокод" style="width:100%;border:2px solid #EF4444;background:#FEF2F2;border-radius:999px;height:44px;padding:0 44px 0 16px;font:inherit;font-size:14px;color:#0E0E10;text-transform:uppercase"><button aria-label="Очистить" style="position:absolute;right:8px;top:8px;width:28px;height:28px;border:0;border-radius:50%;background:#E5E7EB;color:#6B7280;cursor:pointer;padding:0;display:flex;align-items:center;justify-content:center"><span aria-hidden="true" style="position:relative;width:10px;height:10px;display:block"><span style="position:absolute;left:0;top:50%;width:100%;height:2px;margin-top:-1px;background:currentColor;border-radius:1px;transform:rotate(45deg)"></span><span style="position:absolute;left:0;top:50%;width:100%;height:2px;margin-top:-1px;background:currentColor;border-radius:1px;transform:rotate(-45deg)"></span></span></button></div><button style="border:0;background:#EFEDFC;color:#614BE2;border-radius:999px;height:44px;padding:0 18px;font:inherit;font-size:14px;font-weight:600;cursor:pointer" style-hover="background:#E4E0FA">Применить</button></div><div style="font-size:12px;color:#EF4444;font-weight:500;padding:0 14px">Срок действия промокода истёк</div></div>
+    <div style="display:flex;flex-direction:column;gap:6px"><div style="display:flex;gap:8px"><div style="flex:1;position:relative;min-width:0"><input value="BIG15" placeholder="Промокод" style="width:100%;border:2px solid #EF4444;background:#FEF2F2;border-radius:999px;height:44px;padding:0 44px 0 16px;font:inherit;font-size:14px;color:#0E0E10;text-transform:uppercase"><button aria-label="Очистить" style="position:absolute;right:8px;top:8px;width:28px;height:28px;border:0;border-radius:50%;background:#E5E7EB;color:#6B7280;cursor:pointer;padding:0;display:flex;align-items:center;justify-content:center"><span aria-hidden="true" style="position:relative;width:10px;height:10px;display:block"><span style="position:absolute;left:0;top:50%;width:100%;height:2px;margin-top:-1px;background:currentColor;border-radius:1px;transform:rotate(45deg)"></span><span style="position:absolute;left:0;top:50%;width:100%;height:2px;margin-top:-1px;background:currentColor;border-radius:1px;transform:rotate(-45deg)"></span></span></button></div><button style="border:0;background:#EFEDFC;color:#614BE2;border-radius:999px;height:44px;padding:0 18px;font:inherit;font-size:14px;font-weight:600;cursor:pointer" style-hover="background:#E4E0FA">Применить</button></div><div style="font-size:12px;color:#EF4444;font-weight:500;padding:0 14px">Промокод действует для заказов от 10 000 тг.</div></div>
     <span style="font-size:12px;color:#9CA3AF;font-family:ui-monospace,monospace">error · not found</span><span style="font-size:12px;color:#9CA3AF;font-family:ui-monospace,monospace">error · expired</span><span style="font-size:12px;color:#9CA3AF;font-family:ui-monospace,monospace">error · min order</span>
   </div>
 </section>
@@ -367,7 +367,22 @@ input,textarea,button{outline:none}
 </section>
 
 <section style="background:#fff;border-radius:24px;padding:28px 32px;display:flex;flex-direction:column;gap:16px">
-  <div><h2 style="margin:0 0 4px;font-size:20px;font-weight:700">Боковое меню · FritoDrawer</h2><p style="margin:0;font-size:13px;color:#6B7280;line-height:1.5">Аккаунт (вход / «Личный кабинет»), способ получения (.f-addr-btn), разделы, «Связаться с нами» (WhatsApp, Instagram, TikTok — без звонков), переключатель языка «Рус | Қаз» в шапке меню.</p></div>
+  <div><h2 style="margin:0 0 4px;font-size:20px;font-weight:700">Графика · молния и частицы</h2><p style="margin:0;font-size:13px;color:#6B7280;line-height:1.5;max-width:900px">Главный приём айдентики — молния («удар вкуса») и разлетающиеся частицы: треугольники и четырёхугольники разной формы, не больше двух групп по 3–7 штук, частицы не главнее молнии. Только белый и фиолетовый. В интерфейсе: .f-brand-card (молнии на фиолетовом — промо, текущий заказ, оценка), фиолетовый футер с белой молнией, фото товаров на фирменном фоне.</p></div>
+  <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px">
+    <div style="position:relative;overflow:hidden;height:220px;border-radius:24px;background:var(--primary);display:flex;align-items:flex-end;padding:24px"><svg viewBox="0 0 300 360" fill="#fff" style="position:absolute;right:20px;top:-10px;width:170px" aria-hidden="true"><path d="M150 0h120L178 150h70L70 360l58-170H62z"/><path d="M52 236l18 4-12 13z"/><path d="M28 270l22-6 4 15-19 5z"/><path d="M60 300l9 1-5 8z"/><path d="M14 228l10-3 2 9z"/></svg><span style="position:relative;font-family:var(--font-display);font-weight:800;font-size:30px;line-height:1;color:#fff;letter-spacing:-.02em">Удар<br>вкуса</span></div>
+    <div style="position:relative;overflow:hidden;height:220px;border-radius:24px;background:#fff;border:1px solid var(--border);display:flex;align-items:flex-end;padding:24px"><svg viewBox="0 0 300 360" fill="var(--primary)" style="position:absolute;right:20px;top:-10px;width:170px" aria-hidden="true"><path d="M150 0h120L178 150h70L70 360l58-170H62z"/><path d="M52 236l18 4-12 13z"/><path d="M28 270l22-6 4 15-19 5z"/><path d="M60 300l9 1-5 8z"/><path d="M14 228l10-3 2 9z"/></svg><span style="position:relative;font-family:var(--font-display);font-weight:800;font-size:30px;line-height:1;color:var(--primary);letter-spacing:-.02em">Удар<br>вкуса</span></div>
+    <div class="f-brand-card" style="height:220px;padding:24px;display:flex;flex-direction:column;justify-content:flex-end;gap:6px"><span style="font-family:var(--font-display);font-weight:800;font-size:24px;line-height:1.05">.f-brand-card</span><span style="font-size:13px;color:rgba(255,255,255,.8)">фоновые молнии · промо, заказ, оценка</span></div>
+  </div>
+  <span style="font-size:12px;color:#9CA3AF;font-family:ui-monospace,monospace">молния белая на фиолетовом / фиолетовая на белом · .f-brand-card</span>
+</section>
+
+<section style="background:#fff;border-radius:24px;padding:28px 32px;display:flex;flex-direction:column;gap:16px">
+  <div><h2 style="margin:0 0 4px;font-size:20px;font-weight:700">Контакты · window.FritoContacts</h2><p style="margin:0;font-size:13px;color:#6B7280;line-height:1.5;max-width:900px">Номер WhatsApp, часы, почта, Instagram, TikTok, бот входа и юрлицо хранятся в одном месте — frito.js. Футер, боковое меню, страница заказа, «Доставка и оплата», оферта, политика, сторис и вход через Telegram берут данные оттуда. В шаблоне: c.phone, c.waUrl, c.wa('текст'), c.email, c.instagramUrl… QR входа через Telegram (assets/qr-tg-login.svg) — картинка: при смене бота перевыпустить.</p></div>
+  <div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;font-size:13px"><span><b>phone</b><br>{{ c.phone }}</span><span><b>email</b><br>{{ c.email }}</span><span><b>instagram</b><br>{{ c.instagramLabel }}</span><span><b>telegramBot</b><br>@{{ c.telegramBot }}</span></div>
+</section>
+
+<section style="background:#fff;border-radius:24px;padding:28px 32px;display:flex;flex-direction:column;gap:16px">
+  <div><h2 style="margin:0 0 4px;font-size:20px;font-weight:700">Боковое меню · FritoDrawer</h2><p style="margin:0;font-size:13px;color:#6B7280;line-height:1.5">Аккаунт (вход / «Личный кабинет»), способ получения (.f-addr-btn), разделы, «Связаться с нами» — WhatsApp, Почта, Instagram, TikTok кнопками одного вида (данные — FritoContacts, без звонков), переключатель языка «Рус | Қаз» в шапке меню.</p></div>
   <div style="display:flex;gap:16px;flex-wrap:wrap"><div style="position:relative;width:360px;height:720px;display:flex;flex-direction:column;border:1px solid #ECECF1;border-radius:20px;overflow:hidden"><dc-import name="FritoDrawer" compact="{{ true }}" mode="delivery" address="ул. Алматы, 4" eta="35–45 мин" hint-size="100%,100%"></dc-import></div>
   <div style="position:relative;width:360px;height:720px;display:flex;flex-direction:column;border:1px solid #ECECF1;border-radius:20px;overflow:hidden"><dc-import name="FritoDrawer" compact="{{ true }}" user="{{ kitUser }}" mode="" hint-size="100%,100%"></dc-import></div></div>
   <span style="font-size:12px;color:#9CA3AF;font-family:ui-monospace,monospace">drawer · гость / вошёл</span>
@@ -382,7 +397,7 @@ input,textarea,button{outline:none}
 </section>
 
 <section style="background:#fff;border-radius:24px;padding:28px 32px;display:flex;flex-direction:column;gap:16px">
-  <div><h2 style="margin:0 0 4px;font-size:20px;font-weight:700">Футер · FritoFooter</h2><p style="margin:0;font-size:13px;color:#6B7280;line-height:1.5">Тёмная карточка r32: бренд и WhatsApp | «Компания», «Покупателям» | приложение (QR — только desktop, кнопки App Store / Google Play). Раскладка по ширине самого футера (container queries).</p></div>
+  <div><h2 style="margin:0 0 4px;font-size:20px;font-weight:700">Футер · FritoFooter</h2><p style="margin:0;font-size:13px;color:#6B7280;line-height:1.5">Фиолетовая карточка r32 с белой молнией и частицами (гайдлайн): логотип, слоган Transforma, описание | Компания | Покупателям | Связаться (WhatsApp, почта, Instagram, TikTok из FritoContacts) | © и документы. Блока приложения нет. Раскладка по ширине самого футера (container queries).</p></div>
   <dc-import name="FritoFooter" hint-size="100%,400px"></dc-import>
   <span style="font-size:12px;color:#9CA3AF;font-family:ui-monospace,monospace">footer</span>
 </section>
@@ -407,7 +422,7 @@ class Component extends DCLogic {
   renderVals() {
     const s = this.state;
     return {
-      noop: () => {},
+      noop: () => {}, c: window.FritoContacts || {},
       kitSteps4: [{ label: 'Принят', state: 'done' }, { label: 'Готовим', state: 'cur' }, { label: 'В пути', state: 'todo' }, { label: 'Доставлен', state: 'todo' }],
       kitSteps5: [{ label: 'Принят', state: 'done' }, { label: 'Оплачен', state: 'done' }, { label: 'Готовим', state: 'cur' }, { label: 'В пути', state: 'todo' }, { label: 'Доставлен', state: 'todo' }],
       kitSteps5done: [['Принят', '14:12'], ['Оплачен', '14:12'], ['Готовим', '14:17'], ['В пути', '14:32'], ['Доставлен', '14:57']].map(([label, time]) => ({ label, time, state: 'done' })),
@@ -425,48 +440,36 @@ class Component extends DCLogic {
       kitOrderLine: { name: 'Сальса бокс', mods: 'Неострый · Coca-Cola 0,5 л', hasMods: true, qtyLabel: '2 × 4 090 тг.', total: '8 180 тг.', img: IMGS + '0a86b5cc0389ecd9f3e219c2ef8795b7.JPEG', imgFilter: 'none', ok: true },
       kitUpsell: [['Напитки', 'b33fdd1975cc96cbfe2a3ac2edd7c7de.JPEG'], ['Соусы', '282f8bcb4c887eb6af2532576864ae15.PNG'], ['Снэки', '1e47ef85ba6a0da2d9728620a354db44.JPEG']].map(([short, f]) => ({ short, img: IMGS + f })),
       colors: [
-        { name: 'primary', hex: '#614BE2', use: 'CTA, активные состояния, ссылки' },
-        { name: 'primary-hover', hex: '#503BCB', use: 'hover primary-кнопок' },
-        { name: 'primary-dark', hex: '#4A36C4', use: 'hover ссылок, текст в promo-плашке' },
-        { name: 'primary-100', hex: '#EFEDFC', use: 'secondary-кнопки, активный чип, все круги под иконками (пин, способ)' },
-        { name: 'primary-50', hex: '#F5F3FF', use: 'выбранная OptionCard, delivery-bar, фон пустой адресной пилюли' },
-        { name: 'primary-200', hex: '#D9D4F7', use: 'dashed border адресной пилюли, hover OptionCard' },
-        { name: 'primary-light', hex: '#A899FF', use: 'ссылки на тёмном (футер)' },
-        { name: 'ink', hex: '#111827', use: 'основной текст' },
-        { name: 'ink-2', hex: '#6B7280', use: 'вторичный текст, лейблы' },
-        { name: 'ink-3', hex: '#9CA3AF', use: 'подсказки, плейсхолдеры, disabled-текст' },
-        { name: 'border', hex: '#ECECF1', use: 'карточки, header/footer линии, OptionCard rich' },
-        { name: 'divider', hex: '#F1F1F4', use: 'разделители строк, OptionCard default' },
-        { name: 'surface-3', hex: '#E5E7EB', use: 'hover ghost, трек прогресса, disabled-кнопка' },
-        { name: 'surface-2', hex: '#F3F4F6', use: 'ghost-кнопки, чипы, фон фото, инпуты pill' },
-        { name: 'surface-1', hex: '#F7F7F9', use: 'фон экрана, FritoInput, панели корзины' },
-        { name: 'surface-0', hex: '#FFFFFF', use: 'панели, карточки, header' },
-        { name: 'dark', hex: '#1B1740', use: 'футер' },
-        { name: 'success', hex: '#16A34A', use: 'ETA, промокод применён, бесплатная доставка' },
-        { name: 'danger', hex: '#EF4444', use: 'бэдж счётчика, hover «Очистить», ошибка' },
-        { name: 'kaspi', hex: '#F14635', use: 'иконка и CTA Kaspi' },
-        { name: 'whatsapp', hex: '#1DAA55', use: 'кнопка «Написать в WhatsApp», вход через WhatsApp' },
-        { name: 'telegram', hex: '#229ED9', use: 'вход через Telegram-бота' },
-        { name: 'warn', hex: '#F59E0B', use: 'предупреждения (+ warn-bg #FEF3C7, warn-ink #92400E)' },
-        { name: 'neutral-300', hex: '#D1D5DB', use: 'toggle off, radio/checkbox off border' },
-        { name: 'canvas', hex: '#E9E8F0', use: 'фон канваса макетов (не продукт)' },
+        { name: 'white', hex: '#FFFFFF', use: 'ФИРМЕННЫЙ · основной фон, текст и графика на фиолетовом' },
+        { name: 'primary', hex: '#614BE2', use: 'ФИРМЕННЫЙ · заголовки первого уровня на белом, CTA, фиолетовые блоки, молнии' },
+        { name: 'black', hex: '#000000', use: 'ФИРМЕННЫЙ · дополнительный: текст (ink — почти чёрный #0E0E10), тёмные фоны' },
+        { name: 'primary-hover', hex: '#503BCB', use: 'оттенок primary · hover кнопок' },
+        { name: 'primary-dark', hex: '#4A36C4', use: 'оттенок primary · hover ссылок, текст на primary-50' },
+        { name: 'primary-200', hex: '#D9D4F7', use: 'оттенок primary · обводки, hover OptionCard' },
+        { name: 'primary-100', hex: '#EFEDFC', use: 'оттенок primary · secondary-кнопки, активный чип, круги иконок' },
+        { name: 'primary-50', hex: '#F5F3FF', use: 'оттенок primary · выбранное, подсказки, иконки контактов' },
+        { name: 'ink-2', hex: '#6B6B76', use: 'нейтральный · вторичный текст' },
+        { name: 'ink-3', hex: '#A1A1AA', use: 'нейтральный · подсказки, disabled' },
+        { name: 'border', hex: '#ECECF1', use: 'нейтральный · обводки карточек' },
+        { name: 'surface-2', hex: '#F3F4F6', use: 'нейтральный · фон фото, чипы, инпуты' },
+        { name: 'surface-1', hex: '#F7F7F9', use: 'нейтральный · фон страниц' },
+        { name: 'success', hex: '#16A34A', use: 'СОСТОЯНИЕ · промокод применён, «открыто», готово' },
+        { name: 'danger', hex: '#EF4444', use: 'СОСТОЯНИЕ · ошибки, оплата не прошла' },
+        { name: 'warn', hex: '#F59E0B', use: 'СОСТОЯНИЕ · нет в наличии, предупреждения' },
+        { name: 'kaspi', hex: '#F14635', use: 'СЕРВИС · только кнопка и иконка Kaspi' },
+        { name: 'whatsapp / telegram', hex: '#1DAA55', use: 'СЕРВИС · только выбор канала входа (#229ED9 — Telegram)' },
       ],
       type: [
-        { token: 'display', size: '36px', weight: 800, lh: 1.1, ls: '-.02em', sample: 'Дизайн-система Frito', spec: '36 / 800 / 1.1 / -0.02em' },
-        { token: 'h1', size: '30px', weight: 700, lh: 1.15, ls: '-.01em', sample: 'Выберите способ получения', spec: '30 / 700 / 1.15 · modal desktop, h1 checkout 28/800' },
-        { token: 'h2', size: '24px', weight: 700, lh: 1.2, ls: '-.01em', sample: 'Боксы', spec: '24 / 700 · заголовок категории, modal mobile' },
-        { token: 'h3', size: '22px', weight: 700, lh: 1.2, ls: '-.01em', sample: '3 товара на 9 470 тг.', spec: '22 / 700 · заголовок корзины / меню' },
-        { token: 'title', size: '18px', weight: 700, lh: 1.25, ls: '0', sample: 'Сальса бокс', spec: '18 / 700 · название товара (mobile 15)' },
-        { token: 'panel-title', size: '16px', weight: 700, lh: 1.3, ls: '0', sample: 'Способ получения', spec: '16 / 700 · заголовок панели (cart 15, mobile 14–15)' },
-        { token: 'body-strong', size: '15px', weight: 600, lh: 1.4, ls: '0', sample: 'Перейти к оформлению', spec: '15 / 600 · кнопки md, значения инпутов' },
-        { token: 'body', size: '14px', weight: 400, lh: 1.4, ls: '0', sample: 'Сальса бургер, стрипсы (3 шт.), фри, напиток 0,5 л', spec: '14 / 400 / 1.4 · описание, строки итогов' },
-        { token: 'label', size: '13px', weight: 600, lh: 1.35, ls: '0', sample: 'Изменить · Неострый · Coca-cola 0,5 л', spec: '13 / 500–600 · ссылки-действия, модификаторы (400)' },
-        { token: 'caption', size: '12px', weight: 500, lh: 1.45, ls: '0', sample: 'Адрес доставки · 35–45 мин', spec: '12 / 400–500 · подписи, оферта, дисклеймеры' },
-        { token: 'micro', size: '11px', weight: 500, lh: 1.2, ls: '0', sample: 'Промокод', spec: '11 / 500 · плавающий лейбл инпута' },
-        { token: 'overline', size: '13px', weight: 600, lh: 1.2, ls: '.04em', sample: 'РЕСТОРАНЫ · 5', spec: '13 / 600–700 / +0.04em · uppercase секции' },
-        { token: 'price-xl', size: '24px', weight: 800, lh: 1.1, ls: '-.02em', sample: '9 470 тг.', spec: '24 / 800 / -0.02em · итого (compact 20)' },
-        { token: 'price', size: '20px', weight: 700, lh: 1.1, ls: '0', sample: '4 090 тг.', spec: '20 / 700 · цена в карточке (line 17, order-line 14)' },
-      ],
+        { token: 'display · h1', d: 1, color: 'var(--primary)', size: '48px', weight: 800, lh: 1, ls: '-.02em', sample: 'Удар вкуса с первого укуса', spec: 'Transforma 800 · x = 40–56 · заголовок страницы, фиолетовый' },
+        { token: 'h2', d: 1, size: '28px', weight: 800, lh: 1.1, ls: '-.02em', sample: 'Боксы', spec: 'Transforma 800 · x/2 · категория, модалка, раздел' },
+        { token: 'subheading', d: 1, size: '20px', weight: 600, lh: 1.2, ls: '-.01em', sample: 'Как получить заказ', spec: 'Transforma 600 · заголовок панели, футер' },
+        { token: 'title', size: '18px', weight: 700, lh: 1.25, ls: '0', sample: 'Сальса бокс', spec: 'Inter 700 · название товара (mobile 15)' },
+        { token: 'body-strong', size: '15px', weight: 600, lh: 1.4, ls: '0', sample: 'Перейти к оформлению', spec: 'Inter 600 · кнопки, значения инпутов' },
+        { token: 'body', size: '14px', weight: 400, lh: 1.45, ls: '0', sample: 'Сальса бургер, стрипсы (3 шт.), фри, напиток 0,5 л', spec: 'Inter 400 · x/4 · описание, текст' },
+        { token: 'caption', size: '12px', weight: 500, lh: 1.45, ls: '0', sample: 'Адрес доставки · 35–45 мин', spec: 'Inter 500 · x/5 · подписи, техническая информация' },
+        { token: 'price-xl', size: '24px', weight: 800, lh: 1.1, ls: '-.02em', sample: '9 470 тг.', spec: 'Inter 800 · итого' },
+        { token: 'price', size: '20px', weight: 700, lh: 1.1, ls: '0', sample: '4 090 тг.', spec: 'Inter 700 · цена в карточке' },
+      ].map(t => ({ ...t, ff: t.d ? 'var(--font-display)' : 'var(--font)', color: t.color || 'var(--ink)' })),
       radii: [
         { name: 'xs', px: '6px' }, { name: 'sm', px: '8px' }, { name: 'md-', px: '12px' }, { name: 'md', px: '14px' }, { name: 'md+', px: '16px' }, { name: 'lg', px: '20px' }, { name: 'xl', px: '24px' }, { name: '2xl', px: '32px' }, { name: 'pill', px: '999px' },
       ],
@@ -476,7 +479,7 @@ class Component extends DCLogic {
       icons: [
         { file: 'ic-delivery-p.svg', bg: '#EFEDFC' }, { file: 'ic-delivery-w.svg', bg: '#614BE2' }, { file: 'ic-pickup-p.svg', bg: '#EFEDFC' }, { file: 'ic-pickup-w.svg', bg: '#614BE2' },
         { file: 'ic-pin-p.svg', bg: '#F5F3FF' }, { file: 'ic-card-p.svg', bg: '#EFEDFC' }, { file: 'ic-kaspi-w.svg', bg: '#F14635' },
-        { file: 'ic-whatsapp-w.svg', bg: '#614BE2' }, { file: 'ic-instagram-w.svg', bg: '#1B1740' }, { file: 'ic-tiktok-w.svg', bg: '#1B1740' },
+        { file: 'ic-whatsapp-w.svg', bg: '#614BE2' }, { file: 'ic-instagram-w.svg', bg: '#000000' }, { file: 'ic-tiktok-w.svg', bg: '#000000' },
       ],
       demoImg: 'https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/frito-co/96814/images/items/0a86b5cc0389ecd9f3e219c2ef8795b7.JPEG',
       upsellImg: 'https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/frito-co/96814/images/items/b33fdd1975cc96cbfe2a3ac2edd7c7de.JPEG',

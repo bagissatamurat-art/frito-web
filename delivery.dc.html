@@ -6,7 +6,7 @@
 <title>Доставка и оплата · Frito</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Montserrat:wght@600;800&display=swap" rel="stylesheet">
 <!-- компоненты первого экрана: грузим параллельно, без цепочки -->
 <link rel="preload" href="FritoHeader.dc.html" as="fetch" crossorigin="anonymous">
 <link rel="preload" href="FritoFooter.dc.html" as="fetch" crossorigin="anonymous">
@@ -84,8 +84,8 @@ input,select,button{outline:none}
       </section>
       <section id="contacts">
         <h2>Связаться с нами</h2>
-        <p>WhatsApp: <a href="https://wa.me/77009380000" target="_blank" rel="noopener">+7 700 938 00 00</a> · ежедневно 11:30–02:00</p>
-        <p>Почта: <a href="mailto:info@frito.kz">info@frito.kz</a></p>
+        <p>WhatsApp: <a href="{{ c.waUrl }}" target="_blank" rel="noopener">{{ c.phone }}</a> · ежедневно {{ c.hours }}</p>
+        <p>Почта: <a href="{{ c.mailUrl }}">{{ c.email }}</a></p>
       </section>
         <p class="in-muted">Обновлено: октябрь 2026</p>
       </article>
@@ -96,7 +96,8 @@ input,select,button{outline:none}
 </div>
 </x-dc>
 <script type="text/x-dc" data-dc-script>
-class Component extends DCLogic {}
+// контакты — из window.FritoContacts (frito.js): {{ c.phone }}, {{ c.waUrl }}, {{ c.email }}…
+class Component extends DCLogic { renderVals() { return { c: window.FritoContacts || {} }; } }
 </script>
 </body>
 </html>

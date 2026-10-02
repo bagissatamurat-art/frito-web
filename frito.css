@@ -10,10 +10,10 @@
   /* цвет */
   --primary:#614BE2; --primary-hover:#503BCB; --primary-dark:#4A36C4;
   --primary-200:#D9D4F7; --primary-100:#EFEDFC; --primary-50:#F5F3FF; --primary-light:#A899FF;
-  --ink:#111827; --ink-2:#6B7280; --ink-3:#9CA3AF;
+  --ink:#0E0E10; --ink-2:#6B6B76; --ink-3:#A1A1AA;
   --border:#ECECF1; --divider:#F1F1F4;
   --surface-0:#fff; --surface-1:#F7F7F9; --surface-2:#F3F4F6; --surface-3:#E5E7EB;
-  --dark:#1B1740; --success:#16A34A; --whatsapp:#1DAA55; --telegram:#229ED9; --danger:#EF4444; --kaspi:#F14635; --neutral-300:#D1D5DB;
+  --dark:#000000; --success:#16A34A; --whatsapp:#1DAA55; --telegram:#229ED9; --danger:#EF4444; --kaspi:#F14635; --neutral-300:#D1D5DB;
   --warn:#F59E0B; --warn-bg:#FEF3C7; --warn-ink:#92400E;
   /* радиусы */
   --r-xs:6px; --r-sm:8px; --r-md-:12px; --r-md:14px; --r-md-plus:16px; --r-lg:20px; --r-xl:24px; --r-2xl:32px; --r-pill:999px;
@@ -28,6 +28,8 @@
   --overlay:rgba(17,24,39,.45);
   /* шрифт и движение */
   --font:Inter,system-ui,sans-serif;
+  /* заголовки — Transforma (гайдлайн, нужна лицензия). Пока файлов нет — Montserrat ExtraBold/SemiBold как замена */
+  --font-display:Transforma,Montserrat,Inter,system-ui,sans-serif;
   --ease:cubic-bezier(.2,.8,.2,1);
   /* шапка: одна высота и один логотип на всех страницах */
   --header-h:60px; --logo-h:30px; --gutter:20px;
@@ -160,6 +162,8 @@ html,body{max-width:100%;overflow-x:clip;overscroll-behavior-x:none;-webkit-text
 .f-icon{flex-shrink:0;width:40px;height:40px;display:flex;align-items:center;justify-content:center;color:var(--primary);background:var(--primary-100);border-radius:50%}
 .f-icon--square{border-radius:var(--r-md-);background:var(--primary-50)}
 .f-icon--solid{background:var(--primary);color:#fff}
+/* иконки контактов — только фирменные цвета (гайдлайн: белый, фиолетовый, чёрный) */
+.f-icon--wa,.f-icon--ig,.f-icon--tt,.f-icon--mail{background:var(--primary-50);color:var(--primary)}
 .f-nav{display:flex;flex-direction:column;gap:2px}
 .f-nav__item{display:flex;align-items:center;gap:12px;margin:0 -8px;padding:8px;border-radius:var(--r-md);color:var(--ink);cursor:pointer;text-decoration:none}
 .f-nav__item:hover{background:var(--surface-1);color:var(--ink)}
@@ -976,48 +980,41 @@ img.f-option__icon{object-fit:contain}
 @media (prefers-reduced-motion:reduce){ .f-progress__sm-num,.f-progress__seg.is-cur{animation:none} }
 
 /* Футер (FritoFooter): тёмная карточка, сетка бренд | 2 колонки ссылок | приложение */
-.f-footer-wrap{margin:0 clamp(12px,3vw,32px) 32px}
-.f-footer{container-type:inline-size;display:flex;flex-direction:column;gap:32px;padding:40px;border-radius:var(--r-2xl);background:var(--dark);color:#fff;font-family:var(--font)}
+.f-footer-wrap{margin:0 clamp(12px,3vw,32px) 24px}
+/* фиолетовый футер с белой молнией и частицами — гайдлайн: белый и фиолетовый в равных пропорциях */
+.f-footer{position:relative;overflow:hidden;isolation:isolate;container-type:inline-size;display:flex;flex-direction:column;gap:28px;padding:clamp(28px,3.5vw,44px);border-radius:var(--r-2xl);background:var(--primary);color:#fff;font-family:var(--font)}
+.f-footer__bolt{position:absolute;z-index:-1;right:-40px;top:-30px;width:300px;height:auto;color:#fff;opacity:.12;pointer-events:none}
 .f-footer a{text-decoration:none}
-.f-footer__grid{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,.8fr) minmax(0,.9fr) auto;gap:32px 40px}
-.f-footer__brand{display:flex;flex-direction:column;align-items:flex-start;gap:16px}
-.f-footer__logo{display:block;height:32px;width:auto;filter:brightness(0) invert(1)}
-.f-footer__wordmark{font-size:28px;font-weight:800;letter-spacing:-.03em;line-height:1}
-.f-footer__about{margin:0;max-width:300px;font-size:14px;line-height:1.5;color:rgba(255,255,255,.6)}
-.f-footer__wa,.f-footer__wa:hover{display:flex;align-items:center;gap:12px;color:#fff}
-.f-footer__wa-icon{display:flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:50%;background:var(--primary);color:#fff;flex-shrink:0}
-.f-footer__wa-text{display:flex;flex-direction:column;gap:2px}
-.f-footer__wa-num{font-size:17px;font-weight:700;letter-spacing:-.01em}
-.f-footer__wa-hint{font-size:12px;color:rgba(255,255,255,.55)}
-.f-footer__socials{display:flex;gap:8px}
-.f-footer__social,.f-footer__social:hover{display:flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.08);color:#fff;transition:background-color .15s}
-.f-footer__social:hover{background:rgba(255,255,255,.16)}
+.f-footer__grid{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,.8fr) minmax(0,.8fr) minmax(0,1.1fr);gap:32px 40px}
+.f-footer__brand{display:flex;flex-direction:column;align-items:flex-start;gap:14px}
+.f-footer__logo{display:block;width:109px;height:34px;filter:brightness(0) invert(1)}
+.f-footer .f-wordmark{color:#fff}
+.f-footer__slogan{margin:4px 0 0;font-family:var(--font-display);font-size:clamp(24px,2.6vw,30px);font-weight:800;line-height:1;letter-spacing:-.02em}
+.f-footer__about{margin:0;max-width:280px;font-size:14px;line-height:1.5;color:rgba(255,255,255,.75);text-wrap:pretty}
 .f-footer__col{display:flex;flex-direction:column;align-items:flex-start;gap:12px}
-.f-footer__heading{font-size:13px;font-weight:600;color:rgba(255,255,255,.5)}
-.f-footer__link,.f-footer__link:visited{font-size:15px;font-weight:500;color:rgba(255,255,255,.85);transition:color .15s}
+.f-footer__heading{font-family:var(--font-display);font-size:16px;font-weight:600;letter-spacing:-.01em;color:#fff}
+.f-footer__link,.f-footer__link:visited{font-size:15px;color:rgba(255,255,255,.8);transition:color .15s}
 .f-footer__link:hover{color:#fff}
-.f-footer__app{display:flex;flex-direction:column;gap:12px}
-.f-footer__app-row{display:flex;align-items:flex-start;gap:16px}
-.f-footer__qr{display:flex;flex-direction:column;align-items:center;gap:6px}
-.f-footer__qr-img{display:block;width:104px;height:104px;padding:8px;border-radius:var(--r-md-plus);background:#fff;image-rendering:pixelated}
-.f-footer__qr-text{font-size:11px;color:rgba(255,255,255,.5)}
-.f-footer__stores-btns{display:flex;flex-direction:column;gap:8px}
-.f-store,.f-store:hover{display:flex;align-items:center;gap:10px;width:156px;height:var(--h-md);padding:0 14px 0 12px;border-radius:var(--r-md);background:rgba(255,255,255,.08);color:#fff;box-shadow:inset 0 0 0 1px rgba(255,255,255,.14);transition:background-color .15s}
-.f-store:hover{background:rgba(255,255,255,.16)}
-.f-store svg{flex-shrink:0}
-.f-store__text{display:flex;flex-direction:column;line-height:1.1}
-.f-store__small{font-size:10px;font-weight:500;opacity:.7}
-.f-store__big{font-size:15px;font-weight:700;letter-spacing:-.01em}
-.f-footer__bottom{display:flex;align-items:center;justify-content:space-between;gap:8px 24px;flex-wrap:wrap;padding-top:24px;border-top:1px solid rgba(255,255,255,.1)}
-.f-footer__copy{font-size:12px;color:rgba(255,255,255,.4)}
-@container (max-width:920px){
+.f-footer__contacts{gap:4px}
+.f-footer__contacts .f-footer__heading{margin-bottom:8px}
+.f-footer__contact,.f-footer__contact:hover{display:flex;align-items:center;gap:12px;width:100%;margin:0 -8px;padding:6px 8px;border-radius:var(--r-md);color:#fff;transition:background-color .15s}
+.f-footer__contact:hover{background:rgba(255,255,255,.1)}
+.f-footer__contact .f-icon{width:36px;height:36px;background:rgba(255,255,255,.14);color:#fff}
+.f-footer__contact .f-icon svg{width:18px;height:18px}
+.f-footer__contact-text{display:flex;flex-direction:column;gap:1px;min-width:0}
+.f-footer__contact-label{font-size:15px;font-weight:700;white-space:nowrap}
+.f-footer__contact-meta{font-size:12px;color:rgba(255,255,255,.7);white-space:nowrap}
+.f-footer__bottom{display:flex;align-items:center;justify-content:space-between;gap:8px 24px;flex-wrap:wrap;padding-top:20px;border-top:1px solid rgba(255,255,255,.18)}
+.f-footer__copy{font-size:13px;color:rgba(255,255,255,.7)}
+.f-footer__legal{display:flex;gap:20px;flex-wrap:wrap}
+.f-footer__legal a{font-size:13px;color:rgba(255,255,255,.7)}
+.f-footer__legal a:hover{color:#fff}
+@container (max-width:900px){
   .f-footer__grid{grid-template-columns:1fr 1fr;gap:28px 24px}
-  .f-footer__brand,.f-footer__app{grid-column:1 / -1}
+  .f-footer__brand,.f-footer__contacts{grid-column:1 / -1}
 }
-@container (max-width:440px){
-  .f-store,.f-store:hover{flex:1;min-width:140px;width:auto}
-}
-@media (max-width:767px){ .f-footer{padding:28px 20px 20px;border-radius:var(--r-xl)} .f-footer__qr{display:none} .f-footer__stores-btns{flex-direction:row;flex-wrap:wrap} }
+@container (max-width:900px) and (min-width:560px){ .f-footer__contacts{display:grid;grid-template-columns:1fr 1fr;column-gap:24px} .f-footer__contacts .f-footer__heading{grid-column:1 / -1} }
+@media (max-width:767px){ .f-footer{border-radius:var(--r-xl)} .f-footer__bottom{flex-direction:column;align-items:flex-start} .f-footer__bolt{width:220px} }
 .f-am__foot{display:flex;flex-direction:column;gap:10px}
 .f-am__pending{display:flex;align-items:center;gap:10px;padding:8px 12px 8px 8px;border-radius:var(--r-md);background:var(--primary-50);font-size:13px;font-weight:600;color:var(--primary-dark);line-height:1.35;animation:frito-fade .25s ease-out both}
 .f-am__pending-ic{flex-shrink:0;display:flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:var(--surface-0)}
@@ -1185,3 +1182,12 @@ html.i18n-wait body{visibility:hidden}
 .f-stock__alt-go{flex-shrink:0;font-size:13px;font-weight:600;color:var(--primary)}
 .f-stock__foot{display:flex;flex-direction:column;gap:6px;padding:16px 32px 24px}
 .f-sheet .f-stock__foot{flex-direction:column;gap:6px;padding:12px 16px calc(16px + env(safe-area-inset-bottom))}
+
+/* ===== Типографика по гайдлайну =====
+   Заголовки — Transforma ExtraBold, подзаголовки — Transforma SemiBold (замена до покупки лицензии — Montserrat),
+   набор — Inter Regular/Bold. Заголовок первого уровня на белом — всегда фиолетовый. */
+.f-display,.f-page-title,.vc-hero__title,.co-d__title,.co-m__h1,.ac-title,.ac-guest__title,
+.mn-cat__title,.vc-h2,.vc-why__title,.f-modal__title,.f-stock__title,.in-done__title,.ap-done__title,.st-confirm__title,
+.f-rate__title,.in-body h2,.in-facts__title,.in-form__title{font-family:var(--font-display);font-weight:800;letter-spacing:-.02em}
+.f-page-title,.vc-hero__title,.co-d__title,.co-m__h1{color:var(--primary)}
+.f-subdisplay{font-family:var(--font-display);font-weight:600;letter-spacing:-.01em}

@@ -6,7 +6,7 @@
 <title>Политика конфиденциальности · Frito</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Montserrat:wght@600;800&display=swap" rel="stylesheet">
 <!-- компоненты первого экрана: грузим параллельно, без цепочки -->
 <link rel="preload" href="FritoHeader.dc.html" as="fetch" crossorigin="anonymous">
 <link rel="preload" href="FritoFooter.dc.html" as="fetch" crossorigin="anonymous">
@@ -126,7 +126,7 @@ input,select,button{outline:none}
           <li>отозвать согласие на обработку и на получение рассылок;</li>
           <li>обжаловать действия Frito в уполномоченный орган по защите персональных данных или в суд.</li>
         </ul>
-        <p>Запросы направляйте на <a href="mailto:info@frito.kz">info@frito.kz</a> с темой «Персональные данные». Мы ответим в течение 3 рабочих дней по запросу о сведениях и в течение 10 рабочих дней по иным запросам, в зависимости от вида запроса, установленного Законом.</p>
+        <p>Запросы направляйте на <a href="{{ c.mailUrl }}">{{ c.email }}</a> с темой «Персональные данные». Мы ответим в течение 3 рабочих дней по запросу о сведениях и в течение 10 рабочих дней по иным запросам, в зависимости от вида запроса, установленного Законом.</p>
       </section>
       <section id="cookies">
         <h2>8. Cookie и локальное хранилище</h2>
@@ -149,8 +149,8 @@ input,select,button{outline:none}
           <li>ТОО «[наименование]»</li>
           <li>БИН: [БИН]</li>
           <li>Юридический адрес: [юридический адрес]</li>
-          <li>Электронная почта: <a href="mailto:info@frito.kz">info@frito.kz</a></li>
-          <li>WhatsApp: <a href="https://wa.me/77009380000" target="_blank" rel="noopener">+7 700 938 00 00</a></li>
+          <li>Электронная почта: <a href="{{ c.mailUrl }}">{{ c.email }}</a></li>
+          <li>WhatsApp: <a href="{{ c.waUrl }}" target="_blank" rel="noopener">{{ c.phone }}</a></li>
         </ul>
       </section>
         <p class="in-muted">Редакция от [дата]. ТОО «[наименование]», БИН [БИН].</p>
@@ -162,7 +162,8 @@ input,select,button{outline:none}
 </div>
 </x-dc>
 <script type="text/x-dc" data-dc-script>
-class Component extends DCLogic {}
+// контакты — из window.FritoContacts (frito.js): {{ c.phone }}, {{ c.waUrl }}, {{ c.email }}…
+class Component extends DCLogic { renderVals() { return { c: window.FritoContacts || {} }; } }
 </script>
 </body>
 </html>

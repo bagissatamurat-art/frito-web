@@ -65,6 +65,32 @@ if (window.visualViewport) {
 
 // Текущий заказ (до сервера — имитация по времени с момента оформления). Общая логика для главной, кабинета и страницы заказа.
 // orders: localStorage.frito_orders = [{ no, at, mode, address, items: [[id, qty]], total, status }]
+// Контакты Frito — единственный источник. Меняете номер, почту или соцсеть здесь — обновляется весь сайт
+// (футер, боковое меню, страница заказа, документы, вход через Telegram, сторис).
+window.FritoContacts = (() => {
+  const C = {
+    phone: '+7 700 938 00 00',     // номер WhatsApp — так, как показываем людям
+    hours: '11:30 – 02:00',        // часы поддержки в WhatsApp
+    email: 'info@frito.kz',
+    instagram: 'frito.kz',         // логин без @
+    tiktok: 'frito.kz',
+    telegramBot: 'FritoKzBot',     // бот входа через Telegram
+    company: 'ТОО «Frito Restaurants»',
+    city: 'Астана',
+  };
+  const digits = C.phone.replace(/\D/g, '');
+  return {
+    ...C,
+    waUrl: 'https://wa.me/' + digits,
+    wa: text => 'https://wa.me/' + digits + (text ? '?text=' + encodeURIComponent(text) : ''),
+    mailUrl: 'mailto:' + C.email,
+    instagramUrl: 'https://www.instagram.com/' + C.instagram + '/', instagramLabel: '@' + C.instagram,
+    tiktokUrl: 'https://www.tiktok.com/@' + C.tiktok, tiktokLabel: '@' + C.tiktok,
+    telegramBotUrl: 'https://t.me/' + C.telegramBot, tgLogin: 'https://t.me/' + C.telegramBot + '?start=login',
+    year: new Date().getFullYear(),
+  };
+})();
+
 window.FritoOrder = (() => {
   const MIN = 6e4, ACTIVE_MIN = 50;
   const FLOW = {

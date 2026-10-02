@@ -6,7 +6,7 @@
 <title>Франшиза · Frito</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Montserrat:wght@600;800&display=swap" rel="stylesheet">
 <!-- компоненты первого экрана: грузим параллельно, без цепочки -->
 <link rel="preload" href="FritoHeader.dc.html" as="fetch" crossorigin="anonymous">
 <link rel="preload" href="FritoLeadForm.dc.html" as="fetch" crossorigin="anonymous">
@@ -38,7 +38,8 @@ input,select,button{outline:none}
 </div>
 </x-dc>
 <script type="text/x-dc" data-dc-script>
-class Component extends DCLogic {}
+// контакты — из window.FritoContacts (frito.js): {{ c.phone }}, {{ c.waUrl }}, {{ c.email }}…
+class Component extends DCLogic { renderVals() { return { c: window.FritoContacts || {} }; } }
 </script>
 </body>
 </html>
