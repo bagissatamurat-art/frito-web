@@ -474,7 +474,9 @@ img.f-option__icon{object-fit:contain}
 .f-am__addr-icon{flex-shrink:0;width:40px;height:40px;border-radius:50%;background:var(--primary-100);display:flex;align-items:center;justify-content:center}
 .f-am__addr-pin{width:18px;height:18px;object-fit:contain}
 .f-am__addr-action{flex-shrink:0;font-size:14px;font-weight:600;color:var(--primary)}
-.f-am__out-title{margin:0;font-size:22px;font-weight:700;line-height:1.2}
+.f-am__out{display:flex;align-items:center;gap:14px}
+.f-am__out .f-am__stack{flex:1;min-width:0}
+.f-am__out-title{margin:0;font-family:var(--font-display);font-size:22px;font-weight:800;letter-spacing:-.02em;line-height:1.15}
 .f-am__out-text{margin:0;font-size:15px;color:var(--ink-2);line-height:1.45;text-wrap:pretty}
 .f-am__actions{display:flex;flex-direction:column;gap:10px}
 .f-am__pick-head{position:relative;display:flex;align-items:baseline;justify-content:space-between;gap:12px}

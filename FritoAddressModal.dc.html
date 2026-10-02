@@ -125,9 +125,12 @@
 
       <!-- out of zone -->
       <sc-if value="{{ showOut }}" hint-placeholder-val="{{ false }}">
-        <div class="f-am__stack">
-          <h3 class="f-am__out-title">Сюда пока не доставляем</h3>
-          <p class="f-am__out-text">{{ outSub }}</p>
+        <div class="f-am__out">
+          <img class="f-mascot f-mascot--sm" src="assets/brand/rooster-angry.svg" alt="" aria-hidden="true">
+          <div class="f-am__stack">
+            <h3 class="f-am__out-title">Сюда пока не доставляем</h3>
+            <p class="f-am__out-text">{{ outSub }}</p>
+          </div>
         </div>
         <div class="f-am__actions">
           <button type="button" onClick="{{ toPickup }}" class="f-btn f-btn--primary" style="font-size:16px">Выбрать самовывоз</button>
