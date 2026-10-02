@@ -725,21 +725,17 @@ img.f-option__icon{object-fit:contain}
 
 /* Экран «Вы вошли» */
 .f-auth-ok{align-items:center;text-align:center;gap:8px;padding:4px 0 12px}
-.f-auth-ok__badge{position:relative;display:flex;align-items:center;justify-content:center;width:96px;height:96px;margin:8px 0;border-radius:50%;
-  background:linear-gradient(140deg,var(--primary-light) 0%,var(--primary) 55%,var(--primary-dark) 100%);
-  box-shadow:0 20px 44px -14px rgba(97,75,226,.7),inset 0 2px 0 rgba(255,255,255,.28),inset 0 -6px 14px rgba(40,20,140,.25);
-  animation:frito-pop .5s var(--ease) both}
-.f-auth-ok__badge::before,.f-auth-ok__badge::after{content:'';position:absolute;inset:-2px;border-radius:50%;border:2px solid rgba(97,75,226,.35);animation:f-ring 1.8s .3s ease-out infinite}
-.f-auth-ok__badge::after{animation-delay:.9s}
+.f-auth-ok__badge{position:relative;display:flex;align-items:center;justify-content:center;width:112px;height:112px;margin:4px 0 8px;animation:frito-pop .5s var(--ease) both}
+.f-auth-ok__badge img{width:112px;height:auto}
 .f-auth-ok__tick{stroke-dasharray:24;stroke-dashoffset:24;animation:f-tick .45s .25s var(--ease) forwards}
-.f-auth-ok__spark{position:absolute;left:50%;top:50%;width:8px;height:8px;margin:-4px 0 0 -4px;border-radius:50%;background:var(--primary-light);opacity:0;
+.f-auth-ok__spark{position:absolute;left:50%;top:50%;width:10px;height:9px;margin:-4px 0 0 -5px;clip-path:polygon(0 100%,40% 0,100% 70%);background:var(--primary);opacity:0;
   --a:0deg;transform:rotate(var(--a)) translateY(0);animation:f-spark .7s .3s ease-out forwards}
 .f-auth-ok__spark:nth-child(2){--a:60deg;background:var(--primary)}
-.f-auth-ok__spark:nth-child(3){--a:120deg;background:var(--success)}
+.f-auth-ok__spark:nth-child(3){--a:120deg;width:6px;height:8px;clip-path:polygon(0 0,100% 30%,40% 100%)}
 .f-auth-ok__spark:nth-child(4){--a:180deg}
 .f-auth-ok__spark:nth-child(5){--a:240deg;background:var(--primary)}
-.f-auth-ok__spark:nth-child(6){--a:300deg;background:var(--success)}
-.f-auth-ok__title{font-size:24px;font-weight:700;letter-spacing:-.01em;animation:frito-rise .4s .15s var(--ease) both}
+.f-auth-ok__spark:nth-child(6){--a:300deg;width:12px;height:6px;clip-path:polygon(0 40%,100% 0,70% 100%,10% 100%)}
+.f-auth-ok__title{font-family:var(--font-display);font-size:24px;font-weight:800;letter-spacing:-.01em;animation:frito-rise .4s .15s var(--ease) both}
 .f-auth-ok__who{font-size:14px;color:var(--ink-2);animation:frito-rise .4s .22s var(--ease) both}
 .f-auth-ok__go{display:flex;flex-direction:column;align-items:center;gap:8px;margin-top:12px;font-size:12px;font-weight:500;color:var(--ink-3);animation:frito-fade .3s .35s both}
 .f-auth-ok__bar{display:block;width:160px;height:4px;border-radius:2px;background:var(--surface-3);overflow:hidden}
@@ -750,8 +746,8 @@ img.f-option__icon{object-fit:contain}
 @keyframes f-progress{to{width:100%}}
 
 /* Вход: цвета мессенджеров, ссылка «Изменить», код по центру, таймер, точки шагов, спиннер в кнопке */
-.f-auth-wa{color:var(--whatsapp)}
-.f-auth-tg{color:var(--telegram)}
+.f-auth-wa{color:var(--primary)}
+.f-auth-tg{color:var(--primary)}
 .f-auth-link{padding:0;border:0;background:none;color:var(--primary);font:inherit;font-size:13px;font-weight:600;cursor:pointer}
 .f-auth-link:hover{color:var(--primary-dark)}
 .f-otp--center{grid-template-columns:repeat(4,60px);justify-content:center;gap:12px;margin:4px 0}
