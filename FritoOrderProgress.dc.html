@@ -8,7 +8,8 @@
 </head>
 <body>
 <x-dc>
-<!-- Прогресс заказа: этап крупно + время, шкала этапов, фото/адрес/кнопка. tone: brand (фиолетовая .f-brand-card) | light (белая панель).
+<!-- Мини-карточка текущего заказа (главная, кабинет): время | этап + шкала | «Отследить». Страница заказа — FritoOrderStatus.
+     Было: Прогресс заказа: этап крупно + время, шкала этапов, фото/адрес/кнопка. tone: brand (фиолетовая .f-brand-card) | light (белая панель).
      pct (0–1) + etaLabel — кольцо-таймер (страница заказа); etaLabel (+ etaNote) без pct — режим «крупно время»: подпись, большое число, примечание; title становится строкой этапа. onCta — кнопка действия внизу (напр. «Повторить заказ»), иначе cta — подпись-ссылка при onOpen. Используется: текущий заказ на главной и в кабинете, шапка страницы заказа. Стили — .f-progress* -->
 <div class="{{ rootCls }}" role="{{ role }}" tabIndex="{{ tab }}" onClick="{{ open }}" onKeyDown="{{ key }}" aria-label="{{ aria }}">
   <sc-if value="{{ brand }}" hint-placeholder-val="{{ true }}"><span class="f-progress__shine" aria-hidden="true"></span></sc-if>
@@ -21,57 +22,6 @@
       <span class="f-progress__bar" aria-hidden="true"><sc-for list="{{ steps }}" as="st" hint-placeholder-count="4"><i class="{{ st.barCls }}"></i></sc-for></span>
     </span>
     <span class="{{ smCtaCls }}"><span class="f-progress__sm-cta-text">{{ cta }}</span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></span>
-  </sc-if>
-  <sc-if value="{{ notSm }}" hint-placeholder-val="{{ true }}">
-  <!-- герой: крупно время до доставки / готовности (etaLabel задан) -->
-  <sc-if value="{{ hasHero }}" hint-placeholder-val="{{ false }}">
-    <sc-if value="{{ hasRing }}" hint-placeholder-val="{{ false }}">
-      <!-- кольцо-таймер: время внутри, заполнение = прошедшая доля -->
-      <div class="f-progress__ringrow">
-        <span class="f-progress__ring">
-          <svg viewBox="0 0 120 120" aria-hidden="true"><circle class="f-progress__ring-track" cx="60" cy="60" r="52"></circle><circle class="f-progress__ring-val" cx="60" cy="60" r="52" style="stroke-dashoffset:{{ ringOff }}"></circle></svg>
-          <span class="f-progress__ring-center"><span class="{{ ringNumCls }}">{{ eta }}</span><span class="f-progress__ring-unit">{{ etaUnit }}</span></span>
-        </span>
-        <span class="f-progress__ringtext">
-          <span class="f-progress__caption">{{ caption }}</span>
-          <span class="f-progress__hero-label">{{ etaLabel }}</span>
-          <span class="f-progress__ring-title">{{ title }}</span>
-          <sc-if value="{{ hasNote }}" hint-placeholder-val="{{ true }}"><span class="f-progress__hero-note">{{ etaNote }}</span></sc-if>
-        </span>
-      </div>
-    </sc-if>
-    <sc-if value="{{ noRing }}" hint-placeholder-val="{{ true }}">
-    <div class="f-progress__hero">
-      <span class="f-progress__caption">{{ caption }}</span>
-      <span class="f-progress__hero-label">{{ etaLabel }}</span>
-      <span class="f-progress__hero-value"><span class="f-progress__hero-num">{{ eta }}</span><span class="f-progress__hero-unit">{{ etaUnit }}</span></span>
-      <sc-if value="{{ hasNote }}" hint-placeholder-val="{{ true }}"><span class="f-progress__hero-note">{{ etaNote }}</span></sc-if>
-    </div>
-    <span class="f-progress__stage">{{ title }}</span>
-    </sc-if>
-  </sc-if>
-  <sc-if value="{{ noHero }}" hint-placeholder-val="{{ true }}">
-  <div class="f-progress__top">
-    <span class="f-progress__titles">
-      <span class="f-progress__caption">{{ caption }}</span>
-      <span class="f-progress__title">{{ title }}</span>
-      <sc-if value="{{ hasSub }}" hint-placeholder-val="{{ false }}"><span class="f-progress__sub">{{ sub }}</span></sc-if>
-    </span>
-    <sc-if value="{{ hasEta }}" hint-placeholder-val="{{ true }}"><span class="f-progress__eta"><span class="f-progress__eta-v">{{ eta }}</span><span class="f-progress__eta-u">{{ etaUnit }}</span></span></sc-if>
-  </div>
-  </sc-if>
-  <div class="f-progress__steps" style="grid-template-columns:repeat({{ n }},minmax(0,1fr))">
-    <sc-for list="{{ steps }}" as="st" hint-placeholder-count="4"><span class="{{ st.cls }}"><i class="f-progress__dot"></i><span class="f-progress__label">{{ st.label }}</span><sc-if value="{{ st.hasTime }}" hint-placeholder-val="{{ false }}"><span class="f-progress__time">{{ st.time }}</span></sc-if></span></sc-for>
-  </div>
-  <sc-if value="{{ hasFoot }}" hint-placeholder-val="{{ true }}">
-    <div class="f-progress__foot">
-      <span class="f-progress__thumbs"><sc-for list="{{ thumbs }}" as="th" hint-placeholder-count="3"><span class="f-progress__mini"><img data-skel loading="lazy" decoding="async" src="{{ th }}" alt="" class="f-cover-img"></span></sc-for></span>
-      <span class="f-progress__addr">{{ addr }}</span>
-      <sc-if value="{{ hasBtn2 }}" hint-placeholder-val="{{ false }}"><button type="button" class="{{ btn2Cls }}" onClick="{{ cta2Click }}">{{ cta2 }}</button></sc-if>
-      <sc-if value="{{ hasBtn }}" hint-placeholder-val="{{ false }}"><button type="button" class="{{ btnCls }}" onClick="{{ ctaClick }}">{{ cta }}</button></sc-if>
-      <sc-if value="{{ hasCta }}" hint-placeholder-val="{{ true }}"><span class="{{ ctaCls }}">{{ cta }}<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></span></sc-if>
-    </div>
-  </sc-if>
   </sc-if>
 </div>
 </x-dc>
