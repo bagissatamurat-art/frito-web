@@ -3,19 +3,7 @@
 .in-main{flex:1;display:flex;flex-direction:column;align-items:center;padding:clamp(24px,5vw,56px) 16px 48px}
 
 /* заявка: блок фактов + форма */
-.in-lead{width:100%;max-width:1080px;display:flex;flex-direction:column;gap:28px}
-.in-lead__head{max-width:720px}
-.in-lead__grid{display:grid;grid-template-columns:minmax(0,1fr);gap:16px;align-items:start}
-@media (min-width:900px){.in-lead__grid{grid-template-columns:minmax(0,400px) minmax(0,1fr);gap:24px}.in-facts{position:sticky;top:96px}}
-.in-facts{background:var(--surface-0);border-radius:var(--r-xl);padding:clamp(20px,3vw,28px);display:flex;flex-direction:column;gap:18px}
-.in-facts__title{margin:0;font-size:17px;font-weight:700;letter-spacing:-.01em}
-.in-facts__list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:16px}
-.in-fact{display:flex;gap:14px;align-items:flex-start}
-.in-fact__num{flex-shrink:0;width:32px;height:32px;border-radius:50%;background:var(--primary-100);color:var(--primary);font-size:14px;font-weight:700;display:flex;align-items:center;justify-content:center}
-.in-fact__text{display:flex;flex-direction:column;gap:3px;min-width:0}
-.in-fact__title{font-size:15px;font-weight:600}
-.in-fact__sub{font-size:13px;line-height:1.45;color:var(--ink-2);text-wrap:pretty}
-.in-facts__note{margin:0;padding:12px 14px;border-radius:var(--r-md);background:var(--surface-1);font-size:13px;line-height:1.45;color:var(--ink-2)}
+.in-lead{width:100%;max-width:1180px;display:flex;flex-direction:column;gap:clamp(40px,6vw,64px)}
 .in-form{background:var(--surface-0);border-radius:var(--r-xl);padding:clamp(20px,3vw,32px);display:flex;flex-direction:column;gap:14px}
 .in-form__title{margin:0 0 4px;font-size:17px;font-weight:700;letter-spacing:-.01em}
 .in-chips-wrap{display:flex;flex-direction:column;gap:8px;padding-top:4px}
@@ -61,6 +49,67 @@
 .in-callout{padding:14px 16px;border-radius:var(--r-md);background:var(--primary-50);color:var(--primary-dark);font-size:14px;line-height:1.5}
 
 /* фирменная молния у заголовка (desktop) */
-.in-lead,.in-doc{position:relative}
-.in-lead::before,.in-doc::before{content:'';position:absolute;right:8px;top:-12px;width:96px;aspect-ratio:608/924;background:var(--primary);-webkit-mask:url(assets/brand/bolt.svg) center/contain no-repeat;mask:url(assets/brand/bolt.svg) center/contain no-repeat;pointer-events:none}
-@media (max-width:899px){ .in-lead::before,.in-doc::before{display:none} }
+.in-doc{position:relative}
+.in-doc::before{content:'';position:absolute;right:8px;top:-12px;width:96px;aspect-ratio:608/924;background:var(--primary);-webkit-mask:url(assets/brand/bolt.svg) center/contain no-repeat;mask:url(assets/brand/bolt.svg) center/contain no-repeat;pointer-events:none}
+@media (max-width:899px){ .in-doc::before{display:none} }
+
+/* ===== Страницы заявок (франшиза, поставщики, помещения) ===== */
+/* первый экран — как на вакансиях: фирменная карточка, фото уходит в фиолетовый */
+.in-hero{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);border-radius:32px;min-height:500px}
+.in-hero__photo{position:relative;order:2;overflow:hidden}
+.in-hero__photo img{position:absolute;inset:0;object-position:50% 40%}
+.in-hero__photo::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,var(--primary) 0%,rgba(97,75,226,0) 40%)}
+.in-hero__body{position:relative;z-index:1;display:flex;flex-direction:column;justify-content:space-between;gap:28px;padding:clamp(28px,4vw,52px);color:#fff}
+.in-hero__text{display:flex;flex-direction:column;gap:16px}
+.in-hero__eyebrow{font-size:12px;font-weight:700;letter-spacing:.06em;color:rgba(255,255,255,.7)}
+.in-hero__title{margin:0;font-family:var(--font-display);font-size:clamp(34px,4.6vw,54px);font-weight:800;line-height:1;letter-spacing:-.02em;text-wrap:balance}
+.in-hero__lead{margin:0;max-width:460px;font-size:16px;line-height:1.5;color:rgba(255,255,255,.85);text-wrap:pretty}
+.in-hero__chips{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px}
+.in-hero__chips li{display:flex;align-items:center;gap:8px;height:36px;padding:0 14px;border-radius:var(--r-pill);background:rgba(255,255,255,.14);font-size:14px;font-weight:600}
+.in-hero__chips li::before{content:'';width:7px;height:9px;background:#fff;clip-path:polygon(45% 0,100% 0,62% 42%,90% 42%,25% 100%,42% 55%,12% 55%)}
+.in-hero__actions{display:flex;gap:10px;flex-wrap:wrap}
+.in-hero__cta,.in-hero__cta2{display:flex;align-items:center;justify-content:center;height:56px;padding:0 26px;border-radius:var(--r-pill);font-size:16px;font-weight:700;white-space:nowrap;transition:background-color .15s}
+.in-hero__cta,.in-hero__cta:hover{background:#fff;color:var(--primary)}
+.in-hero__cta:hover{background:var(--primary-100)}
+.in-hero__cta2,.in-hero__cta2:hover{background:rgba(255,255,255,.14);color:#fff}
+.in-hero__cta2:hover{background:rgba(255,255,255,.22)}
+@media (max-width:899px){
+  .in-hero{grid-template-columns:minmax(0,1fr);min-height:0;border-radius:28px}
+  .in-hero__photo{order:0;aspect-ratio:4/3.3}
+  .in-hero__photo::after{background:linear-gradient(0deg,var(--primary) 0%,rgba(97,75,226,0) 45%)}
+  .in-hero__body{margin-top:-56px;padding-top:0}
+  .in-hero__actions{flex-direction:column}
+}
+/* разделы */
+.in-sec{display:flex;flex-direction:column;gap:18px;scroll-margin-top:90px}
+.in-sec__title{margin:0;padding:0 4px;font-family:var(--font-display);font-size:clamp(24px,3vw,32px);font-weight:800;letter-spacing:-.02em}
+.in-points{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.in-point{display:flex;flex-direction:column;gap:8px;padding:22px;border-radius:var(--r-xl);background:var(--surface-0)}
+.in-point__num{font-family:var(--font-display);font-size:32px;font-weight:800;line-height:1;letter-spacing:-.03em;color:var(--primary)}
+.in-point__title{font-size:16px;font-weight:700}
+.in-point__text{font-size:14px;line-height:1.5;color:var(--ink-2);text-wrap:pretty}
+.in-note{margin:0;padding:14px 18px;border-radius:var(--r-md-plus);background:var(--primary-50);font-size:14px;line-height:1.5;color:var(--primary-dark)}
+@media (max-width:1023px){ .in-points{grid-template-columns:repeat(2,minmax(0,1fr))} }
+@media (max-width:520px){ .in-points{grid-template-columns:minmax(0,1fr)} .in-point{flex-direction:row;flex-wrap:wrap;column-gap:14px;padding:18px} .in-point__num{font-size:26px} .in-point__title{align-self:center;flex:1;min-width:0} .in-point__text{flex-basis:100%} }
+/* как это проходит — шаги с линией */
+.in-flow{list-style:none;margin:0;padding:24px;border-radius:var(--r-xl);background:var(--surface-0);display:grid;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr);gap:18px;counter-reset:f}
+.in-flow__step{position:relative;display:flex;flex-direction:column;gap:6px}
+.in-flow__step:not(:last-child)::after{content:'';position:absolute;left:44px;right:-6px;top:17px;height:2px;border-radius:1px;background:var(--primary-200)}
+.in-flow__dot{display:flex;align-items:center;justify-content:center;width:36px;height:36px;margin-bottom:6px;border-radius:50%;background:var(--primary);color:#fff;font-family:var(--font-display);font-size:16px;font-weight:800}
+.in-flow__title{font-size:15px;font-weight:700}
+.in-flow__text{font-size:13px;line-height:1.45;color:var(--ink-2)}
+@media (max-width:899px){
+  .in-flow{grid-auto-flow:row;gap:0;padding:12px 20px}
+  .in-flow__step{display:grid;grid-template-columns:36px minmax(0,1fr);column-gap:14px;padding:12px 0}
+  .in-flow__dot{grid-row:span 2;margin:0}
+  .in-flow__step:not(:last-child)::after{left:17px;right:auto;top:52px;bottom:-12px;width:2px;height:auto}
+}
+/* заявка: карточка связи + форма */
+.in-apply{display:grid;grid-template-columns:minmax(0,360px) minmax(0,1fr);gap:16px;align-items:start}
+.in-ask{position:sticky;top:96px;display:flex;flex-direction:column;align-items:flex-start;gap:12px;padding:28px;border-radius:var(--r-xl);min-height:280px}
+.in-ask__bolt{position:absolute;z-index:-1;right:-30px;bottom:-40px;width:150px;color:rgba(255,255,255,.12)}
+.in-ask__title{margin:0;font-family:var(--font-display);font-size:26px;font-weight:800;line-height:1.05;letter-spacing:-.02em}
+.in-ask__text{margin:0;font-size:15px;line-height:1.5;color:rgba(255,255,255,.85)}
+.in-ask__btn{margin-top:auto}
+.in-ask__hint{font-size:12px;color:rgba(255,255,255,.7)}
+@media (max-width:899px){ .in-apply{grid-template-columns:minmax(0,1fr)} .in-ask{position:static;min-height:0} }
