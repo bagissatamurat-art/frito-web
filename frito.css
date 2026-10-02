@@ -392,16 +392,19 @@ img.f-option__icon{object-fit:contain}
 .f-mseg__btn.is-on{background:#fff;color:var(--ink);box-shadow:0 1px 3px rgba(17,24,39,.12)}
 .f-mseg__chili{width:16px;height:16px;color:var(--primary);flex-shrink:0}
 /* «один из многих» с фото — плитки */
-.f-mtiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(60px,1fr));gap:8px}
+.f-mtiles{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}
 .f-mtile{display:flex;flex-direction:column;align-items:center;gap:6px;min-width:0;padding:4px 4px 8px;border:2px solid transparent;border-radius:var(--r-md-plus);background:var(--surface-2);color:var(--ink);font:inherit;cursor:pointer;transition:border-color .15s,background-color .15s}
 .f-mtile:hover{border-color:var(--primary-100)}
 .f-mtile.is-on{border-color:var(--primary);background:var(--primary-50)}
 .f-mtile__img{position:relative;width:100%;aspect-ratio:1;border-radius:10px;overflow:hidden;background:#fff;display:flex;align-items:center;justify-content:center;color:var(--ink-3)}
-.f-mtile__img>svg{width:36px;height:36px}
 .f-mtile__check{position:absolute;top:4px;right:4px;width:22px;height:22px;border-radius:50%;background:var(--primary);color:#fff;display:flex;align-items:center;justify-content:center;transform:scale(0);transition:transform .18s cubic-bezier(.3,1.5,.6,1)}
 .f-mtile__check svg{width:13px;height:13px}
 .f-mtile.is-on .f-mtile__check{transform:scale(1)}
-.f-mtile__name{max-width:100%;font-size:12px;font-weight:600;line-height:1.25;text-align:center;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.f-mtile__name{display:block;max-width:100%;font-size:12px;font-weight:600;line-height:1.25;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.f-mtile__vol{margin-top:-4px;font-size:11px;font-weight:500;color:var(--ink-2);white-space:nowrap}
+.f-mtile__vol:empty{display:none}
+@media (max-width:420px){ .f-mtiles{gap:6px} .f-mtile{padding:4px 2px 8px} .f-mtile__name{font-size:11px;letter-spacing:-.01em} }
+.f-mtile.is-on .f-mtile__vol{color:var(--primary)}
 /* «по желанию» — чипы */
 .f-mchips{display:flex;flex-wrap:wrap;gap:8px}
 .f-mchip{display:inline-flex;align-items:center;gap:6px;min-height:40px;padding:0 14px 0 10px;border:1.5px solid var(--border);border-radius:var(--r-pill);background:#fff;color:var(--ink);font:inherit;font-size:14px;font-weight:500;cursor:pointer;transition:border-color .15s,background-color .15s,color .15s}
@@ -1221,3 +1224,20 @@ html.i18n-wait body{visibility:hidden}
 .f-consent__actions{display:flex;gap:8px}
 .f-consent__actions .f-btn{flex:1}
 @media (min-width:768px){ .f-consent{left:auto;right:24px;bottom:24px;margin:0} }
+
+/* ===== Заглушка товара без фото: светлый фирменный фон + знак Frito =====
+   Показывается, только когда у контейнера нет картинки с адресом (фото с прозрачным фоном её не перекрывают). */
+.f-pcard__media:not(:has(img[src]:not([src=""]))),
+.f-pm__media:not(:has(img[src]:not([src=""]))),
+.f-cartline__img:not(:has(img[src]:not([src=""]))),
+.f-orderline__img:not(:has(img[src]:not([src=""]))),
+.f-upsell__img:not(:has(img[src]:not([src=""]))),
+.f-pick__img:not(:has(img[src]:not([src=""]))),
+.f-stock__thumb:not(:has(img[src]:not([src=""]))),
+.f-mtile__img:not(:has(img[src]:not([src=""]))),
+.f-os__thumb:not(:has(img[src]:not([src=""]))),
+.ac-thumb:not(:has(img[src]:not([src=""]))),
+.st-item__img:not([src]), .st-item__img[src=""]{
+  background:var(--primary-50) url(assets/brand/mark-ph.svg) 50% 50% / auto 44% no-repeat}
+img[src=""],img[data-src=""]:not([src]){visibility:hidden}
+.st-item__img:not([src]),.st-item__img[src=""]{visibility:visible}
