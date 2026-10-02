@@ -1209,3 +1209,6 @@ html.i18n-wait body{visibility:hidden}
 .f-os__step-time{padding-top:3px;font-size:13px;font-weight:500;color:var(--ink-2);font-variant-numeric:tabular-nums;white-space:nowrap}
 .f-os__step.is-cur .f-os__step-time{font-weight:700;color:var(--primary)}
 @media (prefers-reduced-motion:reduce){.f-os__live,.f-os__bar i::after,.f-os__step.is-cur .f-os__dot{animation:none}}
+
+/* видно только скринридерам и поисковикам */
+.f-sr-only{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}

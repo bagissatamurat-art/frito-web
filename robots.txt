@@ -1,0 +1,7 @@
+# Работает только в корне домена (на github.io/frito-web/ — нет; после переезда на свой домен — да)
+User-agent: *
+Disallow: /tools/
+Disallow: /account.dc.html
+Disallow: /checkout.dc.html
+
+Sitemap: https://bagissatamurat-art.github.io/frito-web/sitemap.xml
