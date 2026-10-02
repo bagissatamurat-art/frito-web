@@ -84,9 +84,9 @@ input:focus-visible,textarea:focus-visible{outline:none}
         <!-- текущий заказ (если клиент вошёл и заказ ещё в работе) -->
         <sc-if value="{{ hasLive }}" hint-placeholder-val="{{ false }}"><div class="mn-live"><dc-import name="FritoOrderProgress" tone="brand" size="sm" caption="{{ live.caption }}" title="{{ live.title }}" eta="{{ live.eta }}" eta-unit="{{ live.etaUnit }}" eta-label="{{ live.etaLabel }}" eta-note="{{ live.etaNote }}" steps="{{ live.steps }}" thumbs="{{ live.thumbs }}" addr="{{ live.addr }}" cta="Отследить" on-open="{{ live.open }}" hint-size="100%,88px"></dc-import></div></sc-if>
         <div class="mn-stories">
-          <img role="button" tabIndex="0" onClick="{{ openStoryD0 }}" src="assets/story-stores.png" alt="Заказ через WhatsApp" class="mn-story">
-          <img role="button" tabIndex="0" onClick="{{ openStoryD1 }}" src="assets/story-new10.png" alt="NEW10 −10% в первый месяц работы сайта" class="mn-story">
-          <img role="button" tabIndex="0" onClick="{{ openStoryD2 }}" src="assets/story-whatsapp.png" alt="Рестораны и часы работы" class="mn-story-30">
+          <img role="button" tabIndex="0" onClick="{{ openStoryD0 }}" src="assets/story-stores.webp" alt="Заказ через WhatsApp" class="mn-story">
+          <img role="button" tabIndex="0" onClick="{{ openStoryD1 }}" src="assets/story-new10.webp" alt="NEW10 −10% в первый месяц работы сайта" class="mn-story">
+          <img role="button" tabIndex="0" onClick="{{ openStoryD2 }}" src="assets/story-whatsapp.webp" alt="Рестораны и часы работы" class="mn-story-30">
         </div>
       </div>
       <nav data-cat-nav class="mn-cats">
@@ -221,9 +221,9 @@ input:focus-visible,textarea:focus-visible{outline:none}
       </div>
       <sc-if value="{{ hasLive }}" hint-placeholder-val="{{ false }}"><div class="mn-m-live"><dc-import name="FritoOrderProgress" tone="brand" size="sm" caption="{{ live.caption }}" title="{{ live.title }}" eta="{{ live.eta }}" eta-unit="{{ live.etaUnit }}" eta-label="{{ live.etaLabel }}" eta-note="{{ live.etaNote }}" steps="{{ live.steps }}" thumbs="{{ live.thumbs }}" addr="{{ live.addr }}" cta="Отследить" on-open="{{ live.open }}" hint-size="100%,88px"></dc-import></div></sc-if>
       <div class="mn-m-stories">
-        <img role="button" tabIndex="0" onClick="{{ openStoryM0 }}" src="assets/story-stores.png" alt="Заказ через WhatsApp" class="mn-m-story">
-        <img role="button" tabIndex="0" onClick="{{ openStoryM1 }}" src="assets/story-new10.png" alt="NEW10 −10% в первый месяц работы сайта" class="mn-m-story">
-        <img role="button" tabIndex="0" onClick="{{ openStoryM2 }}" src="assets/story-whatsapp.png" alt="Рестораны и часы работы" class="mn-m-story-30">
+        <img role="button" tabIndex="0" onClick="{{ openStoryM0 }}" src="assets/story-stores.webp" alt="Заказ через WhatsApp" class="mn-m-story">
+        <img role="button" tabIndex="0" onClick="{{ openStoryM1 }}" src="assets/story-new10.webp" alt="NEW10 −10% в первый месяц работы сайта" class="mn-m-story">
+        <img role="button" tabIndex="0" onClick="{{ openStoryM2 }}" src="assets/story-whatsapp.webp" alt="Рестораны и часы работы" class="mn-m-story-30">
       </div>
     </div>
     <nav data-cat-nav class="mn-m-cats">
@@ -250,7 +250,7 @@ input:focus-visible,textarea:focus-visible{outline:none}
   <!-- floating cart -->
   <sc-if value="{{ mClosed }}" hint-placeholder-val="{{ true }}">
     <button onClick="{{ openMobile }}" class="mn-fab" style-active="transform:scale(.96)">
-      <img src="assets/bag-frito.png" alt="" class="mn-fab__bag">
+      <img src="assets/bag-frito.webp" alt="" class="mn-fab__bag">
       <span class="mn-fab__label">{{ pillLabel }}</span>
       <sc-if value="{{ hasItems }}" hint-placeholder-val="{{ false }}"><span class="mn-fab__count">{{ count }}</span></sc-if>
     </button>
@@ -381,7 +381,7 @@ input:focus-visible,textarea:focus-visible{outline:none}
 </div>
 </x-dc>
 <noscript class="seo-menu">
-<h1>Frito — доставка хрустящей курочки, бургеров и боксов</h1>
+<h2>Frito — доставка хрустящей курочки, бургеров и боксов</h2>
 <p>Доставка за 35–45 минут и самовывоз за 15 минут. Оплата Kaspi и картой онлайн. Заказ в WhatsApp: <a href="https://wa.me/77009380000">+7 700 938 00 00</a>.</p>
 <h2>Боксы</h2><ul><li><strong>Сеул бокс</strong> — Сеул бургер, фирменный фри, три куриных стрипса, напиток 0,5 л и фирменный соус Frito — 4190 ₸</li><li><strong>Классический бокс</strong> — Классический бургер, стрипсы (3 шт.), фри, фирменный соус Frito, напиток 0,5 л на выбор — 3890 ₸</li><li><strong>Делюкс бокс</strong> — Делюкс бургер, стрипсы (3 шт.), фирменный картофель фри, напиток 0,5 л и соус Frito — 4190 ₸</li><li><strong>Криспи бокс</strong> — Криспи бургер, стрипсы (3 шт.), фри, напиток 0,5 л на выбор, фирменный соус Frito — 4090 ₸</li><li><strong>Сальса бокс</strong> — Сальса бургер, стрипсы (3 шт.), фри, напиток 0,5 л и фирменный соус Frito — 4090 ₸</li><li><strong>Чиз BBQ бокс</strong> — Чиз BBQ бургер, стрипсы (3 шт.), фри, напиток 0,5 л и фирменный соус Frito — 4090 ₸</li></ul>
 <h2>Комбо</h2><ul><li><strong>Стрипсы комбо</strong> — Стрипсы (5 шт.), фирменный картофель фри, напиток 0,5 л — 3390 ₸</li><li><strong>Сеул комбо</strong> — Сеул бургер, фирменный фри, напиток 0,5 л и фирменный соус Frito — 3490 ₸</li><li><strong>Классический комбо</strong> — Классический бургер, картофель фри, напиток 0,5 л на выбор и соус Frito — 3190 ₸</li><li><strong>Криспи комбо</strong> — Криспи бургер, картофель фри, напиток 0,5 л на выбор и фирменный соус Frito — 3390 ₸</li><li><strong>Фритос комбо</strong> — Фритос, фирменный картофель фри, напиток 0,5 л на выбор и соус Frito — 3290 ₸</li><li><strong>Делюкс комбо</strong> — Делюкс бургер, фирменный картофель фри, напиток 0,5 л на выбор и соус Frito — 3490 ₸</li></ul>
@@ -471,9 +471,9 @@ const OUT_MS = 200;
 const EASE = 'cubic-bezier(.2,.8,.2,1)';
 const STORIES = [
   // имена файлов перепутаны в исходниках: story-stores.png — переписка WhatsApp, story-whatsapp.png — рестораны
-  { img: 'assets/story-stores.png', alt: 'Заказ через WhatsApp', cta: 'Написать в WhatsApp', href: (window.FritoContacts || {}).waUrl },
-  { img: 'assets/story-new10.png', alt: 'NEW10 −10% в первый месяц работы сайта', cta: 'Заказать со скидкой' },
-  { img: 'assets/story-whatsapp.png', alt: 'Рестораны и часы работы', cta: 'Выбрать ресторан', action: 'pickup' },
+  { img: 'assets/story-stores.webp', alt: 'Заказ через WhatsApp', cta: 'Написать в WhatsApp', href: (window.FritoContacts || {}).waUrl },
+  { img: 'assets/story-new10.webp', alt: 'NEW10 −10% в первый месяц работы сайта', cta: 'Заказать со скидкой' },
+  { img: 'assets/story-whatsapp.webp', alt: 'Рестораны и часы работы', cta: 'Выбрать ресторан', action: 'pickup' },
 ];
 class Component extends DCLogic {
   state = { cart: {}, mobileOpen: false, mode: null, address: null, door: false, modal: null, modalTarget: null, pendingId: null, menu: null, agree: true, addrDraft: '', activeD: 0, activeM: 0, logoBroken: false, promo: 'NEW10',  hidden: {}, pm: null, pmTarget: 'd', pmEdit: false, mods: {}, extra: {}, sels: {}, pendingQty: null };
@@ -574,7 +574,10 @@ class Component extends DCLogic {
   closeStory() { this.stopStory(); this.animateOut('story', () => this.setState({ story: null })); }
   // вход: FritoAuthModal → пользователь в localStorage.frito_user; вошедших ведём сразу на оформление
   user() { try { return JSON.parse(localStorage.getItem('frito_user')); } catch (e) { return null; } }
-  goCheckout(t) { fa('begin_checkout', { items: Object.keys(this.state.cart).map(id => anItem(id, this.state.cart[id], BY_ID[id].price + ((this.state.extra || {})[id] || 0))) }); if (this.user()) location.href = 'checkout.dc.html'; else this.setState({ auth: t, authReason: 'checkout' }); }
+  // корзина для оформления: frito_cart = { at, items:[{ id, qty, mods, extra }], promo, fee } (до сервера — через localStorage)
+  saveCart() { const s = this.state; try { localStorage.setItem('frito_cart', JSON.stringify({ at: Date.now(), promo: s.promo || null, fee: s.quote ? s.quote.fee : null,
+    items: Object.keys(s.cart).map(id => ({ id, qty: s.cart[id], mods: (s.mods || {})[id] || BY_ID[id].mods || '', extra: (s.extra || {})[id] || 0 })) })); } catch (e) {} }
+  goCheckout(t) { this.saveCart(); fa('begin_checkout', { items: Object.keys(this.state.cart).map(id => anItem(id, this.state.cart[id], BY_ID[id].price + ((this.state.extra || {})[id] || 0))) }); if (this.user()) location.href = 'checkout.dc.html'; else this.setState({ auth: t, authReason: 'checkout' }); }
   // плавное закрытие: сначала играет анимация ухода (out), потом элемент убирается
   animateOut(key, fn) {
     if (this._outT) return;

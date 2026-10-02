@@ -126,7 +126,7 @@ menu_extra = verify() + f'<script type="application/ld+json">{ld}</script>\n'
 # запасной HTML меню — для поисковиков и браузеров без JavaScript
 NS_RE = re.compile(r'<noscript class="seo-menu">.*?</noscript>\n?', re.S)
 fallback = ['<noscript class="seo-menu">',
-            '<h1>Frito — доставка хрустящей курочки, бургеров и боксов</h1>',
+            '<h2>Frito — доставка хрустящей курочки, бургеров и боксов</h2>',
             '<p>Доставка за 35–45 минут и самовывоз за 15 минут. Оплата Kaspi и картой онлайн. '
             f'Заказ в WhatsApp: <a href="https://wa.me/{PHONE_E164[1:]}">{e(C["phone"])}</a>.</p>']
 for cn, items in cats:

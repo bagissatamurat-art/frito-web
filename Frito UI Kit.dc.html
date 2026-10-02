@@ -5,6 +5,7 @@
 <!-- seo:start --><meta name="robots" content="noindex, nofollow"><!-- seo:end -->
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="./frito.css">
+<link rel="stylesheet" href="./info.css">
 <script src="./frito.js"></script>
 <script src="./support.js"></script>
 </head>
@@ -405,6 +406,12 @@ input,textarea,button{outline:none}
   <div style="display:flex;gap:12px;flex-wrap:wrap;max-width:720px"><div style="width:340px"><button type="button" class="f-cta"><span>Перейти к оформлению</span><span class="f-cta__right"><span class="f-cta__sep"></span><span class="f-cta__sum">9 470 ₸</span></span></button></div><div style="width:340px"><button type="button" class="f-cta is-disabled"><span>Перейти к оформлению</span><span class="f-cta__right"><span class="f-cta__sep"></span><span class="f-cta__sum">0 ₸</span></span></button></div></div>
   <div style="display:flex;gap:8px;flex-wrap:wrap"><button type="button" class="f-catchip is-on">Боксы</button><button type="button" class="f-catchip">Комбо</button><button type="button" class="f-catchip">Бургеры</button><button type="button" class="f-catchip f-catchip--sm is-on">Боксы</button><button type="button" class="f-catchip f-catchip--sm">Комбо</button></div>
   <span style="font-size:12px;color:#9CA3AF;font-family:ui-monospace,monospace">brand-card · cta · catchip</span>
+</section>
+
+<section style="background:#fff;border-radius:24px;padding:28px 32px;display:flex;flex-direction:column;gap:16px">
+  <div><h2 style="margin:0 0 4px;font-size:20px;font-weight:700">Страницы заявок · FritoLeadForm</h2><p style="margin:0;font-size:13px;color:#6B7280;line-height:1.5;max-width:900px">Один компонент для «Франшиза», «Поставщикам», «Предложить помещение» (prop kind: franchise | suppliers | place; тексты, поля, шаги и фото — в KINDS внутри компонента, фото — assets/partners/). Состав: первый экран (фирменная карточка + фото, уходящее в фиолетовый, чипы, «Оставить заявку» / WhatsApp) → «Что важно» (карточки с номерами) → «Как это проходит» (шаги; desktop — в ряд с линией, mobile — таймлайн) → заявка (карточка WhatsApp + форма → «Заявка отправлена»). Стили — info.css (.in-*). Отправка пока демо.</p></div>
+  <div style="background:var(--surface-1);border-radius:20px;padding:24px;display:flex;justify-content:center"><dc-import name="FritoLeadForm" kind="suppliers" hint-size="100%,1600px" style="width:100%;display:flex;justify-content:center"></dc-import></div>
+  <span style="font-size:12px;color:#9CA3AF;font-family:ui-monospace,monospace">lead-form · kind="suppliers" (так же franchise / place)</span>
 </section>
 
 <section style="background:#fff;border-radius:24px;padding:28px 32px;display:flex;flex-direction:column;gap:16px">

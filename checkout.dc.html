@@ -292,7 +292,7 @@ input,textarea,button{outline:none}
 
 </div>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props="{&quot;mode&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;delivery&quot;,&quot;options&quot;:[&quot;delivery&quot;,&quot;pickup&quot;],&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Сценарий&quot;},&quot;soldOut&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;none&quot;,&quot;options&quot;:[&quot;none&quot;,&quot;fritos-combo&quot;,&quot;salsa-box&quot;,&quot;crispy&quot;],&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Сценарий&quot;},&quot;promo&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;NEW10&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Сценарий&quot;},&quot;promoPercent&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:10,&quot;min&quot;:0,&quot;max&quot;:50,&quot;unit&quot;:&quot;%&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Сценарий&quot;},&quot;freeDeliveryFrom&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:12000,&quot;min&quot;:0,&quot;max&quot;:30000,&quot;step&quot;:500,&quot;unit&quot;:&quot;₸&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Доставка&quot;},&quot;deliveryFee&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:1000,&quot;min&quot;:0,&quot;max&quot;:3000,&quot;step&quot;:50,&quot;unit&quot;:&quot;₸&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Доставка&quot;}}">
+<script type="text/x-dc" data-dc-script data-props="{&quot;mode&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;delivery&quot;,&quot;options&quot;:[&quot;delivery&quot;,&quot;pickup&quot;],&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Сценарий&quot;},&quot;soldOut&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;none&quot;,&quot;options&quot;:[&quot;none&quot;,&quot;fritos-combo&quot;,&quot;salsa-box&quot;,&quot;crispy&quot;],&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Сценарий&quot;},&quot;promo&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;NEW10&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Сценарий&quot;},&quot;promoPercent&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:10,&quot;min&quot;:0,&quot;max&quot;:50,&quot;unit&quot;:&quot;%&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Сценарий&quot;},&quot;freeDeliveryFrom&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:8000,&quot;min&quot;:0,&quot;max&quot;:30000,&quot;step&quot;:500,&quot;unit&quot;:&quot;₸&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Доставка&quot;},&quot;deliveryFee&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:1000,&quot;min&quot;:0,&quot;max&quot;:3000,&quot;step&quot;:50,&quot;unit&quot;:&quot;₸&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Доставка&quot;}}">
 const SLOTS = ['12:30–13:00', '13:00–13:30', '13:30–14:00', '14:00–14:30', '14:30–15:00', '15:00–15:30'];
 let D = null; // frito-data.js
 const readJSON = k => { try { return JSON.parse(localStorage.getItem(k)); } catch (e) { return null; } };
@@ -322,15 +322,18 @@ class Component extends DCLogic {
     if (!D) return { loading: true };
     const p = this.props, s = this.state, fmt = D.fmt, user = readJSON('frito_user');
     const soldId = p.soldOut && p.soldOut !== 'none' ? p.soldOut : null;
-    const LINES = Object.keys(D.DEMO).filter(id => !s.hidden[id]).map(id => ({ ...D.BY_ID[id], qty: D.DEMO[id], soldOut: id === soldId, ok: id !== soldId }));
+    // корзина с главной (frito_cart); если её нет — демо-набор D.DEMO
+    const cart = readJSON('frito_cart'), cartItems = cart && cart.items && cart.items.length ? cart.items.filter(it => D.BY_ID[it.id]) : null;
+    const LINES = (cartItems || Object.keys(D.DEMO).map(id => ({ id, qty: D.DEMO[id], extra: 0 }))).filter(it => !s.hidden[it.id])
+      .map(it => ({ ...D.BY_ID[it.id], qty: it.qty, price: D.BY_ID[it.id].price + (it.extra || 0), mods: it.mods || D.BY_ID[it.id].mods, soldOut: it.id === soldId, ok: it.id !== soldId }));
     const soldLines = LINES.filter(l => l.soldOut), hasSold = soldLines.length > 0;
     const mode = s.modeTouched ? s.mode : (p.mode ?? s.mode), isDelivery = mode === 'delivery';
     // для аналитики (analytics.js): товары заказа
     const anItems = LINES.filter(l => l.ok).map(l => ({ id: l.id, name: l.name, price: l.price, qty: l.qty }));
     const subtotal = LINES.reduce((a, l) => a + (l.soldOut ? 0 : l.qty * l.price), 0);
-    const freeFrom = p.freeDeliveryFrom ?? 12000;
-    const fee = isDelivery ? (subtotal >= freeFrom ? 0 : (p.deliveryFee ?? 1000)) : 0;
-    const promo = s.promoTouched ? s.promo : (p.promo ?? D.PROMO.code), hasPromo = !!promo;
+    const freeFrom = p.freeDeliveryFrom ?? 8000;
+    const fee = isDelivery ? (subtotal >= freeFrom ? 0 : (p.deliveryFee ?? (cart && cart.fee) ?? 1000)) : 0;
+    const promo = s.promoTouched ? s.promo : (p.promo ?? (cart ? cart.promo : D.PROMO.code)), hasPromo = !!promo;
     const pct = p.promoPercent ?? D.PROMO.percent;
     const discount = hasPromo ? Math.round(subtotal * pct / 100) : 0;
     const total = subtotal + fee - discount;
@@ -367,7 +370,10 @@ class Component extends DCLogic {
       countLabel: D.plural(LINES.reduce((a, l) => a + (l.soldOut ? 0 : l.qty), 0)),
       hasSold, soldText: soldLines.map(l => l.name).join(', ') + ' разобрали — уберите ' + (soldLines.length > 1 ? 'их' : 'его') + ', чтобы продолжить',
       removeSold: () => this.setState(st => ({ hidden: { ...st.hidden, ...Object.fromEntries(soldLines.map(l => [l.id, true])) } })),
-      payDisabled: hasSold || LINES.length === 0, payGo: () => { try { const no = String(4800 + Math.floor(Math.random() * 190)); sessionStorage.setItem('frito_purchase', JSON.stringify({ transaction_id: no, items: anItems, value: total, shipping: fee, payment_type: s.pay, mode })); const list = readJSON('frito_orders') || []; list.unshift({ no, at: Date.now(), mode, address: isDelivery ? (s.addr || D.DEFAULT_ADDR) : (s.store ? s.store.name : D.STORES[0].name), items: LINES.filter(l => l.ok).map(l => [l.id, l.qty]), total, status: 'placed' }); localStorage.setItem('frito_orders', JSON.stringify(list.slice(0, 20))); } catch (e) {} location.href = 'order-status.html?mode=' + mode; }, payCursor: hasSold ? 'not-allowed' : 'pointer',
+      payDisabled: hasSold || LINES.length === 0, payGo: () => { try { const no = String(4800 + Math.floor(Math.random() * 190)); sessionStorage.setItem('frito_purchase', JSON.stringify({ transaction_id: no, items: anItems, value: total, shipping: fee, payment_type: s.pay, mode })); const list = readJSON('frito_orders') || []; list.unshift({ no, at: Date.now(), mode, address: isDelivery ? (s.addr || D.DEFAULT_ADDR) : (s.store ? s.store.name : D.STORES[0].name), items: LINES.filter(l => l.ok).map(l => [l.id, l.qty]), total, status: 'placed' }); localStorage.setItem('frito_orders', JSON.stringify(list.slice(0, 20))); localStorage.removeItem('frito_cart');
+        // страница созданного заказа (до сервера — состав через frito_view)
+        const byId = Object.fromEntries(LINES.filter(l => l.ok).map(l => [l.id, { name: l.name, price: l.price, img: l.img, mods: l.mods }]));
+        if (window.FritoOrder) return window.FritoOrder.open(list[0], byId, 'accepted'); } catch (e) {} location.href = 'order-status.html?mode=' + mode; }, payCursor: hasSold ? 'not-allowed' : 'pointer',
       payBg: hasSold ? 'var(--surface-3)' : 'var(--primary)', payColor: hasSold ? 'var(--ink-3)' : '#fff', payOpacity: hasSold ? .5 : 1, payFilter: hasSold ? 'grayscale(1)' : 'none',
       promoCode: promo || '', setPromo: c => this.setState({ promo: c, promoTouched: true }), promoDesc: '−' + pct + '% на первый заказ',
       removePromo: () => this.setState({ promo: null, promoTouched: true }),
