@@ -56,7 +56,7 @@ button{outline:none}
       <div class="{{ gridCls }}">
         <!-- хаб: профиль, текущий заказ (мобайл), разделы -->
         <aside class="ac-side">
-          <button type="button" class="f-panel ac-me" onClick="{{ openProfile }}">
+          <button type="button" class="f-brand-card ac-me" onClick="{{ openProfile }}">
             <span class="ac-me__avatar" aria-hidden="true"><sc-if value="{{ hasName }}" hint-placeholder-val="{{ true }}">{{ initial }}</sc-if><sc-if value="{{ noName }}" hint-placeholder-val="{{ false }}"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4.5 20a7.5 7.5 0 0 1 15 0"/></svg></sc-if></span>
             <span class="ac-me__name">{{ displayName }}</span>
             <span class="ac-me__meta">{{ meMeta }}</span>
