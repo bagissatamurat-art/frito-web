@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="./frito.css">
+<link rel="stylesheet" href="./info.css">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<!-- Заявка партнёра: франшиза / поставщики / помещение. Слева (на телефоне — сверху) короткий блок «что важно знать», справа форма → «Заявка отправлена».
+     Поля и тексты — в KINDS ниже. Стили — .in-* (info.css). Отправка пока демо: до сервера заявка нигде не сохраняется. -->
+<div class="in-lead">
+  <div class="f-page-head in-lead__head">
+    <span class="f-eyebrow">{{ eyebrow }}</span>
+    <h1 class="f-page-title">{{ title }}</h1>
+    <p class="f-page-lead">{{ lead }}</p>
+  </div>
+  <div class="in-lead__grid">
+    <aside class="in-facts" aria-label="{{ factsTitle }}">
+      <h2 class="in-facts__title">{{ factsTitle }}</h2>
+      <ul class="in-facts__list">
+        <sc-for list="{{ facts }}" as="fc" hint-placeholder-count="4">
+          <li class="in-fact"><span class="in-fact__num">{{ fc.n }}</span><span class="in-fact__text"><span class="in-fact__title">{{ fc.title }}</span><span class="in-fact__sub">{{ fc.text }}</span></span></li>
+        </sc-for>
+      </ul>
+      <p class="in-facts__note">{{ note }}</p>
+    </aside>
+
+    <sc-if value="{{ showForm }}" hint-placeholder-val="{{ true }}">
+    <form onSubmit="{{ submit }}" noValidate="{{ true }}" class="in-form">
+      <h2 class="in-form__title">{{ formTitle }}</h2>
+      <sc-for list="{{ fields }}" as="fd" hint-placeholder-count="6">
+        <div class="f-field-wrap">
+          <sc-if value="{{ fd.isInput }}" hint-placeholder-val="{{ true }}"><dc-import name="FritoInput" label="{{ fd.label }}" value="{{ fd.value }}" on-change="{{ fd.set }}" mask="{{ fd.mask }}" required="{{ fd.required }}" multiline="{{ fd.multiline }}" clearable="{{ fd.clearable }}" error="{{ fd.err }}" hint-size="100%,56px"></dc-import></sc-if>
+          <sc-if value="{{ fd.isSelect }}" hint-placeholder-val="{{ false }}">
+            <label class="f-select">
+              <span class="f-select__label">{{ fd.label }}<sc-if value="{{ fd.required }}" hint-placeholder-val="{{ true }}"><span aria-hidden="true" class="f-field__req">*</span></sc-if></span>
+              <select value="{{ fd.value }}" onChange="{{ fd.pick }}" aria-required="{{ fd.required }}" class="f-select__control">
+                <option value="" disabled="{{ true }}">{{ fd.placeholder }}</option>
+                <sc-for list="{{ fd.options }}" as="op" hint-placeholder-count="4"><option value="{{ op }}">{{ op }}</option></sc-for>
+              </select>
+              <span aria-hidden="true" class="f-select__arrow"></span>
+            </label>
+          </sc-if>
+          <sc-if value="{{ fd.isChips }}" hint-placeholder-val="{{ false }}">
+            <div class="in-chips-wrap"><span class="in-chips__label">{{ fd.label }}<sc-if value="{{ fd.required }}" hint-placeholder-val="{{ true }}"><span aria-hidden="true" class="f-field__req">*</span></sc-if></span>
+              <div class="f-mchips" role="radiogroup" aria-label="{{ fd.label }}"><sc-for list="{{ fd.chips }}" as="ch" hint-placeholder-count="3"><button type="button" role="radio" aria-checked="{{ ch.on }}" class="{{ ch.cls }}" onClick="{{ ch.pick }}">{{ ch.label }}</button></sc-for></div>
+            </div>
+          </sc-if>
+          <sc-if value="{{ fd.err }}" hint-placeholder-val="{{ false }}"><span class="f-error">{{ fd.errText }}</span></sc-if>
+        </div>
+      </sc-for>
+      <div class="in-form__submit">
+        <label class="in-agree">
+          <input type="checkbox" checked="{{ agree }}" onChange="{{ toggleAgree }}" class="f-sr-input">
+          <span aria-hidden="true" class="{{ agreeCls }}"><span class="f-check__tick"></span></span>
+          <span class="in-agree__text">Даю согласие на <a href="privacy.dc.html" target="_blank">обработку персональных данных</a></span>
+        </label>
+        <button type="submit" disabled="{{ sending }}" class="{{ ctaCls }}">{{ ctaText }}</button>
+        <sc-if value="{{ ctaHint }}" hint-placeholder-val="{{ false }}"><span class="in-form__hint">{{ ctaHint }}</span></sc-if>
+      </div>
+    </form>
+    </sc-if>
+
+    <sc-if value="{{ showDone }}" hint-placeholder-val="{{ false }}">
+    <div class="in-form in-done" role="status">
+      <span aria-hidden="true" class="in-done__icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span>
+      <h2 class="in-done__title">Заявка отправлена</h2>
+      <p class="in-done__text">{{ doneText }}</p>
+      <div class="in-done__actions"><a href="menu.dc.html" class="f-btn f-btn--primary f-btn--md">В меню</a><button type="button" onClick="{{ reset }}" class="f-btn f-btn--secondary f-btn--md">Отправить ещё одну</button></div>
+    </div>
+    </sc-if>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1200,&quot;height&quot;:900},&quot;kind&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;franchise&quot;,&quot;options&quot;:[&quot;franchise&quot;,&quot;suppliers&quot;,&quot;place&quot;],&quot;tsType&quot;:&quot;string&quot;},&quot;state&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;form&quot;,&quot;options&quot;:[&quot;form&quot;,&quot;done&quot;],&quot;tsType&quot;:&quot;string&quot;}}">
+const CITIES = ['Астана', 'Алматы', 'Шымкент', 'Караганда', 'Актобе', 'Другой город'];
+const NAME = { id: 'name', label: 'Как к вам обращаться', required: true, err: 'Укажите имя' };
+const PHONE = { id: 'phone', label: 'Номер телефона', mask: 'phone', required: true, err: 'Введите номер полностью' };
+const EMAIL = { id: 'email', label: 'Электронная почта', mask: 'email', err: 'Проверьте адрес почты' };
+const CITY = { id: 'city', type: 'select', label: 'Город', placeholder: 'Выберите город', options: CITIES, required: true, err: 'Выберите город' };
+const KINDS = {
+  franchise: {
+    eyebrow: 'ФРАНШИЗА', title: 'Откройте Frito в своём городе', lead: 'Оставьте заявку — менеджер по развитию свяжется с вами, расскажет об условиях и пришлёт презентацию.',
+    factsTitle: 'Что вы получаете',
+    facts: [['Готовую модель', 'Меню, рецептуры, стандарты кухни и сервиса — всё, что работает в наших ресторанах'], ['Обучение команды', 'Готовим управляющего и поваров до открытия и остаёмся на связи после'], ['Поставки и закупки', 'Проверенные поставщики продуктов и упаковки'], ['Маркетинг и доставку', 'Бренд, сайт и приложение, акции и сервисы доставки — подключаем ваш ресторан']],
+    note: 'Условия и объём инвестиций зависят от города и формата — обсудим после заявки.',
+    formTitle: 'Заявка на франшизу',
+    fields: [NAME, PHONE, EMAIL, CITY,
+      { id: 'exp', type: 'chips', label: 'Опыт в общепите', options: ['Есть свой бизнес в общепите', 'Есть другой бизнес', 'Пока нет'], required: true, err: 'Выберите вариант' },
+      { id: 'budget', type: 'select', label: 'Планируемые инвестиции', placeholder: 'Выберите диапазон', options: ['До 30 млн ₸', '30–60 млн ₸', '60–100 млн ₸', 'Больше 100 млн ₸', 'Пока не знаю'] },
+      { id: 'comment', label: 'Комментарий', multiline: true }],
+    done: 'Менеджер по развитию свяжется с вами в течение двух рабочих дней.',
+  },
+  suppliers: {
+    eyebrow: 'ПОСТАВЩИКАМ', title: 'Станьте поставщиком Frito', lead: 'Расскажите о компании и продукции — отдел закупок изучит предложение и ответит.',
+    factsTitle: 'Что для нас важно',
+    facts: [['Стабильное качество', 'Одинаковый продукт от партии к партии и понятные спецификации'], ['Документы', 'Декларации и сертификаты соответствия, ветеринарные документы для продукции животного происхождения'], ['Логистика', 'Регулярные поставки по графику — в один или несколько городов, где мы работаем'], ['Честная цена', 'Прозрачные условия и готовность к долгосрочному сотрудничеству']],
+    note: 'Нас интересуют продукты, напитки, соусы, упаковка, оборудование и сервисы для ресторанов.',
+    formTitle: 'Предложение о поставках',
+    fields: [{ id: 'company', label: 'Компания', required: true, err: 'Укажите название компании' }, NAME, PHONE, EMAIL,
+      { id: 'cat', type: 'select', label: 'Что поставляете', placeholder: 'Выберите категорию', options: ['Мясо и птица', 'Овощи и зелень', 'Хлеб и выпечка', 'Соусы и специи', 'Напитки', 'Упаковка и одноразовая посуда', 'Оборудование', 'Другое'], required: true, err: 'Выберите категорию' },
+      { id: 'cities', type: 'chips', label: 'Куда можете поставлять', options: ['Только в один город', 'В несколько городов', 'По всему Казахстану'], required: true, err: 'Выберите вариант' },
+      { id: 'site', label: 'Сайт или каталог (ссылка)' },
+      { id: 'comment', label: 'Коротко о предложении', multiline: true, required: true, err: 'Опишите предложение' }],
+    done: 'Отдел закупок изучит предложение и ответит в течение пяти рабочих дней.',
+  },
+  place: {
+    eyebrow: 'ПОМЕЩЕНИЯ', title: 'Предложите помещение', lead: 'Ищем места для новых ресторанов Frito. Пришлите описание — если подойдёт, приедем посмотреть.',
+    factsTitle: 'Что нам подходит',
+    facts: [['Высокий трафик', 'Первая линия у оживлённых улиц, фуд-корты ТРЦ, места у вузов и бизнес-центров'], ['Площадь', 'Островки и фуд-корт от 30 м², отдельный ресторан — от 80 м²'], ['Инженерия', 'Возможность вытяжки, достаточная электрическая мощность, вода и канализация'], ['Удобный подъезд', 'Парковка или остановка рядом, удобная точка выдачи для курьеров']],
+    note: 'Рассматриваем аренду и продажу, от собственников и агентов.',
+    formTitle: 'Описание помещения',
+    fields: [NAME, PHONE, CITY,
+      { id: 'address', label: 'Адрес помещения', required: true, err: 'Укажите адрес' },
+      { id: 'type', type: 'chips', label: 'Формат', options: ['Фуд-корт ТРЦ', 'Отдельное помещение', 'Первая линия'], required: true, err: 'Выберите формат' },
+      { id: 'area', label: 'Площадь, м²', required: true, err: 'Укажите площадь' },
+      { id: 'deal', type: 'chips', label: 'Условия', options: ['Аренда', 'Продажа'], required: true, err: 'Выберите условия' },
+      { id: 'role', type: 'chips', label: 'Вы', options: ['Собственник', 'Агент'] },
+      { id: 'comment', label: 'Цена, этаж, ссылка на фото — что важно знать', multiline: true }],
+    done: 'Если помещение подойдёт, менеджер по развитию свяжется с вами в течение пяти рабочих дней.',
+  },
+};
+const okPhone = v => (v || '').replace(/\D/g, '').length >= 11;
+const okEmail = v => !v.trim() || /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.trim());
+class Component extends DCLogic {
+  state = { f: {}, agree: false, tried: false, sending: false, done: false };
+  set(k, v) { this.setState(s => ({ f: { ...s.f, [k]: v } })); }
+  errors(cfg) {
+    const f = this.state.f, e = {};
+    cfg.fields.forEach(fd => {
+      const v = (f[fd.id] || '').trim();
+      if (fd.required && !v) e[fd.id] = true;
+      if (fd.mask === 'phone' && v && !okPhone(v)) e[fd.id] = true;
+      if (fd.mask === 'email' && !okEmail(v)) e[fd.id] = true;
+    });
+    return e;
+  }
+  renderVals() {
+    const p = this.props, s = this.state, cfg = KINDS[p.kind] || KINDS.franchise, errs = this.errors(cfg);
+    const valid = !Object.keys(errs).length, canSend = valid && s.agree, done = p.state === 'done' || s.done;
+    return {
+      eyebrow: cfg.eyebrow, title: cfg.title, lead: cfg.lead, factsTitle: cfg.factsTitle, note: cfg.note, formTitle: cfg.formTitle,
+      facts: cfg.facts.map(([title, text], i) => ({ n: i + 1, title, text })),
+      fields: cfg.fields.map(fd => {
+        const v = s.f[fd.id] || '', type = fd.type || 'input';
+        return { label: fd.label, value: v, required: !!fd.required, mask: fd.mask || '', multiline: !!fd.multiline, clearable: fd.mask !== 'phone', placeholder: fd.placeholder || '',
+          isInput: type === 'input', isSelect: type === 'select', isChips: type === 'chips', options: fd.options || [],
+          set: x => this.set(fd.id, x), pick: ev => this.set(fd.id, ev.target.value),
+          chips: (fd.options || []).map(o => ({ label: o, on: v === o, cls: 'f-mchip in-chip' + (v === o ? ' is-on' : ''), pick: () => this.set(fd.id, o) })),
+          err: s.tried && !!errs[fd.id], errText: fd.err || 'Заполните поле' };
+      }),
+      agree: s.agree, agreeCls: 'f-check' + (s.agree ? ' is-on' : ''), toggleAgree: () => this.setState({ agree: !s.agree }),
+      sending: s.sending, ctaText: s.sending ? 'Отправляем…' : 'Отправить заявку',
+      ctaCls: 'f-btn f-btn--primary f-btn--block' + (canSend ? '' : ' is-disabled'),
+      ctaHint: canSend ? '' : !s.agree && valid ? 'Отметьте согласие, чтобы отправить' : s.tried ? 'Заполните отмеченные поля' : '',
+      submit: ev => { ev && ev.preventDefault && ev.preventDefault(); if (!canSend) return this.setState({ tried: true });
+        this.setState({ sending: true }); setTimeout(() => this.setState({ sending: false, done: true }), 700); },
+      showForm: !done, showDone: done,
+      doneText: ((s.f.name || '').trim() ? s.f.name.trim().split(/\s+/)[0] + ', спасибо! ' : 'Спасибо! ') + cfg.done,
+      reset: () => this.setState({ f: {}, agree: false, tried: false, done: false }),
+    };
+  }
+}
+</script>
+</body>
+</html>

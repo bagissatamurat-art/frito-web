@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
+<title>Политика конфиденциальности · Frito</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<!-- компоненты первого экрана: грузим параллельно, без цепочки -->
+<link rel="preload" href="FritoHeader.dc.html" as="fetch" crossorigin="anonymous">
+<link rel="preload" href="FritoFooter.dc.html" as="fetch" crossorigin="anonymous">
+<script src="./frito-i18n.js"></script>
+<link rel="stylesheet" href="./frito.css">
+<link rel="stylesheet" href="./info.css">
+<script src="./frito.js"></script>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+body{margin:0;background:var(--surface-1)}
+a{color:var(--primary);text-decoration:none}a:hover{color:var(--primary-dark)}
+*{box-sizing:border-box}
+input::placeholder{color:var(--ink-3)}
+input,select,button{outline:none}
+</style>
+</helmet>
+<div class="f-page">
+  <dc-import name="FritoHeader" back-label="В меню" hint-size="100%,72px"></dc-import>
+  <main class="in-main">
+    <div class="in-doc">
+      <div class="f-page-head in-doc__head">
+        <span class="f-eyebrow">ДОКУМЕНТЫ</span>
+        <h1 class="f-page-title">Политика конфиденциальности</h1>
+        <p class="f-page-lead">Какие данные мы собираем, зачем и как их защищаем. Коротко: только то, что нужно для заказа, и никому не продаём.</p>
+      </div>
+      <div class="in-doc__grid">
+      <nav class="in-toc" aria-label="Содержание">
+        <span class="in-toc__title">СОДЕРЖАНИЕ</span>
+        <a href="#who">1. Кто обрабатывает данные</a>
+        <a href="#what">2. Какие данные мы собираем</a>
+        <a href="#why">3. Зачем</a>
+        <a href="#share">4. Кому передаём</a>
+        <a href="#keep">5. Сколько храним</a>
+        <a href="#rights">6. Ваши права</a>
+        <a href="#cookies">7. Cookie</a>
+        <a href="#security">8. Защита данных</a>
+        <a href="#changes">9. Изменения политики</a>
+        <a href="#contacts">10. Контакты</a>
+      </nav>
+      <article class="in-body">
+      <section id="who">
+        <h2>1. Кто обрабатывает данные</h2>
+        <p>Оператор персональных данных — [наименование юрлица], БИН [—] (далее — Frito). Политика действует для сайта frito.kz и приложения Frito и составлена в соответствии с Законом Республики Казахстан «О персональных данных и их защите».</p>
+      </section>
+      <section id="what">
+        <h2>2. Какие данные мы собираем</h2>
+        <ul>
+          <li>Имя, номер телефона, электронная почта и дата рождения — если вы их указали;</li>
+          <li>адреса доставки и координаты точки на карте;</li>
+          <li>история заказов, оценки и отзывы;</li>
+          <li>технические данные: тип устройства, браузер, cookie и данные о посещениях сайта;</li>
+          <li>данные из заявок — анкеты кандидатов, заявки на франшизу, предложения поставщиков и помещений.</li>
+        </ul>
+        <p>Данные банковских карт мы не получаем и не храним — оплату обрабатывают банк и Kaspi.</p>
+      </section>
+      <section id="why">
+        <h2>3. Зачем</h2>
+        <ul>
+          <li>Принять, приготовить и доставить заказ, сообщить его статус;</li>
+          <li>войти в личный кабинет по коду из WhatsApp, Telegram или SMS;</li>
+          <li>показать историю заказов и быстро повторить заказ;</li>
+          <li>отправлять акции и новости — только если вы на это согласились, отписаться можно в кабинете;</li>
+          <li>улучшать сервис и разбирать обращения;</li>
+          <li>рассматривать заявки кандидатов и партнёров.</li>
+        </ul>
+      </section>
+      <section id="share">
+        <h2>4. Кому передаём</h2>
+        <p>Только тем, кто участвует в выполнении заказа: ресторану, курьеру (имя, телефон, адрес), платёжным сервисам и сервисам отправки сообщений. Также — государственным органам в случаях, предусмотренных законом. Мы не продаём персональные данные.</p>
+      </section>
+      <section id="keep">
+        <h2>5. Сколько храним</h2>
+        <p>Пока у вас есть аккаунт и ещё в течение срока, требуемого законодательством для бухгалтерского и налогового учёта. Данные из заявок — до окончания рассмотрения и не дольше одного года, если вы не стали нашим сотрудником или партнёром.</p>
+      </section>
+      <section id="rights">
+        <h2>6. Ваши права</h2>
+        <p>Вы можете узнать, какие данные мы храним, исправить их или попросить удалить, а также отозвать согласие на рассылки. Напишите на <a href="mailto:info@frito.kz">info@frito.kz</a> — ответим в течение 10 рабочих дней. Часть данных можно изменить самостоятельно в личном кабинете.</p>
+      </section>
+      <section id="cookies">
+        <h2>7. Cookie</h2>
+        <p>Сайт использует cookie и локальное хранилище браузера: чтобы помнить корзину, выбранный адрес, язык и вход в кабинет. Отключить cookie можно в настройках браузера — часть функций сайта при этом может работать некорректно.</p>
+      </section>
+      <section id="security">
+        <h2>8. Защита данных</h2>
+        <p>Передача данных шифруется, доступ к ним есть только у сотрудников, которым это нужно для работы. Мы регулярно проверяем меры защиты.</p>
+      </section>
+      <section id="changes">
+        <h2>9. Изменения политики</h2>
+        <p>Мы можем обновлять политику; новая редакция действует с момента публикации на этой странице. О существенных изменениях сообщим на сайте.</p>
+      </section>
+      <section id="contacts">
+        <h2>10. Контакты</h2>
+        <p>По вопросам персональных данных: <a href="mailto:info@frito.kz">info@frito.kz</a>.</p>
+      </section>
+        <p class="in-muted">Редакция от [дата] · [наименование юрлица], БИН [—]</p>
+      </article>
+      </div>
+    </div>
+  </main>
+  <div class="f-footer-wrap"><dc-import name="FritoFooter" hint-size="100%,420px"></dc-import></div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {}
+</script>
+</body>
+</html>

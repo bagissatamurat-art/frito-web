@@ -45,8 +45,8 @@
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1100,&quot;height&quot;:420},&quot;stores&quot;:{&quot;editor&quot;:null,&quot;default&quot;:null,&quot;tsType&quot;:&quot;{name:string,hours:string}[] | null&quot;},&quot;storesMax&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:8,&quot;min&quot;:1,&quot;max&quot;:20,&quot;tsType&quot;:&quot;number&quot;},&quot;showStores&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;}}">
 const GROUPS = [
-  { title: 'Компания', links: [{ label: 'Вакансии', href: 'vacancies.dc.html' }, { label: 'Франшиза', href: '#' }, { label: 'Поставщикам', href: '#' }, { label: 'Предложить помещение', href: '#' }] },
-  { title: 'Покупателям', links: [{ label: 'Личный кабинет', href: 'account.dc.html' }, { label: 'Доставка и оплата', href: '#' }, { label: 'Оферта', href: '#' }, { label: 'Конфиденциальность', href: '#' }] },
+  { title: 'Компания', links: [{ label: 'Вакансии', href: 'vacancies.dc.html' }, { label: 'Франшиза', href: 'franchise.dc.html' }, { label: 'Поставщикам', href: 'suppliers.dc.html' }, { label: 'Предложить помещение', href: 'place.dc.html' }] },
+  { title: 'Покупателям', links: [{ label: 'Личный кабинет', href: 'account.dc.html' }, { label: 'Доставка и оплата', href: 'delivery.dc.html' }, { label: 'Оферта', href: 'offer.dc.html' }, { label: 'Конфиденциальность', href: 'privacy.dc.html' }] },
 ];
 class Component extends DCLogic {
   state = { logoBroken: false };

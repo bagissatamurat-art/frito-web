@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
+<title>Публичная оферта · Frito</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<!-- компоненты первого экрана: грузим параллельно, без цепочки -->
+<link rel="preload" href="FritoHeader.dc.html" as="fetch" crossorigin="anonymous">
+<link rel="preload" href="FritoFooter.dc.html" as="fetch" crossorigin="anonymous">
+<script src="./frito-i18n.js"></script>
+<link rel="stylesheet" href="./frito.css">
+<link rel="stylesheet" href="./info.css">
+<script src="./frito.js"></script>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+body{margin:0;background:var(--surface-1)}
+a{color:var(--primary);text-decoration:none}a:hover{color:var(--primary-dark)}
+*{box-sizing:border-box}
+input::placeholder{color:var(--ink-3)}
+input,select,button{outline:none}
+</style>
+</helmet>
+<div class="f-page">
+  <dc-import name="FritoHeader" back-label="В меню" hint-size="100%,72px"></dc-import>
+  <main class="in-main">
+    <div class="in-doc">
+      <div class="f-page-head in-doc__head">
+        <span class="f-eyebrow">ДОКУМЕНТЫ</span>
+        <h1 class="f-page-title">Публичная оферта</h1>
+        <p class="f-page-lead">Договор на продажу блюд с доставкой и самовывозом через сайт и приложение Frito. Оформляя заказ, вы принимаете эти условия.</p>
+      </div>
+      <div class="in-doc__grid">
+      <nav class="in-toc" aria-label="Содержание">
+        <span class="in-toc__title">СОДЕРЖАНИЕ</span>
+        <a href="#terms">1. Термины</a>
+        <a href="#subject">2. Предмет договора</a>
+        <a href="#accept">3. Акцепт оферты</a>
+        <a href="#order">4. Оформление заказа</a>
+        <a href="#price">5. Цена и оплата</a>
+        <a href="#delivery">6. Доставка и получение</a>
+        <a href="#cancel">7. Отмена и возврат</a>
+        <a href="#resp">8. Ответственность</a>
+        <a href="#data">9. Персональные данные</a>
+        <a href="#final">10. Прочие условия</a>
+        <a href="#req">11. Реквизиты продавца</a>
+      </nav>
+      <article class="in-body">
+      <section id="terms">
+        <h2>1. Термины</h2>
+        <ul>
+          <li><b>Продавец</b> — [наименование юрлица], БИН [—], адрес: [юридический адрес].</li>
+          <li><b>Покупатель</b> — лицо, оформившее заказ на сайте frito.kz или в приложении Frito.</li>
+          <li><b>Заказ</b> — выбранные Покупателем блюда и напитки с указанием способа получения, адреса или ресторана и способа оплаты.</li>
+          <li><b>Сервис</b> — сайт frito.kz и мобильное приложение Frito.</li>
+        </ul>
+      </section>
+      <section id="subject">
+        <h2>2. Предмет договора</h2>
+        <p>Продавец продаёт Покупателю блюда и напитки по ценам, указанным в Сервисе на момент оформления Заказа, а Покупатель принимает и оплачивает Заказ. По выбору Покупателя Продавец организует доставку Заказа или передаёт его в ресторане (самовывоз).</p>
+      </section>
+      <section id="accept">
+        <h2>3. Акцепт оферты</h2>
+        <p>Акцептом оферты считается оформление Заказа в Сервисе с подтверждением согласия с её условиями. С этого момента договор считается заключённым.</p>
+      </section>
+      <section id="order">
+        <h2>4. Оформление заказа</h2>
+        <ol>
+          <li>Покупатель выбирает блюда, способ получения и указывает адрес доставки или ресторан.</li>
+          <li>Покупатель указывает имя и номер телефона для связи.</li>
+          <li>Ассортимент зависит от выбранного ресторана: если блюда нет в наличии, Сервис сообщит об этом до оплаты.</li>
+          <li>Продавец подтверждает Заказ в Сервисе; статус Заказа отображается на странице заказа.</li>
+        </ol>
+      </section>
+      <section id="price">
+        <h2>5. Цена и оплата</h2>
+        <p>Цены указаны в тенге и включают все налоги. Стоимость доставки рассчитывается по расстоянию от ресторана и показывается до оформления; при сумме Заказа от 8 000 ₸ доставка бесплатна. Оплата — через Kaspi, банковской картой онлайн или на кассе ресторана (только самовывоз). Подробнее — в разделе <a href="delivery.dc.html">«Доставка и оплата»</a>.</p>
+      </section>
+      <section id="delivery">
+        <h2>6. Доставка и получение</h2>
+        <p>Ориентировочное время доставки показывается при оформлении и может увеличиться из-за погоды, трафика или высокой загрузки — Покупатель видит актуальное время на странице заказа. Покупатель обеспечивает доступ курьера к адресу и находится на связи по указанному телефону. Заказ на самовывоз хранится в ресторане до конца рабочего дня.</p>
+      </section>
+      <section id="cancel">
+        <h2>7. Отмена и возврат</h2>
+        <p>Покупатель может отменить Заказ до начала приготовления. Если Заказ доставлен с недостатками (не та позиция, недовложение, нарушение качества), Покупатель сообщает об этом в день получения через WhatsApp; Продавец заменяет позицию или возвращает её стоимость. Возврат денежных средств производится тем же способом, которым была произведена оплата.</p>
+      </section>
+      <section id="resp">
+        <h2>8. Ответственность</h2>
+        <p>Продавец отвечает за качество блюд и соответствие Заказа. Продавец не отвечает за задержку, вызванную обстоятельствами непреодолимой силы или неверно указанными Покупателем данными. Информация о составе и аллергенах предоставляется по запросу.</p>
+      </section>
+      <section id="data">
+        <h2>9. Персональные данные</h2>
+        <p>Продавец обрабатывает персональные данные Покупателя в соответствии с <a href="privacy.dc.html">Политикой конфиденциальности</a> и законодательством Республики Казахстан.</p>
+      </section>
+      <section id="final">
+        <h2>10. Прочие условия</h2>
+        <p>Продавец вправе изменять оферту; новая редакция действует с момента публикации в Сервисе и не распространяется на уже оформленные Заказы. Споры решаются путём переговоров, а при недостижении согласия — в порядке, установленном законодательством Республики Казахстан.</p>
+      </section>
+      <section id="req">
+        <h2>11. Реквизиты продавца</h2>
+        <ul>
+          <li>[наименование юрлица], БИН [—]</li>
+          <li>Юридический адрес: [—]</li>
+          <li>Почта: <a href="mailto:info@frito.kz">info@frito.kz</a> · WhatsApp: +7 700 938 00 00</li>
+        </ul>
+      </section>
+        <p class="in-muted">Редакция от [дата] · [наименование юрлица], БИН [—]</p>
+      </article>
+      </div>
+    </div>
+  </main>
+  <div class="f-footer-wrap"><dc-import name="FritoFooter" hint-size="100%,420px"></dc-import></div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {}
+</script>
+</body>
+</html>

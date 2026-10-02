@@ -191,7 +191,7 @@ select:focus-visible{outline:none}
           <label class="ap-agree">
             <input type="checkbox" checked="{{ f.agree }}" onChange="{{ toggleAgree }}" class="f-sr-input">
             <span aria-hidden="true" class="{{ agreeCls }}"><span class="f-check__tick"></span></span>
-            <span class="ap-agree__text">Соглашаюсь с <a href="#">условиями оферты</a> и даю согласие на <a href="#">обработку персональных данных</a><span aria-hidden="true" class="f-field__req">*</span></span>
+            <span class="ap-agree__text">Соглашаюсь с <a href="offer.dc.html" target="_blank">условиями оферты</a> и даю согласие на <a href="privacy.dc.html" target="_blank">обработку персональных данных</a><span aria-hidden="true" class="f-field__req">*</span></span>
           </label>
           <button type="submit" disabled="{{ sending }}" class="{{ ctaCls }}">{{ ctaText }}</button>
           <sc-if value="{{ ctaHint }}" hint-placeholder-val="{{ false }}"><span class="ap-cta-hint">{{ ctaHint }}</span></sc-if>

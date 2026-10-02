@@ -156,7 +156,7 @@ input,textarea,button{outline:none}
           <div class="co-totals-wrap"><dc-import name="FritoTotals" subtotal="{{ subtotal }}" fee="{{ fee }}" discount="{{ discount }}" fee-title="{{ feeTitle }}" total-title="К оплате" hint-size="100%,140px"></dc-import></div>
           <sc-if value="{{ isKaspi }}" hint-placeholder-val="{{ true }}"><button aria-label="Оплатить с Kaspi.kz" onClick="{{ payGo }}" disabled="{{ payDisabled }}" style="width:100%;border:0;cursor:{{ payCursor }};background:transparent;padding:0;margin-top:4px;display:block;line-height:0;opacity:{{ payOpacity }};filter:{{ payFilter }}" style-hover="opacity:.92"><img src="assets/btn-kaspi-pay.svg" alt="Оплатить с Kaspi.kz" class="co-kaspi-img"></button></sc-if>
           <sc-if value="{{ notKaspi }}" hint-placeholder-val="{{ false }}"><button onClick="{{ payGo }}" disabled="{{ payDisabled }}" style="width:100%;border:0;cursor:{{ payCursor }};font:inherit;background:{{ payBg }};color:{{ payColor }};border-radius:999px;height:56px;padding:0 24px;font-size:17px;font-weight:600;display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:4px" style-hover="background:var(--primary-hover)"><span>{{ payLabel }}</span><span class="co-cta__right"><span class="co-cta__sep"></span><span class="co-bold">{{ totalLabel }}</span></span></button></sc-if>
-          <p class="co-legal">Нажимая кнопку, вы соглашаетесь с <a href="#">публичной офертой</a> и <a href="#">политикой обработки данных</a></p>
+          <p class="co-legal">Нажимая кнопку, вы соглашаетесь с <a href="offer.dc.html" target="_blank">публичной офертой</a> и <a href="privacy.dc.html" target="_blank">политикой обработки данных</a></p>
         </div>
       </div>
     </div>
@@ -252,7 +252,7 @@ input,textarea,button{outline:none}
       <sc-if value="{{ isDelivery }}" hint-placeholder-val="{{ true }}"><dc-import name="FritoDeliveryBar" subtotal="{{ subtotal }}" free-from="{{ freeFrom }}" compact="{{ true }}" hint-size="100%,56px"></dc-import></sc-if>
       <div class="co-m-totals"><dc-import name="FritoTotals" subtotal="{{ subtotal }}" fee="{{ fee }}" discount="{{ discount }}" fee-title="{{ feeTitle }}" total-title="К оплате" compact="{{ true }}" hint-size="100%,120px"></dc-import></div>
     </div>
-    <p class="co-m-legal">Нажимая кнопку оплаты, вы соглашаетесь с <a href="#">публичной офертой</a> и <a href="#">политикой обработки данных</a></p>
+    <p class="co-m-legal">Нажимая кнопку оплаты, вы соглашаетесь с <a href="offer.dc.html" target="_blank">публичной офертой</a> и <a href="privacy.dc.html" target="_blank">политикой обработки данных</a></p>
   </div>
   <div class="co-m__foot">
     <sc-if value="{{ isKaspi }}" hint-placeholder-val="{{ true }}">

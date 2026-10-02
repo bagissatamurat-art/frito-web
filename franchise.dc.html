@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
+<title>Франшиза · Frito</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<!-- компоненты первого экрана: грузим параллельно, без цепочки -->
+<link rel="preload" href="FritoHeader.dc.html" as="fetch" crossorigin="anonymous">
+<link rel="preload" href="FritoLeadForm.dc.html" as="fetch" crossorigin="anonymous">
+<link rel="preload" href="FritoInput.dc.html" as="fetch" crossorigin="anonymous">
+<link rel="preload" href="FritoFooter.dc.html" as="fetch" crossorigin="anonymous">
+<script src="./frito-i18n.js"></script>
+<link rel="stylesheet" href="./frito.css">
+<link rel="stylesheet" href="./info.css">
+<script src="./frito.js"></script>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+body{margin:0;background:var(--surface-1)}
+a{color:var(--primary);text-decoration:none}a:hover{color:var(--primary-dark)}
+*{box-sizing:border-box}
+input::placeholder{color:var(--ink-3)}
+input,select,button{outline:none}
+</style>
+</helmet>
+<div class="f-page">
+  <dc-import name="FritoHeader" back-label="В меню" hint-size="100%,72px"></dc-import>
+  <main class="in-main">
+    <dc-import name="FritoLeadForm" kind="franchise" hint-size="100%,900px" style="width:100%;display:flex;justify-content:center"></dc-import>
+  </main>
+  <div class="f-footer-wrap"><dc-import name="FritoFooter" hint-size="100%,420px"></dc-import></div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {}
+</script>
+</body>
+</html>
