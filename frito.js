@@ -97,3 +97,18 @@ window.FritoOrder = (() => {
   };
   return { FLOW, user, active, live, open };
 })();
+
+// Наличие по ресторанам (стоп-лист). Демо: до подключения кассы — фиксированный список.
+// Ключ — название ресторана (как в окне адреса), значение — id товаров, которых сейчас нет.
+window.FritoStock = (() => {
+  const STOP = {
+    'Кошкарбаева 36': ['seul-box', 'seul-combo', 'seul'],
+    'ТРЦ Аружан': ['deluxe-box', 'deluxe-combo', 'deluxe'],
+    'Аль-фараби 13п': ['fritos', 'fritos-combo'],
+    'Абая 52': ['seul-box', 'seul'],
+  };
+  const stop = store => (store && STOP[store]) || [];
+  const has = (store, id) => !stop(store).includes(id);
+  const missing = (store, ids) => (ids || []).filter(id => !has(store, id));
+  return { STOP, stop, has, missing };
+})();

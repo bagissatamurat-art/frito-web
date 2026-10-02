@@ -172,13 +172,13 @@
 
     <sc-if value="{{ showDeliv }}" hint-placeholder-val="{{ true }}">
       <div class="f-am__foot">
-        <sc-if value="{{ hasPending }}" hint-placeholder-val="{{ false }}"><div class="f-am__pending"><span class="f-am__pending-ic" aria-hidden="true"><img src="assets/ic-delivery-p.svg" alt=""></span><span>{{ pendingText }}</span></div></sc-if>
+        <sc-if value="{{ hasPending }}" hint-placeholder-val="{{ false }}"><div class="{{ pendingCls }}"><span class="f-am__pending-ic" aria-hidden="true"><sc-if value="{{ pendingOk }}" hint-placeholder-val="{{ true }}"><img src="assets/ic-delivery-p.svg" alt=""></sc-if><sc-if value="{{ pendingWarn }}" hint-placeholder-val="{{ false }}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 8v5M12 16.5v.01"/><circle cx="12" cy="12" r="9.5"/></svg></sc-if></span><span>{{ pendingText }}</span></div></sc-if>
         <button type="button" onClick="{{ confirm }}" disabled="{{ ctaDisabled }}" class="{{ ctaCls }}">{{ ctaLabel }}</button>
       </div>
     </sc-if>
     <sc-if value="{{ showPickup }}" hint-placeholder-val="{{ false }}">
       <div class="f-am__foot">
-        <sc-if value="{{ hasPending }}" hint-placeholder-val="{{ false }}"><div class="f-am__pending"><span class="f-am__pending-ic" aria-hidden="true"><img src="assets/ic-delivery-p.svg" alt=""></span><span>{{ pendingText }}</span></div></sc-if>
+        <sc-if value="{{ hasPending }}" hint-placeholder-val="{{ false }}"><div class="{{ pendingCls }}"><span class="f-am__pending-ic" aria-hidden="true"><sc-if value="{{ pendingOk }}" hint-placeholder-val="{{ true }}"><img src="assets/ic-delivery-p.svg" alt=""></sc-if><sc-if value="{{ pendingWarn }}" hint-placeholder-val="{{ false }}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 8v5M12 16.5v.01"/><circle cx="12" cy="12" r="9.5"/></svg></sc-if></span><span>{{ pendingText }}</span></div></sc-if>
         <button type="button" onClick="{{ confirm }}" class="f-btn f-btn--primary f-btn--block">Заберу отсюда</button>
       </div>
     </sc-if>
@@ -199,7 +199,7 @@
 </div>
 </div>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1200,&quot;height&quot;:800},&quot;layout&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;center&quot;,&quot;options&quot;:[&quot;center&quot;,&quot;sheet&quot;],&quot;tsType&quot;:&quot;'center' | 'sheet'&quot;},&quot;start&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;delivery&quot;,&quot;options&quot;:[&quot;delivery&quot;,&quot;outOfZone&quot;,&quot;pickup&quot;],&quot;tsType&quot;:&quot;'delivery' | 'outOfZone' | 'pickup'&quot;},&quot;fee&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:1000,&quot;min&quot;:0,&quot;max&quot;:3000,&quot;step&quot;:50,&quot;unit&quot;:&quot;тг&quot;,&quot;tsType&quot;:&quot;number&quot;},&quot;freeFrom&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:8000,&quot;min&quot;:0,&quot;max&quot;:20000,&quot;step&quot;:500,&quot;unit&quot;:&quot;тг&quot;,&quot;tsType&quot;:&quot;number&quot;},&quot;mode&quot;:{&quot;editor&quot;:null,&quot;default&quot;:null,&quot;tsType&quot;:&quot;'delivery' | 'pickup'&quot;},&quot;onClose&quot;:{&quot;editor&quot;:null,&quot;default&quot;:null,&quot;tsType&quot;:&quot;() =&gt; void&quot;},&quot;onConfirm&quot;:{&quot;editor&quot;:null,&quot;default&quot;:null,&quot;tsType&quot;:&quot;(r: { mode, address, sub?, details?, store?, lat?, lng? }) =&gt; void&quot;}}">
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1200,&quot;height&quot;:800},&quot;pendingItems&quot;:{&quot;editor&quot;:null,&quot;default&quot;:null,&quot;tsType&quot;:&quot;{ id, name }[]&quot;},&quot;layout&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;center&quot;,&quot;options&quot;:[&quot;center&quot;,&quot;sheet&quot;],&quot;tsType&quot;:&quot;'center' | 'sheet'&quot;},&quot;start&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;delivery&quot;,&quot;options&quot;:[&quot;delivery&quot;,&quot;outOfZone&quot;,&quot;pickup&quot;],&quot;tsType&quot;:&quot;'delivery' | 'outOfZone' | 'pickup'&quot;},&quot;fee&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:1000,&quot;min&quot;:0,&quot;max&quot;:3000,&quot;step&quot;:50,&quot;unit&quot;:&quot;тг&quot;,&quot;tsType&quot;:&quot;number&quot;},&quot;freeFrom&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:8000,&quot;min&quot;:0,&quot;max&quot;:20000,&quot;step&quot;:500,&quot;unit&quot;:&quot;тг&quot;,&quot;tsType&quot;:&quot;number&quot;},&quot;mode&quot;:{&quot;editor&quot;:null,&quot;default&quot;:null,&quot;tsType&quot;:&quot;'delivery' | 'pickup'&quot;},&quot;onClose&quot;:{&quot;editor&quot;:null,&quot;default&quot;:null,&quot;tsType&quot;:&quot;() =&gt; void&quot;},&quot;onConfirm&quot;:{&quot;editor&quot;:null,&quot;default&quot;:null,&quot;tsType&quot;:&quot;(r: { mode, address, sub?, details?, store?, lat?, lng? }) =&gt; void&quot;}}">
 const MAPBOX_TOKEN = 'pk.eyJ1IjoibWFnemhhbnpodW1hYmF5ZXYiLCJhIjoiY21qOGpsdXB1MDE2YjNkczRlanBmMjM0ZSJ9.v87zIG8ez524yvwT9EwM3A';
 const MAPBOX_STYLE = 'mapbox://styles/mapbox/streets-v12';
 // DaData: во фронте только публичный API-ключ (suggest/geolocate). Секретный ключ — только на бэкенде.
@@ -516,8 +516,12 @@ class Component extends DCLogic {
   }
   confirm() {
     const s = this.state, p = this.props; if (!p.onConfirm) return;
-    if (s.mode === 'pickup') { const st = STORES[s.store]; p.onConfirm({ mode: 'pickup', address: st.name, store: st, city: cityName(st.city) }); }
-    else { const from = STORES[this.nearest(s.center)], q = quote(km(s.center, from)); p.onConfirm({ mode: 'delivery', address: s.addr, sub: s.sub, city: cityName(from.city), from: from.name, lat: s.center.lat, lng: s.center.lng, fee: q.fee, eta: q.etaMin + '–' + q.etaMax + ' мин' }); }
+    // рестораны того же города, где есть все ждущие товары (для окна «нет в наличии»)
+    const pend = p.pendingItems || [], stock = window.FritoStock;
+    const alts = (city, ref, skip) => !stock || !pend.length ? [] : this.cityStores(city, ref).filter(({ st }) => st.name !== skip && pend.every(it => stock.has(st.name, it.id)))
+      .slice(0, 3).map(({ st, d }) => ({ name: st.name, dist: kmLabel(d), hours: st.hours, city: cityName(st.city) }));
+    if (s.mode === 'pickup') { const st = STORES[s.store]; p.onConfirm({ mode: 'pickup', address: st.name, store: st, city: cityName(st.city), alts: alts(st.city, st, st.name) }); }
+    else { const from = STORES[this.nearest(s.center)], q = quote(km(s.center, from)); p.onConfirm({ mode: 'delivery', address: s.addr, sub: s.sub, city: cityName(from.city), from: from.name, lat: s.center.lat, lng: s.center.lng, fee: q.fee, eta: q.etaMin + '–' + q.etaMax + ' мин', alts: alts(from.city, s.center, from.name) }); }
   }
   renderVals() {
     const p = this.props, s = this.state, sheet = p.layout === 'sheet', center = !sheet;
@@ -530,10 +534,17 @@ class Component extends DCLogic {
     // Точка отсчёта фиксируется при входе в самовывоз, иначе список пересортировывается при каждом движении карты
     if (!this._ref) this._ref = s.center;
     const ref = this._dc || this._ref;
+    // наличие (FritoStock из frito.js): p.pendingItems — [{ id, name }] товаров, ждущих выбора способа
+    const pend = p.pendingItems || [], stock = window.FritoStock;
+    const lackAt = name => stock ? pend.filter(it => !stock.has(name, it.id)).map(it => it.name) : [];
+    const fromStore = deliv ? STORES[this.nearest(s.center)].name : (STORES[s.store] || {}).name;
+    const lack = deliv && !s.inZone ? [] : lackAt(fromStore);
     const stores = this.cityStores(s.city, ref).map(({ st, i, d }) => {
       const o = openInfo(st.hours), sel = i === s.store;
-      return { idx: i, name: st.name, dist: kmLabel(d), openText: o.text, pick: () => this.pickStore(i),
-        cls: 'f-am__store' + (sel ? ' is-on' : ''), openCls: 'f-am__open' + (o.open ? ' is-open' : '') };
+      // товара, который ждёт выбора, нет в этом ресторане — вместо часов работы предупреждение
+      const no = lackAt(st.name);
+      return { idx: i, name: st.name, dist: kmLabel(d), openText: no.length ? 'Нет: ' + no.join(', ') : o.text, pick: () => this.pickStore(i),
+        cls: 'f-am__store' + (sel ? ' is-on' : ''), openCls: 'f-am__open' + (no.length ? ' is-warn' : o.open ? ' is-open' : '') };
     });
     const hasQ = !!s.q.trim();
     const rows = (hasQ ? s.sugg.map(r => ({ ...r, recent: false, found: true })) : RECENT.filter(r => r.city === s.city).map(r => ({ ...r, recent: true, found: false })))
@@ -544,7 +555,8 @@ class Component extends DCLogic {
       isCenter: center, isSheet: sheet, mapRef: this.mapRef, inputRef: this.inputRef, carRef: this.carRef, onCarScroll: () => this.onCarScroll(), mode: s.mode, mapFail: s.mapFail,
       title: deliv ? 'Куда доставить заказ?' : 'Где заберёте заказ?',
       // товар, который ждёт выбора способа получения (props.pending — подпись)
-      hasPending: !!p.pending, pendingText: (p.pending || '') + ' — добавим в корзину сразу после выбора',
+      hasPending: !!p.pending, pendingOk: !lack.length, pendingWarn: !!lack.length, pendingCls: 'f-am__pending' + (lack.length ? ' is-warn' : ''),
+      pendingText: lack.length ? (deliv ? 'В ближайшем ресторане (' + fromStore + ') нет: ' + lack.join(', ') + ' — остальное добавим' : 'Здесь нет: ' + lack.join(', ') + ' — выберите другой ресторан') : (p.pending || '') + ' — добавим в корзину сразу после выбора',
       wrapPad: center ? '32px' : '0', dlgMaxW: center ? '1120px' : '100%', dlgMaxH: center ? '720px' : '100%', dlgRadius: center ? '32px' : '0', dlgDir: center ? 'row' : 'column',
       mapOrder: center ? 2 : 0, panelW: center ? '420px' : '100%',
       panelFlex: center ? '0 0 420px' : srch ? '1 1 100%' : '0 0 auto', panelMaxH: center ? 'none' : srch ? '100%' : '64%',

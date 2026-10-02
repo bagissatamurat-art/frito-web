@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="./frito.css">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<!-- Товара нет в выбранном ресторане (после выбора адреса/ресторана). Что нет → где есть рядом (забрать оттуда) → изменить адрес или продолжить без него. Стили — .f-stock* -->
+<div class="f-modal">
+<sc-if value="{{ isCenter }}" hint-placeholder-val="{{ true }}">
+  <div class="f-modal__center">
+    <div class="f-overlay" onClick="{{ close }}"></div>
+    <div class="f-dialog f-dialog--flush f-stock" role="alertdialog" aria-modal="true" aria-label="{{ title }}">
+      <div class="f-stock__close"><dc-import name="FritoCloseButton" on-click="{{ close }}" style="width:40px;height:40px" hint-size="40px,40px"></dc-import></div>
+      <div class="f-stock__body">
+        <div class="f-stock__thumbs"><sc-for list="{{ items }}" as="it" hint-placeholder-count="1"><span class="f-stock__thumb"><sc-if value="{{ it.hasImg }}" hint-placeholder-val="{{ true }}"><img data-src="{{ it.img }}" alt="" class="f-cover-img"></sc-if><span class="f-stock__badge">Нет</span></span></sc-for></div>
+        <div class="f-stock__head"><h2 class="f-stock__title">{{ title }}</h2><p class="f-stock__text">{{ text }}</p></div>
+        <sc-if value="{{ hasAlts }}" hint-placeholder-val="{{ true }}">
+          <div class="f-stock__alts">
+            <span class="f-stock__alts-title">{{ altsTitle }}</span>
+            <sc-for list="{{ alts }}" as="a" hint-placeholder-count="2">
+              <button type="button" class="f-stock__alt" onClick="{{ a.pick }}"><span class="f-stock__alt-ic" aria-hidden="true"><img src="assets/ic-pickup-p.svg" alt=""></span><span class="f-stock__alt-text"><span class="f-stock__alt-name">{{ a.name }}</span><span class="f-stock__alt-sub">{{ a.sub }}</span></span><span class="f-stock__alt-go">Забрать отсюда</span></button>
+            </sc-for>
+          </div>
+        </sc-if>
+      </div>
+      <div class="f-stock__foot"><button type="button" class="f-btn f-btn--primary f-btn--block" onClick="{{ close }}">{{ okLabel }}</button><button type="button" class="f-btn f-btn--ghost f-btn--block" onClick="{{ change }}">{{ changeLabel }}</button></div>
+    </div>
+  </div>
+</sc-if>
+<sc-if value="{{ isSheet }}" hint-placeholder-val="{{ false }}">
+  <div class="f-overlay" onClick="{{ close }}"></div>
+  <div class="f-sheet f-sheet--flush f-stock" role="alertdialog" aria-modal="true" aria-label="{{ title }}">
+    <div class="f-grabber-wrap" style="padding-top:10px"><div class="f-grabber"></div></div>
+    <div class="f-stock__body">
+      <div class="f-stock__thumbs"><sc-for list="{{ items }}" as="it" hint-placeholder-count="1"><span class="f-stock__thumb"><sc-if value="{{ it.hasImg }}" hint-placeholder-val="{{ true }}"><img data-src="{{ it.img }}" alt="" class="f-cover-img"></sc-if><span class="f-stock__badge">Нет</span></span></sc-for></div>
+      <div class="f-stock__head"><h2 class="f-stock__title">{{ title }}</h2><p class="f-stock__text">{{ text }}</p></div>
+      <sc-if value="{{ hasAlts }}" hint-placeholder-val="{{ true }}">
+        <div class="f-stock__alts">
+          <span class="f-stock__alts-title">{{ altsTitle }}</span>
+          <sc-for list="{{ alts }}" as="a" hint-placeholder-count="2">
+            <button type="button" class="f-stock__alt" onClick="{{ a.pick }}"><span class="f-stock__alt-ic" aria-hidden="true"><img src="assets/ic-pickup-p.svg" alt=""></span><span class="f-stock__alt-text"><span class="f-stock__alt-name">{{ a.name }}</span><span class="f-stock__alt-sub">{{ a.sub }}</span></span><span class="f-stock__alt-go">Забрать</span></button>
+          </sc-for>
+        </div>
+      </sc-if>
+    </div>
+    <div class="f-stock__foot"><button type="button" class="f-btn f-btn--primary f-btn--block" onClick="{{ close }}">{{ okLabel }}</button><button type="button" class="f-btn f-btn--ghost f-btn--block" onClick="{{ change }}">{{ changeLabel }}</button></div>
+  </div>
+</sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:720,&quot;height&quot;:720},&quot;layout&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;center&quot;,&quot;options&quot;:[&quot;center&quot;,&quot;sheet&quot;],&quot;tsType&quot;:&quot;string&quot;},&quot;mode&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;pickup&quot;,&quot;options&quot;:[&quot;delivery&quot;,&quot;pickup&quot;],&quot;tsType&quot;:&quot;string&quot;},&quot;store&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Кошкарбаева 36&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;addedCount&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:0,&quot;tsType&quot;:&quot;number&quot;},&quot;items&quot;:{&quot;editor&quot;:null,&quot;default&quot;:null,&quot;tsType&quot;:&quot;{ name, img }[]&quot;},&quot;alts&quot;:{&quot;editor&quot;:null,&quot;default&quot;:null,&quot;tsType&quot;:&quot;{ name, dist, hours, pick }[]&quot;},&quot;onChange&quot;:{&quot;editor&quot;:null,&quot;default&quot;:null,&quot;tsType&quot;:&quot;() =&gt; void&quot;},&quot;onClose&quot;:{&quot;editor&quot;:null,&quot;default&quot;:null,&quot;tsType&quot;:&quot;() =&gt; void&quot;}}">
+const DEMO = [{ name: 'Сеул бокс', img: 'https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/frito-co/96814/images/items/493305c90f0660b1f1d007b5c3986289.JPEG' }];
+const DEMO_ALTS = [{ name: 'Сыганак 11', dist: '1,8 км', hours: '11:30 – 02:00' }, { name: 'Республика 30', dist: '3,1 км', hours: '11:30 – 02:00' }];
+class Component extends DCLogic {
+  componentDidMount() {
+    this.onKey = e => { if (e.key === 'Escape' && this.props.onClose) this.props.onClose(); };
+    window.addEventListener('keydown', this.onKey);
+  }
+  componentWillUnmount() { window.removeEventListener('keydown', this.onKey); }
+  renderVals() {
+    const p = this.props, items = p.items || DEMO, alts = p.alts || DEMO_ALTS, deliv = p.mode === 'delivery', one = items.length === 1;
+    const what = one ? '«' + items[0].name + '»' : items.length + ' ' + (items.length < 5 ? 'товара' : 'товаров');
+    const where = p.store || 'этом ресторане';
+    const rest = p.addedCount ? ' Остальное уже в корзине.' : '';
+    return {
+      isCenter: p.layout !== 'sheet', isSheet: p.layout === 'sheet',
+      items: items.map(it => ({ img: it.img || '', hasImg: !!it.img })),
+      title: (one ? what + ' сейчас нет' : what + ' сейчас нет') + (deliv ? ' в ресторане рядом с вами' : ' в ресторане ' + where),
+      text: (deliv ? 'Заказ везём из ближайшего ресторана (' + where + '), а там ' + (one ? 'он закончился' : 'они закончились') + '. Можно забрать самовывозом там, где есть, или продолжить без ' + (one ? 'него' : 'них') + '.'
+        : 'В этом ресторане ' + (one ? 'он закончился' : 'они закончились') + '. Выберите другой ресторан — или продолжайте без ' + (one ? 'него' : 'них') + '.') + rest,
+      altsTitle: deliv ? 'Есть в ресторанах — заберите сами' : 'Есть в ресторанах рядом', hasAlts: alts.length > 0,
+      alts: alts.map(a => ({ name: a.name, sub: [a.dist, a.hours].filter(Boolean).join(' · '), pick: () => a.pick && a.pick() })),
+      changeLabel: deliv ? 'Изменить адрес' : 'Другой ресторан на карте', okLabel: one ? 'Продолжить без него' : 'Продолжить без них',
+      change: () => p.onChange && p.onChange(), close: () => p.onClose && p.onClose(),
+    };
+  }
+}
+</script>
+</body>
+</html>

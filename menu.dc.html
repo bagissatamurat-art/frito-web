@@ -164,7 +164,11 @@ input:focus-visible,textarea:focus-visible{outline:none}
 
   <!-- MODAL: способ получения -->
   <sc-if value="{{ modalD }}" hint-placeholder-val="{{ false }}">
-    <div style="position:absolute;inset:0;z-index:20;animation:{{ modalOutAnim }}"><dc-import name="FritoAddressModal" layout="center" start="{{ addrStart }}" mode="{{ addrStart }}" pending="{{ pendingLabel }}" on-close="{{ closeModal }}" on-confirm="{{ confirmAddr }}" style="position:absolute;inset:0" hint-size="100%,100%"></dc-import></div>
+    <div style="position:absolute;inset:0;z-index:20;animation:{{ modalOutAnim }}"><dc-import name="FritoAddressModal" layout="center" start="{{ addrStart }}" mode="{{ addrStart }}" pending="{{ pendingLabel }}" pending-items="{{ pendingList }}" on-close="{{ closeModal }}" on-confirm="{{ confirmAddr }}" style="position:absolute;inset:0" hint-size="100%,100%"></dc-import></div>
+  </sc-if>
+  <!-- MODAL: товара нет в выбранном ресторане -->
+  <sc-if value="{{ stockD }}" hint-placeholder-val="{{ false }}">
+    <div style="position:absolute;inset:0;z-index:22"><dc-import name="FritoStockAlert" layout="center" mode="{{ stockMode }}" store="{{ stockStore }}" added-count="{{ stockAdded }}" items="{{ stockItems }}" alts="{{ stockAlts }}" on-change="{{ stockChangeD }}" on-close="{{ stockClose }}" style="position:absolute;inset:0" hint-size="100%,100%"></dc-import></div>
   </sc-if>
   <!-- MODAL: товар -->
   <sc-if value="{{ pmD }}" hint-placeholder-val="{{ false }}">
@@ -304,7 +308,11 @@ input:focus-visible,textarea:focus-visible{outline:none}
 
   <!-- MODAL: способ получения -->
   <sc-if value="{{ modalM }}" hint-placeholder-val="{{ false }}">
-    <div style="position:absolute;inset:0;z-index:20;animation:{{ modalOutAnim }}"><dc-import name="FritoAddressModal" layout="sheet" start="{{ addrStart }}" mode="{{ addrStart }}" pending="{{ pendingLabel }}" on-close="{{ closeModal }}" on-confirm="{{ confirmAddr }}" style="position:absolute;inset:0" hint-size="100%,100%"></dc-import></div>
+    <div style="position:absolute;inset:0;z-index:20;animation:{{ modalOutAnim }}"><dc-import name="FritoAddressModal" layout="sheet" start="{{ addrStart }}" mode="{{ addrStart }}" pending="{{ pendingLabel }}" pending-items="{{ pendingList }}" on-close="{{ closeModal }}" on-confirm="{{ confirmAddr }}" style="position:absolute;inset:0" hint-size="100%,100%"></dc-import></div>
+  </sc-if>
+  <!-- MODAL: товара нет в выбранном ресторане -->
+  <sc-if value="{{ stockM }}" hint-placeholder-val="{{ false }}">
+    <div style="position:absolute;inset:0;z-index:22"><dc-import name="FritoStockAlert" layout="sheet" mode="{{ stockMode }}" store="{{ stockStore }}" added-count="{{ stockAdded }}" items="{{ stockItems }}" alts="{{ stockAlts }}" on-change="{{ stockChangeM }}" on-close="{{ stockClose }}" style="position:absolute;inset:0" hint-size="100%,100%"></dc-import></div>
   </sc-if>
   <!-- MODAL: товар -->
   <sc-if value="{{ pmM }}" hint-placeholder-val="{{ false }}">
@@ -434,7 +442,7 @@ class Component extends DCLogic {
 
   componentDidMount() { window.addEventListener('resize', this._vwH); this._liveT = setInterval(() => { if (window.FritoOrder && FritoOrder.active()) this.setState({ liveTick: Date.now() }); }, 30000);
     if (this.props.startWithMethod) this.setState({ mode: 'delivery', address: DEFAULT_ADDR });
-    else { try { const m = JSON.parse(localStorage.getItem('frito_method') || 'null'); if (m && m.mode && m.address) this.setState({ mode: m.mode, address: m.address }); } catch (e) {} }
+    else { try { const m = JSON.parse(localStorage.getItem('frito_method') || 'null'); if (m && m.mode && m.address) this.setState({ mode: m.mode, address: m.address, store: m.mode === 'pickup' ? m.address : m.from || null }); } catch (e) {} }
     // повтор заказа из личного кабинета
     try { const r = JSON.parse(localStorage.getItem('frito_repeat') || 'null'); localStorage.removeItem('frito_repeat');
       if (r && r.items && Date.now() - r.at < 6e4) { const cart = {}; Object.entries(r.items).forEach(([id, q]) => { if (BY_ID[id]) cart[id] = q; });
@@ -461,16 +469,21 @@ class Component extends DCLogic {
     this.setState({ modal: 'method', modalTarget: target, pendingId: id });
   }
   // extra: { city, from, hours } — город и ресторан-отправитель из окна выбора адреса (для оформления)
-  finishMethod(mode, address, extra = {}) {
+  // alts — рестораны того же города, где ждущие товары есть (из окна адреса)
+  finishMethod(mode, address, extra = {}, alts = []) {
     try { localStorage.setItem('frito_method', JSON.stringify({ mode, address, hours: mode === 'pickup' ? (STORES.find(x => x.name === address) || {}).hours : undefined, ...extra })); } catch (e) {}
-    const pid = this.state.pendingId, many = this.state.pendingItems;
+    const st = this.state, store = mode === 'pickup' ? address : extra.from || null;
+    // ждущие товары: { id: qty }. Тех, которых нет в выбранном ресторане, в корзину не кладём — показываем окно «нет в наличии»
+    const want = st.pendingId ? { [st.pendingId]: st.pendingQty || 1 } : st.pendingItems || {};
+    const miss = window.FritoStock ? window.FritoStock.missing(store, Object.keys(want)) : [];
+    const ok = Object.keys(want).filter(id => !miss.includes(id));
     this.setState(s => {
       const cart = { ...s.cart };
-      if (pid) cart[pid] = (cart[pid] || 0) + (s.pendingQty || 1);
-      if (many) Object.entries(many).forEach(([id, q]) => { cart[id] = (cart[id] || 0) + q; });
-      return { mode, address, modal: null, addrMode: null, pendingId: null, pendingQty: null, pendingItems: null, cart };
+      ok.forEach(id => { cart[id] = (cart[id] || 0) + want[id]; });
+      const noStock = miss.length ? { mode, store, added: ok.length, target: s.modalTarget || (window.innerWidth < 1024 ? 'm' : 'd'), want: Object.fromEntries(miss.map(id => [id, want[id]])), alts } : null;
+      return { mode, address, store, modal: null, addrMode: null, pendingId: null, pendingQty: null, pendingItems: null, cart, noStock };
     });
-    if (pid) this.added(pid); else if (many) this.added(Object.keys(many)[0], Object.keys(many).length);
+    if (ok.length) this.added(ok[0], ok.length > 1 ? ok.length : undefined);
   }
   openProduct(id, target, edit) { this.setState({ pm: id, pmTarget: target, pmEdit: !!edit, mobileOpen: edit ? this.state.mobileOpen : false }); }
   addConfigured(r) {
@@ -547,7 +560,8 @@ class Component extends DCLogic {
     const isDelivery = s.mode === 'delivery', hasMethod = !!s.mode;
     const modeLabel = s.mode === 'pickup' ? 'Самовывоз' : 'Доставка';
     const soldId = p.soldOut && p.soldOut !== 'none' ? p.soldOut : null;
-    const isSold = id => id === soldId;
+    // нет в наличии: демо-проп soldOut или стоп-лист выбранного ресторана (FritoStock)
+    const isSold = id => id === soldId || !!(s.store && window.FritoStock && !window.FritoStock.has(s.store, id));
 
     const cats = CATS.map((c, idx) => ({
       name: c.name, idx,
@@ -615,12 +629,21 @@ class Component extends DCLogic {
       pickDeliveryM: () => this.setState({ modal: 'method', modalTarget: 'm', pendingId: null, addrMode: 'delivery' }),
       pickPickupM: () => this.setState({ modal: 'method', modalTarget: 'm', pendingId: null, addrMode: 'pickup' }),
       addrStart: s.addrMode || s.mode || 'delivery',
-      confirmAddr: r => this.animateOut('modal', () => { if (r.mode === 'delivery') this.setState({ quote: { fee: r.fee, eta: r.eta } }); this.finishMethod(r.mode, r.address, { city: r.city, from: r.from, ...(r.store && r.store.hours ? { hours: r.store.hours } : {}) }); }),
+      confirmAddr: r => this.animateOut('modal', () => { if (r.mode === 'delivery') this.setState({ quote: { fee: r.fee, eta: r.eta } }); this.finishMethod(r.mode, r.address, { city: r.city, from: r.from, ...(r.store && r.store.hours ? { hours: r.store.hours } : {}) }, r.alts || []); }),
       modalD: modalOpen && s.modalTarget === 'd', modalM: modalOpen && s.modalTarget === 'm',
-      methodPending: !!s.pendingId, pendingLabel: s.pendingId && BY_ID[s.pendingId] ? BY_ID[s.pendingId].name + (s.pendingQty > 1 ? ' ×' + s.pendingQty : '') : s.pendingItems ? 'Повтор заказа: ' + Object.keys(s.pendingItems).length + ' поз.' : '',
+      methodPending: !!s.pendingId, pendingLabel: s.pendingId && BY_ID[s.pendingId] ? BY_ID[s.pendingId].name + (s.pendingQty > 1 ? ' ×' + s.pendingQty : '') : s.pendingItems ? (Object.keys(s.pendingItems).length <= 2 ? Object.keys(s.pendingItems).map(id => (BY_ID[id] || {}).name).join(', ') : 'Повтор заказа: ' + Object.keys(s.pendingItems).length + ' поз.') : '',
       addedOn: !!s.addedNote, addedImg: s.addedNote ? s.addedNote.img : '', addedText: s.addedNote ? s.addedNote.text : '',
       chooseMethod: m => m === 'delivery' ? this.finishMethod('delivery', DEFAULT_ADDR) : this.finishMethod('pickup', STORES[0].name),
       pmD: !!s.pm && s.pmTarget === 'd', pmM: !!s.pm && s.pmTarget === 'm',
+      // окно «нет в наличии»: забрать из другого ресторана, изменить адрес/ресторан или продолжить без товара
+      pendingList: (s.pendingId ? [s.pendingId] : Object.keys(s.pendingItems || {})).map(id => ({ id, name: (BY_ID[id] || {}).name || id })),
+      stockD: !!s.noStock && s.noStock.target === 'd', stockM: !!s.noStock && s.noStock.target === 'm',
+      stockMode: s.noStock ? s.noStock.mode : 'pickup', stockStore: s.noStock ? s.noStock.store : '', stockAdded: s.noStock ? s.noStock.added : 0,
+      stockItems: s.noStock ? Object.keys(s.noStock.want).map(id => ({ name: BY_ID[id].name, img: BY_ID[id].img })) : [],
+      stockAlts: s.noStock ? s.noStock.alts.map(a => ({ ...a, pick: () => this.setState({ noStock: null, pendingId: null, pendingItems: s.noStock.want }, () => this.finishMethod('pickup', a.name, { city: a.city, hours: a.hours })) })) : [],
+      stockChangeD: () => this.setState({ noStock: null, modal: 'method', modalTarget: 'd', pendingId: null, pendingItems: s.noStock.want, addrMode: s.noStock.mode }),
+      stockChangeM: () => this.setState({ noStock: null, modal: 'method', modalTarget: 'm', pendingId: null, pendingItems: s.noStock.want, addrMode: s.noStock.mode }),
+      stockClose: () => this.setState({ noStock: null }),
       pmProduct: s.pm ? { ...BY_ID[s.pm], kind: kindOf(s.pm), sel: s.pmEdit ? s.sels[s.pm] : undefined } : null,
       pmQty: s.pm && s.pmEdit ? (s.cart[s.pm] || 1) : 1, pmMode: s.pmEdit ? 'edit' : 'add',
       closePm: () => this.animateOut('pm', () => this.setState({ pm: null })), pmAdd: r => this.animateOut('pm', () => this.addConfigured(r)),

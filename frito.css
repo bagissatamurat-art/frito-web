@@ -1022,6 +1022,8 @@ img.f-option__icon{object-fit:contain}
 .f-am__pending{display:flex;align-items:center;gap:10px;padding:8px 12px 8px 8px;border-radius:var(--r-md);background:var(--primary-50);font-size:13px;font-weight:600;color:var(--primary-dark);line-height:1.35;animation:frito-fade .25s ease-out both}
 .f-am__pending-ic{flex-shrink:0;display:flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:var(--surface-0)}
 .f-am__pending-ic img{width:18px;height:18px}
+.f-am__pending.is-warn{background:var(--warn-bg);color:var(--warn-ink)}
+.f-am__pending.is-warn .f-am__pending-ic{color:var(--warn)}
 /* уведомление «Добавили в корзину» на главной */
 .f-added{position:fixed;left:50%;bottom:calc(96px + env(safe-area-inset-bottom));z-index:70;transform:translateX(-50%);display:flex;align-items:center;gap:10px;max-width:calc(100% - 32px);padding:8px 16px 8px 8px;border-radius:var(--r-pill);background:var(--ink);color:#fff;font-family:var(--font);font-size:14px;font-weight:600;box-shadow:var(--shadow-modal);animation:f-added-in .35s var(--ease) both;pointer-events:none}
 .f-added__img{flex-shrink:0;width:36px;height:36px;border-radius:50%;background:#fff;overflow:hidden}
@@ -1068,6 +1070,8 @@ img.f-option__icon{object-fit:contain}
 .f-am__store--slide{flex:0 0 78%;width:auto;scroll-snap-align:start}
 .f-am__open{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:500;color:var(--ink-2)}
 .f-am__open.is-open{color:var(--success)}
+.f-am__open.is-warn{color:var(--warn-ink)}
+.f-am__open.is-warn .f-am__open-dot{background:var(--warn)}
 .f-am__open-dot{width:8px;height:8px;border-radius:50%;background:currentColor}
 .f-am__addr{display:flex;align-items:center;gap:12px;width:100%;min-height:64px;padding:10px 14px 10px 10px;border:2px solid transparent;border-radius:var(--r-md-plus);background:var(--surface-1);color:var(--ink);font:inherit;text-align:left;cursor:pointer;transition:border-color .15s,background-color .15s}
 .f-am__addr:hover{background:var(--primary-50)}
@@ -1154,3 +1158,30 @@ html.i18n-wait body{visibility:hidden}
   .f-pcard__foot .sc-host,.f-pcard__foot .f-stepper{width:100% !important}
   .f-pcard__foot .f-pcard__soldout{width:100%}
 }
+
+/* Нет в наличии в выбранном ресторане — FritoStockAlert */
+.f-dialog.f-stock{max-width:480px;max-height:calc(100% - 48px)}
+.f-stock__close{position:absolute;top:16px;right:16px;z-index:1}
+.f-stock__body{display:flex;flex-direction:column;gap:18px;padding:32px 32px 8px;overflow-y:auto;min-height:0}
+.f-sheet .f-stock__body{padding:12px 20px 4px;gap:16px}
+.f-stock__thumbs{display:flex;gap:8px}
+.f-stock__thumb{position:relative;width:76px;height:76px;border-radius:var(--r-md-plus);overflow:hidden;background:var(--surface-2);flex-shrink:0}
+.f-stock__thumb img{filter:grayscale(1);opacity:.6}
+.f-stock__badge{position:absolute;left:6px;bottom:6px;padding:2px 8px;border-radius:var(--r-pill);background:var(--ink);color:#fff;font-size:11px;font-weight:700}
+.f-stock__head{display:flex;flex-direction:column;gap:8px;padding-right:36px}
+.f-sheet .f-stock__head{padding-right:0}
+.f-stock__title{margin:0;font-size:22px;font-weight:700;line-height:1.25;letter-spacing:-.01em;text-wrap:balance}
+.f-sheet .f-stock__title{font-size:20px}
+.f-stock__text{margin:0;font-size:14px;line-height:1.5;color:var(--ink-2);text-wrap:pretty}
+.f-stock__alts{display:flex;flex-direction:column;gap:8px}
+.f-stock__alts-title{font-size:13px;font-weight:600;color:var(--ink-2)}
+.f-stock__alt{display:flex;align-items:center;gap:12px;width:100%;padding:10px 14px 10px 10px;border:1.5px solid var(--border);border-radius:var(--r-md-plus);background:#fff;color:var(--ink);font:inherit;text-align:left;cursor:pointer;transition:border-color .15s,background-color .15s}
+.f-stock__alt:hover{border-color:var(--primary);background:var(--primary-50)}
+.f-stock__alt-ic{width:40px;height:40px;border-radius:50%;background:var(--primary-100);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.f-stock__alt-ic img{width:20px;height:20px}
+.f-stock__alt-text{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.f-stock__alt-name{font-size:15px;font-weight:600}
+.f-stock__alt-sub{font-size:12px;color:var(--ink-2)}
+.f-stock__alt-go{flex-shrink:0;font-size:13px;font-weight:600;color:var(--primary)}
+.f-stock__foot{display:flex;flex-direction:column;gap:6px;padding:16px 32px 24px}
+.f-sheet .f-stock__foot{flex-direction:column;gap:6px;padding:12px 16px calc(16px + env(safe-area-inset-bottom))}

@@ -358,6 +358,15 @@ input,textarea,button{outline:none}
 </section>
 
 <section style="background:#fff;border-radius:24px;padding:28px 32px;display:flex;flex-direction:column;gap:16px">
+  <div><h2 style="margin:0 0 4px;font-size:20px;font-weight:700">Нет в наличии · FritoStockAlert</h2><p style="margin:0;font-size:13px;color:#6B7280;line-height:1.5">Товар ждал выбора способа получения, а в выбранном ресторане его нет (стоп-лист — FritoStock в frito.js). Ещё до подтверждения окно адреса предупреждает: у ресторана вместо часов «Нет: …» (warn), над кнопкой — жёлтая плашка. Если клиент всё же выбрал — товар не кладём, показываем это окно: где есть рядом («Забрать» — переключает на самовывоз оттуда и кладёт товар), изменить адрес / ресторан, продолжить без него. В меню товар серый «Разобрали», в корзине — FritoSoldAlert.</p></div>
+  <div style="display:flex;gap:16px;flex-wrap:wrap;align-items:flex-start">
+    <div style="position:relative;width:640px;height:640px;border:1px solid #ECECF1;border-radius:20px;overflow:hidden"><dc-import name="FritoStockAlert" layout="center" mode="pickup" store="Кошкарбаева 36" style="position:absolute;inset:0" hint-size="100%,100%"></dc-import></div>
+    <div style="position:relative;width:390px;height:640px;border:1px solid #ECECF1;border-radius:20px;overflow:hidden"><dc-import name="FritoStockAlert" layout="sheet" mode="delivery" store="Кошкарбаева 36" added-count="{{ 2 }}" style="position:absolute;inset:0" hint-size="100%,100%"></dc-import></div>
+  </div>
+  <span style="font-size:12px;color:#9CA3AF;font-family:ui-monospace,monospace">stock-alert · самовывоз (center) / доставка, часть товаров добавлена (sheet)</span>
+</section>
+
+<section style="background:#fff;border-radius:24px;padding:28px 32px;display:flex;flex-direction:column;gap:16px">
   <div><h2 style="margin:0 0 4px;font-size:20px;font-weight:700">Боковое меню · FritoDrawer</h2><p style="margin:0;font-size:13px;color:#6B7280;line-height:1.5">Аккаунт (вход / «Личный кабинет»), способ получения (.f-addr-btn), разделы, «Связаться с нами» (WhatsApp, Instagram, TikTok — без звонков), переключатель языка «Рус | Қаз» в шапке меню.</p></div>
   <div style="display:flex;gap:16px;flex-wrap:wrap"><div style="position:relative;width:360px;height:720px;display:flex;flex-direction:column;border:1px solid #ECECF1;border-radius:20px;overflow:hidden"><dc-import name="FritoDrawer" compact="{{ true }}" mode="delivery" address="ул. Алматы, 4" eta="35–45 мин" hint-size="100%,100%"></dc-import></div>
   <div style="position:relative;width:360px;height:720px;display:flex;flex-direction:column;border:1px solid #ECECF1;border-radius:20px;overflow:hidden"><dc-import name="FritoDrawer" compact="{{ true }}" user="{{ kitUser }}" mode="" hint-size="100%,100%"></dc-import></div></div>
