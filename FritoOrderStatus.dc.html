@@ -8,7 +8,7 @@
 </head>
 <body>
 <x-dc>
-<!-- Статус заказа (страница заказа). Две части: верх — главное сейчас (время / номер на кассе / итог / проблема), низ — этапы списком.
+<!-- Статус заказа (страница заказа). pay: deadline (мс) — до какого времени ждём оплату; cancel: refund («9 523 ₸»), refundSub. Две части: верх — главное сейчас (время / номер на кассе / итог / проблема), низ — этапы списком.
      kind: active (готовим, везём) | ready (самовывоз: назовите номер) | done (доставлен / выдан) | pay (оплата не прошла) | cancel (отменён).
      Мини-версия для главной и кабинета — FritoOrderProgress size="sm". Стили — .f-os* -->
 <section class="{{ rootCls }}" aria-label="{{ aria }}">
@@ -59,19 +59,38 @@
       </div>
     </sc-if>
 
-    <!-- проблема: оплата не прошла / отменён -->
-    <sc-if value="{{ isIssue }}" hint-placeholder-val="{{ false }}">
-      <div class="f-os__issue">
-        <span class="f-os__issue-ic" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M12 7.5v6M12 17v.01"/></svg></span>
-        <span class="f-os__issue-title">{{ title }}</span>
-        <span class="f-os__issue-sub">{{ sub }}</span>
+    <!-- оплата не прошла: тёмный верх, обратный отсчёт до отмены, оплатить снова -->
+    <sc-if value="{{ isPay }}" hint-placeholder-val="{{ false }}">
+      <div class="f-os__eta">
+        <span class="f-os__label">Оплатите в течение</span>
+        <span class="f-os__big"><span class="f-os__num">{{ leftMin }}</span><span class="f-os__unit">мин {{ leftSec }} с</span></span>
+        <span class="f-os__note">{{ sub }}</span>
       </div>
-      <sc-if value="{{ hasActions }}" hint-placeholder-val="{{ true }}">
-        <div class="f-os__actions">
-          <sc-if value="{{ hasCta2 }}" hint-placeholder-val="{{ false }}"><button type="button" class="f-btn f-btn--secondary f-btn--md" onClick="{{ cta2Click }}">{{ cta2 }}</button></sc-if>
-          <sc-if value="{{ hasCta }}" hint-placeholder-val="{{ true }}"><button type="button" class="{{ issueBtnCls }}" onClick="{{ ctaClick }}">{{ cta }}</button></sc-if>
+      <div class="f-os__actions">
+        <button type="button" class="f-btn f-btn--md f-os__kaspi" onClick="{{ ctaClick }}">{{ cta }}</button>
+        <sc-if value="{{ hasCta2 }}" hint-placeholder-val="{{ true }}"><button type="button" class="f-btn f-btn--md f-os__ghost" onClick="{{ cta2Click }}">{{ cta2 }}</button></sc-if>
+      </div>
+    </sc-if>
+
+    <!-- отменён: светлый верх, возврат денег, повторить -->
+    <sc-if value="{{ isCancel }}" hint-placeholder-val="{{ false }}">
+      <div class="f-os__row">
+        <div class="f-os__eta">
+          <span class="f-os__done-title">{{ title }}</span>
+          <span class="f-os__note">{{ sub }}</span>
+        </div>
+        <img class="f-os__mascot" src="assets/brand/rooster-profile.svg" alt="" aria-hidden="true">
+      </div>
+      <sc-if value="{{ hasRefund }}" hint-placeholder-val="{{ true }}">
+        <div class="f-os__refund">
+          <span class="f-os__refund-ic" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12a8 8 0 1 0 2.4-5.7"/><path d="M4 4v4h4"/></svg></span>
+          <span class="f-os__refund-text"><span class="f-os__refund-title">Возврат {{ refund }}</span><span class="f-os__refund-sub">{{ refundSub }}</span></span>
         </div>
       </sc-if>
+      <div class="f-os__actions">
+        <sc-if value="{{ hasCta }}" hint-placeholder-val="{{ true }}"><button type="button" class="f-btn f-btn--primary f-btn--md" onClick="{{ ctaClick }}">{{ cta }}</button></sc-if>
+        <a class="f-btn f-btn--secondary f-btn--md" href="menu.dc.html">В меню</a>
+      </div>
     </sc-if>
   </div>
 
@@ -93,31 +112,39 @@ const DESC = {
   'Принят': 'Ресторан получил заказ', 'Оплачен': 'Ждём подтверждение оплаты', 'Готовим': 'Повар собирает заказ — горячим и хрустящим',
   'В пути': 'Курьер везёт заказ к вам', 'Готов': 'Ждёт вас на кассе', 'Доставлен': 'Приятного аппетита!', 'Выдан': 'Приятного аппетита!',
 };
-const CHIP = { active: '', ready: 'Готов к выдаче', done: '', pay: 'Не оплачен', cancel: 'Отменён' };
+const CHIP = { active: '', ready: 'Готов к выдаче', done: '', pay: 'Ждём оплату', cancel: 'Отменён' };
+// пояснения к текущему этапу в особых состояниях
+const DESC_BY_KIND = { pay: { 'Оплата': 'Платёж не прошёл — ждём повторную оплату' }, cancel: { 'Возврат': 'Деньги уже в пути на вашу карту' } };
+const secLeft = ms => Math.max(0, Math.ceil(ms / 1000));
 const DEMO_STEPS = [{ label: 'Принят', time: '14:12', state: 'done' }, { label: 'Оплачен', time: '14:12', state: 'done' }, { label: 'Готовим', state: 'cur' }, { label: 'В пути', state: 'todo' }, { label: 'Доставлен', time: '≈ 14:52', state: 'todo' }];
 class Component extends DCLogic {
+  // обратный отсчёт оплаты: props.deadline (мс) или 15 минут с момента показа
+  state = { now: Date.now(), until: this.props.deadline || Date.now() + 15 * 60e3 };
+  componentDidMount() { this._t = setInterval(() => { if (this.props.kind === 'pay') this.setState({ now: Date.now() }); }, 1000); }
+  componentWillUnmount() { clearInterval(this._t); }
   renderVals() {
     const p = this.props, kind = p.kind || 'active', steps = p.steps || DEMO_STEPS;
-    const brand = kind === 'active' || kind === 'ready' || kind === 'done', issue = kind === 'pay' || kind === 'cancel';
+    const brand = kind === 'active' || kind === 'ready' || kind === 'done', issue = kind === 'pay' || kind === 'cancel', byKind = DESC_BY_KIND[kind] || {};
     const cur = steps.find(s => s.state === 'cur'), pick = p.mode === 'pickup';
     const pct = Math.max(.04, Math.min(1, p.pct ?? .4));
     return {
-      rootCls: 'f-comp f-os f-os--' + kind + (brand ? '' : ' f-os--light') + (p.delayed ? ' is-delayed' : ''),
+      rootCls: 'f-comp f-os f-os--' + kind + (kind === 'cancel' ? ' f-os--light' : '') + (p.delayed ? ' is-delayed' : ''),
       aria: 'Статус заказа: ' + (p.title || ''), isBrand: brand,
       caption: p.caption || 'Заказ №4821 · доставка · 14:12',
       chip: CHIP[kind] || (kind === 'done' ? (pick ? 'Выдан' : 'Доставлен') : cur ? (p.delayed ? 'Задерживаемся' : cur.label) : ''),
-      isLive: kind === 'active',
-      isActive: kind === 'active', isReady: kind === 'ready', isDone: kind === 'done', isIssue: issue,
+      isLive: kind === 'active' || kind === 'pay',
+      isActive: kind === 'active', isReady: kind === 'ready', isDone: kind === 'done', isPay: kind === 'pay', isCancel: kind === 'cancel',
+      leftMin: Math.floor(secLeft(this.state.until - this.state.now) / 60), leftSec: String(secLeft(this.state.until - this.state.now) % 60).padStart(2, '0'),
+      refund: p.refund || '', hasRefund: !!p.refund, refundSub: p.refundSub || 'На карту Kaspi · 1–3 рабочих дня',
       title: p.title || 'Готовим ваш заказ', sub: p.sub || '',
       etaLabel: p.etaLabel || (pick ? 'Будет готов через' : 'Привезём через'), eta: p.eta ?? '28', etaUnit: p.etaUnit ?? 'мин', etaNote: p.etaNote || '',
       pctW: Math.round(pct * 100) + '%', pctNow: Math.round(pct * 100),
       thumbs: p.thumbs || [], cta: p.cta || '', hasCta: !!p.cta, ctaClick: () => p.onCta && p.onCta(),
       cta2: p.cta2 || '', hasCta2: !!p.cta2, cta2Click: () => p.onCta2 && p.onCta2(), hasActions: !!(p.cta || p.cta2),
-      issueBtnCls: 'f-btn f-btn--md ' + (kind === 'pay' ? 'f-os__kaspi' : 'f-btn--primary'),
       steps: steps.map(st => {
-        const isCur = st.state === 'cur' && !issue;
-        return { label: st.label, time: isCur ? 'сейчас' : st.time || '', desc: DESC[st.label] || '', hasDesc: isCur && !!DESC[st.label],
-          isDone: st.state === 'done', isFail: st.state === 'fail', cls: 'f-os__step is-' + (st.state === 'cur' && issue ? 'todo' : st.state) };
+        const isCur = st.state === 'cur', desc = byKind[st.label] || DESC[st.label] || '';
+        return { label: st.label, time: isCur && !st.time ? 'сейчас' : st.time || '', desc, hasDesc: isCur && !!desc,
+          isDone: st.state === 'done', isFail: st.state === 'fail', cls: 'f-os__step is-' + st.state };
       }),
     };
   }

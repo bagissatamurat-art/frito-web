@@ -44,7 +44,7 @@ button{outline:none}
 
         <!-- СТАТУС + ЭТАПЫ: FritoOrderStatus (мини-версия для главной и кабинета — FritoOrderProgress sm) -->
         <sc-if value="{{ showProg }}" hint-placeholder-val="{{ true }}">
-          <dc-import name="FritoOrderStatus" kind="{{ prog.kind }}" mode="{{ prog.mode }}" delayed="{{ prog.delayed }}" caption="{{ prog.caption }}" title="{{ prog.title }}" sub="{{ prog.sub }}" eta="{{ prog.eta }}" eta-unit="{{ prog.etaUnit }}" eta-label="{{ prog.etaLabel }}" eta-note="{{ prog.etaNote }}" pct="{{ prog.pct }}" steps="{{ prog.steps }}" thumbs="{{ prog.thumbs }}" cta="{{ prog.cta }}" on-cta="{{ prog.onCta }}" cta2="{{ prog.cta2 }}" on-cta2="{{ prog.onCta2 }}" hint-size="100%,560px"></dc-import>
+          <dc-import name="FritoOrderStatus" kind="{{ prog.kind }}" mode="{{ prog.mode }}" delayed="{{ prog.delayed }}" caption="{{ prog.caption }}" title="{{ prog.title }}" sub="{{ prog.sub }}" eta="{{ prog.eta }}" eta-unit="{{ prog.etaUnit }}" eta-label="{{ prog.etaLabel }}" eta-note="{{ prog.etaNote }}" pct="{{ prog.pct }}" steps="{{ prog.steps }}" thumbs="{{ prog.thumbs }}" cta="{{ prog.cta }}" on-cta="{{ prog.onCta }}" cta2="{{ prog.cta2 }}" on-cta2="{{ prog.onCta2 }}" deadline="{{ prog.deadline }}" refund="{{ prog.refund }}" hint-size="100%,560px"></dc-import>
         </sc-if>
 
         <!-- RATING -->
@@ -237,15 +237,16 @@ class Component extends DCLogic {
       cta: done ? 'Повторить заказ' : '', onCta: done ? () => this.repeatOrder() : null, alert: '', cta2: '', onCta2: null,
       addr: '', thumbs: done ? LIST.slice(0, 3).map(it => it.img) : [] };
     if (issue === 'paymentFailed') Object.assign(prog, { kind: 'pay', tone: 'light', alert: 'pay', pct: null, etaLabel: '', eta: '', etaUnit: '',
-      title: 'Оплата не прошла', sub: 'Kaspi отклонил платёж. Заказ сохранили — оплатите в течение 15 минут, и мы сразу начнём готовить.',
-      steps: list.map((st, i) => ({ label: i === 1 ? 'Не оплачен' : SHORT[st.t] || st.t, state: i === 0 ? 'done' : i === 1 ? 'fail' : 'todo' })),
+      title: 'Оплата не прошла', sub: 'Kaspi отклонил платёж. Заказ сохранили — после оплаты сразу начнём готовить.', deadline: at ? at + 15 * 6e4 : null,
+      steps: list.map((st, i) => ({ label: i === 1 ? 'Оплата' : SHORT[st.t] || st.t, time: i === 0 ? placedAt : '', state: i === 0 ? 'done' : i === 1 ? 'cur' : 'todo' })),
       cta: 'Оплатить снова', onCta: () => this.setState({ issueOv: 'none', stageOv: 2 }), cta2: 'Другой способ', onCta2: () => {} });
     if (issue === 'cancelled') Object.assign(prog, { kind: 'cancel', tone: 'light', alert: 'cancel', pct: null, etaLabel: '', eta: '', etaUnit: '',
-      title: 'Заказ отменён', sub: 'Деньги вернутся на карту Kaspi в течение 1–3 рабочих дней.',
-      steps: [{ label: 'Принят', time: placedAt, state: 'done' }, { label: 'Отменён', time: placedAt, state: 'fail' }],
+      title: 'Заказ отменён', sub: 'Отменили по вашей просьбе в ' + placedAt,
+      steps: [{ label: 'Принят', time: placedAt, state: 'done' }, { label: 'Отменён', time: placedAt, state: 'fail' }, { label: 'Возврат', time: '1–3 дня', state: 'cur' }],
       cta: 'Повторить заказ', onCta: () => this.repeatOrder() });
     const subtotal = LIST.reduce((a, it) => a + it.price * it.qty, 0), discount = v ? 0 : 947;
     const fee = v ? Math.max(0, (v.total || 0) - subtotal) : pick ? 0 : 1000, total = subtotal - discount + fee;
+    if (issue === 'cancelled') prog.refund = money(total);
     const itemsOpen = s.itemsOpen ?? !mobile;
     const paid = issue !== 'paymentFailed';
     return {
