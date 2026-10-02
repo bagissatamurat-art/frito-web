@@ -45,7 +45,7 @@ button{outline:none}
     <!-- гость -->
     <sc-if value="{{ isGuest }}" hint-placeholder-val="{{ false }}">
       <section class="f-panel ac-guest">
-        <span class="ac-guest__icon" aria-hidden="true"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4.5 20a7.5 7.5 0 0 1 15 0"/></svg></span>
+        <img class="f-mascot f-mascot--lg" src="assets/brand/rooster-profile.svg" alt="" aria-hidden="true">
         <h1 class="ac-guest__title">Войдите в личный кабинет</h1>
         <p class="ac-guest__text">Здесь история заказов с повтором в один клик, сохранённые адреса и настройки уведомлений.</p>
         <button type="button" class="f-btn f-btn--primary ac-guest__btn" onClick="{{ login }}">Войти</button>
@@ -87,7 +87,7 @@ button{outline:none}
             <sc-if value="{{ hasActive }}" hint-placeholder-val="{{ false }}"><dc-import name="FritoOrderProgress" tone="brand" size="sm" caption="{{ live.caption }}" title="{{ live.title }}" eta="{{ live.eta }}" eta-unit="{{ live.etaUnit }}" eta-label="{{ live.etaLabel }}" eta-note="{{ live.etaNote }}" steps="{{ live.steps }}" thumbs="{{ live.thumbs }}" addr="{{ live.addr }}" cta="Отследить" on-open="{{ live.open }}" hint-size="100%,88px"></dc-import></sc-if>
             <sc-if value="{{ hasActive }}" hint-placeholder-val="{{ false }}"><span class="ac-sublabel">Прошлые заказы</span></sc-if>
             <sc-if value="{{ noOrders }}" hint-placeholder-val="{{ false }}">
-              <div class="f-panel ac-empty"><span class="ac-empty__title">Заказов пока нет</span><span class="ac-empty__text">Первый заказ появится здесь — его можно будет повторить в один клик.</span><a class="f-btn f-btn--primary f-btn--md" href="menu.dc.html">Перейти в меню</a></div>
+              <div class="f-panel ac-empty"><img class="f-mascot f-mascot--sm" src="assets/brand/rooster-round.svg" alt="" aria-hidden="true"><span class="ac-empty__title">Заказов пока нет</span><span class="ac-empty__text">Первый заказ появится здесь — его можно будет повторить в один клик.</span><a class="f-btn f-btn--primary f-btn--md" href="menu.dc.html">Перейти в меню</a></div>
             </sc-if>
             <sc-for list="{{ orders }}" as="o" hint-placeholder-count="2">
               <article class="f-panel ac-order" role="link" tabIndex="0" onClick="{{ o.open }}" onKeyDown="{{ o.key }}" aria-label="{{ o.aria }}">
@@ -139,7 +139,7 @@ button{outline:none}
           <!-- АДРЕСА -->
           <sc-if value="{{ tabAddr }}" hint-placeholder-val="{{ false }}">
             <sc-if value="{{ noAddr }}" hint-placeholder-val="{{ false }}">
-              <div class="f-panel ac-empty"><span class="ac-empty__title">Сохранённых адресов нет</span><span class="ac-empty__text">Добавьте дом или работу — не придётся искать адрес каждый раз.</span></div>
+              <div class="f-panel ac-empty"><img class="f-mascot f-mascot--sm" src="assets/brand/rooster-round.svg" alt="" aria-hidden="true"><span class="ac-empty__title">Сохранённых адресов нет</span><span class="ac-empty__text">Добавьте дом или работу — не придётся искать адрес каждый раз.</span></div>
             </sc-if>
             <sc-for list="{{ addrs }}" as="a" hint-placeholder-count="2">
               <div class="f-panel ac-addr">

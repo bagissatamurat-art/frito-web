@@ -807,9 +807,9 @@ img.f-option__icon{object-fit:contain}
 
 /* Фирменная карточка: фиолетовый фон + молнии-паттерн (оценка, текущий заказ) */
 .f-brand-card{position:relative;overflow:hidden;isolation:isolate;background:var(--primary);color:#fff;border-radius:var(--r-xl)}
-.f-brand-card::before,.f-brand-card::after{content:'';position:absolute;z-index:-1;background:rgba(255,255,255,.08);clip-path:polygon(45% 0,100% 0,60% 45%,85% 45%,20% 100%,40% 55%,10% 55%);pointer-events:none}
-.f-brand-card::before{right:-30px;top:-40px;width:190px;height:240px}
-.f-brand-card::after{left:-24px;bottom:-60px;width:110px;height:140px;background:rgba(255,255,255,.05);transform:rotate(18deg)}
+.f-brand-card::before,.f-brand-card::after{content:'';position:absolute;z-index:-1;background:rgba(255,255,255,.1);-webkit-mask:url(assets/brand/bolt-double.svg) center/contain no-repeat;mask:url(assets/brand/bolt-double.svg) center/contain no-repeat;pointer-events:none}
+.f-brand-card::before{right:-36px;top:-24px;width:220px;aspect-ratio:1530/1306}
+.f-brand-card::after{left:-20px;bottom:-50px;width:90px;aspect-ratio:608/924;background:rgba(255,255,255,.06);-webkit-mask-image:url(assets/brand/bolt.svg);mask-image:url(assets/brand/bolt.svg)}
 .f-btn--on-brand{background:#fff;color:var(--primary)}
 .f-btn--on-brand:hover{background:var(--primary-50);color:var(--primary)}
 
@@ -983,7 +983,9 @@ img.f-option__icon{object-fit:contain}
 .f-footer-wrap{margin:0 clamp(12px,3vw,32px) 24px}
 /* фиолетовый футер с белой молнией и частицами — гайдлайн: белый и фиолетовый в равных пропорциях */
 .f-footer{position:relative;overflow:hidden;isolation:isolate;container-type:inline-size;display:flex;flex-direction:column;gap:28px;padding:clamp(28px,3.5vw,44px);border-radius:var(--r-2xl);background:var(--primary);color:#fff;font-family:var(--font)}
-.f-footer__bolt{position:absolute;z-index:-1;right:-40px;top:-30px;width:300px;height:auto;color:#fff;opacity:.12;pointer-events:none}
+.f-footer__bolt{position:absolute;z-index:-1;right:-60px;top:-40px;width:420px;color:rgba(255,255,255,.12);pointer-events:none}
+.f-footer__mascot{position:absolute;z-index:-1;right:28px;bottom:64px;width:120px;pointer-events:none}
+@container (max-width:900px){ .f-footer__mascot{display:none} }
 .f-footer a{text-decoration:none}
 .f-footer__grid{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,.8fr) minmax(0,.8fr) minmax(0,1.1fr);gap:32px 40px}
 .f-footer__brand{display:flex;flex-direction:column;align-items:flex-start;gap:14px}
@@ -1014,7 +1016,7 @@ img.f-option__icon{object-fit:contain}
   .f-footer__brand,.f-footer__contacts{grid-column:1 / -1}
 }
 @container (max-width:900px) and (min-width:560px){ .f-footer__contacts{display:grid;grid-template-columns:1fr 1fr;column-gap:24px} .f-footer__contacts .f-footer__heading{grid-column:1 / -1} }
-@media (max-width:767px){ .f-footer{border-radius:var(--r-xl)} .f-footer__bottom{flex-direction:column;align-items:flex-start} .f-footer__bolt{width:220px} }
+@media (max-width:767px){ .f-footer{border-radius:var(--r-xl)} .f-footer__bottom{flex-direction:column;align-items:flex-start} .f-footer__bolt{width:280px} }
 .f-am__foot{display:flex;flex-direction:column;gap:10px}
 .f-am__pending{display:flex;align-items:center;gap:10px;padding:8px 12px 8px 8px;border-radius:var(--r-md);background:var(--primary-50);font-size:13px;font-weight:600;color:var(--primary-dark);line-height:1.35;animation:frito-fade .25s ease-out both}
 .f-am__pending-ic{flex-shrink:0;display:flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:var(--surface-0)}
@@ -1191,3 +1193,14 @@ html.i18n-wait body{visibility:hidden}
 .f-rate__title,.in-body h2,.in-facts__title,.in-form__title{font-family:var(--font-display);font-weight:800;letter-spacing:-.02em}
 .f-page-title,.vc-hero__title,.co-d__title,.co-m__h1{color:var(--primary)}
 .f-subdisplay{font-family:var(--font-display);font-weight:600;letter-spacing:-.01em}
+
+/* ===== Фирменная графика (гайдлайн, раздел «Графика»; исходники — assets/brand/) =====
+   Молнии — маской: цвет = color (белый на фиолетовом, фиолетовый на белом). Частицы уже внутри файлов.
+   Персонаж (петух) — <img>, цвета фиксированы: фиолетовый с белым глазом; *-light — белый для фиолетового фона. */
+.f-g{display:block;background:currentColor;-webkit-mask:center/contain no-repeat;mask:center/contain no-repeat}
+.f-g--bolt{-webkit-mask-image:url(assets/brand/bolt.svg);mask-image:url(assets/brand/bolt.svg);aspect-ratio:608/924}
+.f-g--bolt2{-webkit-mask-image:url(assets/brand/bolt-double.svg);mask-image:url(assets/brand/bolt-double.svg);aspect-ratio:1530/1306}
+.f-g--frame{-webkit-mask-image:url(assets/brand/frame.svg);mask-image:url(assets/brand/frame.svg);aspect-ratio:1037/691}
+.f-g--frame-sm{-webkit-mask-image:url(assets/brand/frame-sm.svg);mask-image:url(assets/brand/frame-sm.svg);aspect-ratio:803/453}
+.f-mascot{display:block;width:96px;height:auto;flex-shrink:0}
+.f-mascot--sm{width:64px}.f-mascot--lg{width:140px}

@@ -10,8 +10,9 @@
 <!-- Футер: бренд | Компания | Покупателям | Связаться (WhatsApp, почта, соцсети) | нижняя строка с документами.
      Контакты — window.FritoContacts (frito.js). Раскладка по ширине самого футера (container queries). Стили — .f-footer* -->
 <footer class="f-footer">
-  <!-- молния и частицы (гайдлайн, раздел «Графика»): треугольники/четырёхугольники разной формы, одна группа -->
-  <svg class="f-footer__bolt" viewBox="0 0 300 360" fill="currentColor" aria-hidden="true"><path d="M150 0h120L178 150h70L70 360l58-170H62z"/><path d="M52 236l18 4-12 13z"/><path d="M28 270l22-6 4 15-19 5z"/><path d="M60 300l9 1-5 8z"/><path d="M14 228l10-3 2 9z"/></svg>
+  <!-- фирменная графика: двойная молния с частицами и персонаж (assets/brand) -->
+  <span class="f-g f-g--bolt2 f-footer__bolt" aria-hidden="true"></span>
+  <img class="f-footer__mascot" src="assets/brand/rooster-round-light.svg" alt="" aria-hidden="true">
   <div class="f-footer__grid">
     <div class="f-footer__brand">
       <sc-if value="{{ logoOk }}" hint-placeholder-val="{{ true }}"><img class="f-footer__logo" src="https://frito.kz/brand.svg" alt="FRITO" width="109" height="34" onError="{{ logoFail }}"></sc-if>

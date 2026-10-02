@@ -59,3 +59,8 @@
 .in-table th{font-size:12px;font-weight:600;color:var(--ink-2)}
 .in-table td:last-child,.in-table th:last-child{text-align:right;white-space:nowrap;font-weight:600}
 .in-callout{padding:14px 16px;border-radius:var(--r-md);background:var(--primary-50);color:var(--primary-dark);font-size:14px;line-height:1.5}
+
+/* фирменная молния у заголовка (desktop) */
+.in-lead,.in-doc{position:relative}
+.in-lead::before,.in-doc::before{content:'';position:absolute;right:8px;top:-12px;width:96px;aspect-ratio:608/924;background:var(--primary);-webkit-mask:url(assets/brand/bolt.svg) center/contain no-repeat;mask:url(assets/brand/bolt.svg) center/contain no-repeat;pointer-events:none}
+@media (max-width:899px){ .in-lead::before,.in-doc::before{display:none} }
