@@ -12,6 +12,9 @@
 .mn-cat{padding-top:28px}
 .mn-cat__title{margin:0 0 18px;font-size:24px;font-weight:700;letter-spacing:-.01em}
 .mn-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+/* на широких экранах — больше карточек в ряд, карточка ~300px как при 1440 */
+@media (min-width:1600px){ .mn-grid{grid-template-columns:repeat(4,minmax(0,1fr))} }
+@media (min-width:2100px){ .mn-grid{grid-template-columns:repeat(5,minmax(0,1fr))} }
 .mn-cart{border-left:1px solid var(--border);background:#fff;display:flex;flex-direction:column;min-height:0}
 .mn-cart__empty-head{padding:28px 28px 0}
 .mn-h-22{margin:0;font-size:22px;font-weight:700}
