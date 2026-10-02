@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="./frito.css">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<!-- Статус заказа (страница заказа). Две части: верх — главное сейчас (время / номер на кассе / итог / проблема), низ — этапы списком.
+     kind: active (готовим, везём) | ready (самовывоз: назовите номер) | done (доставлен / выдан) | pay (оплата не прошла) | cancel (отменён).
+     Мини-версия для главной и кабинета — FritoOrderProgress size="sm". Стили — .f-os* -->
+<section class="{{ rootCls }}" aria-label="{{ aria }}">
+  <div class="f-os__hero">
+    <sc-if value="{{ isBrand }}" hint-placeholder-val="{{ true }}"><span class="f-g f-g--bolt2 f-os__bolt" aria-hidden="true"></span></sc-if>
+    <div class="f-os__top">
+      <span class="f-os__caption">{{ caption }}</span>
+      <span class="f-os__chip"><sc-if value="{{ isLive }}" hint-placeholder-val="{{ true }}"><i class="f-os__live" aria-hidden="true"></i></sc-if>{{ chip }}</span>
+    </div>
+
+    <!-- готовим / везём: крупно время + этап + шкала -->
+    <sc-if value="{{ isActive }}" hint-placeholder-val="{{ true }}">
+      <div class="f-os__eta">
+        <span class="f-os__label">{{ etaLabel }}</span>
+        <span class="f-os__big"><span class="f-os__num">{{ eta }}</span><span class="f-os__unit">{{ etaUnit }}</span></span>
+        <span class="f-os__note">{{ etaNote }}</span>
+      </div>
+      <div class="f-os__stage">
+        <span class="f-os__stage-title">{{ title }}</span>
+        <span class="f-os__bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="{{ pctNow }}"><i style="width:{{ pctW }}"></i></span>
+      </div>
+    </sc-if>
+
+    <!-- самовывоз готов: номер для кассы -->
+    <sc-if value="{{ isReady }}" hint-placeholder-val="{{ false }}">
+      <div class="f-os__row">
+        <div class="f-os__eta">
+          <span class="f-os__label">{{ etaLabel }}</span>
+          <span class="f-os__big"><span class="f-os__num">{{ eta }}</span></span>
+          <span class="f-os__note">{{ etaNote }}</span>
+        </div>
+        <img class="f-os__mascot" src="assets/brand/rooster-round-light.svg" alt="" aria-hidden="true">
+      </div>
+    </sc-if>
+
+    <!-- готово: итог, состав, повторить -->
+    <sc-if value="{{ isDone }}" hint-placeholder-val="{{ false }}">
+      <div class="f-os__row">
+        <div class="f-os__eta">
+          <span class="f-os__done-title">{{ title }}</span>
+          <span class="f-os__note">{{ sub }}</span>
+        </div>
+        <img class="f-os__mascot" src="assets/brand/rooster-round-light.svg" alt="" aria-hidden="true">
+      </div>
+      <div class="f-os__foot">
+        <span class="f-os__thumbs"><sc-for list="{{ thumbs }}" as="th" hint-placeholder-count="3"><span class="f-os__thumb"><img data-src="{{ th }}" alt="" class="f-cover-img"></span></sc-for></span>
+        <sc-if value="{{ hasCta }}" hint-placeholder-val="{{ true }}"><button type="button" class="f-btn f-btn--on-brand f-btn--md" onClick="{{ ctaClick }}">{{ cta }}</button></sc-if>
+      </div>
+    </sc-if>
+
+    <!-- проблема: оплата не прошла / отменён -->
+    <sc-if value="{{ isIssue }}" hint-placeholder-val="{{ false }}">
+      <div class="f-os__issue">
+        <span class="f-os__issue-ic" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M12 7.5v6M12 17v.01"/></svg></span>
+        <span class="f-os__issue-title">{{ title }}</span>
+        <span class="f-os__issue-sub">{{ sub }}</span>
+      </div>
+      <sc-if value="{{ hasActions }}" hint-placeholder-val="{{ true }}">
+        <div class="f-os__actions">
+          <sc-if value="{{ hasCta2 }}" hint-placeholder-val="{{ false }}"><button type="button" class="f-btn f-btn--secondary f-btn--md" onClick="{{ cta2Click }}">{{ cta2 }}</button></sc-if>
+          <sc-if value="{{ hasCta }}" hint-placeholder-val="{{ true }}"><button type="button" class="{{ issueBtnCls }}" onClick="{{ ctaClick }}">{{ cta }}</button></sc-if>
+        </div>
+      </sc-if>
+    </sc-if>
+  </div>
+
+  <!-- этапы списком: прошедшие со временем, текущий с пояснением, следующие серым -->
+  <ol class="f-os__steps">
+    <sc-for list="{{ steps }}" as="st" hint-placeholder-count="5">
+      <li class="{{ st.cls }}">
+        <span class="f-os__dot" aria-hidden="true"><sc-if value="{{ st.isDone }}" hint-placeholder-val="{{ true }}"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></sc-if><sc-if value="{{ st.isFail }}" hint-placeholder-val="{{ false }}"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.6" stroke-linecap="round"><path d="M7 7l10 10M17 7L7 17"/></svg></sc-if></span>
+        <span class="f-os__step-text"><span class="f-os__step-label">{{ st.label }}</span><sc-if value="{{ st.hasDesc }}" hint-placeholder-val="{{ false }}"><span class="f-os__step-desc">{{ st.desc }}</span></sc-if></span>
+        <span class="f-os__step-time">{{ st.time }}</span>
+      </li>
+    </sc-for>
+  </ol>
+</section>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:560,&quot;height&quot;:620},&quot;kind&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;active&quot;,&quot;options&quot;:[&quot;active&quot;,&quot;ready&quot;,&quot;done&quot;,&quot;pay&quot;,&quot;cancel&quot;],&quot;tsType&quot;:&quot;string&quot;},&quot;mode&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;delivery&quot;,&quot;options&quot;:[&quot;delivery&quot;,&quot;pickup&quot;],&quot;tsType&quot;:&quot;string&quot;},&quot;caption&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Заказ №4821 · доставка · 14:12&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;title&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Готовим ваш заказ&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;eta&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;28&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;pct&quot;:{&quot;editor&quot;:&quot;number&quot;,&quot;default&quot;:0.4,&quot;tsType&quot;:&quot;number&quot;}}">
+// пояснение к текущему этапу
+const DESC = {
+  'Принят': 'Ресторан получил заказ', 'Оплачен': 'Ждём подтверждение оплаты', 'Готовим': 'Повар собирает заказ — горячим и хрустящим',
+  'В пути': 'Курьер везёт заказ к вам', 'Готов': 'Ждёт вас на кассе', 'Доставлен': 'Приятного аппетита!', 'Выдан': 'Приятного аппетита!',
+};
+const CHIP = { active: '', ready: 'Готов к выдаче', done: '', pay: 'Не оплачен', cancel: 'Отменён' };
+const DEMO_STEPS = [{ label: 'Принят', time: '14:12', state: 'done' }, { label: 'Оплачен', time: '14:12', state: 'done' }, { label: 'Готовим', state: 'cur' }, { label: 'В пути', state: 'todo' }, { label: 'Доставлен', time: '≈ 14:52', state: 'todo' }];
+class Component extends DCLogic {
+  renderVals() {
+    const p = this.props, kind = p.kind || 'active', steps = p.steps || DEMO_STEPS;
+    const brand = kind === 'active' || kind === 'ready' || kind === 'done', issue = kind === 'pay' || kind === 'cancel';
+    const cur = steps.find(s => s.state === 'cur'), pick = p.mode === 'pickup';
+    const pct = Math.max(.04, Math.min(1, p.pct ?? .4));
+    return {
+      rootCls: 'f-comp f-os f-os--' + kind + (brand ? '' : ' f-os--light') + (p.delayed ? ' is-delayed' : ''),
+      aria: 'Статус заказа: ' + (p.title || ''), isBrand: brand,
+      caption: p.caption || 'Заказ №4821 · доставка · 14:12',
+      chip: CHIP[kind] || (kind === 'done' ? (pick ? 'Выдан' : 'Доставлен') : cur ? (p.delayed ? 'Задерживаемся' : cur.label) : ''),
+      isLive: kind === 'active',
+      isActive: kind === 'active', isReady: kind === 'ready', isDone: kind === 'done', isIssue: issue,
+      title: p.title || 'Готовим ваш заказ', sub: p.sub || '',
+      etaLabel: p.etaLabel || (pick ? 'Будет готов через' : 'Привезём через'), eta: p.eta ?? '28', etaUnit: p.etaUnit ?? 'мин', etaNote: p.etaNote || '',
+      pctW: Math.round(pct * 100) + '%', pctNow: Math.round(pct * 100),
+      thumbs: p.thumbs || [], cta: p.cta || '', hasCta: !!p.cta, ctaClick: () => p.onCta && p.onCta(),
+      cta2: p.cta2 || '', hasCta2: !!p.cta2, cta2Click: () => p.onCta2 && p.onCta2(), hasActions: !!(p.cta || p.cta2),
+      issueBtnCls: 'f-btn f-btn--md ' + (kind === 'pay' ? 'f-os__kaspi' : 'f-btn--primary'),
+      steps: steps.map(st => {
+        const isCur = st.state === 'cur' && !issue;
+        return { label: st.label, time: isCur ? 'сейчас' : st.time || '', desc: DESC[st.label] || '', hasDesc: isCur && !!DESC[st.label],
+          isDone: st.state === 'done', isFail: st.state === 'fail', cls: 'f-os__step is-' + (st.state === 'cur' && issue ? 'todo' : st.state) };
+      }),
+    };
+  }
+}
+</script>
+</body>
+</html>

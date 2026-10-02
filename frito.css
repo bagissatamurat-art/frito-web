@@ -1200,3 +1200,63 @@ html.i18n-wait body{visibility:hidden}
 .f-g--frame-sm{-webkit-mask-image:url(assets/brand/frame-sm.svg);mask-image:url(assets/brand/frame-sm.svg);aspect-ratio:803/453}
 .f-mascot{display:block;width:96px;height:auto;flex-shrink:0}
 .f-mascot--sm{width:64px}.f-mascot--lg{width:140px}
+
+/* ===== Статус заказа (FritoOrderStatus) — страница заказа =====
+   Верх: фиолетовый (идёт / готов / выдан) или светлый (проблема). Низ: этапы вертикальным списком. */
+.f-os{container-type:inline-size;display:flex;flex-direction:column;border-radius:var(--r-xl);overflow:hidden;background:var(--surface-0);font-family:var(--font);box-shadow:0 1px 2px rgba(17,24,39,.04)}
+.f-os__hero{position:relative;isolation:isolate;overflow:hidden;display:flex;flex-direction:column;gap:18px;padding:22px 22px 24px;background:var(--primary);color:#fff}
+.f-os--light .f-os__hero{background:var(--surface-0);color:var(--ink);border-bottom:1px solid var(--divider)}
+.f-os__bolt{position:absolute;z-index:-1;right:-56px;top:-28px;width:300px;color:rgba(255,255,255,.12);pointer-events:none}
+.f-os__top{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.f-os__caption{font-size:13px;font-weight:500;color:rgba(255,255,255,.75);min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.f-os--light .f-os__caption{color:var(--ink-2)}
+.f-os__chip{flex-shrink:0;display:inline-flex;align-items:center;gap:7px;height:28px;padding:0 12px;border-radius:var(--r-pill);background:rgba(255,255,255,.18);font-size:13px;font-weight:700}
+.f-os__chip:empty{display:none}
+.f-os--pay .f-os__chip,.f-os--cancel .f-os__chip{background:#FEF2F2;color:var(--danger)}
+.f-os__live{width:8px;height:8px;border-radius:50%;background:#fff;animation:f-os-pulse 1.6s ease-in-out infinite}
+@keyframes f-os-pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.35;transform:scale(.7)}}
+.f-os__row{display:flex;align-items:flex-end;justify-content:space-between;gap:16px}
+.f-os__eta{flex:1;display:flex;flex-direction:column;gap:2px;min-width:0}
+.f-os__label{font-size:15px;font-weight:600;color:rgba(255,255,255,.85)}
+.f-os__big{display:flex;align-items:baseline;gap:8px;line-height:.9}
+.f-os__num{font-family:var(--font-display);font-size:clamp(52px,19cqi,88px);font-weight:800;letter-spacing:-.04em;font-variant-numeric:tabular-nums}
+.f-os__unit{font-family:var(--font-display);font-size:clamp(22px,7cqi,32px);font-weight:800;letter-spacing:-.02em}
+.f-os--ready .f-os__num{font-size:clamp(40px,13cqi,76px)}
+.f-os__note{margin-top:6px;font-size:15px;color:rgba(255,255,255,.8)}
+.f-os__done-title{font-family:var(--font-display);font-size:clamp(28px,8.5cqi,40px);font-weight:800;line-height:1;letter-spacing:-.02em}
+.f-os__mascot{width:clamp(68px,20cqi,112px);height:auto;flex-shrink:0;animation:frito-pop .5s var(--ease) both}
+.f-os__stage{display:flex;flex-direction:column;gap:10px}
+.f-os__stage-title{font-family:var(--font-display);font-size:20px;font-weight:600;letter-spacing:-.01em}
+.f-os__bar{position:relative;display:block;height:10px;border-radius:var(--r-pill);background:rgba(255,255,255,.2);overflow:hidden}
+.f-os__bar i{position:absolute;left:0;top:0;bottom:0;border-radius:inherit;background:#fff;transition:width .6s var(--ease)}
+.f-os__bar i::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(97,75,226,.35),transparent);background-size:60px 100%;animation:f-os-flow 1.4s linear infinite}
+@keyframes f-os-flow{from{background-position:-60px 0}to{background-position:120% 0}}
+.f-os__foot{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.f-os__thumbs{display:flex}
+.f-os__thumb{width:44px;height:44px;border-radius:50%;overflow:hidden;background:#fff;border:2px solid var(--primary);margin-left:-10px}
+.f-os__thumb:first-child{margin-left:0}
+.f-os__issue{display:flex;flex-direction:column;align-items:flex-start;gap:6px}
+.f-os__issue-ic{display:flex;align-items:center;justify-content:center;width:44px;height:44px;margin-bottom:6px;border-radius:50%;background:#FEF2F2;color:var(--danger)}
+.f-os__issue-title{font-family:var(--font-display);font-size:28px;font-weight:800;line-height:1.05;letter-spacing:-.02em}
+.f-os__issue-sub{font-size:15px;line-height:1.5;color:var(--ink-2);text-wrap:pretty}
+.f-os__actions{display:flex;gap:10px;flex-wrap:wrap}
+.f-os__actions .f-btn{flex:1;min-width:150px}
+.f-os__kaspi,.f-os__kaspi:hover{background:var(--kaspi);color:#fff}
+.f-os__steps{list-style:none;margin:0;padding:10px 22px 14px;display:flex;flex-direction:column}
+.f-os__step{position:relative;display:grid;grid-template-columns:24px minmax(0,1fr) auto;gap:14px;align-items:start;padding:10px 0}
+.f-os__step:not(:last-child)::before{content:'';position:absolute;left:11px;top:34px;bottom:-10px;width:2px;border-radius:1px;background:var(--surface-3)}
+.f-os__step.is-done::before{background:var(--primary)}
+.f-os__dot{display:flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:50%;border:2px solid var(--surface-3);background:#fff;color:#fff}
+.f-os__step.is-done .f-os__dot{border-color:var(--primary);background:var(--primary)}
+.f-os__step.is-cur .f-os__dot{border:6px solid var(--primary);box-shadow:0 0 0 5px var(--primary-100);animation:f-os-ring 1.8s ease-in-out infinite}
+@keyframes f-os-ring{0%,100%{box-shadow:0 0 0 4px var(--primary-100)}50%{box-shadow:0 0 0 8px var(--primary-50)}}
+.f-os__step.is-fail .f-os__dot{border-color:var(--danger);background:var(--danger)}
+.f-os__step-text{display:flex;flex-direction:column;gap:2px;min-width:0;padding-top:2px}
+.f-os__step-label{font-size:15px;font-weight:600;color:var(--ink)}
+.f-os__step.is-todo .f-os__step-label{color:var(--ink-3);font-weight:500}
+.f-os__step.is-cur .f-os__step-label{font-weight:700;color:var(--primary)}
+.f-os__step.is-fail .f-os__step-label{color:var(--danger)}
+.f-os__step-desc{font-size:13px;color:var(--ink-2)}
+.f-os__step-time{padding-top:3px;font-size:13px;font-weight:500;color:var(--ink-2);font-variant-numeric:tabular-nums;white-space:nowrap}
+.f-os__step.is-cur .f-os__step-time{font-weight:700;color:var(--primary)}
+@media (prefers-reduced-motion:reduce){.f-os__live,.f-os__bar i::after,.f-os__step.is-cur .f-os__dot{animation:none}}
