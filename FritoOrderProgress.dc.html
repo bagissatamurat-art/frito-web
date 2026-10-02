@@ -16,7 +16,7 @@
   <sc-if value="{{ brand }}" hint-placeholder-val="{{ true }}"><span class="f-progress__shine" aria-hidden="true"></span></sc-if>
   <!-- sm — компактная строка для главной: время | этап + тонкая шкала | кнопка -->
   <sc-if value="{{ isSm }}" hint-placeholder-val="{{ false }}">
-    <span class="f-progress__sm-eta"><span class="f-progress__sm-num">{{ eta }}</span><span class="f-progress__sm-unit">{{ smUnit }}</span></span>
+    <span class="f-progress__sm-eta"><span class="{{ smNumCls }}">{{ smNum }}</span><span class="f-progress__sm-unit">{{ smUnit }}</span></span>
     <span class="f-progress__sm-body">
       <span class="f-progress__caption">{{ caption }}</span>
       <span class="f-progress__sm-title">{{ title }}</span>
@@ -39,7 +39,8 @@ class Component extends DCLogic {
       open: () => link && p.onOpen(), key: e => { if (link && e.key === 'Enter') p.onOpen(); },
       caption: p.caption || '', title: p.title || '', sub: p.sub || '', hasSub: !!p.sub,
       eta: p.eta || '', etaUnit: p.etaUnit || '', hasEta: !!(p.eta || p.etaUnit),
-      isSm: p.size === 'sm', notSm: p.size !== 'sm', smUnit: p.etaUnit || '', smCtaCls: 'f-progress__sm-cta' + (brand ? '' : ' is-light'),
+      isSm: p.size === 'sm', notSm: p.size !== 'sm', smNum: String(p.eta || '').replace(/^№\s*/, ''), smUnit: /^№/.test(String(p.eta || '')) ? 'номер' : p.etaUnit || '',
+      smNumCls: 'f-progress__sm-num' + (String(p.eta || '').replace(/^№\s*/, '').length > 3 ? ' is-long' : ''), smCtaCls: 'f-progress__sm-cta' + (brand ? '' : ' is-light'),
       hasRing: p.pct != null && !!p.etaLabel, noRing: !(p.pct != null && !!p.etaLabel),
       ringOff: (2 * Math.PI * 52 * (1 - Math.min(1, Math.max(0.04, +p.pct || 0)))).toFixed(1), ringNumCls: 'f-progress__ring-num' + (/^\d+$/.test(p.eta || '') ? '' : ' is-text'),
       hasHero: !!p.etaLabel, noHero: !p.etaLabel, etaLabel: p.etaLabel || '', etaNote: p.etaNote || '', hasNote: !!p.etaNote,

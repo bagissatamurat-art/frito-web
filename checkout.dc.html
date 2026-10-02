@@ -22,6 +22,7 @@
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
+<script src="analytics.js"></script>
 <!-- seo:end -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -324,6 +325,8 @@ class Component extends DCLogic {
     const LINES = Object.keys(D.DEMO).filter(id => !s.hidden[id]).map(id => ({ ...D.BY_ID[id], qty: D.DEMO[id], soldOut: id === soldId, ok: id !== soldId }));
     const soldLines = LINES.filter(l => l.soldOut), hasSold = soldLines.length > 0;
     const mode = s.modeTouched ? s.mode : (p.mode ?? s.mode), isDelivery = mode === 'delivery';
+    // для аналитики (analytics.js): товары заказа
+    const anItems = LINES.filter(l => l.ok).map(l => ({ id: l.id, name: l.name, price: l.price, qty: l.qty }));
     const subtotal = LINES.reduce((a, l) => a + (l.soldOut ? 0 : l.qty * l.price), 0);
     const freeFrom = p.freeDeliveryFrom ?? 12000;
     const fee = isDelivery ? (subtotal >= freeFrom ? 0 : (p.deliveryFee ?? 1000)) : 0;
@@ -335,7 +338,7 @@ class Component extends DCLogic {
       { id: 'kaspi', title: 'Kaspi', sub: 'Счёт в приложении', icon: 'assets/ic-kaspi-w.svg', iconBg: 'var(--kaspi)' },
       { id: 'card', title: 'Картой онлайн', sub: 'Visa · Mastercard', icon: 'assets/ic-card-p.svg', iconBg: 'var(--primary-100)' },
       ...(isDelivery ? [] : [{ id: 'cash', title: 'На кассе', sub: 'Наличные или карта', icon: 'assets/ic-pickup-p.svg', iconBg: '#ECFDF3' }]),
-    ].map(pm => { const on = s.pay === pm.id; return { ...pm, pick: () => this.setState({ pay: pm.id }), on }; });
+    ].map(pm => { const on = s.pay === pm.id; return { ...pm, pick: () => { if (window.FritoAnalytics) window.FritoAnalytics.track('add_payment_info', { payment_type: pm.id, items: anItems, value: total }); this.setState({ pay: pm.id }); }, on }; });
     const isLater = s.when === 'later';
     const slots = SLOTS.map((label, i) => ({ label, pick: () => this.setState({ slot: i }), cls: 'f-chip-btn' + (s.slot === i ? ' is-on' : '') }));
     const payLabel = s.pay === 'card' ? 'Оплатить картой' : 'Оформить заказ';
@@ -365,7 +368,7 @@ class Component extends DCLogic {
       countLabel: D.plural(LINES.reduce((a, l) => a + (l.soldOut ? 0 : l.qty), 0)),
       hasSold, soldText: soldLines.map(l => l.name).join(', ') + ' разобрали — уберите ' + (soldLines.length > 1 ? 'их' : 'его') + ', чтобы продолжить',
       removeSold: () => this.setState(st => ({ hidden: { ...st.hidden, ...Object.fromEntries(soldLines.map(l => [l.id, true])) } })),
-      payDisabled: hasSold || LINES.length === 0, payGo: () => { try { const list = readJSON('frito_orders') || []; list.unshift({ no: String(4800 + Math.floor(Math.random() * 190)), at: Date.now(), mode, address: isDelivery ? (s.addr || D.DEFAULT_ADDR) : (s.store ? s.store.name : D.STORES[0].name), items: LINES.filter(l => l.ok).map(l => [l.id, l.qty]), total, status: 'placed' }); localStorage.setItem('frito_orders', JSON.stringify(list.slice(0, 20))); } catch (e) {} location.href = 'order-status.html?mode=' + mode; }, payCursor: hasSold ? 'not-allowed' : 'pointer',
+      payDisabled: hasSold || LINES.length === 0, payGo: () => { try { const no = String(4800 + Math.floor(Math.random() * 190)); sessionStorage.setItem('frito_purchase', JSON.stringify({ transaction_id: no, items: anItems, value: total, shipping: fee, payment_type: s.pay, mode })); const list = readJSON('frito_orders') || []; list.unshift({ no, at: Date.now(), mode, address: isDelivery ? (s.addr || D.DEFAULT_ADDR) : (s.store ? s.store.name : D.STORES[0].name), items: LINES.filter(l => l.ok).map(l => [l.id, l.qty]), total, status: 'placed' }); localStorage.setItem('frito_orders', JSON.stringify(list.slice(0, 20))); } catch (e) {} location.href = 'order-status.html?mode=' + mode; }, payCursor: hasSold ? 'not-allowed' : 'pointer',
       payBg: hasSold ? 'var(--surface-3)' : 'var(--primary)', payColor: hasSold ? 'var(--ink-3)' : '#fff', payOpacity: hasSold ? .5 : 1, payFilter: hasSold ? 'grayscale(1)' : 'none',
       promoCode: promo || '', setPromo: c => this.setState({ promo: c, promoTouched: true }), promoDesc: '−' + pct + '% на первый заказ',
       removePromo: () => this.setState({ promo: null, promoTouched: true }),

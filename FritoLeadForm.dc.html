@@ -158,6 +158,7 @@ class Component extends DCLogic {
       ctaCls: 'f-btn f-btn--primary f-btn--block' + (canSend ? '' : ' is-disabled'),
       ctaHint: canSend ? '' : !s.agree && valid ? 'Отметьте согласие, чтобы отправить' : s.tried ? 'Заполните отмеченные поля' : '',
       submit: ev => { ev && ev.preventDefault && ev.preventDefault(); if (!canSend) return this.setState({ tried: true });
+        if (window.FritoAnalytics) window.FritoAnalytics.track('generate_lead', { form: p.kind || 'franchise' });
         this.setState({ sending: true }); setTimeout(() => this.setState({ sending: false, done: true }), 700); },
       showForm: !done, showDone: done,
       doneText: ((s.f.name || '').trim() ? s.f.name.trim().split(/\s+/)[0] + ', спасибо! ' : 'Спасибо! ') + cfg.done,

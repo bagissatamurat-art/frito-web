@@ -23,6 +23,7 @@
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
+<script src="analytics.js"></script>
 <!-- seo:end -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -328,6 +329,7 @@ class Component extends DCLogic {
         ev.preventDefault();
         if (!canSend) { this.setState({ tried: true }); return; }
         this.setState({ sending: true });
+        if (window.FritoAnalytics) window.FritoAnalytics.track('generate_lead', { form: 'vacancy', vacancy: f.vacancy, city: f.city });
         setTimeout(() => this.setState({ sending: false, done: true }), 700);
       },
       showForm: !done, showDone: done, doneName: f.name.trim().split(/\s+/)[1] || f.name.trim().split(/\s+/)[0] || 'Спасибо',
