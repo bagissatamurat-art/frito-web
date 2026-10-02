@@ -561,19 +561,21 @@ class Component extends DCLogic {
     const modeLabel = s.mode === 'pickup' ? 'Самовывоз' : 'Доставка';
     const soldId = p.soldOut && p.soldOut !== 'none' ? p.soldOut : null;
     // нет в наличии: демо-проп soldOut или стоп-лист выбранного ресторана (FritoStock)
-    const isSold = id => id === soldId || !!(s.store && window.FritoStock && !window.FritoStock.has(s.store, id));
+    // каталог выбранного ресторана: чего нет (стоп-лист FritoStock) — не показываем вовсе; в корзине такие строки помечаются
+    const inStore = id => !(s.store && window.FritoStock && !window.FritoStock.has(s.store, id));
+    const isSold = id => id === soldId || !inStore(id);
 
     const cats = CATS.map((c, idx) => ({
       name: c.name, idx,
       dCls: 'f-catchip' + (s.activeD === idx ? ' is-on' : ''), mCls: 'f-catchip f-catchip--sm' + (s.activeM === idx ? ' is-on' : ''),
       goD: () => this.go('d', idx, this.dScrollRef, 'activeD'), goM: () => this.go('m', idx, this.mScrollRef, 'activeM'),
-      items: c.items.map(it => {
-        const pr = BY_ID[it[0]], qty = s.cart[pr.id] || 0, sold = isSold(pr.id);
+      items: c.items.filter(it => !isSold(it[0])).map(it => {
+        const pr = BY_ID[it[0]], qty = s.cart[pr.id] || 0, sold = false;
         return { ...pr, qty, inCart: qty > 0 && !sold, notInCart: qty === 0 && !sold, soldOut: sold, imgFilter: sold ? 'grayscale(1) opacity(.55)' : 'none', hasImg: !!pr.img, noImg: !pr.img, priceLabel: fmt(pr.price),
           add: e => kindOf(pr.id) ? this.openProduct(pr.id, tgt(e)) : this.tryAdd(pr.id, tgt(e)), open: e => this.openProduct(pr.id, tgt(e)),
           inc: () => this.setQty(pr.id, 1), dec: () => this.setQty(pr.id, -1) };
       }),
-    }));
+    })).filter(c => c.items.length);
 
     const unitOf = id => BY_ID[id].price + (s.extra[id] || 0);
     const mkLines = cart => Object.keys(cart).map(id => { const pr = BY_ID[id], qty = cart[id], sold = isSold(id); const editable = !!kindOf(id) && !sold, unit = unitOf(id); return { ...pr, qty, mods: s.mods[id] || pr.mods, edit: e => { if (e && e.preventDefault) e.preventDefault(); this.openProduct(id, tgt(e), true); }, hasImg: !!pr.img, editable, fixed: !editable, soldOut: sold, ok: !sold, imgFilter: sold ? 'grayscale(1) opacity(.55)' : 'none', nameColor: sold ? 'var(--ink-2)' : 'var(--ink)', lineLabel: fmt(unit * qty), inc: () => this.setQty(id, 1), dec: () => this.setQty(id, -1), remove: () => this.removeLine(id, qty) }; });
@@ -589,7 +591,7 @@ class Component extends DCLogic {
     const live = Object.keys(s.cart).length ? M : D;
     const lines = mkLines(s.cart), hasItems = lines.length > 0, count = cnt(s.cart);
     const dLines = mkLines(dCart), dSold = dLines.filter(l => l.soldOut), mSold = lines.filter(l => l.soldOut);
-    const soldText = arr => arr.map(l => l.name).join(', ') + (arr.length > 1 ? ' разобрали' : ' разобрали') + ' — мы не учли ' + (arr.length > 1 ? 'их' : 'его') + ' в сумме';
+    const soldText = arr => (s.store ? 'Нет в ресторане ' + s.store + ': ' : 'Нет в наличии: ') + arr.map(l => l.name).join(', ') + ' — мы не учли в сумме';
     const removeSold = arr => () => arr.forEach(l => l.remove());
     const canCheckoutD = avail(dCart), canCheckoutM = avail(s.cart);
 
@@ -674,10 +676,10 @@ class Component extends DCLogic {
       freeFromLabel: 'от ' + fmt(freeFrom), progressPct: live.pct,
       progressText: live.remain === 0 ? 'Доставка бесплатно' : 'Ещё ' + fmt(live.remain) + ' до бесплатной доставки',
       progressColor: live.remain === 0 ? 'var(--success)' : 'var(--primary)',
-      upsell: UPSELL.map(u => ({ img: BY_ID[u.cover].img, short: u.label, priceLabel: '', add: () => this.setState({ pick: { key: u.key, at: 'd' } }), addM: () => this.setState({ pick: { key: u.key, at: 'm' } }) })),
+      upsell: UPSELL.filter(u => (CATS.find(c => c.name === u.cat) || { items: [] }).items.some(it => inStore(it[0]))).map(u => ({ img: BY_ID[u.cover].img, short: u.label, priceLabel: '', add: () => this.setState({ pick: { key: u.key, at: 'd' } }), addM: () => this.setState({ pick: { key: u.key, at: 'm' } }) })),
       pickD: !!s.pick && s.pick.at === 'd', pickM: !!s.pick && s.pick.at === 'm',
       pickTitle: s.pick ? (UPSELL.find(u => u.key === s.pick.key) || {}).label : '',
-      pickItems: s.pick ? ((CATS.find(c => c.name === (UPSELL.find(u => u.key === s.pick.key) || {}).cat) || { items: [] }).items.map(it => {
+      pickItems: s.pick ? ((CATS.find(c => c.name === (UPSELL.find(u => u.key === s.pick.key) || {}).cat) || { items: [] }).items.filter(it => inStore(it[0])).map(it => {
         const pr = BY_ID[it[0]], q = s.cart[pr.id] || 0;
         return { id: pr.id, name: pr.name, desc: pr.desc, priceLabel: fmt(pr.price), img: pr.img, qty: q, add: () => this.tryAdd(pr.id, s.pick.at), dec: () => this.setQty(pr.id, -1) };
       })) : [],
