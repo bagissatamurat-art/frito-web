@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Страница не найдена · Frito</title>
+<!-- GitHub Pages отдаёт этот файл на любой несуществующий адрес, поэтому пути — от корня сайта -->
+<base href="/frito-web/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Montserrat:wght@600;800&display=swap" rel="stylesheet">
+<script src="./frito-i18n.js"></script>
+<link rel="stylesheet" href="./frito.css">
+<script src="./frito.js"></script>
+<style>
+body{margin:0;background:var(--surface-1);font-family:var(--font);color:var(--ink)}
+a{text-decoration:none}
+.nf{min-height:100vh;min-height:100dvh;display:flex;flex-direction:column}
+.nf__head{display:flex;align-items:center;justify-content:space-between;height:64px;padding:0 clamp(16px,3vw,32px);background:#fff;border-bottom:1px solid var(--border)}
+.nf__main{flex:1;display:flex;align-items:center;justify-content:center;padding:32px 16px}
+.nf__card{position:relative;isolation:isolate;overflow:hidden;width:100%;max-width:640px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:14px;padding:clamp(32px,6vw,56px) clamp(20px,5vw,48px);border-radius:var(--r-2xl);background:var(--primary);color:#fff}
+.nf__bolt{position:absolute;z-index:-1;right:-70px;top:-50px;width:340px;color:rgba(255,255,255,.12)}
+.nf__bolt2{position:absolute;z-index:-1;left:-40px;bottom:-60px;width:140px;color:rgba(255,255,255,.08);transform:rotate(14deg)}
+.nf__code{font-family:var(--font-display);font-size:clamp(88px,22vw,148px);font-weight:800;line-height:.9;letter-spacing:-.05em}
+.nf__mascot{width:clamp(96px,22vw,128px);height:auto;margin-top:-6px;animation:frito-pop .5s var(--ease) both}
+.nf__title{margin:4px 0 0;font-family:var(--font-display);font-size:clamp(24px,5vw,32px);font-weight:800;line-height:1.1;letter-spacing:-.02em;text-wrap:balance}
+.nf__text{margin:0;max-width:380px;font-size:15px;line-height:1.5;color:rgba(255,255,255,.8);text-wrap:pretty}
+.nf__actions{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:10px}
+.nf__ghost,.nf__ghost:hover{background:rgba(255,255,255,.16);color:#fff}
+.nf__ghost:hover{background:rgba(255,255,255,.24)}
+</style>
+</head>
+<body>
+<div class="nf">
+  <header class="nf__head">
+    <a href="menu.dc.html" aria-label="Frito — на главную"><img src="https://frito.kz/brand.svg" alt="FRITO" width="109" height="34" style="display:block"></a>
+  </header>
+  <main class="nf__main">
+    <section class="nf__card">
+      <span class="f-g f-g--bolt2 nf__bolt" aria-hidden="true"></span>
+      <span class="f-g f-g--bolt nf__bolt2" aria-hidden="true"></span>
+      <span class="nf__code" aria-hidden="true">404</span>
+      <img class="nf__mascot" src="assets/brand/rooster-round-light.svg" alt="" aria-hidden="true">
+      <h1 class="nf__title">Такой страницы нет</h1>
+      <p class="nf__text">Возможно, ссылка устарела или в адресе опечатка. Зато курочка на месте — горячая и хрустящая.</p>
+      <div class="nf__actions">
+        <a class="f-btn f-btn--md f-btn--on-brand" href="menu.dc.html">Перейти в меню</a>
+        <a class="f-btn f-btn--md nf__ghost" id="nf-wa" href="menu.dc.html" target="_blank" rel="noopener">Написать в WhatsApp</a>
+      </div>
+    </section>
+  </main>
+</div>
+<script>
+  // контакты — из общего источника (frito.js)
+  try { document.getElementById('nf-wa').href = window.FritoContacts.waUrl; } catch (e) {}
+</script>
+</body>
+</html>
