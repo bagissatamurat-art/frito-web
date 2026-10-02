@@ -377,6 +377,42 @@ img.f-option__icon{object-fit:contain}
 .f-group__count{flex-shrink:0;font-size:13px;font-weight:600;color:var(--primary)}
 .f-group__hint{font-size:13px;line-height:1.4}
 .f-group__opts{display:flex;flex-direction:column;gap:8px}
+.f-group__hint:empty{display:none}
+.f-pm .f-group,.f-pm-sheet .f-group{gap:10px}
+/* модификаторы: «один из 2–3» — переключатель в строку */
+.f-mseg{display:flex;gap:4px;padding:4px;background:var(--surface-2);border-radius:var(--r-pill)}
+.f-mseg__btn{flex:1;min-width:0;height:44px;display:flex;align-items:center;justify-content:center;gap:6px;border:0;border-radius:var(--r-pill);background:transparent;color:var(--ink-2);font:inherit;font-size:14px;font-weight:600;white-space:nowrap;cursor:pointer;transition:background-color .15s,color .15s,box-shadow .15s}
+.f-mseg__btn:hover{color:var(--ink)}
+.f-mseg__btn.is-on{background:#fff;color:var(--ink);box-shadow:0 1px 3px rgba(17,24,39,.12)}
+.f-mseg__chili{width:16px;height:16px;color:#EF4444;flex-shrink:0}
+/* «один из многих» с фото — плитки */
+.f-mtiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(60px,1fr));gap:8px}
+.f-mtile{display:flex;flex-direction:column;align-items:center;gap:6px;min-width:0;padding:4px 4px 8px;border:2px solid transparent;border-radius:var(--r-md-plus);background:var(--surface-2);color:var(--ink);font:inherit;cursor:pointer;transition:border-color .15s,background-color .15s}
+.f-mtile:hover{border-color:var(--primary-100)}
+.f-mtile.is-on{border-color:var(--primary);background:var(--primary-50)}
+.f-mtile__img{position:relative;width:100%;aspect-ratio:1;border-radius:10px;overflow:hidden;background:#fff;display:flex;align-items:center;justify-content:center;color:var(--ink-3)}
+.f-mtile__img>svg{width:36px;height:36px}
+.f-mtile__check{position:absolute;top:4px;right:4px;width:22px;height:22px;border-radius:50%;background:var(--primary);color:#fff;display:flex;align-items:center;justify-content:center;transform:scale(0);transition:transform .18s cubic-bezier(.3,1.5,.6,1)}
+.f-mtile__check svg{width:13px;height:13px}
+.f-mtile.is-on .f-mtile__check{transform:scale(1)}
+.f-mtile__name{max-width:100%;font-size:12px;font-weight:600;line-height:1.25;text-align:center;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+/* «по желанию» — чипы */
+.f-mchips{display:flex;flex-wrap:wrap;gap:8px}
+.f-mchip{display:inline-flex;align-items:center;gap:6px;min-height:40px;padding:0 14px 0 10px;border:1.5px solid var(--border);border-radius:var(--r-pill);background:#fff;color:var(--ink);font:inherit;font-size:14px;font-weight:500;cursor:pointer;transition:border-color .15s,background-color .15s,color .15s}
+.f-mchip:hover{border-color:var(--primary-100)}
+.f-mchip__mark{width:20px;height:20px;border-radius:50%;background:var(--surface-2);color:var(--ink-2);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background-color .15s,color .15s}
+.f-mchip__mark svg{width:12px;height:12px}
+.f-mchip__ok,.f-mchip__minus{display:none}
+.f-mchip--minus .f-mchip__plus{display:none}
+.f-mchip--minus .f-mchip__minus{display:inline}
+.f-mchip.is-on .f-mchip__minus{display:none}
+.f-mchip__price{color:var(--ink-2);font-weight:600;font-size:13px}
+.f-mchip.is-on{border-color:var(--primary);background:var(--primary-50);color:var(--primary)}
+.f-mchip.is-on .f-mchip__mark{background:var(--primary);color:#fff}
+.f-mchip.is-on .f-mchip__plus{display:none}
+.f-mchip.is-on .f-mchip__ok{display:inline}
+.f-mchip.is-on .f-mchip__price{color:var(--primary)}
+.f-mchip.is-disabled{opacity:.45;cursor:not-allowed}
 
 /* CTA с суммой: «В корзину | 4 190 тг.» */
 .f-cta{flex:1;min-width:0;display:flex;align-items:center;justify-content:space-between;gap:12px;height:var(--h-lg);padding:0 24px;border:0;border-radius:var(--r-pill);background:var(--primary);color:#fff;font:inherit;font-size:17px;font-weight:600;cursor:pointer;transition:background .15s}
