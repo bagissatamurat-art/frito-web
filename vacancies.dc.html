@@ -272,7 +272,7 @@ class Component extends DCLogic {
     const L = seg(s.view === 'list'), M = seg(s.view === 'map');
     const mobile = (s.w || window.innerWidth) < 720;
     return {
-      storeCount: storesRaw.length || 5, total: all.length, minSalary: (all.map(v => +String(v.salary || '').replace(/\D/g, '')).filter(Boolean).sort((x, y) => x - y)[0] || 250000).toLocaleString('ru-RU').replace(/\s/g, '\u00a0') + '\u00a0тг', benefits: BENEFITS, vacRef: this.vacRef,
+      storeCount: storesRaw.length || 5, total: all.length, minSalary: (all.map(v => +String(v.salary || '').replace(/\D/g, '')).filter(Boolean).sort((x, y) => x - y)[0] || 250000).toLocaleString('ru-RU').replace(/\s/g, '\u00a0') + '\u00a0₸', benefits: BENEFITS, vacRef: this.vacRef,
       toVacancies: e => { e.preventDefault(); const el = this.vacRef.current; if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' }); },
       cities, city: s.city, setCity: e => this.setState({ city: e.target.value }),
       shiftChips: [chip('Любая смена', ''), ...shifts.map(x => chip(x, x))],

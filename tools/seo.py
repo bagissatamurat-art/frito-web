@@ -113,7 +113,7 @@ menu = {'@type': 'Menu', '@id': BASE + '#menu', 'name': 'Меню Frito', 'inLan
              'offers': {'@type': 'Offer', 'price': p, 'priceCurrency': 'KZT'}} for (_id, n, d, p, img) in items]}
             for cn, items in cats]}
 rest = [{'@type': 'Restaurant', 'name': f'Frito, {n}', 'servesCuisine': ['Фастфуд', 'Курица'],
-         'priceRange': '$$', 'telephone': PHONE_E164, 'parentOrganization': {'@id': BASE + '#org'},
+         'priceRange': '₸₸', 'telephone': PHONE_E164, 'parentOrganization': {'@id': BASE + '#org'},
          'hasMenu': {'@id': BASE + '#menu'}, 'acceptsReservations': False,
          'address': {'@type': 'PostalAddress', 'streetAddress': n, 'addressLocality': 'Астана', 'addressCountry': 'KZ'},
          'geo': {'@type': 'GeoCoordinates', 'latitude': float(la), 'longitude': float(lo)},
@@ -131,7 +131,7 @@ fallback = ['<noscript class="seo-menu">',
             f'Заказ в WhatsApp: <a href="https://wa.me/{PHONE_E164[1:]}">{e(C["phone"])}</a>.</p>']
 for cn, items in cats:
     fallback.append(f'<h2>{e(cn)}</h2><ul>' + ''.join(
-        f'<li><strong>{e(n)}</strong> — {e(d)} — {p} тг</li>' for (_id, n, d, p, _img) in items) + '</ul>')
+        f'<li><strong>{e(n)}</strong> — {e(d)} — {p} ₸</li>' for (_id, n, d, p, _img) in items) + '</ul>')
 fallback.append('<p><a href="delivery.dc.html">Доставка и оплата</a> · <a href="vacancies.dc.html">Вакансии</a> · '
                 '<a href="franchise.dc.html">Франшиза</a> · <a href="offer.dc.html">Оферта</a> · '
                 '<a href="privacy.dc.html">Конфиденциальность</a></p>')
