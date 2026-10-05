@@ -14,10 +14,10 @@
 |---|---|---|---|
 | `frito_user` | `{via:'whatsapp'\|'telegram', phone, at, name?, email?, bday?, notify?:{status,promo}}` | вход (menu, account) / все страницы | сессия или токен + `GET /me` |
 | `frito_method` | `{mode:'delivery'\|'pickup', address, hours?, city?, from?}` (`from` — ресторан, который везёт) | окно адреса / меню, оформление, кабинет | можно оставить на клиенте; адрес с координатами → `POST /delivery/quote` |
-| `frito_cart` | `{at, items:[{id, qty, mods, extra}], promo, fee}` (`mods` — текст модификаторов, `extra` — доплата за них) | меню (`saveCart` перед оформлением) / оформление | корзина на клиенте, при оформлении → `POST /orders` с id опций модификаторов |
-| `frito_orders` | `[{no, at, mode, address, items:[[id,qty]], total, status}]`, не больше 20 | оформление (`payGo`) / `frito.js FritoOrder`, кабинет | `GET /me/orders` |
-| `frito_view` | `{no, at, mode, address, total, items:[{name,mods,qty,price,img}], repeat}` | `FritoOrder.open` / страница заказа | `GET /orders/:no` |
-| `frito_repeat` | `{items:{id:qty}, at}`, живёт 60 с | статус, кабинет («Повторить») / меню | на клиенте, ок |
+| `frito_cart` | `{at, items:[{id, key, qty, mods, extra, sel}], promo, fee}` — **одна запись на строку корзины**: `key` = `id` или `id~группа:опции;…` (`lineKey` в `menu.dc.html`), `sel` — выбранные опции по группам, `mods` — их текст, `extra` — доплата. Один товар с разным составом — разные строки; тот же состав — количество складывается | меню (`saveCart` перед оформлением) / оформление | корзина на клиенте, при оформлении → `POST /orders` с id опций модификаторов |
+| `frito_orders` | `[{no, at, mode, address, items:[[id, qty, {key, mods, extra, sel, price}]], total, status}]`, не больше 20 | оформление (`payGo`) / `frito.js FritoOrder`, кабинет | `GET /me/orders` |
+| `frito_view` | `{no, at, mode, address, total, items:[{name,mods,qty,price,img}], repeat, repeatMeta}` | `FritoOrder.open` / страница заказа | `GET /orders/:no` |
+| `frito_repeat` | `{items:{key:qty}, meta:{key:{mods,extra,sel}}, at}`, живёт 60 с | статус, кабинет («Повторить») / меню | на клиенте, ок |
 | `frito_ratings` | `{[orderNo]: {stars, tags[], comment, at}}` | FritoRating / кабинет | `POST /orders/:no/rating`, рейтинг — в составе заказа |
 | `frito_addresses` | `[{id, label, line, city, def}]` | кабинет | `GET/POST/PATCH/DELETE /me/addresses` |
 | `frito_lang` | `'ru'\|'kk'` | frito-i18n.js | оставить (+ передавать язык в API, см. §2.9) |
@@ -58,6 +58,7 @@
 
 ### 2.5 Оформление и оплата (`checkout.dc.html`)
 - **Состав** берётся из `frito_cart`. Если корзины нет, показывается демо-набор `D.DEMO`.
+- **Строки с модификаторами.** Один товар может прийти несколькими строками с разным `sel` (например, два «Сеул бокса»: острый и неострый). В `POST /orders` передавать каждую строку отдельно: `{productId, qty, options:[optionId…]}`; сервер сам считает цену строки и сохраняет снимок выбранных опций в позиции заказа. Строки с одинаковым набором опций сервер может склеить.
 - **Поля предзаполнены демо-значениями:** подъезд, этаж, кв., телефон `+7 708 261 63 92`. **Нужно** брать их из профиля и последнего адреса.
 - **Время к сроку:** `SLOTS` — 6 фиксированных интервалов. **Нужно:** `GET /slots?store=`.
 - **Промокод:** `FritoPromoField` проверяет локально (NEW10 — ок, OLD20 — истёк, BIG15 — от 10 000 ₸), скидка всегда в процентах из `PROMO`. **Нужно:** `POST /promo/validate`. Итоговую сумму считает сервер.

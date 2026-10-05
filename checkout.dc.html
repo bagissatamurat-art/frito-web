@@ -325,7 +325,7 @@ class Component extends DCLogic {
     // корзина с главной (frito_cart); если её нет — демо-набор D.DEMO
     const cart = readJSON('frito_cart'), cartItems = cart && cart.items && cart.items.length ? cart.items.filter(it => D.BY_ID[it.id]) : null;
     const LINES = (cartItems || Object.keys(D.DEMO).map(id => ({ id, qty: D.DEMO[id], extra: 0 }))).filter(it => !s.hidden[it.id])
-      .map(it => ({ ...D.BY_ID[it.id], qty: it.qty, price: D.BY_ID[it.id].price + (it.extra || 0), mods: it.mods || D.BY_ID[it.id].mods, soldOut: it.id === soldId, ok: it.id !== soldId }));
+      .map(it => ({ ...D.BY_ID[it.id], key: it.key || it.id, sel: it.sel || null, extra: it.extra || 0, qty: it.qty, price: D.BY_ID[it.id].price + (it.extra || 0), mods: it.mods || D.BY_ID[it.id].mods, soldOut: it.id === soldId, ok: it.id !== soldId }));
     const soldLines = LINES.filter(l => l.soldOut), hasSold = soldLines.length > 0;
     const mode = s.modeTouched ? s.mode : (p.mode ?? s.mode), isDelivery = mode === 'delivery';
     // для аналитики (analytics.js): товары заказа
@@ -370,7 +370,7 @@ class Component extends DCLogic {
       countLabel: D.plural(LINES.reduce((a, l) => a + (l.soldOut ? 0 : l.qty), 0)),
       hasSold, soldText: soldLines.map(l => l.name).join(', ') + ' разобрали — уберите ' + (soldLines.length > 1 ? 'их' : 'его') + ', чтобы продолжить',
       removeSold: () => this.setState(st => ({ hidden: { ...st.hidden, ...Object.fromEntries(soldLines.map(l => [l.id, true])) } })),
-      payDisabled: hasSold || LINES.length === 0, payGo: () => { try { const no = String(4800 + Math.floor(Math.random() * 190)); sessionStorage.setItem('frito_purchase', JSON.stringify({ transaction_id: no, items: anItems, value: total, shipping: fee, payment_type: s.pay, mode })); const list = readJSON('frito_orders') || []; list.unshift({ no, at: Date.now(), mode, address: isDelivery ? (s.addr || D.DEFAULT_ADDR) : (s.store ? s.store.name : D.STORES[0].name), items: LINES.filter(l => l.ok).map(l => [l.id, l.qty]), total, status: 'placed' }); localStorage.setItem('frito_orders', JSON.stringify(list.slice(0, 20))); localStorage.removeItem('frito_cart');
+      payDisabled: hasSold || LINES.length === 0, payGo: () => { try { const no = String(4800 + Math.floor(Math.random() * 190)); sessionStorage.setItem('frito_purchase', JSON.stringify({ transaction_id: no, items: anItems, value: total, shipping: fee, payment_type: s.pay, mode })); const list = readJSON('frito_orders') || []; list.unshift({ no, at: Date.now(), mode, address: isDelivery ? (s.addr || D.DEFAULT_ADDR) : (s.store ? s.store.name : D.STORES[0].name), items: LINES.filter(l => l.ok).map(l => [l.id, l.qty, { key: l.key, mods: l.mods, extra: l.extra, sel: l.sel, price: l.price }]), total, status: 'placed' }); localStorage.setItem('frito_orders', JSON.stringify(list.slice(0, 20))); localStorage.removeItem('frito_cart');
         // страница созданного заказа (до сервера — состав через frito_view)
         const byId = Object.fromEntries(LINES.filter(l => l.ok).map(l => [l.id, { name: l.name, price: l.price, img: l.img, mods: l.mods }]));
         if (window.FritoOrder) return window.FritoOrder.open(list[0], byId, 'accepted'); } catch (e) {} location.href = 'order-status.html?mode=' + mode; }, payCursor: hasSold ? 'not-allowed' : 'pointer',

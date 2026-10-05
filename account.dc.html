@@ -250,7 +250,7 @@ class Component extends DCLogic {
       stars: [1, 2, 3, 4, 5].map(n => ({ cls: 'ac-star' + (r && n <= r.stars ? ' is-on' : '') + (r ? ' is-done' : ''), off: !!r, aria: n + ' из 5', pick: e => { stop(e); if (!r) this.setState({ rateFor: { no: o.no, stars: n, mode: o.mode } }); } })),
       rateNote: r && r.tags && r.tags.length ? r.tags.slice(0, 2).join(', ') : '', hasRateNote: !!(r && r.tags && r.tags.length),
       open: () => this.openOrder(o), key: e => { if (e.key === 'Enter') this.openOrder(o); },
-      repeat: e => { stop(e); writeJSON('frito_repeat', { items: Object.fromEntries(items), at: Date.now() }); location.href = 'menu.dc.html'; } };
+      repeat: e => { stop(e); writeJSON('frito_repeat', { items: Object.fromEntries(items.map(([id, q, x]) => [(x && x.key) || id, q])), meta: Object.fromEntries(items.filter(([, , x]) => x && x.key).map(([, , x]) => [x.key, { mods: x.mods, extra: x.extra || 0, sel: x.sel || null }])), at: Date.now() }); location.href = 'menu.dc.html'; } };
   }
   renderVals() {
     const s = this.state, u = s.user, ready = s.ready && !!D, now = Date.now(), mob = s.vw < 768;

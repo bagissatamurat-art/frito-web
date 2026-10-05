@@ -103,6 +103,12 @@ button{outline:none}
         <dc-import name="FritoProductModal" layout="sheet" mode="edit" qty="{{ 2 }}" product="{{ editBox }}" on-add="{{ onAdd }}" on-close="{{ onClose }}" style="position:absolute;inset:0" hint-size="100%,100%"></dc-import>
       </section>
     </div>
+    <div style="display:flex;flex-direction:column;gap:14px;width:390px">
+      <div style="font-size:13px;font-weight:600;color:#6B7280;letter-spacing:.04em">MOBILE · товар уже в корзине · другой состав — новая строка</div>
+      <section data-screen-label="Product mobile in cart" style="width:390px;height:844px;background:#F7F7F9;border-radius:44px;overflow:hidden;position:relative;box-shadow:0 30px 80px -30px rgba(50,30,140,.25)">
+        <dc-import name="FritoProductModal" layout="sheet" product="{{ inCartBox }}" on-add="{{ onAdd }}" on-close="{{ onClose }}" style="position:absolute;inset:0" hint-size="100%,100%"></dc-import>
+      </section>
+    </div>
   </div>
 
   <div style="display:flex;gap:40px;align-items:flex-start">
@@ -163,6 +169,7 @@ class Component extends DCLogic {
     return {
       last: this.state.last,
       burger: { id: 'crispy', name: 'Криспи бургер', price: 2090, desc: 'Бриошь, малосольные огурчики, коул-слоу, куриное филе в панировке, Гауда и соус Frito', img: IMG + '9488ca37967b9a8724216d5cb8364d83.PNG', kind: 'burger' },
+      inCartBox: { id: 'seul-box', name: 'Сеул бокс', price: 4190, desc: 'Сеул бургер, фирменный фри, три куриных стрипса, напиток 0,5 л и фирменный соус Frito', img: IMG + '493305c90f0660b1f1d007b5c3986289.JPEG', kind: 'box', inCartNote: 'В корзине уже 1 шт. Другой состав — отдельной строкой, такой же — добавим к ней' },
       simple: { id: 'fries', name: 'Фирменный картофель фри', price: 750, desc: 'Картофель фри со специями от Frito', img: IMG + '1e47ef85ba6a0da2d9728620a354db44.JPEG' },
       onAdd: r => this.setState({ last: 'добавлено ' + r.qty + ' × ' + r.id + (r.mods ? ' (' + r.mods + ')' : '') + ', ' + r.unit * r.qty + ' тг.' }),
       onClose: () => this.setState({ last: 'закрыто' }),

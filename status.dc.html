@@ -213,7 +213,7 @@ class Component extends DCLogic {
     if (on && !this._demo) this._demo = setInterval(() => this.setState(s => ({ stageOv: ((s.stageOv ?? this.baseStage()) + 1) % 5 })), 3500);
     if (!on && this._demo) { clearInterval(this._demo); this._demo = null; this.setState({ stageOv: null }); }
   }
-  repeatOrder() { if (this.view && this.view.repeat) try { localStorage.setItem('frito_repeat', JSON.stringify({ items: this.view.repeat, at: Date.now() })); } catch (e) {} location.href = 'menu.dc.html'; }
+  repeatOrder() { if (this.view && this.view.repeat) try { localStorage.setItem('frito_repeat', JSON.stringify({ items: this.view.repeat, meta: this.view.repeatMeta || {}, at: Date.now() })); } catch (e) {} location.href = 'menu.dc.html'; }
   baseStage() { return Math.max(0, KEYS.indexOf(this.qp('stage') || 'cooking')); }
   renderVals() {
     const p = this.props, s = this.state, mode = this.qp('mode') === 'pickup' ? 'pickup' : 'delivery', pick = mode === 'pickup';

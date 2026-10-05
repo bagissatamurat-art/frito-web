@@ -464,7 +464,11 @@ const UPSELL = [{ key: 'drinks', label: 'Напитки', cover: 'cola', cat: '�
 const DEFAULT_ADDR = 'пр-кт Туран, 52/6';
 const BURGERS = ['crispy','seul','classic','deluxe','salsa','cheese','rap-cheese','fritos'];
 const kindOf = id => id === 'strips-combo' ? 'stripsCombo' : /-box$/.test(id) ? 'box' : /-combo$/.test(id) ? 'combo' : BURGERS.includes(id) ? 'burger' : /^strips-/.test(id) ? 'strips' : null;
-const tgt = e => { const el = e && e.currentTarget; return el && el.closest && el.closest('[data-screen-label="Mobile"]') ? 'm' : 'd'; };
+// строка корзины = товар + набор модификаторов: ключ «id» (без модификаторов) или «id~подпись выбора»
+const lineKey = (id, sel) => { const sig = sel ? Object.keys(sel).sort().map(g => g + ':' + [...(sel[g] || [])].sort().join(',')).filter(x => !/:$/.test(x)).join(';') : ''; return sig ? id + '~' + sig : id; };
+const pid = k => String(k).split('~')[0];
+// без события (степпер вызывает колбэк без него) — по ширине окна
+const tgt = e => { const el = e && e.currentTarget; if (!el || !el.closest) return window.innerWidth < 1024 ? 'm' : 'd'; return el.closest('[data-screen-label="Mobile"]') ? 'm' : 'd'; };
 
 const STORY_MS = 5000;
 const OUT_MS = 200;
@@ -476,7 +480,7 @@ const STORIES = [
   { img: 'assets/story-whatsapp.webp', alt: 'Рестораны и часы работы', cta: 'Выбрать ресторан', action: 'pickup' },
 ];
 class Component extends DCLogic {
-  state = { cart: {}, mobileOpen: false, mode: null, address: null, door: false, modal: null, modalTarget: null, pendingId: null, menu: null, agree: true, addrDraft: '', activeD: 0, activeM: 0, logoBroken: false, promo: 'NEW10',  hidden: {}, pm: null, pmTarget: 'd', pmEdit: false, mods: {}, extra: {}, sels: {}, pendingQty: null };
+  state = { cart: {}, mobileOpen: false, mode: null, address: null, door: false, modal: null, modalTarget: null, pendingId: null, menu: null, agree: true, addrDraft: '', activeD: 0, activeM: 0, logoBroken: false, promo: 'NEW10',  hidden: {}, pm: null, pmKey: null, pmTarget: 'd', pmEdit: false, mods: {}, extra: {}, sels: {}, pendingQty: null };
   dScrollRef = React.createRef();
   mScrollRef = React.createRef();
 
@@ -485,7 +489,8 @@ class Component extends DCLogic {
     else { try { const m = JSON.parse(localStorage.getItem('frito_method') || 'null'); if (m && m.mode && m.address) this.setState({ mode: m.mode, address: m.address, store: m.mode === 'pickup' ? m.address : m.from || null }); } catch (e) {} }
     // повтор заказа из личного кабинета
     try { const r = JSON.parse(localStorage.getItem('frito_repeat') || 'null'); localStorage.removeItem('frito_repeat');
-      if (r && r.items && Date.now() - r.at < 6e4) { const cart = {}; Object.entries(r.items).forEach(([id, q]) => { if (BY_ID[id]) cart[id] = q; });
+      if (r && r.items && Date.now() - r.at < 6e4) { const cart = {}, M = r.meta || {}; Object.entries(r.items).forEach(([id, q]) => { if (BY_ID[pid(id)]) cart[id] = q; });
+        const pick = f => Object.fromEntries(Object.keys(M).filter(k => cart[k]).map(k => [k, M[k][f]])); this.setState(s => ({ mods: { ...s.mods, ...pick('mods') }, extra: { ...s.extra, ...pick('extra') }, sels: { ...s.sels, ...pick('sel') } }));
         // без способа получения товары не попадают в корзину: сначала выбор адреса/ресторана
         if (this.state.mode) { this.setState({ cart, mobileOpen: window.innerWidth < 1024 }); this.added(Object.keys(cart)[0], Object.keys(cart).length); }
         else this.setState({ modal: 'method', modalTarget: window.innerWidth < 1024 ? 'm' : 'd', pendingItems: cart, addrMode: 'delivery' }); } } catch (e) {}
@@ -498,13 +503,14 @@ class Component extends DCLogic {
   }
   removeLine(id, qty) { this.setState(s => ({ hidden: { ...s.hidden, [id]: true } })); this.setQty(id, -qty); }
   setQty(id, d) {
-    fa(d > 0 ? 'add_to_cart' : 'remove_from_cart', { items: [anItem(id, Math.abs(d), BY_ID[id].price + ((this.state.extra || {})[id] || 0))] });
+    fa(d > 0 ? 'add_to_cart' : 'remove_from_cart', { items: [anItem(pid(id), Math.abs(d), BY_ID[pid(id)].price + ((this.state.extra || {})[id] || 0))] });
     this.setState(s => { const cart = { ...s.cart }; const q = (cart[id] || 0) + d; if (q <= 0) delete cart[id]; else cart[id] = q; return { cart }; });
   }
   // уведомление «Добавили в корзину» (после выбора способа получения или повтора заказа)
-  added(id, n) { const pr = BY_ID[id]; if (!pr) return; clearTimeout(this._addT);
+  added(id, n) { const pr = BY_ID[pid(id)]; if (!pr) return; clearTimeout(this._addT);
     this.setState({ addedNote: { img: pr.img || '', text: n > 1 ? 'Добавили в корзину ' + n + ' позиции' : pr.name + ' — в корзине' } });
     this._addT = setTimeout(() => this.setState({ addedNote: null }), 2600); }
+  note(id, text) { const pr = BY_ID[pid(id)]; clearTimeout(this._addT); this.setState({ addedNote: { img: (pr && pr.img) || '', text } }); this._addT = setTimeout(() => this.setState({ addedNote: null }), 2600); }
   tryAdd(id, target) {
     if (this.state.mode) return this.setQty(id, 1);
     this.setState({ modal: 'method', modalTarget: target, pendingId: id });
@@ -516,7 +522,7 @@ class Component extends DCLogic {
     const st = this.state, store = mode === 'pickup' ? address : extra.from || null;
     // ждущие товары: { id: qty }. Тех, которых нет в выбранном ресторане, в корзину не кладём — показываем окно «нет в наличии»
     const want = st.pendingId ? { [st.pendingId]: st.pendingQty || 1 } : st.pendingItems || {};
-    const miss = window.FritoStock ? window.FritoStock.missing(store, Object.keys(want)) : [];
+    const missP = window.FritoStock ? window.FritoStock.missing(store, Object.keys(want).map(pid)) : [], miss = Object.keys(want).filter(k => missP.includes(pid(k)));
     const ok = Object.keys(want).filter(id => !miss.includes(id));
     this.setState(s => {
       const cart = { ...s.cart };
@@ -525,16 +531,20 @@ class Component extends DCLogic {
       return { mode, address, store, modal: null, addrMode: null, pendingId: null, pendingQty: null, pendingItems: null, cart, noStock };
     });
     fa('select_method', { mode, store: store || '' });
-    if (ok.length) { fa('add_to_cart', { items: ok.map(id => anItem(id, want[id])) }); this.added(ok[0], ok.length > 1 ? ok.length : undefined); }
+    if (ok.length) { fa('add_to_cart', { items: ok.map(id => anItem(pid(id), want[id])) }); this.added(ok[0], ok.length > 1 ? ok.length : undefined); }
   }
-  openProduct(id, target, edit) { if (!edit) fa('view_item', { items: [anItem(id, 1)] }); this.setState({ pm: id, pmTarget: target, pmEdit: !!edit, mobileOpen: edit ? this.state.mobileOpen : false }); }
+  openProduct(id, target, edit, key) { if (!edit) fa('view_item', { items: [anItem(id, 1)] }); this.setState({ pm: id, pmKey: edit ? key || id : null, pmTarget: target, pmEdit: !!edit, mobileOpen: edit ? this.state.mobileOpen : false }); }
   addConfigured(r) {
-    const id = this.state.pm, edit = this.state.pmEdit, base = BY_ID[id].price;
-    const meta = s => ({ pm: null, mods: { ...s.mods, [id]: r.mods || BY_ID[id].mods }, extra: { ...s.extra, [id]: r.unit - base }, sels: { ...s.sels, [id]: r.sel } });
-    if (edit) return this.setState(s => ({ ...meta(s), cart: { ...s.cart, [id]: r.qty } }));
-    if (!this.state.mode) return this.setState(s => ({ ...meta(s), modal: 'method', modalTarget: s.pmTarget, pendingId: id, pendingQty: r.qty }));
+    const id = this.state.pm, edit = this.state.pmEdit, base = BY_ID[id].price, key = lineKey(id, r.sel);
+    const meta = s => ({ pm: null, pmKey: null, mods: { ...s.mods, [key]: r.mods || BY_ID[id].mods }, extra: { ...s.extra, [key]: r.unit - base }, sels: { ...s.sels, [key]: r.sel } });
+    // правка строки: другой набор модификаторов → строка меняет ключ; совпал с другой строкой — сливаем количество
+    if (edit) return this.setState(s => { const cart = {}, old = s.pmKey;
+      Object.keys(s.cart).forEach(k => { if (k === old) cart[key] = (k === key ? 0 : cart[key] || 0) + r.qty; else if (k === key) cart[key] = (cart[key] || 0) + s.cart[k]; else cart[k] = s.cart[k]; });
+      return { ...meta(s), cart }; });
+    if (!this.state.mode) return this.setState(s => ({ ...meta(s), modal: 'method', modalTarget: s.pmTarget, pendingId: key, pendingQty: r.qty }));
     fa('add_to_cart', { items: [anItem(id, r.qty, r.unit)] });
-    this.setState(s => ({ ...meta(s), cart: { ...s.cart, [id]: (s.cart[id] || 0) + r.qty } }));
+    this.setState(s => ({ ...meta(s), cart: { ...s.cart, [key]: (s.cart[key] || 0) + r.qty } }));
+    this.added(key);
   }
   go(prefix, idx, ref, key) {
     const c = ref.current, el = c && c.querySelector('#' + prefix + '-cat-' + idx);
@@ -576,8 +586,8 @@ class Component extends DCLogic {
   user() { try { return JSON.parse(localStorage.getItem('frito_user')); } catch (e) { return null; } }
   // корзина для оформления: frito_cart = { at, items:[{ id, qty, mods, extra }], promo, fee } (до сервера — через localStorage)
   saveCart() { const s = this.state; try { localStorage.setItem('frito_cart', JSON.stringify({ at: Date.now(), promo: s.promo || null, fee: s.quote ? s.quote.fee : null,
-    items: Object.keys(s.cart).map(id => ({ id, qty: s.cart[id], mods: (s.mods || {})[id] || BY_ID[id].mods || '', extra: (s.extra || {})[id] || 0 })) })); } catch (e) {} }
-  goCheckout(t) { this.saveCart(); fa('begin_checkout', { items: Object.keys(this.state.cart).map(id => anItem(id, this.state.cart[id], BY_ID[id].price + ((this.state.extra || {})[id] || 0))) }); if (this.user()) location.href = 'checkout.dc.html'; else this.setState({ auth: t, authReason: 'checkout' }); }
+    items: Object.keys(s.cart).map(k => ({ id: pid(k), key: k, qty: s.cart[k], mods: (s.mods || {})[k] || BY_ID[pid(k)].mods || '', extra: (s.extra || {})[k] || 0, sel: (s.sels || {})[k] || null })) })); } catch (e) {} }
+  goCheckout(t) { this.saveCart(); fa('begin_checkout', { items: Object.keys(this.state.cart).map(k => anItem(pid(k), this.state.cart[k], BY_ID[pid(k)].price + ((this.state.extra || {})[k] || 0))) }); if (this.user()) location.href = 'checkout.dc.html'; else this.setState({ auth: t, authReason: 'checkout' }); }
   // плавное закрытие: сначала играет анимация ухода (out), потом элемент убирается
   animateOut(key, fn) {
     if (this._outT) return;
@@ -611,23 +621,27 @@ class Component extends DCLogic {
     const inStore = id => !(s.store && window.FritoStock && !window.FritoStock.has(s.store, id));
     const isSold = id => id === soldId || !inStore(id);
 
+    const keysOf = id => Object.keys(s.cart).filter(k => pid(k) === id);
+    const qtyOf = id => keysOf(id).reduce((a, k) => a + s.cart[k], 0);
+    // «−» на карточке: одна строка — уменьшаем её; несколько вариантов — открываем корзину, пусть клиент выберет какой
+    const decOf = (id, e) => { const ks = keysOf(id); if (ks.length === 1) return this.setQty(ks[0], -1); if (window.innerWidth < 1024) this.setState({ mobileOpen: true, pick: null }); else this.note(id, 'Выберите вариант в корзине'); };
     const cats = CATS.map((c, idx) => ({
       name: c.name, idx,
       dCls: 'f-catchip' + (s.activeD === idx ? ' is-on' : ''), mCls: 'f-catchip f-catchip--sm' + (s.activeM === idx ? ' is-on' : ''),
       goD: () => this.go('d', idx, this.dScrollRef, 'activeD'), goM: () => this.go('m', idx, this.mScrollRef, 'activeM'),
       items: c.items.filter(it => !isSold(it[0])).map(it => {
-        const pr = BY_ID[it[0]], qty = s.cart[pr.id] || 0, sold = false;
+        const pr = BY_ID[it[0]], qty = qtyOf(pr.id), sold = false, conf = !!kindOf(pr.id);
         return { ...pr, qty, inCart: qty > 0 && !sold, notInCart: qty === 0 && !sold, soldOut: sold, imgFilter: sold ? 'grayscale(1) opacity(.55)' : 'none', hasImg: !!pr.img, noImg: !pr.img, priceLabel: fmt(pr.price),
           add: e => kindOf(pr.id) ? this.openProduct(pr.id, tgt(e)) : this.tryAdd(pr.id, tgt(e)), open: e => this.openProduct(pr.id, tgt(e)),
-          inc: () => this.setQty(pr.id, 1), dec: () => this.setQty(pr.id, -1) };
+          inc: e => conf ? this.openProduct(pr.id, tgt(e)) : this.setQty(pr.id, 1), dec: e => decOf(pr.id, e) };
       }),
     })).filter(c => c.items.length);
 
-    const unitOf = id => BY_ID[id].price + (s.extra[id] || 0);
-    const mkLines = cart => Object.keys(cart).map(id => { const pr = BY_ID[id], qty = cart[id], sold = isSold(id); const editable = !!kindOf(id) && !sold, unit = unitOf(id); return { ...pr, qty, mods: s.mods[id] || pr.mods, edit: e => { if (e && e.preventDefault) e.preventDefault(); this.openProduct(id, tgt(e), true); }, hasImg: !!pr.img, editable, fixed: !editable, soldOut: sold, ok: !sold, imgFilter: sold ? 'grayscale(1) opacity(.55)' : 'none', nameColor: sold ? 'var(--ink-2)' : 'var(--ink)', lineLabel: fmt(unit * qty), inc: () => this.setQty(id, 1), dec: () => this.setQty(id, -1), remove: () => this.removeLine(id, qty) }; });
-    const sum = cart => Object.keys(cart).reduce((a, id) => a + (isSold(id) ? 0 : unitOf(id) * cart[id]), 0);
-    const cnt = cart => Object.keys(cart).reduce((a, id) => a + (isSold(id) ? 0 : cart[id]), 0);
-    const avail = cart => Object.keys(cart).some(id => !isSold(id));
+    const unitOf = k => BY_ID[pid(k)].price + (s.extra[k] || 0);
+    const mkLines = cart => Object.keys(cart).map(id => { const p0 = pid(id), pr = BY_ID[p0], qty = cart[id], sold = isSold(p0); const editable = !!kindOf(p0) && !sold, unit = unitOf(id); return { ...pr, key: id, qty, mods: s.mods[id] || pr.mods, edit: e => { if (e && e.preventDefault) e.preventDefault(); this.openProduct(p0, tgt(e), true, id); }, hasImg: !!pr.img, editable, fixed: !editable, soldOut: sold, ok: !sold, imgFilter: sold ? 'grayscale(1) opacity(.55)' : 'none', nameColor: sold ? 'var(--ink-2)' : 'var(--ink)', lineLabel: fmt(unit * qty), inc: () => this.setQty(id, 1), dec: () => this.setQty(id, -1), remove: () => this.removeLine(id, qty) }; });
+    const sum = cart => Object.keys(cart).reduce((a, id) => a + (isSold(pid(id)) ? 0 : unitOf(id) * cart[id]), 0);
+    const cnt = cart => Object.keys(cart).reduce((a, id) => a + (isSold(pid(id)) ? 0 : cart[id]), 0);
+    const avail = cart => Object.keys(cart).some(id => !isSold(pid(id)));
 
     let dCart = s.cart;
     if (forced === 'filled' && !Object.keys(dCart).length) dCart = Object.fromEntries(Object.entries(DEMO).filter(([id]) => !s.hidden[id]));
@@ -679,21 +693,22 @@ class Component extends DCLogic {
       addrStart: s.addrMode || s.mode || 'delivery',
       confirmAddr: r => this.animateOut('modal', () => { if (r.mode === 'delivery') this.setState({ quote: { fee: r.fee, eta: r.eta } }); this.finishMethod(r.mode, r.address, { city: r.city, from: r.from, ...(r.store && r.store.hours ? { hours: r.store.hours } : {}) }, r.alts || []); }),
       modalD: modalOpen && s.modalTarget === 'd', modalM: modalOpen && s.modalTarget === 'm',
-      methodPending: !!s.pendingId, pendingLabel: s.pendingId && BY_ID[s.pendingId] ? BY_ID[s.pendingId].name + (s.pendingQty > 1 ? ' ×' + s.pendingQty : '') : s.pendingItems ? (Object.keys(s.pendingItems).length <= 2 ? Object.keys(s.pendingItems).map(id => (BY_ID[id] || {}).name).join(', ') : 'Повтор заказа: ' + Object.keys(s.pendingItems).length + ' поз.') : '',
+      methodPending: !!s.pendingId, pendingLabel: s.pendingId && BY_ID[pid(s.pendingId)] ? BY_ID[pid(s.pendingId)].name + (s.pendingQty > 1 ? ' ×' + s.pendingQty : '') : s.pendingItems ? (Object.keys(s.pendingItems).length <= 2 ? Object.keys(s.pendingItems).map(id => (BY_ID[pid(id)] || {}).name).join(', ') : 'Повтор заказа: ' + Object.keys(s.pendingItems).length + ' поз.') : '',
       addedOn: !!s.addedNote, addedImg: s.addedNote ? s.addedNote.img : '', addedText: s.addedNote ? s.addedNote.text : '',
       chooseMethod: m => m === 'delivery' ? this.finishMethod('delivery', DEFAULT_ADDR) : this.finishMethod('pickup', STORES[0].name),
       pmD: !!s.pm && s.pmTarget === 'd', pmM: !!s.pm && s.pmTarget === 'm',
       // окно «нет в наличии»: забрать из другого ресторана, изменить адрес/ресторан или продолжить без товара
-      pendingList: (s.pendingId ? [s.pendingId] : Object.keys(s.pendingItems || {})).map(id => ({ id, name: (BY_ID[id] || {}).name || id })),
+      pendingList: (s.pendingId ? [s.pendingId] : Object.keys(s.pendingItems || {})).map(id => ({ id, name: (BY_ID[pid(id)] || {}).name || id })),
       stockD: !!s.noStock && s.noStock.target === 'd', stockM: !!s.noStock && s.noStock.target === 'm',
       stockMode: s.noStock ? s.noStock.mode : 'pickup', stockStore: s.noStock ? s.noStock.store : '', stockAdded: s.noStock ? s.noStock.added : 0,
-      stockItems: s.noStock ? Object.keys(s.noStock.want).map(id => ({ name: BY_ID[id].name, img: BY_ID[id].img })) : [],
+      stockItems: s.noStock ? Object.keys(s.noStock.want).map(id => ({ name: BY_ID[pid(id)].name, img: BY_ID[pid(id)].img })) : [],
       stockAlts: s.noStock ? s.noStock.alts.map(a => ({ ...a, pick: () => this.setState({ noStock: null, pendingId: null, pendingItems: s.noStock.want }, () => this.finishMethod('pickup', a.name, { city: a.city, hours: a.hours })) })) : [],
       stockChangeD: () => this.setState({ noStock: null, modal: 'method', modalTarget: 'd', pendingId: null, pendingItems: s.noStock.want, addrMode: s.noStock.mode }),
       stockChangeM: () => this.setState({ noStock: null, modal: 'method', modalTarget: 'm', pendingId: null, pendingItems: s.noStock.want, addrMode: s.noStock.mode }),
       stockClose: () => this.setState({ noStock: null }),
-      pmProduct: s.pm ? { ...BY_ID[s.pm], kind: kindOf(s.pm), sel: s.pmEdit ? s.sels[s.pm] : undefined } : null,
-      pmQty: s.pm && s.pmEdit ? (s.cart[s.pm] || 1) : 1, pmMode: s.pmEdit ? 'edit' : 'add',
+      pmProduct: s.pm ? { ...BY_ID[s.pm], kind: kindOf(s.pm), sel: s.pmEdit ? s.sels[s.pmKey] : undefined,
+        inCartNote: !s.pmEdit && kindOf(s.pm) && qtyOf(s.pm) ? 'В корзине уже ' + qtyOf(s.pm) + ' шт. Другой состав — отдельной строкой, такой же — добавим к ней' : '' } : null,
+      pmQty: s.pm && s.pmEdit ? (s.cart[s.pmKey] || 1) : 1, pmMode: s.pmEdit ? 'edit' : 'add',
       closePm: () => this.animateOut('pm', () => this.setState({ pm: null })), pmAdd: r => this.animateOut('pm', () => this.addConfigured(r)),
       modalTitle: 'Выберите способ получения заказа',
       modalSub: s.pendingId ? 'Товар добавится в корзину сразу после выбора' : 'Адрес или ресторан можно будет уточнить дальше',
@@ -726,8 +741,8 @@ class Component extends DCLogic {
       pickD: !!s.pick && s.pick.at === 'd', pickM: !!s.pick && s.pick.at === 'm',
       pickTitle: s.pick ? (UPSELL.find(u => u.key === s.pick.key) || {}).label : '',
       pickItems: s.pick ? ((CATS.find(c => c.name === (UPSELL.find(u => u.key === s.pick.key) || {}).cat) || { items: [] }).items.filter(it => inStore(it[0])).map(it => {
-        const pr = BY_ID[it[0]], q = s.cart[pr.id] || 0;
-        return { id: pr.id, name: pr.name, desc: pr.desc, priceLabel: fmt(pr.price), img: pr.img, qty: q, add: () => this.tryAdd(pr.id, s.pick.at), dec: () => this.setQty(pr.id, -1) };
+        const pr = BY_ID[it[0]], q = qtyOf(pr.id);
+        return { id: pr.id, name: pr.name, desc: pr.desc, priceLabel: fmt(pr.price), img: pr.img, qty: q, add: () => this.tryAdd(pr.id, s.pick.at), dec: () => decOf(pr.id) };
       })) : [],
       pickOutAnim: s.out === 'pick' ? `frito-out ${OUT_MS}ms ease-in both` : 'none',
       closePick: () => this.animateOut('pick', () => this.setState({ pick: null })),

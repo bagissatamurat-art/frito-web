@@ -116,7 +116,8 @@ window.FritoOrder = (() => {
   const open = (o, byId, stage) => {
     const items = (o.items || []).filter(([id]) => byId[id]);
     try { localStorage.setItem('frito_view', JSON.stringify({ no: o.no, at: o.status === 'placed' ? o.at : null, mode: o.mode, address: o.address, total: o.total,
-      items: items.map(([id, q]) => ({ name: byId[id].name, mods: byId[id].mods || '', qty: q, price: byId[id].price, img: byId[id].img })), repeat: Object.fromEntries(items) })); } catch (e) {}
+      items: items.map(([id, q, x]) => ({ name: byId[id].name, mods: x && x.mods != null ? x.mods : byId[id].mods || '', qty: q, price: (x && x.price) || byId[id].price, img: byId[id].img })),
+      repeat: Object.fromEntries(items.map(([id, q, x]) => [(x && x.key) || id, q])), repeatMeta: Object.fromEntries(items.filter(([, , x]) => x && x.key).map(([, , x]) => [x.key, { mods: x.mods, extra: x.extra || 0, sel: x.sel || null }])) })); } catch (e) {}
     const q = { order: o.no, mode: o.mode === 'pickup' ? 'pickup' : 'delivery', stage: stage || 'done' };
     if (o.status === 'cancelled') { q.issue = 'cancelled'; q.stage = 'accepted'; }
     location.href = 'status.dc.html?' + new URLSearchParams(q);
