@@ -1,0 +1,414 @@
+From 96c52f44cdae5568a6a74961142462f2546f4c53 Mon Sep 17 00:00:00 2001
+From: Atamurat <office.bsautokz@gmail.com>
+Date: Mon, 5 Oct 2026 22:08:44 +0500
+Subject: [PATCH] =?UTF-8?q?=D0=9A=D0=BE=D1=80=D0=B7=D0=B8=D0=BD=D0=B0:=20?=
+ =?UTF-8?q?=D0=BE=D0=B4=D0=B8=D0=BD=20=D1=82=D0=BE=D0=B2=D0=B0=D1=80=20?=
+ =?UTF-8?q?=D1=81=20=D1=80=D0=B0=D0=B7=D0=BD=D1=8B=D0=BC=D0=B8=20=D0=BC?=
+ =?UTF-8?q?=D0=BE=D0=B4=D0=B8=D1=84=D0=B8=D0=BA=D0=B0=D1=82=D0=BE=D1=80?=
+ =?UTF-8?q?=D0=B0=D0=BC=D0=B8=20=E2=80=94=20=D0=BE=D1=82=D0=B4=D0=B5=D0=BB?=
+ =?UTF-8?q?=D1=8C=D0=BD=D1=8B=D0=B5=20=D1=81=D1=82=D1=80=D0=BE=D0=BA=D0=B8?=
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Строка корзины = товар + набор модификаторов (lineKey). Тот же состав складывается,
+правка строки до совпадающего состава сливает строки. «+» на карточке товара с
+модификаторами открывает выбор, «−» при нескольких вариантах — корзину.
+В окне товара подсказка «В корзине уже N шт.». Состав и модификаторы по строкам
+доходят до оформления, страницы заказа и повтора заказа.
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+---
+ ...4\320\260\320\273\320\272\320\270.dc.html" |  7 ++
+ FritoProductModal.dc.html                     |  5 +-
+ account.dc.html                               |  2 +-
+ checkout.dc.html                              |  4 +-
+ docs/AUDIT.md                                 |  2 +-
+ docs/BACKEND.md                               |  9 ++-
+ frito-i18n-kk.js                              |  4 +-
+ frito.css                                     |  6 +-
+ frito.js                                      |  3 +-
+ menu.dc.html                                  | 73 +++++++++++--------
+ status.dc.html                                |  2 +-
+ 11 files changed, 75 insertions(+), 42 deletions(-)
+
+diff --git "a/Frito \320\234\320\276\320\264\320\260\320\273\320\272\320\270.dc.html" "b/Frito \320\234\320\276\320\264\320\260\320\273\320\272\320\270.dc.html"
+index 9985d27..45771f7 100644
+--- "a/Frito \320\234\320\276\320\264\320\260\320\273\320\272\320\270.dc.html"	
++++ "b/Frito \320\234\320\276\320\264\320\260\320\273\320\272\320\270.dc.html"	
+@@ -103,6 +103,12 @@ button{outline:none}
+         <dc-import name="FritoProductModal" layout="sheet" mode="edit" qty="{{ 2 }}" product="{{ editBox }}" on-add="{{ onAdd }}" on-close="{{ onClose }}" style="position:absolute;inset:0" hint-size="100%,100%"></dc-import>
+       </section>
+     </div>
++    <div style="display:flex;flex-direction:column;gap:14px;width:390px">
++      <div style="font-size:13px;font-weight:600;color:#6B7280;letter-spacing:.04em">MOBILE · товар уже в корзине · другой состав — новая строка</div>
++      <section data-screen-label="Product mobile in cart" style="width:390px;height:844px;background:#F7F7F9;border-radius:44px;overflow:hidden;position:relative;box-shadow:0 30px 80px -30px rgba(50,30,140,.25)">
++        <dc-import name="FritoProductModal" layout="sheet" product="{{ inCartBox }}" on-add="{{ onAdd }}" on-close="{{ onClose }}" style="position:absolute;inset:0" hint-size="100%,100%"></dc-import>
++      </section>
++    </div>
+   </div>
+ 
+   <div style="display:flex;gap:40px;align-items:flex-start">
+@@ -163,6 +169,7 @@ class Component extends DCLogic {
+     return {
+       last: this.state.last,
+       burger: { id: 'crispy', name: 'Криспи бургер', price: 2090, desc: 'Бриошь, малосольные огурчики, коул-слоу, куриное филе в панировке, Гауда и соус Frito', img: IMG + '9488ca37967b9a8724216d5cb8364d83.PNG', kind: 'burger' },
++      inCartBox: { id: 'seul-box', name: 'Сеул бокс', price: 4190, desc: 'Сеул бургер, фирменный фри, три куриных стрипса, напиток 0,5 л и фирменный соус Frito', img: IMG + '493305c90f0660b1f1d007b5c3986289.JPEG', kind: 'box', inCartNote: 'В корзине уже 1 шт. Другой состав — отдельной строкой, такой же — добавим к ней' },
+       simple: { id: 'fries', name: 'Фирменный картофель фри', price: 750, desc: 'Картофель фри со специями от Frito', img: IMG + '1e47ef85ba6a0da2d9728620a354db44.JPEG' },
+       onAdd: r => this.setState({ last: 'добавлено ' + r.qty + ' × ' + r.id + (r.mods ? ' (' + r.mods + ')' : '') + ', ' + r.unit * r.qty + ' тг.' }),
+       onClose: () => this.setState({ last: 'закрыто' }),
+diff --git a/FritoProductModal.dc.html b/FritoProductModal.dc.html
+index 3f25fbf..df07195 100644
+--- a/FritoProductModal.dc.html
++++ b/FritoProductModal.dc.html
+@@ -44,6 +44,7 @@
+           </sc-for>
+         </div>
+         <div class="f-pm__foot">
++          <sc-if value="{{ hasInCart }}" hint-placeholder-val="{{ false }}"><div class="f-pm__incart" role="note"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg><span>{{ inCartNote }}</span></div></sc-if>
+           <dc-import name="FritoStepper" qty="{{ qty }}" min="{{ 1 }}" on-inc="{{ inc }}" on-dec="{{ dec }}" size="{{ 56 }}" style="width:160px;flex-shrink:0" hint-size="160px,56px"></dc-import>
+           <button class="f-cta" onClick="{{ submit }}"><span class="f-cta__label">{{ ctaLabel }}</span><span class="f-cta__right"><span class="f-cta__sep"></span><span class="f-cta__sum">{{ totalLabel }}</span></span></button>
+         </div>
+@@ -88,6 +89,7 @@
+     </div>
+     <dc-import name="FritoCloseButton" variant="float" on-click="{{ close }}" style="position:absolute;top:calc(12px + env(safe-area-inset-top));right:12px;z-index:2;width:40px;height:40px" hint-size="40px,40px"></dc-import>
+     <div class="f-pm__foot">
++          <sc-if value="{{ hasInCart }}" hint-placeholder-val="{{ false }}"><div class="f-pm__incart" role="note"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg><span>{{ inCartNote }}</span></div></sc-if>
+           <dc-import name="FritoStepper" qty="{{ qty }}" min="{{ 1 }}" on-inc="{{ inc }}" on-dec="{{ dec }}" size="{{ 56 }}" style="width:140px;flex-shrink:0" hint-size="140px,56px"></dc-import>
+           <button class="f-cta" onClick="{{ submit }}"><span class="f-cta__label">{{ ctaLabel }}</span><span class="f-cta__right"><span class="f-cta__sep"></span><span class="f-cta__sum">{{ totalLabel }}</span></span></button>
+         </div>
+@@ -95,7 +97,7 @@
+ </sc-if>
+ </div>
+ </x-dc>
+-<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1200,&quot;height&quot;:800},&quot;layout&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;center&quot;,&quot;options&quot;:[&quot;center&quot;,&quot;sheet&quot;],&quot;tsType&quot;:&quot;'center' | 'sheet'&quot;},&quot;preselect&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;},&quot;showErrors&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;},&quot;mode&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;add&quot;,&quot;options&quot;:[&quot;add&quot;,&quot;edit&quot;],&quot;tsType&quot;:&quot;'add' | 'edit'&quot;},&quot;qty&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:1,&quot;min&quot;:1,&quot;max&quot;:20,&quot;tsType&quot;:&quot;number&quot;},&quot;product&quot;:{&quot;editor&quot;:null,&quot;default&quot;:null,&quot;tsType&quot;:&quot;{ id, name, price, desc, note?, img, kind?: 'box'|'combo'|'burger'|'strips'|'stripsCombo', groups?, sel? }&quot;},&quot;onClose&quot;:{&quot;editor&quot;:null,&quot;default&quot;:null,&quot;tsType&quot;:&quot;() =&gt; void&quot;},&quot;onAdd&quot;:{&quot;editor&quot;:null,&quot;default&quot;:null,&quot;tsType&quot;:&quot;(r: { id, qty, unit, mods, sel }) =&gt; void&quot;}}">
++<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1200,&quot;height&quot;:800},&quot;layout&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;center&quot;,&quot;options&quot;:[&quot;center&quot;,&quot;sheet&quot;],&quot;tsType&quot;:&quot;'center' | 'sheet'&quot;},&quot;preselect&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;},&quot;showErrors&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;},&quot;mode&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;add&quot;,&quot;options&quot;:[&quot;add&quot;,&quot;edit&quot;],&quot;tsType&quot;:&quot;'add' | 'edit'&quot;},&quot;qty&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:1,&quot;min&quot;:1,&quot;max&quot;:20,&quot;tsType&quot;:&quot;number&quot;},&quot;product&quot;:{&quot;editor&quot;:null,&quot;default&quot;:null,&quot;tsType&quot;:&quot;{ id, name, price, desc, note?, img, kind?: 'box'|'combo'|'burger'|'strips'|'stripsCombo', groups?, sel?, inCartNote? }&quot;},&quot;onClose&quot;:{&quot;editor&quot;:null,&quot;default&quot;:null,&quot;tsType&quot;:&quot;() =&gt; void&quot;},&quot;onAdd&quot;:{&quot;editor&quot;:null,&quot;default&quot;:null,&quot;tsType&quot;:&quot;(r: { id, qty, unit, mods, sel }) =&gt; void&quot;}}">
+ const IMG = 'https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/frito-co/96814/images/items/';
+ const fmt = n => String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, '\u00a0') + '\u00a0₸';
+ const opt = a => a.map(([id, label, price]) => ({ id, label, price: price || 0 }));
+@@ -188,6 +190,7 @@ class Component extends DCLogic {
+       name: pr.name, priceLabel: fmt(pr.price), desc: pr.desc || '', note: pr.note || '', hasNote: !!pr.note,
+       img: pr.img, hasImg: !!pr.img, noImg: !pr.img, groups,
+       qty, inc: () => this.setState({ qty: qty + 1 }), dec: () => this.setState({ qty: Math.max(1, qty - 1) }),
++      inCartNote: pr.inCartNote || '', hasInCart: !!pr.inCartNote && p.mode !== 'edit',
+       ctaLabel: p.mode === 'edit' ? 'Сохранить' : 'В корзину', totalLabel: fmt(c.unit * qty),
+       close: () => p.onClose && p.onClose(), submit: () => this.submit(),
+     };
+diff --git a/account.dc.html b/account.dc.html
+index f8974e5..08ed638 100644
+--- a/account.dc.html
++++ b/account.dc.html
+@@ -250,7 +250,7 @@ class Component extends DCLogic {
+       stars: [1, 2, 3, 4, 5].map(n => ({ cls: 'ac-star' + (r && n <= r.stars ? ' is-on' : '') + (r ? ' is-done' : ''), off: !!r, aria: n + ' из 5', pick: e => { stop(e); if (!r) this.setState({ rateFor: { no: o.no, stars: n, mode: o.mode } }); } })),
+       rateNote: r && r.tags && r.tags.length ? r.tags.slice(0, 2).join(', ') : '', hasRateNote: !!(r && r.tags && r.tags.length),
+       open: () => this.openOrder(o), key: e => { if (e.key === 'Enter') this.openOrder(o); },
+-      repeat: e => { stop(e); writeJSON('frito_repeat', { items: Object.fromEntries(items), at: Date.now() }); location.href = 'menu.dc.html'; } };
++      repeat: e => { stop(e); writeJSON('frito_repeat', { items: Object.fromEntries(items.map(([id, q, x]) => [(x && x.key) || id, q])), meta: Object.fromEntries(items.filter(([, , x]) => x && x.key).map(([, , x]) => [x.key, { mods: x.mods, extra: x.extra || 0, sel: x.sel || null }])), at: Date.now() }); location.href = 'menu.dc.html'; } };
+   }
+   renderVals() {
+     const s = this.state, u = s.user, ready = s.ready && !!D, now = Date.now(), mob = s.vw < 768;
+diff --git a/checkout.dc.html b/checkout.dc.html
+index 65d2434..02f10df 100644
+--- a/checkout.dc.html
++++ b/checkout.dc.html
+@@ -325,7 +325,7 @@ class Component extends DCLogic {
+     // корзина с главной (frito_cart); если её нет — демо-набор D.DEMO
+     const cart = readJSON('frito_cart'), cartItems = cart && cart.items && cart.items.length ? cart.items.filter(it => D.BY_ID[it.id]) : null;
+     const LINES = (cartItems || Object.keys(D.DEMO).map(id => ({ id, qty: D.DEMO[id], extra: 0 }))).filter(it => !s.hidden[it.id])
+-      .map(it => ({ ...D.BY_ID[it.id], qty: it.qty, price: D.BY_ID[it.id].price + (it.extra || 0), mods: it.mods || D.BY_ID[it.id].mods, soldOut: it.id === soldId, ok: it.id !== soldId }));
++      .map(it => ({ ...D.BY_ID[it.id], key: it.key || it.id, sel: it.sel || null, extra: it.extra || 0, qty: it.qty, price: D.BY_ID[it.id].price + (it.extra || 0), mods: it.mods || D.BY_ID[it.id].mods, soldOut: it.id === soldId, ok: it.id !== soldId }));
+     const soldLines = LINES.filter(l => l.soldOut), hasSold = soldLines.length > 0;
+     const mode = s.modeTouched ? s.mode : (p.mode ?? s.mode), isDelivery = mode === 'delivery';
+     // для аналитики (analytics.js): товары заказа
+@@ -370,7 +370,7 @@ class Component extends DCLogic {
+       countLabel: D.plural(LINES.reduce((a, l) => a + (l.soldOut ? 0 : l.qty), 0)),
+       hasSold, soldText: soldLines.map(l => l.name).join(', ') + ' разобрали — уберите ' + (soldLines.length > 1 ? 'их' : 'его') + ', чтобы продолжить',
+       removeSold: () => this.setState(st => ({ hidden: { ...st.hidden, ...Object.fromEntries(soldLines.map(l => [l.id, true])) } })),
+-      payDisabled: hasSold || LINES.length === 0, payGo: () => { try { const no = String(4800 + Math.floor(Math.random() * 190)); sessionStorage.setItem('frito_purchase', JSON.stringify({ transaction_id: no, items: anItems, value: total, shipping: fee, payment_type: s.pay, mode })); const list = readJSON('frito_orders') || []; list.unshift({ no, at: Date.now(), mode, address: isDelivery ? (s.addr || D.DEFAULT_ADDR) : (s.store ? s.store.name : D.STORES[0].name), items: LINES.filter(l => l.ok).map(l => [l.id, l.qty]), total, status: 'placed' }); localStorage.setItem('frito_orders', JSON.stringify(list.slice(0, 20))); localStorage.removeItem('frito_cart');
++      payDisabled: hasSold || LINES.length === 0, payGo: () => { try { const no = String(4800 + Math.floor(Math.random() * 190)); sessionStorage.setItem('frito_purchase', JSON.stringify({ transaction_id: no, items: anItems, value: total, shipping: fee, payment_type: s.pay, mode })); const list = readJSON('frito_orders') || []; list.unshift({ no, at: Date.now(), mode, address: isDelivery ? (s.addr || D.DEFAULT_ADDR) : (s.store ? s.store.name : D.STORES[0].name), items: LINES.filter(l => l.ok).map(l => [l.id, l.qty, { key: l.key, mods: l.mods, extra: l.extra, sel: l.sel, price: l.price }]), total, status: 'placed' }); localStorage.setItem('frito_orders', JSON.stringify(list.slice(0, 20))); localStorage.removeItem('frito_cart');
+         // страница созданного заказа (до сервера — состав через frito_view)
+         const byId = Object.fromEntries(LINES.filter(l => l.ok).map(l => [l.id, { name: l.name, price: l.price, img: l.img, mods: l.mods }]));
+         if (window.FritoOrder) return window.FritoOrder.open(list[0], byId, 'accepted'); } catch (e) {} location.href = 'order-status.html?mode=' + mode; }, payCursor: hasSold ? 'not-allowed' : 'pointer',
+diff --git a/docs/AUDIT.md b/docs/AUDIT.md
+index 9d2ae30..a480a09 100644
+--- a/docs/AUDIT.md
++++ b/docs/AUDIT.md
+@@ -70,7 +70,7 @@
+ | # | Что | Где | Приоритет |
+ |---|---|---|---|
+ | 1 | Картинки товаров без уменьшенных копий | CDN | высокий |
+-| 2 | В корзине одна строка на товар: разные модификаторы одного товара не уживаются | `menu.dc.html` (`cart`, `mods`, `sels` по id) | высокий при подключении API |
++| 2 | ~~В корзине одна строка на товар~~ — исправлено: строка = товар + набор модификаторов (`lineKey`), см. BACKEND §1 | `menu.dc.html` | — |
+ | 3 | Каталог продублирован (`menu.dc.html` и `frito-data.js`) | | средний |
+ | 4 | Поля оформления предзаполнены демо-значениями (подъезд, этаж, телефон) | `checkout.dc.html` state | средний |
+ | 5 | Демо-рестораны в других городах, демо-зоны доставки | `FritoAddressModal.dc.html` | до запуска |
+diff --git a/docs/BACKEND.md b/docs/BACKEND.md
+index 2ba7075..0d88354 100644
+--- a/docs/BACKEND.md
++++ b/docs/BACKEND.md
+@@ -14,10 +14,10 @@
+ |---|---|---|---|
+ | `frito_user` | `{via:'whatsapp'\|'telegram', phone, at, name?, email?, bday?, notify?:{status,promo}}` | вход (menu, account) / все страницы | сессия или токен + `GET /me` |
+ | `frito_method` | `{mode:'delivery'\|'pickup', address, hours?, city?, from?}` (`from` — ресторан, который везёт) | окно адреса / меню, оформление, кабинет | можно оставить на клиенте; адрес с координатами → `POST /delivery/quote` |
+-| `frito_cart` | `{at, items:[{id, qty, mods, extra}], promo, fee}` (`mods` — текст модификаторов, `extra` — доплата за них) | меню (`saveCart` перед оформлением) / оформление | корзина на клиенте, при оформлении → `POST /orders` с id опций модификаторов |
+-| `frito_orders` | `[{no, at, mode, address, items:[[id,qty]], total, status}]`, не больше 20 | оформление (`payGo`) / `frito.js FritoOrder`, кабинет | `GET /me/orders` |
+-| `frito_view` | `{no, at, mode, address, total, items:[{name,mods,qty,price,img}], repeat}` | `FritoOrder.open` / страница заказа | `GET /orders/:no` |
+-| `frito_repeat` | `{items:{id:qty}, at}`, живёт 60 с | статус, кабинет («Повторить») / меню | на клиенте, ок |
++| `frito_cart` | `{at, items:[{id, key, qty, mods, extra, sel}], promo, fee}` — **одна запись на строку корзины**: `key` = `id` или `id~группа:опции;…` (`lineKey` в `menu.dc.html`), `sel` — выбранные опции по группам, `mods` — их текст, `extra` — доплата. Один товар с разным составом — разные строки; тот же состав — количество складывается | меню (`saveCart` перед оформлением) / оформление | корзина на клиенте, при оформлении → `POST /orders` с id опций модификаторов |
++| `frito_orders` | `[{no, at, mode, address, items:[[id, qty, {key, mods, extra, sel, price}]], total, status}]`, не больше 20 | оформление (`payGo`) / `frito.js FritoOrder`, кабинет | `GET /me/orders` |
++| `frito_view` | `{no, at, mode, address, total, items:[{name,mods,qty,price,img}], repeat, repeatMeta}` | `FritoOrder.open` / страница заказа | `GET /orders/:no` |
++| `frito_repeat` | `{items:{key:qty}, meta:{key:{mods,extra,sel}}, at}`, живёт 60 с | статус, кабинет («Повторить») / меню | на клиенте, ок |
+ | `frito_ratings` | `{[orderNo]: {stars, tags[], comment, at}}` | FritoRating / кабинет | `POST /orders/:no/rating`, рейтинг — в составе заказа |
+ | `frito_addresses` | `[{id, label, line, city, def}]` | кабинет | `GET/POST/PATCH/DELETE /me/addresses` |
+ | `frito_lang` | `'ru'\|'kk'` | frito-i18n.js | оставить (+ передавать язык в API, см. §2.9) |
+@@ -58,6 +58,7 @@
+ 
+ ### 2.5 Оформление и оплата (`checkout.dc.html`)
+ - **Состав** берётся из `frito_cart`. Если корзины нет, показывается демо-набор `D.DEMO`.
++- **Строки с модификаторами.** Один товар может прийти несколькими строками с разным `sel` (например, два «Сеул бокса»: острый и неострый). В `POST /orders` передавать каждую строку отдельно: `{productId, qty, options:[optionId…]}`; сервер сам считает цену строки и сохраняет снимок выбранных опций в позиции заказа. Строки с одинаковым набором опций сервер может склеить.
+ - **Поля предзаполнены демо-значениями:** подъезд, этаж, кв., телефон `+7 708 261 63 92`. **Нужно** брать их из профиля и последнего адреса.
+ - **Время к сроку:** `SLOTS` — 6 фиксированных интервалов. **Нужно:** `GET /slots?store=`.
+ - **Промокод:** `FritoPromoField` проверяет локально (NEW10 — ок, OLD20 — истёк, BIG15 — от 10 000 ₸), скидка всегда в процентах из `PROMO`. **Нужно:** `POST /promo/validate`. Итоговую сумму считает сервер.
+diff --git a/frito-i18n-kk.js b/frito-i18n-kk.js
+index 57bafb3..8aab2d0 100644
+--- a/frito-i18n-kk.js
++++ b/frito-i18n-kk.js
+@@ -974,7 +974,8 @@ window.FRITO_KK = {
+ "— добавим в корзину сразу после выбора": "— таңдағаннан кейін бірден себетке қосамыз",
+ "— как вам?": "— қалай екен?",
+ "— мы не учли": "— біз ескермедік",
+-"−10% на первый заказ": "−10% алғашқы тапсырысқа"
++"−10% на первый заказ": "−10% алғашқы тапсырысқа",
++"Выберите вариант в корзине": "Нұсқаны себеттен таңдаңыз"
+ };
+ // Правила для составных строк, где в казахском другой порядок слов
+ window.FRITO_KK_RULES = [
+@@ -989,4 +990,5 @@ window.FRITO_KK_RULES = [
+   [/(\d+) (?:позиция|позиции|позиций)/g, '$1 позиция'],
+   [/(\d+) (?:ресторан|ресторана|ресторанов)/g, '$1 мейрамхана'],
+   [/от ([\d\s]+\s?(?:тг\.?|₸))/g, '$1 бастап'],
++  [/^В корзине уже (\d+) шт\. Другой состав — отдельной строкой, такой же — добавим к ней$/g, 'Себетте $1 дана бар. Басқа құрам — жеке жол, дәл осындай болса — соған қосамыз'],
+ ];
+diff --git a/frito.css b/frito.css
+index aa27231..011cbe5 100644
+--- a/frito.css
++++ b/frito.css
+@@ -374,8 +374,12 @@ img.f-option__icon{object-fit:contain}
+ .f-sheet .f-pm__price{font-size:18px}
+ .f-sheet .f-pm__desc{font-size:14px}
+ .f-sheet .f-pm__note{font-size:12px}
+-.f-pm__foot{display:flex;align-items:center;gap:12px;padding:16px 36px 24px;border-top:1px solid var(--divider);background:#fff}
++.f-pm__foot{display:flex;flex-wrap:wrap;align-items:center;gap:12px;padding:16px 36px 24px;border-top:1px solid var(--divider);background:#fff}
+ .f-sheet .f-pm__foot{gap:10px;padding:12px 16px 26px}
++/* «уже в корзине»: подсказка над кнопкой — другой состав станет отдельной строкой */
++.f-pm__incart{flex-basis:100%;display:flex;align-items:flex-start;gap:8px;font-size:13px;line-height:1.4;color:var(--ink-2)}
++.f-pm__incart svg{flex-shrink:0;margin-top:1px;color:var(--primary)}
++.f-pm__foot > .f-cta{flex:1}
+ .f-group{display:flex;flex-direction:column;gap:12px}
+ .f-group__head{display:flex;flex-direction:column;gap:4px}
+ .f-group__row{display:flex;align-items:center;justify-content:space-between;gap:12px}
+diff --git a/frito.js b/frito.js
+index 29d65cb..d74f48c 100644
+--- a/frito.js
++++ b/frito.js
+@@ -116,7 +116,8 @@ window.FritoOrder = (() => {
+   const open = (o, byId, stage) => {
+     const items = (o.items || []).filter(([id]) => byId[id]);
+     try { localStorage.setItem('frito_view', JSON.stringify({ no: o.no, at: o.status === 'placed' ? o.at : null, mode: o.mode, address: o.address, total: o.total,
+-      items: items.map(([id, q]) => ({ name: byId[id].name, mods: byId[id].mods || '', qty: q, price: byId[id].price, img: byId[id].img })), repeat: Object.fromEntries(items) })); } catch (e) {}
++      items: items.map(([id, q, x]) => ({ name: byId[id].name, mods: x && x.mods != null ? x.mods : byId[id].mods || '', qty: q, price: (x && x.price) || byId[id].price, img: byId[id].img })),
++      repeat: Object.fromEntries(items.map(([id, q, x]) => [(x && x.key) || id, q])), repeatMeta: Object.fromEntries(items.filter(([, , x]) => x && x.key).map(([, , x]) => [x.key, { mods: x.mods, extra: x.extra || 0, sel: x.sel || null }])) })); } catch (e) {}
+     const q = { order: o.no, mode: o.mode === 'pickup' ? 'pickup' : 'delivery', stage: stage || 'done' };
+     if (o.status === 'cancelled') { q.issue = 'cancelled'; q.stage = 'accepted'; }
+     location.href = 'status.dc.html?' + new URLSearchParams(q);
+diff --git a/menu.dc.html b/menu.dc.html
+index 3ace5dd..c8bf8ec 100644
+--- a/menu.dc.html
++++ b/menu.dc.html
+@@ -464,7 +464,11 @@ const UPSELL = [{ key: 'drinks', label: 'Напитки', cover: 'cola', cat: '
+ const DEFAULT_ADDR = 'пр-кт Туран, 52/6';
+ const BURGERS = ['crispy','seul','classic','deluxe','salsa','cheese','rap-cheese','fritos'];
+ const kindOf = id => id === 'strips-combo' ? 'stripsCombo' : /-box$/.test(id) ? 'box' : /-combo$/.test(id) ? 'combo' : BURGERS.includes(id) ? 'burger' : /^strips-/.test(id) ? 'strips' : null;
+-const tgt = e => { const el = e && e.currentTarget; return el && el.closest && el.closest('[data-screen-label="Mobile"]') ? 'm' : 'd'; };
++// строка корзины = товар + набор модификаторов: ключ «id» (без модификаторов) или «id~подпись выбора»
++const lineKey = (id, sel) => { const sig = sel ? Object.keys(sel).sort().map(g => g + ':' + [...(sel[g] || [])].sort().join(',')).filter(x => !/:$/.test(x)).join(';') : ''; return sig ? id + '~' + sig : id; };
++const pid = k => String(k).split('~')[0];
++// без события (степпер вызывает колбэк без него) — по ширине окна
++const tgt = e => { const el = e && e.currentTarget; if (!el || !el.closest) return window.innerWidth < 1024 ? 'm' : 'd'; return el.closest('[data-screen-label="Mobile"]') ? 'm' : 'd'; };
+ 
+ const STORY_MS = 5000;
+ const OUT_MS = 200;
+@@ -476,7 +480,7 @@ const STORIES = [
+   { img: 'assets/story-whatsapp.webp', alt: 'Рестораны и часы работы', cta: 'Выбрать ресторан', action: 'pickup' },
+ ];
+ class Component extends DCLogic {
+-  state = { cart: {}, mobileOpen: false, mode: null, address: null, door: false, modal: null, modalTarget: null, pendingId: null, menu: null, agree: true, addrDraft: '', activeD: 0, activeM: 0, logoBroken: false, promo: 'NEW10',  hidden: {}, pm: null, pmTarget: 'd', pmEdit: false, mods: {}, extra: {}, sels: {}, pendingQty: null };
++  state = { cart: {}, mobileOpen: false, mode: null, address: null, door: false, modal: null, modalTarget: null, pendingId: null, menu: null, agree: true, addrDraft: '', activeD: 0, activeM: 0, logoBroken: false, promo: 'NEW10',  hidden: {}, pm: null, pmKey: null, pmTarget: 'd', pmEdit: false, mods: {}, extra: {}, sels: {}, pendingQty: null };
+   dScrollRef = React.createRef();
+   mScrollRef = React.createRef();
+ 
+@@ -485,7 +489,8 @@ class Component extends DCLogic {
+     else { try { const m = JSON.parse(localStorage.getItem('frito_method') || 'null'); if (m && m.mode && m.address) this.setState({ mode: m.mode, address: m.address, store: m.mode === 'pickup' ? m.address : m.from || null }); } catch (e) {} }
+     // повтор заказа из личного кабинета
+     try { const r = JSON.parse(localStorage.getItem('frito_repeat') || 'null'); localStorage.removeItem('frito_repeat');
+-      if (r && r.items && Date.now() - r.at < 6e4) { const cart = {}; Object.entries(r.items).forEach(([id, q]) => { if (BY_ID[id]) cart[id] = q; });
++      if (r && r.items && Date.now() - r.at < 6e4) { const cart = {}, M = r.meta || {}; Object.entries(r.items).forEach(([id, q]) => { if (BY_ID[pid(id)]) cart[id] = q; });
++        const pick = f => Object.fromEntries(Object.keys(M).filter(k => cart[k]).map(k => [k, M[k][f]])); this.setState(s => ({ mods: { ...s.mods, ...pick('mods') }, extra: { ...s.extra, ...pick('extra') }, sels: { ...s.sels, ...pick('sel') } }));
+         // без способа получения товары не попадают в корзину: сначала выбор адреса/ресторана
+         if (this.state.mode) { this.setState({ cart, mobileOpen: window.innerWidth < 1024 }); this.added(Object.keys(cart)[0], Object.keys(cart).length); }
+         else this.setState({ modal: 'method', modalTarget: window.innerWidth < 1024 ? 'm' : 'd', pendingItems: cart, addrMode: 'delivery' }); } } catch (e) {}
+@@ -498,13 +503,14 @@ class Component extends DCLogic {
+   }
+   removeLine(id, qty) { this.setState(s => ({ hidden: { ...s.hidden, [id]: true } })); this.setQty(id, -qty); }
+   setQty(id, d) {
+-    fa(d > 0 ? 'add_to_cart' : 'remove_from_cart', { items: [anItem(id, Math.abs(d), BY_ID[id].price + ((this.state.extra || {})[id] || 0))] });
++    fa(d > 0 ? 'add_to_cart' : 'remove_from_cart', { items: [anItem(pid(id), Math.abs(d), BY_ID[pid(id)].price + ((this.state.extra || {})[id] || 0))] });
+     this.setState(s => { const cart = { ...s.cart }; const q = (cart[id] || 0) + d; if (q <= 0) delete cart[id]; else cart[id] = q; return { cart }; });
+   }
+   // уведомление «Добавили в корзину» (после выбора способа получения или повтора заказа)
+-  added(id, n) { const pr = BY_ID[id]; if (!pr) return; clearTimeout(this._addT);
++  added(id, n) { const pr = BY_ID[pid(id)]; if (!pr) return; clearTimeout(this._addT);
+     this.setState({ addedNote: { img: pr.img || '', text: n > 1 ? 'Добавили в корзину ' + n + ' позиции' : pr.name + ' — в корзине' } });
+     this._addT = setTimeout(() => this.setState({ addedNote: null }), 2600); }
++  note(id, text) { const pr = BY_ID[pid(id)]; clearTimeout(this._addT); this.setState({ addedNote: { img: (pr && pr.img) || '', text } }); this._addT = setTimeout(() => this.setState({ addedNote: null }), 2600); }
+   tryAdd(id, target) {
+     if (this.state.mode) return this.setQty(id, 1);
+     this.setState({ modal: 'method', modalTarget: target, pendingId: id });
+@@ -516,7 +522,7 @@ class Component extends DCLogic {
+     const st = this.state, store = mode === 'pickup' ? address : extra.from || null;
+     // ждущие товары: { id: qty }. Тех, которых нет в выбранном ресторане, в корзину не кладём — показываем окно «нет в наличии»
+     const want = st.pendingId ? { [st.pendingId]: st.pendingQty || 1 } : st.pendingItems || {};
+-    const miss = window.FritoStock ? window.FritoStock.missing(store, Object.keys(want)) : [];
++    const missP = window.FritoStock ? window.FritoStock.missing(store, Object.keys(want).map(pid)) : [], miss = Object.keys(want).filter(k => missP.includes(pid(k)));
+     const ok = Object.keys(want).filter(id => !miss.includes(id));
+     this.setState(s => {
+       const cart = { ...s.cart };
+@@ -525,16 +531,20 @@ class Component extends DCLogic {
+       return { mode, address, store, modal: null, addrMode: null, pendingId: null, pendingQty: null, pendingItems: null, cart, noStock };
+     });
+     fa('select_method', { mode, store: store || '' });
+-    if (ok.length) { fa('add_to_cart', { items: ok.map(id => anItem(id, want[id])) }); this.added(ok[0], ok.length > 1 ? ok.length : undefined); }
++    if (ok.length) { fa('add_to_cart', { items: ok.map(id => anItem(pid(id), want[id])) }); this.added(ok[0], ok.length > 1 ? ok.length : undefined); }
+   }
+-  openProduct(id, target, edit) { if (!edit) fa('view_item', { items: [anItem(id, 1)] }); this.setState({ pm: id, pmTarget: target, pmEdit: !!edit, mobileOpen: edit ? this.state.mobileOpen : false }); }
++  openProduct(id, target, edit, key) { if (!edit) fa('view_item', { items: [anItem(id, 1)] }); this.setState({ pm: id, pmKey: edit ? key || id : null, pmTarget: target, pmEdit: !!edit, mobileOpen: edit ? this.state.mobileOpen : false }); }
+   addConfigured(r) {
+-    const id = this.state.pm, edit = this.state.pmEdit, base = BY_ID[id].price;
+-    const meta = s => ({ pm: null, mods: { ...s.mods, [id]: r.mods || BY_ID[id].mods }, extra: { ...s.extra, [id]: r.unit - base }, sels: { ...s.sels, [id]: r.sel } });
+-    if (edit) return this.setState(s => ({ ...meta(s), cart: { ...s.cart, [id]: r.qty } }));
+-    if (!this.state.mode) return this.setState(s => ({ ...meta(s), modal: 'method', modalTarget: s.pmTarget, pendingId: id, pendingQty: r.qty }));
++    const id = this.state.pm, edit = this.state.pmEdit, base = BY_ID[id].price, key = lineKey(id, r.sel);
++    const meta = s => ({ pm: null, pmKey: null, mods: { ...s.mods, [key]: r.mods || BY_ID[id].mods }, extra: { ...s.extra, [key]: r.unit - base }, sels: { ...s.sels, [key]: r.sel } });
++    // правка строки: другой набор модификаторов → строка меняет ключ; совпал с другой строкой — сливаем количество
++    if (edit) return this.setState(s => { const cart = {}, old = s.pmKey;
++      Object.keys(s.cart).forEach(k => { if (k === old) cart[key] = (k === key ? 0 : cart[key] || 0) + r.qty; else if (k === key) cart[key] = (cart[key] || 0) + s.cart[k]; else cart[k] = s.cart[k]; });
++      return { ...meta(s), cart }; });
++    if (!this.state.mode) return this.setState(s => ({ ...meta(s), modal: 'method', modalTarget: s.pmTarget, pendingId: key, pendingQty: r.qty }));
+     fa('add_to_cart', { items: [anItem(id, r.qty, r.unit)] });
+-    this.setState(s => ({ ...meta(s), cart: { ...s.cart, [id]: (s.cart[id] || 0) + r.qty } }));
++    this.setState(s => ({ ...meta(s), cart: { ...s.cart, [key]: (s.cart[key] || 0) + r.qty } }));
++    this.added(key);
+   }
+   go(prefix, idx, ref, key) {
+     const c = ref.current, el = c && c.querySelector('#' + prefix + '-cat-' + idx);
+@@ -576,8 +586,8 @@ class Component extends DCLogic {
+   user() { try { return JSON.parse(localStorage.getItem('frito_user')); } catch (e) { return null; } }
+   // корзина для оформления: frito_cart = { at, items:[{ id, qty, mods, extra }], promo, fee } (до сервера — через localStorage)
+   saveCart() { const s = this.state; try { localStorage.setItem('frito_cart', JSON.stringify({ at: Date.now(), promo: s.promo || null, fee: s.quote ? s.quote.fee : null,
+-    items: Object.keys(s.cart).map(id => ({ id, qty: s.cart[id], mods: (s.mods || {})[id] || BY_ID[id].mods || '', extra: (s.extra || {})[id] || 0 })) })); } catch (e) {} }
+-  goCheckout(t) { this.saveCart(); fa('begin_checkout', { items: Object.keys(this.state.cart).map(id => anItem(id, this.state.cart[id], BY_ID[id].price + ((this.state.extra || {})[id] || 0))) }); if (this.user()) location.href = 'checkout.dc.html'; else this.setState({ auth: t, authReason: 'checkout' }); }
++    items: Object.keys(s.cart).map(k => ({ id: pid(k), key: k, qty: s.cart[k], mods: (s.mods || {})[k] || BY_ID[pid(k)].mods || '', extra: (s.extra || {})[k] || 0, sel: (s.sels || {})[k] || null })) })); } catch (e) {} }
++  goCheckout(t) { this.saveCart(); fa('begin_checkout', { items: Object.keys(this.state.cart).map(k => anItem(pid(k), this.state.cart[k], BY_ID[pid(k)].price + ((this.state.extra || {})[k] || 0))) }); if (this.user()) location.href = 'checkout.dc.html'; else this.setState({ auth: t, authReason: 'checkout' }); }
+   // плавное закрытие: сначала играет анимация ухода (out), потом элемент убирается
+   animateOut(key, fn) {
+     if (this._outT) return;
+@@ -611,23 +621,27 @@ class Component extends DCLogic {
+     const inStore = id => !(s.store && window.FritoStock && !window.FritoStock.has(s.store, id));
+     const isSold = id => id === soldId || !inStore(id);
+ 
++    const keysOf = id => Object.keys(s.cart).filter(k => pid(k) === id);
++    const qtyOf = id => keysOf(id).reduce((a, k) => a + s.cart[k], 0);
++    // «−» на карточке: одна строка — уменьшаем её; несколько вариантов — открываем корзину, пусть клиент выберет какой
++    const decOf = (id, e) => { const ks = keysOf(id); if (ks.length === 1) return this.setQty(ks[0], -1); if (window.innerWidth < 1024) this.setState({ mobileOpen: true, pick: null }); else this.note(id, 'Выберите вариант в корзине'); };
+     const cats = CATS.map((c, idx) => ({
+       name: c.name, idx,
+       dCls: 'f-catchip' + (s.activeD === idx ? ' is-on' : ''), mCls: 'f-catchip f-catchip--sm' + (s.activeM === idx ? ' is-on' : ''),
+       goD: () => this.go('d', idx, this.dScrollRef, 'activeD'), goM: () => this.go('m', idx, this.mScrollRef, 'activeM'),
+       items: c.items.filter(it => !isSold(it[0])).map(it => {
+-        const pr = BY_ID[it[0]], qty = s.cart[pr.id] || 0, sold = false;
++        const pr = BY_ID[it[0]], qty = qtyOf(pr.id), sold = false, conf = !!kindOf(pr.id);
+         return { ...pr, qty, inCart: qty > 0 && !sold, notInCart: qty === 0 && !sold, soldOut: sold, imgFilter: sold ? 'grayscale(1) opacity(.55)' : 'none', hasImg: !!pr.img, noImg: !pr.img, priceLabel: fmt(pr.price),
+           add: e => kindOf(pr.id) ? this.openProduct(pr.id, tgt(e)) : this.tryAdd(pr.id, tgt(e)), open: e => this.openProduct(pr.id, tgt(e)),
+-          inc: () => this.setQty(pr.id, 1), dec: () => this.setQty(pr.id, -1) };
++          inc: e => conf ? this.openProduct(pr.id, tgt(e)) : this.setQty(pr.id, 1), dec: e => decOf(pr.id, e) };
+       }),
+     })).filter(c => c.items.length);
+ 
+-    const unitOf = id => BY_ID[id].price + (s.extra[id] || 0);
+-    const mkLines = cart => Object.keys(cart).map(id => { const pr = BY_ID[id], qty = cart[id], sold = isSold(id); const editable = !!kindOf(id) && !sold, unit = unitOf(id); return { ...pr, qty, mods: s.mods[id] || pr.mods, edit: e => { if (e && e.preventDefault) e.preventDefault(); this.openProduct(id, tgt(e), true); }, hasImg: !!pr.img, editable, fixed: !editable, soldOut: sold, ok: !sold, imgFilter: sold ? 'grayscale(1) opacity(.55)' : 'none', nameColor: sold ? 'var(--ink-2)' : 'var(--ink)', lineLabel: fmt(unit * qty), inc: () => this.setQty(id, 1), dec: () => this.setQty(id, -1), remove: () => this.removeLine(id, qty) }; });
+-    const sum = cart => Object.keys(cart).reduce((a, id) => a + (isSold(id) ? 0 : unitOf(id) * cart[id]), 0);
+-    const cnt = cart => Object.keys(cart).reduce((a, id) => a + (isSold(id) ? 0 : cart[id]), 0);
+-    const avail = cart => Object.keys(cart).some(id => !isSold(id));
++    const unitOf = k => BY_ID[pid(k)].price + (s.extra[k] || 0);
++    const mkLines = cart => Object.keys(cart).map(id => { const p0 = pid(id), pr = BY_ID[p0], qty = cart[id], sold = isSold(p0); const editable = !!kindOf(p0) && !sold, unit = unitOf(id); return { ...pr, key: id, qty, mods: s.mods[id] || pr.mods, edit: e => { if (e && e.preventDefault) e.preventDefault(); this.openProduct(p0, tgt(e), true, id); }, hasImg: !!pr.img, editable, fixed: !editable, soldOut: sold, ok: !sold, imgFilter: sold ? 'grayscale(1) opacity(.55)' : 'none', nameColor: sold ? 'var(--ink-2)' : 'var(--ink)', lineLabel: fmt(unit * qty), inc: () => this.setQty(id, 1), dec: () => this.setQty(id, -1), remove: () => this.removeLine(id, qty) }; });
++    const sum = cart => Object.keys(cart).reduce((a, id) => a + (isSold(pid(id)) ? 0 : unitOf(id) * cart[id]), 0);
++    const cnt = cart => Object.keys(cart).reduce((a, id) => a + (isSold(pid(id)) ? 0 : cart[id]), 0);
++    const avail = cart => Object.keys(cart).some(id => !isSold(pid(id)));
+ 
+     let dCart = s.cart;
+     if (forced === 'filled' && !Object.keys(dCart).length) dCart = Object.fromEntries(Object.entries(DEMO).filter(([id]) => !s.hidden[id]));
+@@ -679,21 +693,22 @@ class Component extends DCLogic {
+       addrStart: s.addrMode || s.mode || 'delivery',
+       confirmAddr: r => this.animateOut('modal', () => { if (r.mode === 'delivery') this.setState({ quote: { fee: r.fee, eta: r.eta } }); this.finishMethod(r.mode, r.address, { city: r.city, from: r.from, ...(r.store && r.store.hours ? { hours: r.store.hours } : {}) }, r.alts || []); }),
+       modalD: modalOpen && s.modalTarget === 'd', modalM: modalOpen && s.modalTarget === 'm',
+-      methodPending: !!s.pendingId, pendingLabel: s.pendingId && BY_ID[s.pendingId] ? BY_ID[s.pendingId].name + (s.pendingQty > 1 ? ' ×' + s.pendingQty : '') : s.pendingItems ? (Object.keys(s.pendingItems).length <= 2 ? Object.keys(s.pendingItems).map(id => (BY_ID[id] || {}).name).join(', ') : 'Повтор заказа: ' + Object.keys(s.pendingItems).length + ' поз.') : '',
++      methodPending: !!s.pendingId, pendingLabel: s.pendingId && BY_ID[pid(s.pendingId)] ? BY_ID[pid(s.pendingId)].name + (s.pendingQty > 1 ? ' ×' + s.pendingQty : '') : s.pendingItems ? (Object.keys(s.pendingItems).length <= 2 ? Object.keys(s.pendingItems).map(id => (BY_ID[pid(id)] || {}).name).join(', ') : 'Повтор заказа: ' + Object.keys(s.pendingItems).length + ' поз.') : '',
+       addedOn: !!s.addedNote, addedImg: s.addedNote ? s.addedNote.img : '', addedText: s.addedNote ? s.addedNote.text : '',
+       chooseMethod: m => m === 'delivery' ? this.finishMethod('delivery', DEFAULT_ADDR) : this.finishMethod('pickup', STORES[0].name),
+       pmD: !!s.pm && s.pmTarget === 'd', pmM: !!s.pm && s.pmTarget === 'm',
+       // окно «нет в наличии»: забрать из другого ресторана, изменить адрес/ресторан или продолжить без товара
+-      pendingList: (s.pendingId ? [s.pendingId] : Object.keys(s.pendingItems || {})).map(id => ({ id, name: (BY_ID[id] || {}).name || id })),
++      pendingList: (s.pendingId ? [s.pendingId] : Object.keys(s.pendingItems || {})).map(id => ({ id, name: (BY_ID[pid(id)] || {}).name || id })),
+       stockD: !!s.noStock && s.noStock.target === 'd', stockM: !!s.noStock && s.noStock.target === 'm',
+       stockMode: s.noStock ? s.noStock.mode : 'pickup', stockStore: s.noStock ? s.noStock.store : '', stockAdded: s.noStock ? s.noStock.added : 0,
+-      stockItems: s.noStock ? Object.keys(s.noStock.want).map(id => ({ name: BY_ID[id].name, img: BY_ID[id].img })) : [],
++      stockItems: s.noStock ? Object.keys(s.noStock.want).map(id => ({ name: BY_ID[pid(id)].name, img: BY_ID[pid(id)].img })) : [],
+       stockAlts: s.noStock ? s.noStock.alts.map(a => ({ ...a, pick: () => this.setState({ noStock: null, pendingId: null, pendingItems: s.noStock.want }, () => this.finishMethod('pickup', a.name, { city: a.city, hours: a.hours })) })) : [],
+       stockChangeD: () => this.setState({ noStock: null, modal: 'method', modalTarget: 'd', pendingId: null, pendingItems: s.noStock.want, addrMode: s.noStock.mode }),
+       stockChangeM: () => this.setState({ noStock: null, modal: 'method', modalTarget: 'm', pendingId: null, pendingItems: s.noStock.want, addrMode: s.noStock.mode }),
+       stockClose: () => this.setState({ noStock: null }),
+-      pmProduct: s.pm ? { ...BY_ID[s.pm], kind: kindOf(s.pm), sel: s.pmEdit ? s.sels[s.pm] : undefined } : null,
+-      pmQty: s.pm && s.pmEdit ? (s.cart[s.pm] || 1) : 1, pmMode: s.pmEdit ? 'edit' : 'add',
++      pmProduct: s.pm ? { ...BY_ID[s.pm], kind: kindOf(s.pm), sel: s.pmEdit ? s.sels[s.pmKey] : undefined,
++        inCartNote: !s.pmEdit && kindOf(s.pm) && qtyOf(s.pm) ? 'В корзине уже ' + qtyOf(s.pm) + ' шт. Другой состав — отдельной строкой, такой же — добавим к ней' : '' } : null,
++      pmQty: s.pm && s.pmEdit ? (s.cart[s.pmKey] || 1) : 1, pmMode: s.pmEdit ? 'edit' : 'add',
+       closePm: () => this.animateOut('pm', () => this.setState({ pm: null })), pmAdd: r => this.animateOut('pm', () => this.addConfigured(r)),
+       modalTitle: 'Выберите способ получения заказа',
+       modalSub: s.pendingId ? 'Товар добавится в корзину сразу после выбора' : 'Адрес или ресторан можно будет уточнить дальше',
+@@ -726,8 +741,8 @@ class Component extends DCLogic {
+       pickD: !!s.pick && s.pick.at === 'd', pickM: !!s.pick && s.pick.at === 'm',
+       pickTitle: s.pick ? (UPSELL.find(u => u.key === s.pick.key) || {}).label : '',
+       pickItems: s.pick ? ((CATS.find(c => c.name === (UPSELL.find(u => u.key === s.pick.key) || {}).cat) || { items: [] }).items.filter(it => inStore(it[0])).map(it => {
+-        const pr = BY_ID[it[0]], q = s.cart[pr.id] || 0;
+-        return { id: pr.id, name: pr.name, desc: pr.desc, priceLabel: fmt(pr.price), img: pr.img, qty: q, add: () => this.tryAdd(pr.id, s.pick.at), dec: () => this.setQty(pr.id, -1) };
++        const pr = BY_ID[it[0]], q = qtyOf(pr.id);
++        return { id: pr.id, name: pr.name, desc: pr.desc, priceLabel: fmt(pr.price), img: pr.img, qty: q, add: () => this.tryAdd(pr.id, s.pick.at), dec: () => decOf(pr.id) };
+       })) : [],
+       pickOutAnim: s.out === 'pick' ? `frito-out ${OUT_MS}ms ease-in both` : 'none',
+       closePick: () => this.animateOut('pick', () => this.setState({ pick: null })),
+diff --git a/status.dc.html b/status.dc.html
+index 28a141a..df130f9 100644
+--- a/status.dc.html
++++ b/status.dc.html
+@@ -213,7 +213,7 @@ class Component extends DCLogic {
+     if (on && !this._demo) this._demo = setInterval(() => this.setState(s => ({ stageOv: ((s.stageOv ?? this.baseStage()) + 1) % 5 })), 3500);
+     if (!on && this._demo) { clearInterval(this._demo); this._demo = null; this.setState({ stageOv: null }); }
+   }
+-  repeatOrder() { if (this.view && this.view.repeat) try { localStorage.setItem('frito_repeat', JSON.stringify({ items: this.view.repeat, at: Date.now() })); } catch (e) {} location.href = 'menu.dc.html'; }
++  repeatOrder() { if (this.view && this.view.repeat) try { localStorage.setItem('frito_repeat', JSON.stringify({ items: this.view.repeat, meta: this.view.repeatMeta || {}, at: Date.now() })); } catch (e) {} location.href = 'menu.dc.html'; }
+   baseStage() { return Math.max(0, KEYS.indexOf(this.qp('stage') || 'cooking')); }
+   renderVals() {
+     const p = this.props, s = this.state, mode = this.qp('mode') === 'pickup' ? 'pickup' : 'delivery', pick = mode === 'pickup';
+-- 
+2.48.1
+

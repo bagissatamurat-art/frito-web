@@ -27,4 +27,5 @@ python3 -m http.server 8765
 | [docs/BACKEND.md](docs/BACKEND.md) | Все места с демо-данными и что их заменяет; черновик API с форматами данных |
 | [docs/LAUNCH.md](docs/LAUNCH.md) | Чек-лист переезда на frito.kz: домен, SEO, аналитика, ключи, юр. реквизиты |
 | [docs/AUDIT.md](docs/AUDIT.md) | Результаты проверки перед передачей: SEO, скорость, дизайн, казахский, известные проблемы |
+| [docs/CHANGELOG.md](docs/CHANGELOG.md) | **Изменения после передачи.** Для каждого обновления — описание, патч и промпт для ИИ в `updates/` |
 | [AGENTS.md](AGENTS.md) | Правила для ИИ-ассистента (Claude Code, Cursor и т. п.) при работе с этим кодом |
